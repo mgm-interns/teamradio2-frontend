@@ -31,8 +31,16 @@ module.exports = (env = {}) => {
       hot: true,
       open: true
     },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx']
+    },
     module: {
       rules: [
+        {
+          test: /\.(ts|tsx)$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=env&presets[]=stage-0!awesome-typescript-loader'
+        },
         {
           test: /\.(js|jsx)$/,
           exclude: /node_modules/,
