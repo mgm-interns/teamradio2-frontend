@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Styles
 // Import Flag Icons Set
@@ -15,12 +15,13 @@ import '../scss/style.scss';
 import '../scss/core/_dropdown-menu-right.scss';
 
 // Containers
-import { FullLayout } from './Containers/';
+import { FullLayout, NoSideBarLayout } from './Containers/';
 
 ReactDOM.render((
-  <HashRouter>
+  <BrowserRouter>
     <Switch>
-      <Route path="/" name="Home" component={FullLayout}/>
+      <Route path="/dashboard" name="Dashboard" component={FullLayout}/>
+      <Route path="/" name="Home" component={NoSideBarLayout}/>
     </Switch>
-  </HashRouter>
+  </BrowserRouter>
 ), document.getElementById('root'));

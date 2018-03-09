@@ -1,0 +1,9 @@
+.user-info {
+  .img-avatar {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  & > * {
+    display: inline-block;
+  }
+}

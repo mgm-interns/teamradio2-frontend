@@ -1,0 +1,16 @@
+.app-header {
+  .logo {
+    img {
+      height: 2.3em;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+  .float-right {
+    & > * {
+      display: inline-block;
+    }
+  }
+}
