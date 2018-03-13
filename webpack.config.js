@@ -20,7 +20,8 @@ module.exports = (env = {}) => {
     },
     output: {
       path: BUILD_DIR,
-      filename: '[name].bundle.js'
+      filename: '[name].bundle.js',
+      publicPath: '/',
     },
     // watch: true,
     devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
@@ -29,7 +30,8 @@ module.exports = (env = {}) => {
       //   port: 9001,
       compress: true,
       hot: true,
-      open: true
+      open: true,
+      historyApiFallback: true,
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx']
