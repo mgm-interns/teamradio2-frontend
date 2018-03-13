@@ -1,0 +1,40 @@
+.signup {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+  }
+  .card-container1{
+    border: none;
+    background-color: transparent;
+  }
+  .card-container {
+    display: flex;
+    align-items: center;
+
+    .card-container-header {
+      padding-top: 0px;
+    }
+  }
+  ul {
+    list-style: none;
+    text-align: left;
+    margin: auto;
+    padding-left: 0px;
+
+    li {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    span {
+      margin-left: 10px;
+    }
+  }
+}
