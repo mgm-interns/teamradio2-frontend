@@ -51,6 +51,7 @@
     "react-router-dom": "4.2.2",
     "react-transition-group": "2.2.1",
     "reactstrap": "5.0.0-beta",
+    "rxjs": "^5.5.7",
     "simple-line-icons": "2.4.1"
   },
   "scripts": {

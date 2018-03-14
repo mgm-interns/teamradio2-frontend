@@ -20,3 +20,9 @@
 
 // Custom styles
 @import "custom";
+
+.app.no-side-bar {
+  .main, .app-footer {
+    margin-left: 0;
+  }
+}
