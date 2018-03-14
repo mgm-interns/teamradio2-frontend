@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { CustomHeader, Footer } from '../../Components/';
-import { Home, Login, ForgotPassword, Register, ResetPassword } from '../../Pages/';
+import { Home, Login, ForgotPassword, Register, ResetPassword, Help } from '../../Pages/';
 import { FullLayout } from "../index";
 
 export class NoSideBarLayout extends Component {
@@ -18,6 +18,7 @@ export class NoSideBarLayout extends Component {
               <Route path="/register" name="Register" component={Register}/>
               <Route path="/forgot-password" name="ForgotPassword" component={ForgotPassword}/>
               <Route path="/reset-password" name="ResetPassword" component={ResetPassword}/>
+              <Route path="/help" name="Help" component={Help}/>
               <Redirect from="/" to="/"/>
             </Switch>
           </main>
