@@ -11,13 +11,11 @@ export class NoSideBarLayout extends Component {
     return (
       <div className="app">
         <CustomHeader/>
-        <div className="app-body">
+        <div className="app sidebar-hidden">
           <main className="main">
-            <Container fluid>
               <Switch>
                 <Route path="/" name="Home" component={Home}/>
               </Switch>
-            </Container>
           </main>
         </div>
         <Footer/>
