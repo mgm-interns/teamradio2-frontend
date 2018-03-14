@@ -4,7 +4,7 @@ import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { CustomHeader, Breadcrumb, Footer } from '../../Components/';
 
-import { Home } from '../../Pages/';
+import { Home, Login } from '../../Pages/';
 
 export class NoSideBarLayout extends Component {
   render() {
@@ -16,6 +16,7 @@ export class NoSideBarLayout extends Component {
             <Container fluid>
               <Switch>
                 <Route path="/" name="Home" component={Home}/>
+                <Route path="/login" name="Login" component={Login}/>
               </Switch>
             </Container>
           </main>
