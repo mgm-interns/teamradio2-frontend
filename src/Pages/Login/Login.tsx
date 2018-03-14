@@ -34,7 +34,7 @@ export class Login extends Component {
                                         </InputGroup>
                                         <Button color="success" block>LOG IN</Button>
                                     </CardBody>
-                                    <CardFooter className="p-3">
+                                    <CardFooter className="p-3 pr-4 pl-4">
                                         <Row>
                                             <Col xs="12" sm="6">
                                                 <Button className="btn-facebook" block><span>facebook</span></Button>
@@ -44,13 +44,13 @@ export class Login extends Component {
                                             </Col>
                                         </Row>
                                     </CardFooter>
-                                    <CardFooter className="p-3">
+                                    <CardFooter className="p-3 pr-4 pl-4">
                                         <Row>
                                             <Col xs="12" sm="6">
-                                                <CardLink href={'#'}>Forgot your password?</CardLink>
+                                                <CardLink href="#">Forgot your password?</CardLink>
                                             </Col>
                                             <Col xs="12" sm="6">
-                                                <CardLink href={'#'}>Create an account</CardLink>
+                                                <CardLink href="#">Create an account</CardLink>
                                             </Col>
                                         </Row>
                                     </CardFooter>
