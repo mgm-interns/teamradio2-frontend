@@ -11,6 +11,7 @@ export class NoSideBarLayout extends Component {
         <CustomHeader/>
         <div className="app sidebar-hidden">
           <main className="main">
+<<<<<<< HEAD
             <Switch>
               <Route exact path="/" name="Home" component={Home}/>
               <Route path="/login" name="Login" component={Login}/>
@@ -20,6 +21,11 @@ export class NoSideBarLayout extends Component {
               <Route path="/help" name="Help" component={Help}/>
               <Redirect from="/" to="/"/>
             </Switch>
+=======
+              <Switch>
+                <Route path="/" name="Home" component={Home}/>
+              </Switch>
+>>>>>>> Migrate UI home-page and Add new animation
           </main>
         </div>
         <Footer/>
