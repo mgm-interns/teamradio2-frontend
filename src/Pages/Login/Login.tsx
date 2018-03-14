@@ -7,13 +7,9 @@ import {
   Card,
   CardBody,
   CardFooter,
-  Button,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   CardLink
 } from 'reactstrap';
+import { LoginForm, LoginByThirdParty } from "../../Modules/User";
 import './Login.scss'
 
 export class Login extends Component {
@@ -29,33 +25,10 @@ export class Login extends Component {
                   <CardBody className="p-4">
                     <h1>Login</h1>
                     <p className="text-muted">For listening and sharing music</p>
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-user"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input type="text" placeholder="Username or Email"/>
-                    </InputGroup>
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-lock"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input type="password" placeholder="Password"/>
-                    </InputGroup>
-                    <Button color="success" block>LOG IN</Button>
+                    <LoginForm></LoginForm>
                   </CardBody>
                   <CardFooter className="p-3 pr-4 pl-4">
-                    <Row>
-                      <Col xs="12" sm="6">
-                        <Button className="btn-facebook" block><span>facebook</span></Button>
-                      </Col>
-                      <Col xs="12" sm="6">
-                        <Button className="btn-google-plus" block><span>google</span></Button>
-                      </Col>
-                    </Row>
+                    <LoginByThirdParty></LoginByThirdParty>
                   </CardFooter>
                   <CardFooter className="p-3 pr-4 pl-4">
                     <Row>
