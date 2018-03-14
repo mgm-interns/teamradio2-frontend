@@ -4,81 +4,82 @@ $color-primary-light: #0b3e41;
 $color-primary-dark: #07292c;
 $color-primary: #e06a4e;
 $color-white: #fff;
+
 // FONTS
 $font-title: 'Pacifico', sans-serif;
+
 .header {
-    height: 100vh;
-    background-image: linear-gradient( to right bottom, rgba($color-primary-light, 0.4), rgba($color-primary-dark, 0.6)), url($background-image);
-    background-size: cover;
-    background-position: top;
-    position: relative;
-    &__text-box {
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        margin-top: 5rem;
-    }
+  height: 100vh;
+  background-image: linear-gradient(to right bottom, rgba($color-primary-light, 0.4), rgba($color-primary-dark, 0.6)), url($background-image);
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  &__text-box {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    margin-top: 5rem;
+  }
 }
 
 .heading-primary {
-    color: #ffffff;
-    margin-bottom: 7rem;
-    backface-visibility: hidden; // fix animation a little move on top
-    &--main {
-        display: block;
-        font-size: 7rem;
-        font-family: $font-title;
-        animation: moveInLeft 1s ease-out;
-    }
-    &--sub {
-        display: block;
-        font-size: 2.5rem;
-        font-weight: 200;
-        font-family: 'Roboto Slab', serif;
-        animation: moveInRight 1s ease-out;
-        margin-top: 1.5rem;
-    }
+  color: #ffffff;
+  margin-bottom: 7rem;
+  backface-visibility: hidden; // fix animation a little move on top
+  &--main {
+    display: block;
+    font-size: 7rem;
+    font-family: $font-title;
+    animation: moveInLeft 1s ease-out;
+  }
+  &--sub {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 200;
+    font-family: 'Roboto Slab', serif;
+    animation: moveInRight 1s ease-out;
+    margin-top: 1.5rem;
+  }
 }
 
 /* transition property */
-
 @keyframes moveInLeft {
-    0% {
-        opacity: 0;
-        transform: translateX(-10rem);
-    }
-    80% {
-        transform: translateX(1rem);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem);
+  }
+  80% {
+    transform: translateX(1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes moveInRight {
-    0% {
-        opacity: 0;
-        transform: translateX(10rem);
-    }
-    80% {
-        transform: translateX(-1rem);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
+  }
+  80% {
+    transform: translateX(-1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes moveInBottom {
-    0% {
-        opacity: 0;
-        transform: translateY(3rem);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  0% {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
