@@ -10,7 +10,7 @@ export class NoSideBarLayout extends Component {
     return (
       <div className="app no-side-bar">
         <CustomHeader/>
-        <div className="app-body">
+        <div className="app sidebar-hidden">
           <main className="main">
             <Switch>
               <Route exact path="/" name="Home" component={Home}/>
