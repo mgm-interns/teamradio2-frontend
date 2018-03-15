@@ -1,0 +1,55 @@
+.register {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  .card-ExtraInformation {
+    border: none;
+    background-color: transparent;
+  }
+
+  .login {
+    padding-top: 30px;
+  }
+
+  .card-container {
+    display: flex;
+    align-items: center;
+
+    .card-container-header {
+      padding-top: 0px;
+    }
+  }
+  ul {
+    list-style: none;
+    text-align: left;
+    margin: auto;
+    padding-left: 0px;
+
+    li {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    span {
+      margin-left: 10px;
+    }
+  }
+}
+
+.backgroud-img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-image: linear-gradient(to right bottom, rgba(#0a373a, 0.6), rgba(#0a373a, 0.6)), url("../../../public/img/login-background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.card-content {
+  h2 {
+    text-align: initial;
+  }
+}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import {BrowserRouter, HashRouter, Route, Switch} from 'react-router-dom';
 
 // Styles
 // Import Flag Icons Set
@@ -22,6 +22,7 @@ ReactDOM.render((
     <Switch>
       <Route path="/dashboard" name="Dashboard" component={FullLayout}/>
       <Route path="/" name="Home" component={NoSideBarLayout}/>
+        <Route path="/register" name="Register" component={NoSideBarLayout}/>
     </Switch>
   </BrowserRouter>
 ), document.getElementById('root'));
