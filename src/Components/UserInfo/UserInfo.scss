@@ -15,7 +15,23 @@
       color: white;
       background-color: transparent;
       border-color: transparent;
+      box-shadow: none;
       &:focus{
+        color: white;
+        box-shadow: none;
+        background-color: transparent;
+        border-color: transparent;
+        outline: none;
+        border-color: transparent;
+      }
+      &:active{
+        color: white;
+        box-shadow: none;
+        background-color: transparent;
+        border-color: transparent;
+        outline: none;
+      }
+      &:focus:active{
         box-shadow: none;
       }
       & > span {
@@ -28,7 +44,16 @@
       border-color: transparent;
       &:focus{
         box-shadow: none;
-
+        outline: none;
+        border-color: transparent;
+      }
+      &:active{
+        box-shadow: none;
+        background-color: transparent;
+        border-color: transparent;
+        color: white;
+        outline: none;
+        border-color: transparent;
       }
     }
     .drop-item{
@@ -36,6 +61,12 @@
       color: rgba(0, 0, 0, 0.87);
       & > span {
         color: rgba(0, 0, 0, 0.54);
+      }
+      & > a {
+        color: rgba(0, 0, 0, 0.87);
+        &:hover {
+          text-decoration: none;
+        }
       }
     }
   }
