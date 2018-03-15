@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { CustomHeader, Footer } from '../../Components/';
 
-import {Home, Register, Login} from '../../Pages/';
+import { Home, Register, Login } from '../../Pages/';
 
 export class NoSideBarLayout extends Component {
   render() {
@@ -15,7 +15,7 @@ export class NoSideBarLayout extends Component {
             <Switch>
               <Route exact path="/" name="Home" component={Home}/>
               <Route path="/login" name="Login" component={Login}/>
-                <Route path="/register" name="Register" component={Register}/>
+              <Route path="/register" name="Register" component={Register}/>
               <Redirect from="/" to="/"/>
             </Switch>
           </main>

@@ -5,7 +5,7 @@ export class ExtraInformationForm extends Component {
   render() {
     return (
       <div className="card-content">
-        <h1>A registered user can:</h1>
+        <h2>A registered user can:</h2>
         <ul>
           <li>
             <i className="icon-check"></i>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { RegisterForm, ExtraInformationForm } from "../../Modules/User";
+import { RegisterForm } from "../../Modules/User";
+import { ExtraInformationForm } from './ExtraInformationForm';
 import '../Register/Register.scss';
 import {
   Row,
@@ -27,8 +28,7 @@ export class Register extends Component {
                   <RegisterForm></RegisterForm>
                   <Row>
                     <Col className="login" xs="12" sm="12">
-                      <span>Already have an account?</span>
-                      <CardLink href="#">Login</CardLink>
+                      <span>Already have an account? <CardLink href="/login">Login</CardLink></span>
                     </Col>
                   </Row>
                 </div>
