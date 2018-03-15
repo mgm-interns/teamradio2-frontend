@@ -8,12 +8,19 @@ export class CustomHeader extends Component<any, any> {
     super(props);
     this.state = {
       transform: 0,
+      login: false
     };
     this.handleScroll = this.handleScroll.bind(this);
   }
 
   componentDidMount() {
       window.addEventListener('scroll', this.handleScroll);
+      const accessToken = localStorage.getItem("accessToken");
+      accessToken ? this.setState({
+          login: true
+      }) : this.setState({
+          login: false
+      })
   }
 
   componentWillUnmount() {
@@ -30,6 +37,7 @@ export class CustomHeader extends Component<any, any> {
 
   render() {
     const transformHeader = this.state.transform !==0 ? { filter: 'opacity(0.8)'} : null;
+
     return (
       <header className="app-header" style={transformHeader}>
         <div className="container">
@@ -38,10 +46,16 @@ export class CustomHeader extends Component<any, any> {
               <a href="/"><img alt="logo" src="img/logo.png"/></a>
             </div>
           </div>
-          <div className="float-right">
-            <span className="reputation">Reputation: {20}</span>
-            <UserInfo/>
-          </div>
+            {this.state.login ? (
+            <div className="float-right">
+              <span className="reputation">Reputation: {20}</span>
+              <UserInfo/>
+            </div> )
+          : (
+            <div className="float-right" >
+              <a href="/login" className="login-register-button">Login</a>
+              <a href="/register" className="login-register-button">Register</a>
+            </div>)}
         </div>
       </header>
     );
