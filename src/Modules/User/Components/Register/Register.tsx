@@ -1,2 +1,2 @@
-export {RegisterForm} from "./RegisterForm";
-export {ExtraInformationForm} from "./ExtraInformationForm";
+export { RegisterForm } from "./RegisterForm";
+export { ExtraInformationForm } from "./ExtraInformationForm";
