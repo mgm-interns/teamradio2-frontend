@@ -1,14 +1,14 @@
 import * as React from 'react';
 import {Component} from 'react';
 import {RegisterForm, ExtraInformationForm} from "../../Modules/User";
-import './Register.scss';
+import '../Register/Register.scss';
 import {
     Row,
     Col,
     CardLink
 } from 'reactstrap';
 
-export class SignUp extends Component {
+export class Register extends Component {
 
     render() {
         return (

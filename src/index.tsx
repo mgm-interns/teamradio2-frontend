@@ -22,7 +22,7 @@ ReactDOM.render((
     <Switch>
       <Route path="/dashboard" name="Dashboard" component={FullLayout}/>
       <Route path="/" name="Home" component={NoSideBarLayout}/>
-      <Route path="/signup" name="SignUp" component={NoSideBarLayout}/>
+        <Route path="/register" name="Register" component={NoSideBarLayout}/>
     </Switch>
   </BrowserRouter>
 ), document.getElementById('root'));

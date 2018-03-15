@@ -2,6 +2,6 @@ const routes: any = {
   '/': 'Home',
   '/login': 'Login',
   '/dashboard': 'Dashboard',
-  '/signup': 'SignUp',
+  '/register': 'Register',
 };
 export default routes;
