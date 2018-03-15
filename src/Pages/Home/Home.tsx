@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Button } from 'reactstrap';
 
 import { Main } from './Main';
 import { Sections } from './Sections';
