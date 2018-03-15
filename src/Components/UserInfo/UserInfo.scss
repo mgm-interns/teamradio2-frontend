@@ -6,4 +6,37 @@
   & > * {
     display: inline-block;
   }
+  .drop-down{
+    .button-dropdown-toggle{
+      padding-top: 0px;
+      padding-right: 0px;
+      padding-bottom: 0px;
+      font-family: Roboto Slab,serif;
+      color: white;
+      background-color: transparent;
+      border-color: transparent;
+      &:focus{
+        box-shadow: none;
+      }
+      & > span {
+        font-size: 1.4em;
+      }
+    }
+    .show > .btn-secondary.dropdown-toggle{
+      color: white;
+      background-color: transparent;
+      border-color: transparent;
+      &:focus{
+        box-shadow: none;
+
+      }
+    }
+    .drop-item{
+      font-size: 1.2em;
+      color: rgba(0, 0, 0, 0.87);
+      & > span {
+        color: rgba(0, 0, 0, 0.54);
+      }
+    }
+  }
 }
