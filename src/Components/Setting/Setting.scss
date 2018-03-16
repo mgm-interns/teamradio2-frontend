@@ -1,0 +1,56 @@
+.setting {
+  font-family: 'Roboto Slab', serif;
+  color: rgba(0, 0, 0, 0.54);
+  .button-dropdown-setting {
+    font-size: 30px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    font-family: Roboto Slab, serif;
+    color: rgba(0, 0, 0, 0.54);
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    &:focus {
+      color: rgba(0, 0, 0, 0.54);
+      box-shadow: none;
+      background-color: transparent;
+      border-color: transparent;
+      outline: none;
+      border-color: transparent;
+    }
+    &:active {
+      color: rgba(0, 0, 0, 0.54);
+      box-shadow: none;
+      background-color: transparent;
+      border-color: transparent;
+      outline: none;
+    }
+    &:focus:active {
+      box-shadow: none;
+      border-color: transparent;
+    }
+  }
+  .show > .btn-secondary.dropdown-toggle {
+    color: rgba(0, 0, 0, 0.54);
+    background-color: transparent;
+    border-color: transparent;
+    &:focus {
+      box-shadow: none;
+      outline: none;
+      border-color: transparent;
+    }
+    &:active {
+      box-shadow: none;
+      background-color: transparent;
+      border-color: transparent;
+      color: rgba(0, 0, 0, 0.54);
+      outline: none;
+      border-color: transparent;
+    }
+  }
+  .drop-item {
+    font-size: 1.4em;
+    color: rgba(0, 0, 0, 0.87);
+  }
+}
