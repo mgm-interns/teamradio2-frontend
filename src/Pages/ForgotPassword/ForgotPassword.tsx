@@ -44,6 +44,13 @@ export class ForgotPassword extends Component {
                     <Button color="success" block>Reset password</Button>
                   </CardBody>
 
+                  <CardBody className="mx-4">
+                    <p>We have sent you an email. Click the link in the email to
+                      reset your password.</p>
+                    <p>If you do not see the email, check other places it might be,
+                      like your junk, spam, social, or other folders.</p>
+                  </CardBody>
+
                 </Card>
               </Col>
             </Row>
