@@ -11,7 +11,7 @@ export class ResetPassword extends Component {
   render() {
     return (
       <div className="reset-password">
-        <div className="background-image"></div>
+        <div className="reset-password__background-image"></div>
         <div className="app flex-row align-items-center">
           <Container>
             <Row className="justify-content-center">

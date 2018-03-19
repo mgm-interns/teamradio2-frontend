@@ -14,7 +14,7 @@ export class ForgotPassword extends Component {
   render() {
     return (
       <div className="forgot-password">
-        <div className="background-image"></div>
+        <div className="forgot-password__background-image"></div>
         <div className="app flex-row align-items-center">
           <Container>
             <Row className="justify-content-center">
@@ -37,7 +37,7 @@ export class ForgotPassword extends Component {
                         </InputGroup>
                       </FormGroup>
                     </Form>
-                    <div className="loading-container">
+                    <div className="forgot-password__loading-container">
                       <LoadingIndicator/>
                     </div>
 
