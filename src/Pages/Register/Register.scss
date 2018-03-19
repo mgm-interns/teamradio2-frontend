@@ -4,14 +4,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
 
-  .card-ExtraInformation {
+  .card-extra-information {
     border: none;
     background-color: transparent;
   }
 
-  .login {
+  .login-callout {
+    text-align: center;
     padding-top: 30px;
   }
 
@@ -37,19 +37,20 @@
       margin-left: 10px;
     }
   }
-}
 
-.backgroud-img {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-image: linear-gradient(to right bottom, rgba(#0a373a, 0.6), rgba(#0a373a, 0.6)), url("../../../public/img/login-background.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+  .background-image{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: linear-gradient(to right bottom, rgba(#0a373a, 0.6), rgba(#0a373a, 0.6)), url("../../../public/img/register-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
-.card-content {
-  h2 {
-    text-align: initial;
+  .card-content {
+    h2 {
+      text-align: initial;
+    }
   }
 }
+
