@@ -33,7 +33,7 @@ export class Login extends Component {
                   <CardFooter className="p-3 pr-4 pl-4">
                     <Row>
                       <Col xs="12" sm="6">
-                        <CardLink href="#">Forgot your password?</CardLink>
+                        <CardLink href="/forgot-password">Forgot your password?</CardLink>
                       </Col>
                       <Col xs="12" sm="6">
                         <CardLink href="/register">Create an account</CardLink>

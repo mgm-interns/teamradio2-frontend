@@ -3,8 +3,8 @@ import * as React from 'react';
 import {
   Container, Row, Col,
   Card, CardBody,
-  Form, FormGroup, Input, InputGroup, Button
 } from 'reactstrap';
+import ResetPasswordForm from '../../Modules/User/Components/ResetPassword';
 import './ResetPassword.scss';
 
 export class ResetPassword extends Component {
@@ -20,17 +20,7 @@ export class ResetPassword extends Component {
                   <CardBody className="p-4">
                     <h1>Reset password</h1>
                     <p className="text-muted">Please enter your new password.</p>
-                    <Form>
-                      <FormGroup>
-                        <InputGroup className="mb-3">
-                          <Input type="password" placeholder="New password"/>
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                          <Input type="password" placeholder="Confirm new password"/>
-                        </InputGroup>
-                      </FormGroup>
-                    </Form>
-                    <Button color="success" block>Reset password</Button>
+                    <ResetPasswordForm/>
                   </CardBody>
                 </Card>
               </Col>
