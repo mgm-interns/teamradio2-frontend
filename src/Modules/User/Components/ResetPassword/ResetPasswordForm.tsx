@@ -2,11 +2,10 @@ import { Component } from 'react';
 import * as React from 'react';
 import {
   Form,
-  FormGroup, Input, InputGroup, Button, FormFeedback
+  FormGroup, Input, InputGroup, Button
 } from 'reactstrap';
-import LoadingIndicator from '../../../../Components/LoadingIndicator';
 
-export default class ResetPasswordForm extends Component {
+export class ResetPasswordForm extends Component {
   render() {
     return (
       <Form>

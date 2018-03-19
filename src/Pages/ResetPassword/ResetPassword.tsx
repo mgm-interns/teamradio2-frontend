@@ -4,7 +4,7 @@ import {
   Container, Row, Col,
   Card, CardBody,
 } from 'reactstrap';
-import ResetPasswordForm from '../../Modules/User/Components/ResetPassword';
+import { ResetPasswordForm } from '../../Modules/User';
 import './ResetPassword.scss';
 
 export class ResetPassword extends Component {

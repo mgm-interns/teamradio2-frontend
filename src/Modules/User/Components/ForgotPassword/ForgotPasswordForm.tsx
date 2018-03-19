@@ -4,9 +4,8 @@ import {
   Form,
   FormGroup, Input, InputGroup, Button, FormFeedback
 } from 'reactstrap';
-import LoadingIndicator from '../../../../Components/LoadingIndicator';
 
-export default class ForgotPasswordForm extends Component {
+export class ForgotPasswordForm extends Component {
   render() {
     return (
       <Form>

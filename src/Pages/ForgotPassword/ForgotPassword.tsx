@@ -5,7 +5,7 @@ import {
   Card, CardBody,
 } from 'reactstrap';
 
-import ForgotPasswordForm from '../../Modules/User/Components/ForgotPassword';
+import { ForgotPasswordForm } from '../../Modules/User';
 import './ForgotPassword.scss';
 
 export class ForgotPassword extends Component {
@@ -22,16 +22,7 @@ export class ForgotPassword extends Component {
                     <h1>Forgot password?</h1>
                     <p className="text-muted">Please enter the email address registered on your account.</p>
                     <ForgotPasswordForm/>
-
                   </CardBody>
-
-                  {/*<CardBody className="mx-4">*/}
-                    {/*<p>We have sent you an email. Click the link in the email to*/}
-                      {/*reset your password.</p>*/}
-                    {/*<p>If you do not see the email, check other places it might be,*/}
-                      {/*like your junk, spam, social, or other folders.</p>*/}
-                  {/*</CardBody>*/}
-
                 </Card>
               </Col>
             </Row>
