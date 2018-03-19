@@ -4,7 +4,7 @@ import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { Aside, Header, Sidebar, Breadcrumb, Footer } from '../../Components/';
 
-import { Dashboard } from '../../Pages/';
+import { Dashboard, ForgotPassword } from '../../Pages/';
 
 export class FullLayout extends Component {
   render() {

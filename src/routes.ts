@@ -1,7 +1,9 @@
 const routes: any = {
   '/': 'Home',
-  '/login': 'Login',
   '/dashboard': 'Dashboard',
+  '/login': 'Login',
   '/register': 'Register',
+  '/forgot-password': 'ForgotPassword',
+  '/reset-password': 'ResetPassword',
 };
 export default routes;
