@@ -78,7 +78,7 @@ $font-title: 'Pacifico', sans-serif;
   }
 }
 
-.form-control {
+.transparent-form-control {
   padding: 12px 24px;
   font-size: 18px;
   background: transparent;
@@ -86,6 +86,7 @@ $font-title: 'Pacifico', sans-serif;
   border-radius: 0.25rem;
   color: #fff;
   transition: all 0.3s;
+  width: 100%;
   @include placeholder {
     color: rgba(255, 255, 255, 0.8);
   }

@@ -21,7 +21,10 @@ export class Main extends Component {
             </span>
           </h1>
           <div className="header__create-box">
-            <input placeholder="Your team station" className="form-control" />
+            <input
+              placeholder="Your team station"
+              className="transparent-form-control"
+            />
             <i className="fa fa-paper-plane-o input--fa" />
           </div>
         </div>
