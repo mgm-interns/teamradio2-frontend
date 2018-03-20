@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Dropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
-import './Setting.scss';
-import { InformationForm, PasswordForm } from "../Form";
+import {
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle
+} from 'reactstrap';
+import { InformationForm } from "../../../../Modules/User/Components/InformationForm";
+import { PasswordForm } from "../../../../Modules/User/Components/PasswordForm";
+import './SelectFormButton.scss';
 
-export class Setting extends Component<any, any> {
+export class SelectFormButton extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
