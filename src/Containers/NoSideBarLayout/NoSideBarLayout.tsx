@@ -3,7 +3,6 @@ import { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { CustomHeader, Footer } from '../../Components/';
 import { Home, Login, ForgotPassword, Register, ResetPassword, Help } from '../../Pages/';
-import { FullLayout } from "../index";
 
 export class NoSideBarLayout extends Component {
   render() {
