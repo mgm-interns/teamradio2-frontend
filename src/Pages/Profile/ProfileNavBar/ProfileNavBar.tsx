@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { SelectFormButton } from './SelectFormButton';
 import {
   Container,
   Row,
@@ -8,6 +7,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
+import { SelectFormButton } from './SelectFormButton';
 
 export class ProfileNavBar extends Component<any, any> {
 
