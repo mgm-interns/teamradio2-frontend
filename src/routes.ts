@@ -5,5 +5,6 @@ const routes: any = {
   '/register': 'Register',
   '/forgot-password': 'ForgotPassword',
   '/reset-password': 'ResetPassword',
+  '/help': 'Help',
 };
 export default routes;

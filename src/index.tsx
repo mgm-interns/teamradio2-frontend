@@ -22,7 +22,8 @@ ReactDOM.render((
     <Switch>
       <Route path="/dashboard" name="Dashboard" component={FullLayout}/>
       <Route path="/" name="Home" component={NoSideBarLayout}/>
-        <Route path="/register" name="Register" component={NoSideBarLayout}/>
+      <Route path="/register" name="Register" component={NoSideBarLayout}/>
+      <Route path="/help" name="Help" component={NoSideBarLayout}/>
     </Switch>
   </BrowserRouter>
 ), document.getElementById('root'));
