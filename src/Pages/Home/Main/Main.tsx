@@ -1,5 +1,12 @@
 import * as React from 'react';
 import { Component } from 'react';
+import {
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Input,
+} from 'reactstrap';
 import './Main.scss';
 
 export class Main extends Component {
@@ -13,6 +20,10 @@ export class Main extends Component {
               A Radio station for your team
             </span>
           </h1>
+          <div className="header__create-box">
+            <input placeholder="Your team station" className="form-control" />
+            <i className="fa fa-paper-plane-o input--fa" />
+          </div>
         </div>
       </header>
     );
