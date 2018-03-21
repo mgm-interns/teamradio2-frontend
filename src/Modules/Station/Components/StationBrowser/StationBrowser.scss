@@ -1,18 +1,25 @@
 .list-station {
+  display: flex;
   align-content: center;
-  width: 70vw;
-  margin: 5px auto 5px auto;
+  width: 72vw;
+  margin: 2px auto 5px auto;
   white-space: nowrap;
   position: relative;
   overflow-x: scroll;
   overflow-y: hidden;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently supported by Chrome and Opera */
 
-  div::-webkit-scrollbar {
-    width: 50px;
+  .station-item {
+    margin: 0 1vw 0 1vw;
   }
-
   .station-name {
-    height: 4vh;
+    height: 3vh;
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 1.5em;
@@ -20,13 +27,34 @@
   }
 }
 
-.station-name:hover {
-  color: #fe7a15;
+.station-item:hover {
+  .station-name {
+    font-size: 1.55em;
+    padding-top: 2px;
+    color: #d57615;
+  }
 }
 
-//.station-item:hover {
-//  -webkit-transform: scale(1.1); /* Safari 3-8 */
-//  transform: scale(1.1);
-//  border: 2px solid #fe7a15;
-//  border-radius: 3px;
-//}
+/* Let's get this party started */
+.list-station::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.list-station::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle */
+.list-station::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(255, 125, 37, 0.8);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+.list-station::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 255, 255, 0.4);
+}

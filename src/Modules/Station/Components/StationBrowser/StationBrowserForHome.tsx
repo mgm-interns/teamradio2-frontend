@@ -7,16 +7,8 @@ export class StationBrowserForHome extends Component {
   render() {
     return (
       <div className="container-fluid text-center browser">
-        <div className="row text-center list-station">
-          <div className="col-md">
-            <div className="row station-item">
-              <StationBrowserItemInfor/>
-            </div>
-            <div className="row station-name">
-              StationName
-            </div>
-          </div>
-          <div className="col-md">
+        <div className="text-center list-station">
+          <div className="station-item">
             <div className="row">
               <StationBrowserItemInfor/>
             </div>
@@ -24,7 +16,7 @@ export class StationBrowserForHome extends Component {
               StationName
             </div>
           </div>
-          <div className="col-md">
+          <div className="station-item">
             <div className="row">
               <StationBrowserItemInfor/>
             </div>
@@ -32,7 +24,7 @@ export class StationBrowserForHome extends Component {
               StationName
             </div>
           </div>
-          <div className="col-md">
+          <div className="station-item">
             <div className="row">
               <StationBrowserItemInfor/>
             </div>
@@ -40,7 +32,7 @@ export class StationBrowserForHome extends Component {
               StationName
             </div>
           </div>
-          <div className="col-md">
+          <div className="station-item">
             <div className="row">
               <StationBrowserItemInfor/>
             </div>
@@ -48,7 +40,7 @@ export class StationBrowserForHome extends Component {
               StationName
             </div>
           </div>
-          <div className="col-md">
+          <div className="station-item">
             <div className="row">
               <StationBrowserItemInfor/>
             </div>
@@ -56,7 +48,63 @@ export class StationBrowserForHome extends Component {
               StationName
             </div>
           </div>
-          <div className="col-md">
+          <div className=" station-item">
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
+          </div>
+          <div className=" station-item">
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
+          </div>
+          <div className="station-item">
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
+          </div>
+          <div className="station-item">
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
+          </div>
+          <div className="station-item">
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
+          </div>
+          <div className="station-item">
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
+          </div>
+          <div className="station-item">
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
+          </div>
+          <div className="station-item">
             <div className="row">
               <StationBrowserItemInfor/>
             </div>
