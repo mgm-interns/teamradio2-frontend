@@ -6,6 +6,6 @@ import { Sections } from './Sections';
 
 export class Home extends Component {
   render() {
-    return [<Main key={1}/>, <Sections key={2}/>];
+    return [<Main key={1} />, <Sections key={2} />];
   }
 }
