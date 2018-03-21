@@ -6,10 +6,10 @@ import { StationBrowserItemInfor } from '../../../Station';
 export class StationBrowserForHome extends Component {
   render() {
     return (
-      <div className="container-fluid text-center">
+      <div className="container-fluid text-center browser">
         <div className="row text-center list-station">
           <div className="col-md">
-            <div className="row">
+            <div className="row station-item">
               <StationBrowserItemInfor/>
             </div>
             <div className="row station-name">

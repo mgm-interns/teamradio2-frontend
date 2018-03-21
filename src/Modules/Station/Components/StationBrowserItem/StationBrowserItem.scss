@@ -1,9 +1,16 @@
 .station-thumbnail {
   width: 100%;
-  height: 20vh;
-  padding: 5px;
-  margin: 5%;
+  height: 18vh;
+  margin: 5% 5% 0% 5%;
   background-image: url("../../../../../public/img/station_default_cover.png");
   background-repeat: no-repeat;
+  background-color: #fe7a15;
   background-size: 100%;
+}
+
+.station-thumbnail:hover {
+  -webkit-transform: scale(1.1); /* Safari 3-8 */
+  transform: scale(1.08);
+  border: 2px solid #fe7a15;
+  border-radius: 3px;
 }

@@ -6,9 +6,6 @@ export class StationBrowserItemInfor extends Component {
   render() {
     return (
       <div className="station-thumbnail">
-        <div className="row">
-
-        </div>
       </div>
     );
   }
