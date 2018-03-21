@@ -1,28 +1,56 @@
-import { Component } from 'react';
 import * as React from 'react';
-import {
-  Form,
-  FormGroup, Input, InputGroup, Button, FormFeedback
-} from 'reactstrap';
+import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
+import { Button, FormGroup, InputGroup, FormFeedback } from 'reactstrap';
+import { isValidEmail } from '../../../../Util';
 
-export class ForgotPasswordForm extends Component {
-  render() {
-    return (
-      <Form>
-        <FormGroup>
-          <InputGroup className="mb-3">
-            <Input type="text" placeholder="Your Email"/>
-            {/*<Input type="text" className="is-invalid" placeholder="Your Email"/>*/}
-            {/*<FormFeedback>Please enter a valid email address</FormFeedback>*/}
-            {/*<FormFeedback>Email address is required</FormFeedback>*/}
-          </InputGroup>
-        </FormGroup>
-        {/*<div className="forgot-password__loading-container">*/}
-        {/*<LoadingIndicator/>*/}
-        {/*</div>*/}
-
-        <Button color="success" block>Reset password</Button>
-      </Form>
-    );
-  }
+interface FormValues {
+  email: string;
 }
+
+const InnerForm = (props: FormikProps<FormValues>) => {
+  const { touched, errors, isSubmitting } = props;
+  return (
+    <Form>
+      <FormGroup>
+        <InputGroup>
+          <Field type="email" name="email" className="form-control"/>
+          {touched.email && errors.email && <FormFeedback>{errors.email}</FormFeedback>}
+        </InputGroup>
+      </FormGroup>
+
+      <Button color="success" block disabled={isSubmitting}>Reset password</Button>
+    </Form>
+  );
+};
+
+// The type of props FormWrapper receives
+interface FormProps {
+  initialEmail?: string;
+}
+
+const FormWrapper = withFormik<FormProps, FormValues>({
+  // Transform outer props into form values
+  mapPropsToValues: props => {
+    return {
+      email: props.initialEmail || '',
+    };
+  },
+
+  validate: (values: FormValues) => {
+    let errors: FormikErrors<any> = {};
+    if (!values.email) {
+      errors.email = 'Required';
+    } else if (!isValidEmail(values.email)) {
+      errors.email = 'Invalid email address';
+    }
+    return errors;
+  },
+
+  handleSubmit: values => {
+    console.log(values)
+  },
+})(InnerForm);
+
+export const ForgotPasswordForm = () => (
+    <FormWrapper />
+);
