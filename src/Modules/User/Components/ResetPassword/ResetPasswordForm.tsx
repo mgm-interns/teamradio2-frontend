@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
 import { Button, FormGroup, InputGroup, FormFeedback } from 'reactstrap';
-import { required, minLength6, matchPassword } from '../../../../Util';
+import { required, minLength6, matchPassword, Validator} from '../../../../Util';
 
 interface FormValues {
   password: string;
@@ -40,18 +40,11 @@ const FormWrapper = withFormik<any, FormValues>({
   validate: (values: FormValues) => {
     let errors: FormikErrors<any> = {};
     const { password, confirmPassword } = values;
-    if (required(password)) {
-      errors.password = required(password);
-    }
-    else if(minLength6(password)) {
-      errors.password = minLength6(password);
-    }
-    else if(matchPassword(password, confirmPassword)) {
-      errors.confirmPassword = matchPassword(password, confirmPassword);
-    }
-    if (required(confirmPassword)) {
-      errors.confirmPassword = required(confirmPassword);
-    }
+    const passwordValidator = new Validator("Password", password, [required, minLength6]);
+    const confirmPasswordValidator = new Validator("Confirm password", confirmPassword, [required, matchPassword(password)]);
+
+    errors.password = passwordValidator.validate();
+    errors.confirmPassword = confirmPasswordValidator.validate();
 
     return errors;
   },
