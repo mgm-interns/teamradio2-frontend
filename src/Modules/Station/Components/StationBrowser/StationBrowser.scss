@@ -1,13 +1,32 @@
 .list-station {
   align-content: center;
-  width: 75vw;
-  margin: 5px auto auto auto;
+  width: 70vw;
+  margin: 5px auto 5px auto;
+  white-space: nowrap;
+  position: relative;
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  div::-webkit-scrollbar {
+    width: 50px;
+  }
 
   .station-name {
     height: 4vh;
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 1.5em;
-    margin: 0px 2px;
+    margin: 5px;
   }
 }
+
+.station-name:hover {
+  color: #fe7a15;
+}
+
+//.station-item:hover {
+//  -webkit-transform: scale(1.1); /* Safari 3-8 */
+//  transform: scale(1.1);
+//  border: 2px solid #fe7a15;
+//  border-radius: 3px;
+//}
