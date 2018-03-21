@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
 import { Button, FormGroup, InputGroup, FormFeedback } from 'reactstrap';
-import { isValidEmail } from '../../../../Util';
+import { required, invalidEmail } from '../../../../Util';
 
 interface FormValues {
   email: string;
@@ -13,7 +13,7 @@ const InnerForm = (props: FormikProps<FormValues>) => {
     <Form>
       <FormGroup>
         <InputGroup>
-          <Field type="email" name="email" className="form-control"/>
+          <Field type="email" name="email" className="form-control" placeholder="Your email"/>
           {touched.email && errors.email && <FormFeedback>{errors.email}</FormFeedback>}
         </InputGroup>
       </FormGroup>
@@ -38,10 +38,11 @@ const FormWrapper = withFormik<FormProps, FormValues>({
 
   validate: (values: FormValues) => {
     let errors: FormikErrors<any> = {};
-    if (!values.email) {
-      errors.email = 'Required';
-    } else if (!isValidEmail(values.email)) {
-      errors.email = 'Invalid email address';
+    const { email } = values;
+    if (required(email)) {
+      errors.email =  required(email);
+    } else if (invalidEmail(email)) {
+      errors.email = invalidEmail(email);
     }
     return errors;
   },
