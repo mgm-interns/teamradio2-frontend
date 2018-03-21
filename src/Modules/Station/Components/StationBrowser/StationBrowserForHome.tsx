@@ -9,25 +9,60 @@ export class StationBrowserForHome extends Component {
       <div className="container-fluid text-center">
         <div className="row text-center list-station">
           <div className="col-md">
-            <StationBrowserItemInfor/>
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
           </div>
           <div className="col-md">
-            <StationBrowserItemInfor/>
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
           </div>
           <div className="col-md">
-            <StationBrowserItemInfor/>
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
           </div>
           <div className="col-md">
-            <StationBrowserItemInfor/>
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
           </div>
           <div className="col-md">
-            <StationBrowserItemInfor/>
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
           </div>
           <div className="col-md">
-            <StationBrowserItemInfor/>
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
           </div>
           <div className="col-md">
-            <StationBrowserItemInfor/>
+            <div className="row">
+              <StationBrowserItemInfor/>
+            </div>
+            <div className="row station-name">
+              StationName
+            </div>
           </div>
         </div>
       </div>

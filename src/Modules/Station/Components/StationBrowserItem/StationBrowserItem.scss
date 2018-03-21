@@ -1,8 +1,9 @@
 .station-thumbnail {
   width: 100%;
-  height: 15vh;
+  height: 20vh;
   padding: 5px;
-  background-image: linear-gradient(to right bottom, rgba(#0a373a, 0.6), rgba(#0a373a, 0.6)), url("../../../../../public/img/station_default_cover.png");
+  margin: 5%;
+  background-image: url("../../../../../public/img/station_default_cover.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100%;
 }

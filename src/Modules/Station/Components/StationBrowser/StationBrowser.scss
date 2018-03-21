@@ -1,5 +1,13 @@
 .list-station {
   align-content: center;
-  width: 80vw;
-  margin: auto;
+  width: 75vw;
+  margin: 5px auto auto auto;
+
+  .station-name {
+    height: 4vh;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 1.5em;
+    margin: 0px 2px;
+  }
 }
