@@ -14,8 +14,23 @@ import '../scss/style.scss';
 // Temp fix for reactstrap
 import '../scss/core/_dropdown-menu-right.scss';
 
+// config redux
+import { Provider } from 'react-redux';
+// import configureStore from './Configuration/Redux';
+
 // Containers
 import { FullLayout, NoSideBarLayout } from './Containers/';
+
+//test
+import { UserState } from './Modules/User/Redux/Types';
+import userReducer from './Modules/User/Redux/Reducer';
+import { createStore } from 'redux';
+
+let store = createStore<UserState>(userReducer, {
+  id: 0,
+  username: 'khanhly',
+});
+
 
 ReactDOM.render((
   <BrowserRouter>
