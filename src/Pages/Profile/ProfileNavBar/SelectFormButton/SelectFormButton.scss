@@ -54,3 +54,9 @@
     color: rgba(0, 0, 0, 0.87);
   }
 }
+
+@media (min-width: 576px) {
+  .modal-edit-form {
+    margin: 10.25rem auto;
+  }
+}
