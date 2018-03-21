@@ -1,1 +1,1 @@
-export { StationBrowserItemInfor } from './StationBrowserItemInfor';
+export { StationBrowserItemInfor } from './StationBrowserItemInfo';
