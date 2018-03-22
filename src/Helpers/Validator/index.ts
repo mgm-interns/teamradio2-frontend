@@ -1,2 +1,2 @@
-export * from './rules';
-export * from './Validator';
+export { Rules } from './rules';
+export { Validator } from './Validator';

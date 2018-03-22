@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { Component } from 'react';
 import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
 import { Button, FormGroup, InputGroup, FormFeedback } from 'reactstrap';
-import { required, validEmail, Validator} from '../../../../Helpers';
+import { Rules, Validator } from '../../../../Helpers';
 
 interface FormValues {
   email: string;
@@ -29,7 +30,6 @@ interface FormProps {
 }
 
 const FormWrapper = withFormik<FormProps, FormValues>({
-  // Transform outer props into form values
   mapPropsToValues: props => {
     return {
       email: props.initialEmail || '',
@@ -38,9 +38,10 @@ const FormWrapper = withFormik<FormProps, FormValues>({
 
   validate: (values: FormValues) => {
     let errors: FormikErrors<any> = {};
+    const {required, validEmail} = Rules;
     const emailValidator = new Validator("Email", values.email, [required, validEmail]);
     errors.email = emailValidator.validate();
-    return errors;
+    return Validator.removeUndefinedError(errors);
   },
 
   handleSubmit: values => {
@@ -48,6 +49,13 @@ const FormWrapper = withFormik<FormProps, FormValues>({
   },
 })(InnerForm);
 
-export const ForgotPasswordForm = () => (
-    <FormWrapper />
-);
+export class ForgotPasswordForm extends Component<any, any> {
+  constructor(props: any) {
+    super(props);
+  }
+
+  render() {
+    return (<FormWrapper/>)
+  }
+
+}

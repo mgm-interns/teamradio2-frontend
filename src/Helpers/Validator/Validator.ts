@@ -17,4 +17,8 @@ export class Validator {
     }
   }
 
+  static removeUndefinedError(object: Object) {
+    return JSON.parse(JSON.stringify(object));
+  }
+
 }

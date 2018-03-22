@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { Component } from 'react';
 import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
 import { Button, FormGroup, InputGroup, FormFeedback } from 'reactstrap';
-import { required, minLength6, matchPassword, Validator} from '../../../../Helpers';
+import { Rules, Validator } from '../../../../Helpers';
 
 interface FormValues {
   password: string;
@@ -29,7 +30,6 @@ const InnerForm = (props: FormikProps<FormValues>) => {
 };
 
 const FormWrapper = withFormik<any, FormValues>({
-  // Transform outer props into form values
   mapPropsToValues: props => {
     return {
       password: '',
@@ -40,13 +40,15 @@ const FormWrapper = withFormik<any, FormValues>({
   validate: (values: FormValues) => {
     let errors: FormikErrors<any> = {};
     const { password, confirmPassword } = values;
+    const {required, minLength6, matchPassword} = Rules;
+
     const passwordValidator = new Validator("Password", password, [required, minLength6]);
     const confirmPasswordValidator = new Validator("Confirm password", confirmPassword, [required, matchPassword(password)]);
 
     errors.password = passwordValidator.validate();
     errors.confirmPassword = confirmPasswordValidator.validate();
 
-    return errors;
+    return Validator.removeUndefinedError(errors);
   },
 
   handleSubmit: values => {
@@ -54,6 +56,13 @@ const FormWrapper = withFormik<any, FormValues>({
   },
 })(InnerForm);
 
-export const ResetPasswordForm = () => (
-  <FormWrapper />
-);
+export class ResetPasswordForm extends Component<any, any> {
+  constructor(props: any) {
+    super(props);
+  }
+
+  render() {
+    return (<FormWrapper/>)
+  }
+
+}
