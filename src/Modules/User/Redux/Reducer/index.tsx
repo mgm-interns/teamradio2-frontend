@@ -1,12 +1,22 @@
 import { Reducer } from 'redux';
 import { UserState } from '../Types';
-import { FETCH_USER } from '../Constants';
-import { FetchUserAction } from "../Actions";
+import { USERS_LIST_UPDATED } from "../Constants";
 
-export default function userReducer(state: UserState, action: FetchUserAction): UserState {
+// Type-safe initialState
+export const initialState: UserState = {
+  data: {},
+  error: '',
+  loading: false,
+  isAuthenticated: false,
+};
+
+const userReducer: Reducer<UserState> = (state: UserState = initialState, action) => {
   switch (action.type) {
-    // case FETCH_USER:
-    //   return {...state, data: state.id + 1};
+    case USERS_LIST_UPDATED:
+      return {...state, data: action.data};
+    default:
+      return state;
   }
-  return state;
-}
+};
+
+export default userReducer;

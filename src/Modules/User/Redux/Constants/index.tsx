@@ -1,2 +1,2 @@
-export const FETCH_USER = 'FETCH_USER';
-export type FETCH_USER = typeof FETCH_USER;
+export const USERS_LIST_UPDATED = '@@user/USERS_LIST_UPDATED';
+export type USERS_LIST_UPDATED = typeof USERS_LIST_UPDATED;

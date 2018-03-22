@@ -22,15 +22,20 @@ import { Provider } from 'react-redux';
 import { FullLayout, NoSideBarLayout } from './Containers/';
 
 //test
-import { UserState } from './Modules/User/Redux/Types';
-import userReducer from './Modules/User/Redux/Reducer';
-import { createStore } from 'redux';
+// import { UserState } from './Modules/User/Redux/Types';
+// import userReducer from './Modules/User/Redux/Reducer';
+// import { createStore } from 'redux';
 
-let store = createStore<UserState>(userReducer, {
-  id: 0,
-  username: 'khanhly',
-});
+// let store = createStore<UserState>(userReducer, {
+//   id: 0,
+//   username: 'khanhly',
+//   },
+//   (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+// );
 
+import initialStore from './Configuration/Redux';
+
+const store = initialStore();
 
 ReactDOM.render((
   <BrowserRouter>

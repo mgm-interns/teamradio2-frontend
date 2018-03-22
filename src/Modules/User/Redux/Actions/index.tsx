@@ -1,7 +1,11 @@
-import { Action } from 'redux';
-import * as constants from '../Constants/index';
+import { ActionCreator } from 'redux';
+import { USERS_LIST_UPDATED } from '../Constants';
 
-export interface FetchUserAction {
-  type: constants.FETCH_USER;
-  payload: {}
-}
+import { UserListUpdateAction, UserInfo } from '../Types';
+
+export const updateUserList: ActionCreator<UserListUpdateAction> = (users: UserInfo[]) => ({
+  type: USERS_LIST_UPDATED,
+  payload: {
+    users,
+  }
+});
