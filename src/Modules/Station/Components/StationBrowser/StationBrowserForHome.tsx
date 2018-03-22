@@ -13,7 +13,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 1
             </div>
           </div>
           <div className="station-item">
@@ -21,7 +21,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 2
             </div>
           </div>
           <div className="station-item">
@@ -29,7 +29,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 3
             </div>
           </div>
           <div className="station-item">
@@ -37,7 +37,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 4
             </div>
           </div>
           <div className="station-item">
@@ -45,7 +45,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 5
             </div>
           </div>
           <div className=" station-item">
@@ -53,7 +53,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 6
             </div>
           </div>
           <div className=" station-item">
@@ -61,7 +61,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 7
             </div>
           </div>
           <div className="station-item">
@@ -69,7 +69,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 8
             </div>
           </div>
           <div className="station-item">
@@ -77,7 +77,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 9
             </div>
           </div>
           <div className="station-item">
@@ -85,7 +85,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 10
             </div>
           </div>
           <div className="station-item">
@@ -93,7 +93,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 11
             </div>
           </div>
           <div className="station-item">
@@ -101,7 +101,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 12
             </div>
           </div>
           <div className="station-item">
@@ -109,7 +109,7 @@ export class StationBrowserForHome extends Component {
               <StationBrowserItemInfo/>
             </div>
             <div className="row station-name">
-              StationName
+              Station 13
             </div>
           </div>
         </div>
