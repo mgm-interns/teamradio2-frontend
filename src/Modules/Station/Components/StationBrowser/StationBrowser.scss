@@ -1,7 +1,9 @@
 .browser {
   padding: 0px 0px !important;
   min-height: 200px;
+  position: relative;
 }
+
 .list-station {
   display: flex;
   align-content: center;
@@ -68,4 +70,10 @@
 
 .list-station::-webkit-scrollbar-thumb:window-inactive {
   background: rgb(249, 109, 81);
+}
+
+.cover-div {
+  width: 75vw;
+  margin: 0 auto;
+  position: relative;
 }

@@ -2,12 +2,18 @@ import { Component } from 'react';
 import * as React from 'react';
 import './StationBrowser.scss';
 import { StationBrowserItemInfo } from '../../../Station';
+import { ArrowButton } from "../../../../Components/ArrowButton";
 
 export class StationBrowserForHome extends Component {
   render() {
     return (
       <div className="container-fluid text-center browser">
+          <div className="cover-div">
+			  <ArrowButton />
+
+
         <div className="text-center list-station">
+
           <div className="station-item">
             <div className="row">
               <StationBrowserItemInfo/>
@@ -112,7 +118,8 @@ export class StationBrowserForHome extends Component {
               Station 13
             </div>
           </div>
-        </div>
+		</div>
+		</div>
       </div>
     );
   }
