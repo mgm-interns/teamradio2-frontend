@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
 import { Button, FormGroup, InputGroup, FormFeedback } from 'reactstrap';
-import { required, validEmail, Validator} from '../../../../Util';
+import { required, validEmail, Validator} from '../../../../Helpers';
 
 interface FormValues {
   email: string;

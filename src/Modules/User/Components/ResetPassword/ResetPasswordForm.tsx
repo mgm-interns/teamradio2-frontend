@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
 import { Button, FormGroup, InputGroup, FormFeedback } from 'reactstrap';
-import { required, minLength6, matchPassword, Validator} from '../../../../Util';
+import { required, minLength6, matchPassword, Validator} from '../../../../Helpers';
 
 interface FormValues {
   password: string;
