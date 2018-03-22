@@ -1,4 +1,4 @@
-import { EMAIL_REGEX } from "./regExRules";
+import { EMAIL_REGEX, USERNAME_REGEX, DISPLAY_NAME_REGEX } from "./regExRules";
 
 const required = {
   test: (value: any) => value,
@@ -7,7 +7,7 @@ const required = {
 
 const validEmail = {
   test: (value: string) => EMAIL_REGEX.test(value),
-  message: (name: string) => `${name} must be a valid email.`,
+  message: (name: string) => `${name} must be a valid address.`,
 };
 
 const minLength = (minNum: number) => {
@@ -31,12 +31,24 @@ const matchPassword = (password: string) => {
   }
 };
 
+const validUsername = {
+  test: (value: string) => USERNAME_REGEX.test(value),
+  message: () => `Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.`,
+};
+
+const validDisplayName = {
+  test: (value: string) => DISPLAY_NAME_REGEX.test(value),
+  message: () => `Display name may only contain alphabet characters.`,
+};
+
 export const Rules = {
   required: required,
   validEmail: validEmail,
   minLength6: minLength6,
   maxLength: maxLength,
-  matchPassword: matchPassword
+  matchPassword: matchPassword,
+  validUsername: validUsername,
+  validDisplayName: validDisplayName,
 };
 
 
