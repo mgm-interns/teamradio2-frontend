@@ -1,3 +1,6 @@
+.browser {
+  padding: 0px 0px !important;
+}
 .list-station {
   display: flex;
   align-content: center;
@@ -5,8 +8,7 @@
   margin: 2px auto 5px auto;
   white-space: nowrap;
   position: relative;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  overflow: hidden;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
@@ -27,11 +29,16 @@
   }
 }
 
+.list-station:hover {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
 .station-item:hover {
   .station-name {
     font-size: 1.55em;
     padding-top: 2px;
-    color: #d57615;
+    color: #d55b1c;
   }
 }
 
@@ -51,10 +58,10 @@
 .list-station::-webkit-scrollbar-thumb {
   -webkit-border-radius: 10px;
   border-radius: 10px;
-  background: rgba(255, 125, 37, 0.8);
+  background: rgb(249, 109, 81);
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 .list-station::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgb(249, 109, 81);
 }
