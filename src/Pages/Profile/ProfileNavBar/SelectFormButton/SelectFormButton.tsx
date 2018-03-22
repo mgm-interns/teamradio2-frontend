@@ -79,7 +79,7 @@ export class SelectFormButton extends Component<any, any> {
     return this.renderModal(
       this.state.openPasswordForm,
       'Edit your password',
-      <PasswordForm onCloseModal={() => this.onCloseModal()}/>
+      <PasswordForm onCloseModal={() => this.onCloseModal()} hadPass={true}/>
     );
   }
 

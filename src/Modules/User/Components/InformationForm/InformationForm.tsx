@@ -1,85 +1,156 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Row, Col, FormGroup, Label, Input, Button } from "reactstrap";
+import { Row, Col, FormGroup, Label, Button, FormFeedback } from "reactstrap";
 import "./InformationForm.scss";
+
+import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
+import { Rules, Validator } from '../../../../Helpers';
+
+interface FormValues {
+  displayName: string;
+  userName: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  city: string;
+  country: string;
+  onCloseModal: any;
+}
+
+const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
+  const {touched, errors, isSubmitting} = props;
+  return (
+    <Form className="information-form">
+      <Row>
+        <Col xs="12">
+          <FormGroup>
+            <Label htmlFor="displayName">Display name</Label>
+            <Field className="form-control" type="text" name="displayName" placeholder="Enter your Display name"/>
+            {touched.displayName && errors.displayName && <FormFeedback>{errors.displayName}</FormFeedback>}
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs="12">
+          <FormGroup>
+            <Label htmlFor="userName">User name</Label>
+            <Field className="form-control" type="text" name="userName" placeholder="Enter your username"/>
+            {touched.userName && errors.userName && <FormFeedback>{errors.userName}</FormFeedback>}
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs="12">
+          <FormGroup>
+            <Label htmlFor="email">Email</Label>
+            <Field className="form-control" type="email" name="email" placeholder="Enter your Email" readOnly/>
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs="12">
+          <FormGroup>
+            <Label htmlFor="firstName">First name</Label>
+            <Field className="form-control" type="text" name="firstName" placeholder="Enter your First name"/>
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs="12">
+          <FormGroup>
+            <Label htmlFor="lastName">Last name</Label>
+            <Field className="form-control" type="text" name="lastName" placeholder="Enter your Last name"/>
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs="12">
+          <FormGroup>
+            <Label htmlFor="bio">Bio</Label>
+            <Field className="form-control" type="text" name="bio" placeholder="Enter your Bio"/>
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs="12">
+          <FormGroup>
+            <Label htmlFor="city">City</Label>
+            <Field className="form-control" type="text" name="city" placeholder="Enter your City"/>
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs="12">
+          <FormGroup>
+            <Label htmlFor="country">Country</Label>
+            <Field className="form-control" type="text" name="country" placeholder="Enter your Country"/>
+          </FormGroup>
+        </Col>
+      </Row>
+      <div className="footer-form">
+        <Button color="secondary" onClick={() => props.onCloseModal()}>CANCEL</Button>
+        <Button type="submit" color="primary" disabled={isSubmitting}>SAVE</Button>
+      </div>
+    </Form>
+  );
+};
+
+// The type of props FormWrapper receives
+interface FormProps {
+  displayName?: string;
+  userName?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  bio?: string;
+  city?: string;
+  country?: string;
+  onCloseModal: any;
+}
+
+const FormWrapper = withFormik<FormProps, FormValues>({
+  mapPropsToValues: props => {
+    return {
+      onCloseModal: props.onCloseModal,
+      displayName: props.displayName || '',
+      userName: props.userName || '',
+      email: props.email || 'test@radio-team.com',
+      firstName: props.firstName || '',
+      lastName: props.lastName || '',
+      bio: props.bio || '',
+      city: props.city || '',
+      country: props.country || '',
+    };
+  },
+
+  validate: (values: FormValues) => {
+    let errors: FormikErrors<any> = {};
+    const {displayName, userName} = values;
+    const {required} = Rules;
+
+    const displayNameValidator = new Validator("Display Name", displayName, [required]);
+    const userNameValidator = new Validator("User name", userName, [required]);
+
+    errors.displayName = displayNameValidator.validate();
+    errors.userName = userNameValidator.validate();
+
+    return Validator.removeUndefinedError(errors);
+  },
+
+  handleSubmit: (values) => {
+    console.log(values);
+    values.onCloseModal();
+  },
+})(InnerForm);
 
 export class InformationForm extends Component<any, any> {
   constructor(props: any) {
-    super(props)
+    super(props);
   }
 
   render() {
-    return (
-      <form className="information-form">
-        <Row>
-          <Col xs="12">
-            <FormGroup>
-              <Label htmlFor="name">Display name</Label>
-              <Input type="text" id="display_name" placeholder="Enter your Display name" required/>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12">
-            <FormGroup>
-              <Label htmlFor="name">Username</Label>
-              <Input type="text" id="user_name" placeholder="Enter your Username" required/>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12">
-            <FormGroup>
-              <Label htmlFor="name">Email</Label>
-              <Input type="email" id="email" name="email-input" placeholder="Enter your Email" required/>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12">
-            <FormGroup>
-              <Label htmlFor="name">First name</Label>
-              <Input type="text" id="first_name" placeholder="Enter your First name" required/>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12">
-            <FormGroup>
-              <Label htmlFor="name">Last name</Label>
-              <Input type="text" id="last_name" placeholder="Enter your Last name" required/>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12">
-            <FormGroup>
-              <Label htmlFor="name">Bio</Label>
-              <Input type="text" id="bio" placeholder="Enter your Bio" required/>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12">
-            <FormGroup>
-              <Label htmlFor="name">City</Label>
-              <Input type="text" id="city" placeholder="Enter your City" required/>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12">
-            <FormGroup>
-              <Label htmlFor="name">Country</Label>
-              <Input type="text" id="country" placeholder="Enter your Country" required/>
-            </FormGroup>
-          </Col>
-        </Row>
-        <div className="footer-form">
-          <Button color="secondary" onClick={() => this.props.onCloseModal()}>CANCEL</Button>
-          <Button type="submit" color="primary" onClick={() => this.props.onCloseModal()}>SAVE</Button>
-        </div>
-      </form>
-    )
+    return (<FormWrapper onCloseModal={this.props.onCloseModal}/>)
   }
+
 }
