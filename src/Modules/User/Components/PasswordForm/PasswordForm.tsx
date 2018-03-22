@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Row, Col, FormGroup, Label, Input, Button, FormFeedback } from "reactstrap";
+import { Row, Col, FormGroup, Label, Button, FormFeedback } from "reactstrap";
 import "./PasswordForm.scss";
 
 import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
@@ -11,22 +11,26 @@ interface FormValues {
   newPassword: string;
   confirmPassword: string;
   onCloseModal: any;
+  hadPass: boolean;
 }
 
 const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
   const {touched, errors, isSubmitting} = props;
   return (
     <Form className="password-form">
-      <Row>
-        <Col xs="12">
-          <FormGroup>
-            <Label htmlFor="name">Current password</Label>
-            <Field type="password" name="currentPassword" className="form-control"
-                   placeholder="Enter your Current password"/>
-            {touched.currentPassword && errors.currentPassword && <FormFeedback>{errors.currentPassword}</FormFeedback>}
-          </FormGroup>
-        </Col>
-      </Row>
+      {props.initialValues.hadPass ? (
+        <Row>
+          <Col xs="12">
+            <FormGroup>
+              <Label htmlFor="name">Current password</Label>
+              <Field type="password" name="currentPassword" className="form-control"
+                     placeholder="Enter your Current password"/>
+              {touched.currentPassword && errors.currentPassword &&
+              <FormFeedback>{errors.currentPassword}</FormFeedback>}
+            </FormGroup>
+          </Col>
+        </Row>
+      ) : null}
       <Row>
         <Col xs="12">
           <FormGroup>
@@ -57,12 +61,14 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
 // The type of props FormWrapper receives
 interface FormProps {
   onCloseModal: any;
+  hadPass?: boolean;
 }
 
 const FormWrapper = withFormik<FormProps, FormValues>({
   mapPropsToValues: props => {
     return {
       onCloseModal: props.onCloseModal,
+      hadPass: props.hadPass || false,
       currentPassword: '',
       newPassword: '',
       confirmPassword: ''
@@ -74,11 +80,15 @@ const FormWrapper = withFormik<FormProps, FormValues>({
     const {currentPassword, newPassword, confirmPassword} = values;
     const {required, minLength6, matchPassword} = Rules;
 
-    const currentPasswordValidator = new Validator("Current password", currentPassword, [required, minLength6]);
+    if (values.hadPass) {
+      const currentPasswordValidator = new Validator("Current password", currentPassword, [required, minLength6]);
+      errors.currentPassword = currentPasswordValidator.validate();
+
+    }
+
     const newPasswordValidator = new Validator("New password", newPassword, [required, minLength6]);
     const confirmPasswordValidator = new Validator("Confirm password", confirmPassword, [required, matchPassword(newPassword)]);
 
-    errors.currentPassword = currentPasswordValidator.validate();
     errors.newPassword = newPasswordValidator.validate();
     errors.confirmPassword = confirmPasswordValidator.validate();
 
@@ -97,7 +107,7 @@ export class PasswordForm extends Component<any, any> {
   }
 
   render() {
-    return (<FormWrapper onCloseModal={this.props.onCloseModal}/>)
+    return (<FormWrapper onCloseModal={this.props.onCloseModal} hadPass={this.props.hadPass}/>)
   }
 
 }
