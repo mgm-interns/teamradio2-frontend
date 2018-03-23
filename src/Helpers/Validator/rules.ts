@@ -19,10 +19,14 @@ const minLength = (minNum: number) => {
 
 const minLength6 = minLength(6);
 
-const maxLength = {
-  test: (maxNum: number) => (value: string) => value.length >= maxNum,
-  message: (maxNum: number) => (name: string) => `${name} must be less than ${maxNum} characters.`,
+const maxLength = (maxNum: number) => {
+  return {
+    test:  (value: string) => value.length <= maxNum,
+    message: (name: string) => `${name} must be less than ${maxNum} characters.`,
+  }
 };
+
+const maxLength15 = maxLength(15);
 
 const matchPassword = (password: string) => {
   return {
@@ -38,14 +42,14 @@ const validUsername = {
 
 const validDisplayName = {
   test: (value: string) => DISPLAY_NAME_REGEX.test(value),
-  message: () => `Display name may only contain alphabet characters.`,
+  message: () => `Display name may only contain alphanumeric characters.`,
 };
 
 export const Rules = {
   required: required,
   validEmail: validEmail,
+  maxLength15: maxLength15,
   minLength6: minLength6,
-  maxLength: maxLength,
   matchPassword: matchPassword,
   validUsername: validUsername,
   validDisplayName: validDisplayName,
