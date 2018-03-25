@@ -1,13 +1,15 @@
-import { Component } from 'react';
 import * as React from 'react';
-import './ImageUploader.scss';
+import { Component } from 'react';
 import Cropper from 'react-cropper';
-import Button from "reactstrap/lib/Button";
-import Modal from "reactstrap/lib/Modal";
-import ModalHeader from "reactstrap/lib/ModalHeader";
-import ModalBody from "reactstrap/lib/ModalBody";
-import ModalFooter from "reactstrap/lib/ModalFooter";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button
+} from "reactstrap";
 import toBase64 from '../../Utilities/toBase64';
+import './ImageUploader.scss';
 
 const SERVER_URL = 'teamradio-server-url';
 
@@ -118,7 +120,6 @@ export class ImageUploader extends Component<any, any> {
     return (
       <div>
         <input
-          key={2}
           type="file"
           ref={ref => {
             this.inputFileTag = ref;

@@ -53,7 +53,7 @@ $height-container-sx-md: 400px;
     }
   }
 
-  .user-infor-container {
+  .user-info-container {
     @include component-display(flex, center, space-between);
     width: 1280px;
     margin: 0 auto;
@@ -151,7 +151,7 @@ $height-container-sx-md: 400px;
         height: $height-container-sx-md;
       }
     }
-    .user-infor-container {
+    .user-info-container {
       .user-avatar, .update-cover {
         @include component-display(null, null, center);
       }

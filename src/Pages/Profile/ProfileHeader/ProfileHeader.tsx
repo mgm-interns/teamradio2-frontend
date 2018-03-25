@@ -4,14 +4,21 @@ import {
   Container,
   Row
 } from 'reactstrap';
-import './ProfileHeader.scss';
 import { ImageUploader } from "../../../Components/ImageUploader";
+import './ProfileHeader.scss';
 
 export class ProfileHeader extends Component<any, any> {
   private imageUploader: any;
 
   constructor(props: any) {
     super(props);
+    this.state = ({
+      isUpdateAvatar: false,
+      isUpdateCover: false,
+      avatarUrl: "./img/female-01.png",
+      coverUrl: "./img/profile-cover.png",
+      aspectRatio: 1
+    });
     this.uploadAvatar = this.uploadAvatar.bind(this);
     this.uploadCover = this.uploadCover.bind(this);
     this.setImageUploadUrl = this.setImageUploadUrl.bind(this);
@@ -23,7 +30,7 @@ export class ProfileHeader extends Component<any, any> {
       isUpdateCover: false,
       avatarUrl: "./img/female-01.png",
       coverUrl: "./img/profile-cover.png",
-      aspectRatio: 1,
+      aspectRatio: 1
     });
   }
 
@@ -66,7 +73,7 @@ export class ProfileHeader extends Component<any, any> {
           <div className="background-cover"></div>
         </div>
         {/*User information container*/}
-        <Container className="user-infor-container">
+        <Container className="user-info-container">
           <Row>
             <div className="col-sm-12 col-md-8 col-lg-8">
               <div className="row">
@@ -115,19 +122,19 @@ export class ProfileHeader extends Component<any, any> {
                 }} className="btn btn-update-cover">
                   <i className="fa fa-camera"></i> Update Cover Photo
                 </button>
-                <ImageUploader
-                  ref={instance => {
-                    this.imageUploader = instance;
-                  }}
-                  aspectRatio={this.state.aspectRatio}
-                  isUpdateAvatar={this.state.isUpdateAvatar}
-                  isUpdateCover={this.state.isUpdateCover}
-                  imageUploadUrl={this.setImageUploadUrl}
-                />
               </div>
             </div>
           </Row>
         </Container>
+        <ImageUploader
+          ref={instance => {
+            this.imageUploader = instance;
+          }}
+          aspectRatio={this.state.aspectRatio}
+          isUpdateAvatar={this.state.isUpdateAvatar}
+          isUpdateCover={this.state.isUpdateCover}
+          imageUploadUrl={this.setImageUploadUrl}
+        />
       </div>
     )
   }
