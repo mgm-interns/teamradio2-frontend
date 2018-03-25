@@ -66,6 +66,7 @@ $height-container-sx-md: 400px;
 
       .avatar {
         @include avatar-container;
+        background: #ffffff;
         cursor: pointer;
         &:hover .avatar-hover {
           @include component-display(flex, null, center);

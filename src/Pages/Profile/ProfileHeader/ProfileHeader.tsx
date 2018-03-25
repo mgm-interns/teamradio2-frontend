@@ -5,15 +5,64 @@ import {
   Row
 } from 'reactstrap';
 import './ProfileHeader.scss';
+import { ImageUploader } from "../../../Components/ImageUploader";
 
-export class ProfileHeader extends Component {
+export class ProfileHeader extends Component<any, any> {
+  private imageUploader: any;
+
+  constructor(props: any) {
+    super(props);
+    this.uploadAvatar = this.uploadAvatar.bind(this);
+    this.uploadCover = this.uploadCover.bind(this);
+    this.setImageUploadUrl = this.setImageUploadUrl.bind(this);
+  }
+
+  componentWillMount() {
+    this.setState({
+      isUpdateAvatar: false,
+      isUpdateCover: false,
+      avatarUrl: "./img/female-01.png",
+      coverUrl: "./img/profile-cover.png",
+      aspectRatio: 1,
+    });
+  }
+
+  uploadAvatar() {
+    this.setState({
+      isUpdateAvatar: true,
+      isUpdateCover: false,
+      aspectRatio: 1,
+    })
+    this.imageUploader.openChooseImageModal();
+  }
+
+  uploadCover() {
+    this.setState({
+      isUpdateAvatar: false,
+      isUpdateCover: true,
+      aspectRatio: 16 / 9,
+    });
+    this.imageUploader.openChooseImageModal();
+  }
+
+  setImageUploadUrl(imageUploadUrl: any) {
+    if (this.state.isUpdateAvatar) {
+      this.setState({
+        avatarUrl: imageUploadUrl
+      });
+    } else {
+      this.setState({
+        coverUrl: imageUploadUrl
+      });
+    }
+  }
 
   render() {
     return (
       <div className="profile-header-container">
         {/*Background image cover*/}
         <div className="background-wrapper">
-          <img src="./img/profile-cover.png"/>
+          <img src={this.state.coverUrl}/>
           <div className="background-cover"></div>
         </div>
         {/*User information container*/}
@@ -24,8 +73,10 @@ export class ProfileHeader extends Component {
                 {/* User's avatar and name */}
                 <div className="col-sm-12 col-md-12 col-lg-6">
                   <div className="user-avatar">
-                    <div className="avatar">
-                      <img src="./img/female-01.png" className="rounded-circle" alt="User Avatar"/>
+                    <div className="avatar" onClick={() => {
+                      this.uploadAvatar()
+                    }}>
+                      <img src={this.state.avatarUrl} className="rounded-circle" alt="User Avatar"/>
                       <div className="avatar-hover">
                         <span>camera_alt</span>
                         <span>Upload Profile Photo</span>
@@ -59,9 +110,20 @@ export class ProfileHeader extends Component {
             {/* Button update cover photo */}
             <div className="col-sm-12 col-md-4 col-lg-4">
               <div className="update-cover">
-                <button type="button" className="btn btn-update-cover">
-                  <i className="fa fa-camera"></i> Update cover photo
+                <button type="button" onClick={() => {
+                  this.uploadCover()
+                }} className="btn btn-update-cover">
+                  <i className="fa fa-camera"></i> Update Cover Photo
                 </button>
+                <ImageUploader
+                  ref={instance => {
+                    this.imageUploader = instance;
+                  }}
+                  aspectRatio={this.state.aspectRatio}
+                  isUpdateAvatar={this.state.isUpdateAvatar}
+                  isUpdateCover={this.state.isUpdateCover}
+                  imageUploadUrl={this.setImageUploadUrl}
+                />
               </div>
             </div>
           </Row>
