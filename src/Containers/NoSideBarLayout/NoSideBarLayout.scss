@@ -1,0 +1,17 @@
+.app.no-side-bar {
+  .main, .app-footer {
+    margin-left: 0;
+  }
+}
+
+.app.login, .app.register {
+  min-height: calc(100vh - 105px);
+  .background-image {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+  }
+}

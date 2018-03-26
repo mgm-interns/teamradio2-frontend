@@ -1,38 +1,40 @@
-input {
-  display: none;
-}
-
-.cropper-modal-body {
-  margin: 0 auto;
-}
-
-.cropper-modal-footer {
-  margin-right: 7%;
-}
-
-.cropper-modal-footer button {
-  border-radius: 3px;
-}
-
-.cropper-modal-footer button:first-child {
-  margin-right: 10px;
-}
-
-.copper {
-  width: 400px;
-  height: 400px;
-}
-
-@media all and (max-width: 460px) {
-  .copper {
-    width: 300px;
-    height: 300px;
+.image-uploader {
+  input {
+    display: none;
   }
-}
 
-@media all and (max-width: 350px) {
+  .cropper-modal-body {
+    margin: 0 auto;
+  }
+
+  .cropper-modal-footer {
+    margin-right: 7%;
+  }
+
+  .cropper-modal-footer button {
+    border-radius: 3px;
+  }
+
+  .cropper-modal-footer button:first-child {
+    margin-right: 10px;
+  }
+
   .copper {
-    width: 250px;
-    height: 250px;
+    width: 400px;
+    height: 400px;
+  }
+
+  @media all and (max-width: 460px) {
+    .copper {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  @media all and (max-width: 350px) {
+    .copper {
+      width: 250px;
+      height: 250px;
+    }
   }
 }

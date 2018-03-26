@@ -3,13 +3,14 @@ import { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { CustomHeader, Footer } from '../../Components/';
 import { Home, Login, ForgotPassword, Register, ResetPassword, Help, Profile } from '../../Pages/';
+import './NoSideBarLayout.scss';
 
 export class NoSideBarLayout extends Component {
   render() {
     return (
       <div className="app no-side-bar">
         <CustomHeader />
-        <div className="app sidebar-hidden">
+        <div className="app-body">
           <main className="main">
             <Switch>
               <Route exact path="/" name="Home" component={Home} />

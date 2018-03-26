@@ -11,7 +11,7 @@ import {
 import toBase64 from '../../Utilities/toBase64';
 import './ImageUploader.scss';
 
-const SERVER_URL = 'teamradio-server-url';
+// const SERVER_URL = 'teamradio-server-url';
 
 export class ImageUploader extends Component<any, any> {
   private inputFileTag: any;
@@ -118,7 +118,7 @@ export class ImageUploader extends Component<any, any> {
   render() {
     const {aspectRatio} = this.props;
     return (
-      <div>
+      <div className="image-uploader">
         <input
           type="file"
           ref={ref => {
