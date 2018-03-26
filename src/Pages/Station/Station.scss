@@ -9,3 +9,9 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.btn-no-shadow {
+  &:focus {
+    box-shadow: none;
+  }
+}

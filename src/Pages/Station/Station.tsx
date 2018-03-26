@@ -1,15 +1,78 @@
 import * as React from 'react';
 import { Component } from 'react';
+import * as classNames from 'classnames';
 import './Station.scss';
 
 import { NowPlaying } from '../../Modules/Station/Components/NowPlaying';
 
-export class Station extends Component {
+const buttonActions = {
+  muted: {
+    iconOn: 'fa fa-volume-up',
+    iconOff: 'fa fa-volume-off',
+  },
+  passive: {
+    iconOn: 'fa fa-lightbulb-o',
+    iconOff: 'fa fa-lightbulb-o',
+  },
+  share: {
+    iconOn: 'fa fa-share-alt',
+    iconOff: 'fa fa-share-alt',
+  },
+};
+
+interface Props {}
+
+interface State {
+  muted: boolean;
+  isPassive: boolean;
+}
+
+export class Station extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      muted: false,
+      isPassive: false,
+    };
+  }
+
+  _onVolumeClick = () => {
+    this.setState({
+      muted: !this.state.muted,
+    });
+  };
+
+  _onLightClick = () => {
+    this.setState({
+      isPassive: !this.state.isPassive,
+    });
+  };
+
   render() {
-    const muted = false;
-    const playlist_length = 3;
-    const isPassive = false;
-    const isShare = false;
+    const muted = this.state.muted;
+    const isPassive = this.state.isPassive;
+
+    const _renderButton = (
+      flag: boolean,
+      { iconOn, iconOff }: any,
+      handleClick: any,
+    ) => {
+      const classes = {
+        icon: classNames(flag ? iconOn : iconOff),
+      };
+      const activeButton = flag ? 'btn-primary' : 'btn-default';
+
+      return (
+        <button
+          type="button"
+          className={classNames(['btn btn-no-shadow', activeButton])}
+          onClick={handleClick}
+        >
+          <i className={classes.icon} />
+        </button>
+      );
+    };
 
     return (
       <div className="container">
@@ -20,22 +83,15 @@ export class Station extends Component {
                 <h1>Station name</h1>
               </div>
               <div className="nowplaying-actions">
-                <button type="button" className="btn">
-                  {muted ? (
-                    <i className="fa fa-volume-up" />
-                  ) : (
-                    <i className="fa fa-volume-off" />
-                  )}
-                </button>
-                <button type="button" className="btn">
-                  {isPassive ? undefined : <i className="fa fa-lightbulb-o" />}
-                </button>
-                <button type="button" className="btn">
-                  {isShare ? undefined : <i className="fa fa-share-alt" />}
-                </button>
+                {_renderButton(muted, buttonActions.muted, this._onVolumeClick)}
+                {_renderButton(
+                  isPassive,
+                  buttonActions.passive,
+                  this._onLightClick,
+                )}
               </div>
             </div>
-            <NowPlaying />
+            <NowPlaying muted={muted} />
           </div>
           <div className="col-4">
             <span>this is playlist</span>

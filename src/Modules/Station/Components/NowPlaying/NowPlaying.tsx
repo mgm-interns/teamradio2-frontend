@@ -6,7 +6,7 @@ import { StationPlayer } from '../../../../Components/StationPlayer';
 interface Props {
   // nowPlaying: object;
   // autoPlay: boolean;
-  // muted: boolean;
+  muted: boolean;
   // skip: object;
 }
 
@@ -43,9 +43,10 @@ export class NowPlaying extends Component<Props, State> {
 
   render() {
     const url = 'https://www.youtube.com/watch?v=cmSbXsFE3l8';
+    const { muted }: Props = this.props;
 
     return (
-      <StationPlayer url={url} playing={true} showProgressbar muted={true} />
+      <StationPlayer url={url} playing={true} showProgressbar muted={muted} />
     );
   }
 
