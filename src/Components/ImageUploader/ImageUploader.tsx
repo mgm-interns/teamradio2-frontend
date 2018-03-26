@@ -129,7 +129,7 @@ export class ImageUploader extends Component<any, any> {
         />
         <div>
           <Modal isOpen={this.state.isOpenCropModal} toggle={this.setAllValueToDefault}>
-            <ModalHeader>Crop your new profile photo</ModalHeader>
+            <ModalHeader>Crop your photo</ModalHeader>
             <ModalBody className="cropper-modal-body">
               <Cropper
                 ref='cropper'
