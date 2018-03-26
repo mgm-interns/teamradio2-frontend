@@ -17,6 +17,7 @@ export class Profile extends Component {
           <ProfileNavBar/>
         </div>
         <div>
+          {/*em chi de ke nhe =))))))*/}
           <Playlist/>
         </div>
       </div>

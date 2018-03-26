@@ -3,7 +3,7 @@ import { Component } from 'react';
 import FlipMoveList from 'react-flip-move';
 import { Card, CardBody } from 'reactstrap';
 import './Playlist.scss';
-import { Item } from "./Item";
+import { ItemPlaylist } from "./ItemPlaylist";
 
 export class Playlist extends Component<any, any> {
   constructor(props: any) {
@@ -11,7 +11,7 @@ export class Playlist extends Component<any, any> {
   }
 
   render() {
-    const nowPlaying = false;
+    const nowPlaying = true;
     if (!nowPlaying) {
       return (
         <Card className="play-list">
@@ -24,8 +24,13 @@ export class Playlist extends Component<any, any> {
     } else {
       return (
         <Card className="play-list">
-          <FlipMoveList>
-            <Item key={1}/>
+          <FlipMoveList
+            style={{
+              paddingTop: 0,
+              paddingBottom: 0,
+            }}>
+            <ItemPlaylist isPlaying={true} isSkip={false} key={1}/>
+            <ItemPlaylist isSkip={true} mess={`Iloveyou`} key={2}/>
           </FlipMoveList>
         </Card>
       )
