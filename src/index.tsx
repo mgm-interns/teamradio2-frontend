@@ -1,8 +1,6 @@
-require("babel-polyfill");
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {BrowserRouter, HashRouter, Route, Switch} from 'react-router-dom';
-import 'cropperjs/dist/cropper.css';
 
 // Styles
 // Import Flag Icons Set

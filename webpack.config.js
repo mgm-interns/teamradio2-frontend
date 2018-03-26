@@ -41,7 +41,7 @@ function getClientEnvironment() {
 module.exports = (env = {}) => {
   return {
     entry: {
-      index: [SRC_DIR + '/index.tsx']
+      index: ['babel-polyfill', SRC_DIR + '/index.tsx']
     },
     output: {
       path: BUILD_DIR,
@@ -66,7 +66,7 @@ module.exports = (env = {}) => {
         {
           test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
-          loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=env&presets[]=stage-0!awesome-typescript-loader'
+          loader: 'babel-loader?presets[]=react&presets[]=env&presets[]=stage-0!awesome-typescript-loader'
         },
         {
           test: /\.(js|jsx)$/,
