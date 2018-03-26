@@ -3,7 +3,7 @@ import { Component } from 'react';
 import * as classNames from 'classnames';
 import './Station.scss';
 
-import { NowPlaying } from '../../Modules/Station/Components/NowPlaying';
+import { NowPlaying, Sharing } from '../../Modules/Station/Components';
 
 const buttonActions = {
   muted: {
@@ -32,7 +32,7 @@ export class Station extends Component<Props, State> {
     super(props);
 
     this.state = {
-      muted: false,
+      muted: true,
       isPassive: false,
     };
   }
@@ -79,7 +79,7 @@ export class Station extends Component<Props, State> {
         <div className="row u-margin-top-medium">
           <div className="col-8 ">
             <div className="row nowplaying-header">
-              <div className="">
+              <div>
                 <h1>Station name</h1>
               </div>
               <div className="nowplaying-actions">
@@ -89,6 +89,7 @@ export class Station extends Component<Props, State> {
                   buttonActions.passive,
                   this._onLightClick,
                 )}
+                <Sharing />
               </div>
             </div>
             <NowPlaying muted={muted} />
