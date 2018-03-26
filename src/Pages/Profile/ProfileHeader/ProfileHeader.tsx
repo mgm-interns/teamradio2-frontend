@@ -4,7 +4,7 @@ import {
   Container,
   Row
 } from 'reactstrap';
-import { ImageUploader } from "../../../Components/ImageUploader";
+import { ImageUploader } from "../../../Components";
 import './ProfileHeader.scss';
 
 export class ProfileHeader extends Component<any, any> {
@@ -39,7 +39,7 @@ export class ProfileHeader extends Component<any, any> {
       isUpdateAvatar: true,
       isUpdateCover: false,
       aspectRatio: 1,
-    })
+    });
     this.imageUploader.openChooseImageModal();
   }
 
@@ -80,9 +80,7 @@ export class ProfileHeader extends Component<any, any> {
                 {/* User's avatar and name */}
                 <div className="col-sm-12 col-md-12 col-lg-6">
                   <div className="user-avatar">
-                    <div className="avatar" onClick={() => {
-                      this.uploadAvatar()
-                    }}>
+                    <div className="avatar" onClick={this.uploadAvatar}>
                       <img src={this.state.avatarUrl} className="rounded-circle" alt="User Avatar"/>
                       <div className="avatar-hover">
                         <span>camera_alt</span>
