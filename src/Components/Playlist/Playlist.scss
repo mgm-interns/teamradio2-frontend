@@ -1,0 +1,24 @@
+.play-list {
+  width: 100%;
+  margin: auto;
+  position: relative;
+  height: 300px;
+  font-family: 'Roboto Slab', sans-serif;
+  width: 500px;
+  .play-list-none {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: auto;
+    & > i {
+      font-size: 56px;
+    }
+  }
+}
+
+@media (min-width: 960px) {
+  .play-list {
+    height: 600px;
+  }
+}

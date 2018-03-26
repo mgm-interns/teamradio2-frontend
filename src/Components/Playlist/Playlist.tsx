@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Jumbotron, Container } from 'reactstrap';
+import FlipMoveList from 'react-flip-move';
+import { Card, CardBody } from 'reactstrap';
 import './Playlist.scss';
+import { Item } from "./Item";
 
 export class Playlist extends Component<any, any> {
   constructor(props: any) {
@@ -9,16 +11,26 @@ export class Playlist extends Component<any, any> {
   }
 
   render() {
-    return (
-      <div>
-        <Jumbotron fluid>
-          <Container fluid>
-            <h1 className="display-3">Fluid jumbotron</h1>
-            <p className="lead">This is a modified jumbotron that occupies the entire horizontal space of its
-              parent.</p>
-          </Container>
-        </Jumbotron>
-      </div>
-    )
+    const nowPlaying = false;
+    if (!nowPlaying) {
+      return (
+        <Card className="play-list">
+          <CardBody className="play-list-none">
+            <i className="fa fa-warning"></i>
+            <h3>There is no song in the playlist.<br/>Please add new song.</h3>
+          </CardBody>
+        </Card>
+      )
+    } else {
+      return (
+        <Card className="play-list">
+          <FlipMoveList>
+            <Item key={1}/>
+          </FlipMoveList>
+        </Card>
+      )
+    }
+
   }
+
 }
