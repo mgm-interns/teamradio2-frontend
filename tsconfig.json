@@ -7,12 +7,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "module": "commonjs",
-    "target": "es5",
-    "lib": [
-      "es5",
-      "es2015.promise",
-      "dom"
-    ],
+    "target": "es2016",
     "jsx": "react"
   },
   "include": [
