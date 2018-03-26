@@ -3,6 +3,8 @@ import { Component } from 'react';
 import { Progress } from 'reactstrap';
 import ReactPlayer from 'react-player';
 
+import './StationPlayer.scss';
+
 const ACCEPTABLE_DELAY = 1;
 
 interface Props {
@@ -72,7 +74,15 @@ export class StationPlayer extends Component<Props, State> {
         width="100%"
         height="60vh"
       />,
-      showProgressbar && <Progress key={2} color="info" value={30} />,
+      showProgressbar && (
+        <Progress
+          key={2}
+          className="progress"
+          animated
+          color="info"
+          value={10.2}
+        />
+      ),
     ];
   }
 
