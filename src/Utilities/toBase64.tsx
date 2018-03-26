@@ -2,7 +2,7 @@ export default (file: any) =>
   new Promise((resolve: any, reject: any) => {
     const fileReader = new FileReader();
 
-    fileReader.onload = ({target}) => {
+    fileReader.onload = () => {
       resolve(fileReader.result);
     };
 
