@@ -10,7 +10,7 @@ export const initialState: UserState = {
   isAuthenticated: false,
 };
 
-const userReducer: Reducer<UserState> = (state: UserState = initialState, action) => {
+export const userReducer: Reducer<UserState> = (state: UserState = initialState, action) => {
   switch (action.type) {
     case USERS_LIST_UPDATED:
       return {...state, data: action.data};
@@ -18,5 +18,3 @@ const userReducer: Reducer<UserState> = (state: UserState = initialState, action
       return state;
   }
 };
-
-export default userReducer;

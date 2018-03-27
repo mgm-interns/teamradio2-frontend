@@ -1,6 +1,6 @@
 import { combineReducers, Reducer } from 'redux';
 
-import userReducer from '../../Modules/User/Redux/Reducer';
+import { userReducer } from '../../Modules/User/Redux/Reducer';
 import { UserState } from "../../Modules/User/Redux/Types";
 
 // The top-level state object
