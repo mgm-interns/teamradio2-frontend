@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { UserState } from '../Types';
-import { USERS_LIST_UPDATED } from "../Constants";
+import { sampleConstants } from "../Constants";
 
 // Type-safe initialState
 export const initialState: UserState = {
@@ -12,7 +12,7 @@ export const initialState: UserState = {
 
 export const userReducer: Reducer<UserState> = (state: UserState = initialState, action) => {
   switch (action.type) {
-    case USERS_LIST_UPDATED:
+    case sampleConstants.USERS_LIST_UPDATED:
       return {...state, data: action.data};
     default:
       return state;

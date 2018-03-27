@@ -1,4 +1,4 @@
-import { USERS_LIST_UPDATED } from "../Constants";
+import { sampleConstants } from "../Constants";
 
 export interface UserState {
   data: object,
@@ -15,7 +15,7 @@ export interface UserInfo {
 import { Action } from 'redux';
 
 export interface UserListUpdateAction extends Action {
-  type: USERS_LIST_UPDATED;
+  type: typeof sampleConstants.USERS_LIST_UPDATED,
   payload: {
     users: UserInfo[];
   }
