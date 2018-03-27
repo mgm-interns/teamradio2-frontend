@@ -6,15 +6,17 @@
   }
 
   &__duration {
-    margin-left: 10px;
+    margin-left: 5px;
   }
 
   &__input {
     margin-top: 10px;
   }
 
-  &__button {
+  &__buttons {
     margin-top: 10px;
-    float: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
   }
 }
