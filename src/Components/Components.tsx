@@ -6,3 +6,5 @@ export { CustomHeader } from './CustomHeader';
 export { Sidebar } from './Sidebar';
 export { LoadingIndicator } from './LoadingIndicator';
 export { ImageUploader } from './ImageUploader';
+export { History } from './History';
+export { Favourite } from './Favourite';
