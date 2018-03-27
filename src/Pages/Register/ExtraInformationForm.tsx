@@ -8,19 +8,19 @@ export class ExtraInformationForm extends Component {
         <h2>A registered user can:</h2>
         <ul>
           <li>
-            <i className="icon-check"></i>
+            <i className="icon-check" />
             <span>Edit profile</span>
           </li>
           <li>
-            <i className="icon-check"></i>
+            <i className="icon-check" />
             <span>Increase your reputation</span>
           </li>
           <li>
-            <i className="icon-check"></i>
+            <i className="icon-check" />
             <span>Play more songs than these anonymous freaks</span>
           </li>
           <li>
-            <i className="icon-check"></i>
+            <i className="icon-check" />
             <span>See some information of the past activities</span>
           </li>
         </ul>

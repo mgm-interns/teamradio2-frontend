@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { CustomHeader, Footer } from '../../Components/';
-import { Home, Login, ForgotPassword, Register, ResetPassword, Help, Profile } from '../../Pages/';
+import { CustomHeader, Footer } from 'Components';
+import { Home, Login, ForgotPassword, Register, ResetPassword, Help, Profile } from 'Pages';
 import './NoSideBarLayout.scss';
 
 export class NoSideBarLayout extends Component {

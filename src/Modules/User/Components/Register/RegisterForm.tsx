@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
 import { Button, InputGroup, FormFeedback, InputGroupAddon, InputGroupText } from 'reactstrap';
-import { Rules, Validator } from '../../../../Helpers';
+import { Rules, Validator } from 'Helpers';
 
 interface FormValues {
   displayName: string;

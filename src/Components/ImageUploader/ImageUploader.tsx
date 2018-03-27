@@ -8,7 +8,7 @@ import {
   ModalFooter,
   Button
 } from "reactstrap";
-import toBase64 from '../../Utilities/toBase64';
+import toBase64 from 'Utilities/toBase64';
 import './ImageUploader.scss';
 
 // const SERVER_URL = 'teamradio-server-url';

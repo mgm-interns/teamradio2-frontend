@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import * as React from 'react';
 import { Container, Row, Col, Card, CardBody, CardFooter, CardLink } from 'reactstrap';
-import { LoginForm, LoginByThirdParty } from "../../Modules/User";
+import { LoginForm, LoginByThirdParty } from "Modules/User";
 import './Login.scss'
 
 export class Login extends Component {

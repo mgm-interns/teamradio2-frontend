@@ -9,6 +9,7 @@ const extractSCSS = new ExtractTextPlugin('[name].styles.css');
 
 const BUILD_DIR = path.resolve(__dirname, 'build');
 const SRC_DIR = path.resolve(__dirname, 'src');
+const NODE_MODULES_DIR = path.resolve(__dirname, 'node_modules');
 
 console.log('BUILD_DIR', BUILD_DIR);
 console.log('SRC_DIR', SRC_DIR);
@@ -45,7 +46,7 @@ module.exports = (env = {}) => {
     },
     output: {
       path: BUILD_DIR,
-      filename: '[name].bundle.js',
+      filename: 'index.bundle.js',
       publicPath: '/',
     },
     // watch: true,
@@ -59,25 +60,21 @@ module.exports = (env = {}) => {
       historyApiFallback: true,
     },
     resolve: {
+      modules: [
+        path.resolve('./src'),
+        path.resolve('./node_modules')
+      ],
       extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
     module: {
       rules: [
         {
-          test: /\.(ts|tsx)$/,
-          exclude: /node_modules/,
-          loader: 'babel-loader?presets[]=react&presets[]=env&presets[]=stage-0!awesome-typescript-loader'
-        },
-        {
-          test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: true,
-              presets: ['react', 'env', 'stage-0']
-            }
-          }
+          test: /\.(ts|tsx|js|jsx)$/,
+          exclude: [/node_modules/, NODE_MODULES_DIR],
+          use: [
+            { loader: 'babel-loader' },
+            { loader: 'ts-loader' }
+          ]
         },
         {
           test: /\.html$/,
@@ -109,7 +106,6 @@ module.exports = (env = {}) => {
           test: /\.(png|jpg|jpeg|gif|ico)$/,
           use: [
             {
-              // loader: 'url-loader'
               loader: 'file-loader',
               options: {
                 name: './img/[name].[hash].[ext]'
@@ -142,7 +138,7 @@ module.exports = (env = {}) => {
         ],
         {copyUnmodified: false}
       ),
-      new webpack.DefinePlugin(getClientEnvironment().stringified),
+      new webpack.DefinePlugin(getClientEnvironment().stringified)
     ]
   }
 };

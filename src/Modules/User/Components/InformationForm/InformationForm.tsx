@@ -4,7 +4,7 @@ import { Row, Col, FormGroup, Label, Button, FormFeedback } from "reactstrap";
 import "./InformationForm.scss";
 
 import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
-import { Rules, Validator } from '../../../../Helpers';
+import { Rules, Validator } from 'Helpers';
 
 interface FormValues {
   displayName: string;

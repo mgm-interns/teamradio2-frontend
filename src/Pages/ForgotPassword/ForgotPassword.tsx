@@ -5,14 +5,14 @@ import {
   Card, CardBody,
 } from 'reactstrap';
 
-import { ForgotPasswordForm } from '../../Modules/User';
+import { ForgotPasswordForm } from 'Modules/User';
 import './ForgotPassword.scss';
 
 export class ForgotPassword extends Component {
   render() {
     return (
       <div className="forgot-password">
-        <div className="forgot-password__background-image"></div>
+        <div className="forgot-password__background-image" />
         <div className="app flex-row align-items-center">
           <Container>
             <Row className="justify-content-center">

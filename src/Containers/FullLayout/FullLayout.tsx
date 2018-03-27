@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
-import { Aside, Header, Sidebar, Breadcrumb, Footer } from '../../Components/';
+import { Aside, Header, Sidebar, Breadcrumb, Footer } from 'Components';
 
-import { Dashboard, ForgotPassword } from '../../Pages/';
+import { Dashboard } from 'Pages';
 
 export class FullLayout extends Component {
   render() {
