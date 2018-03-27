@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
 import * as classNames from 'classnames';
-import { Row, Col, Container } from 'reactstrap';
+import { Row, Col, Container, Button } from 'reactstrap';
 import './Station.scss';
 
-import { NowPlaying, Sharing } from '../../Modules/Station/Components';
+import { NowPlaying, StationSharing } from '../../Modules/Station/Components';
 
 const buttonActions = {
   muted: {
@@ -62,16 +62,17 @@ export class Station extends Component<Props, State> {
       const classes = {
         icon: classNames(flag ? iconOn : iconOff),
       };
-      const activeButton = flag ? 'btn-primary' : 'btn-default';
+      const activeButton = flag ? 'primary' : 'secondary';
 
       return (
-        <button
+        <Button
           type="button"
-          className={classNames(['btn btn-no-shadow', activeButton])}
+          color={activeButton}
+          className="btn btn-no-shadow"
           onClick={handleClick}
         >
           <i className={classes.icon} />
-        </button>
+        </Button>
       );
     };
 
@@ -90,7 +91,7 @@ export class Station extends Component<Props, State> {
                   buttonActions.passive,
                   this._onLightClick,
                 )}
-                <Sharing />
+                <StationSharing />
               </div>
             </Row>
             <NowPlaying muted={muted} />

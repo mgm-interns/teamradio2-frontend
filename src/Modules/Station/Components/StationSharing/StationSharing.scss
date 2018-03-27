@@ -1,0 +1,10 @@
+.btn-no-shadow {
+  &:focus {
+    box-shadow: none;
+  }
+  min-width: 39px;
+}
+
+.input-link {
+  background-color: #fff;
+}
