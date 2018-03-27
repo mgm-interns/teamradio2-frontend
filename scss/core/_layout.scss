@@ -10,9 +10,9 @@
 .app,
 app-dashboard,
 app-root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  //display: flex;
+  //flex-direction: column;
+  //min-height: 100vh;
 }
 
 .app-header {
@@ -57,7 +57,7 @@ app-root {
     width: 100%;
   }
   .app-body {
-    margin-top: $navbar-height;
+    //margin-top: $navbar-height;
   }
 }
 
@@ -330,7 +330,7 @@ app-root {
   }
 
   .app-body {
-    margin-top: $navbar-height;
+    //margin-top: $navbar-height;
   }
 
   .breadcrumb-fixed {
