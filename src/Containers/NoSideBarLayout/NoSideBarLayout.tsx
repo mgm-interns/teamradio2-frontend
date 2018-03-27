@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { CustomHeader, Footer } from 'Components';
-import { Home, Login, ForgotPassword, Register, ResetPassword, Help, Profile, AddLink } from 'Pages';
+import { Home, Login, ForgotPassword, Register, ResetPassword, Help, Profile, AddLink, Station } from 'Pages';
 import './NoSideBarLayout.scss';
 
 export class NoSideBarLayout extends Component {
@@ -19,6 +19,8 @@ export class NoSideBarLayout extends Component {
               <Route path="/forgot-password" name="ForgotPassword" component={ForgotPassword}/>
               <Route path="/reset-password" name="ResetPassword" component={ResetPassword}/>
               <Route path="/help" name="Help" component={Help} />
+              <Route path="/profile" name="Profile" component={Profile} />
+              <Route path="/station" name="Station" component={Station} />
               <Route path="/profile" name="Profile" component={Profile}/>
               <Route path="/add-link" name="Profile" component={AddLink}/>
               <Redirect from="/" to="/" />

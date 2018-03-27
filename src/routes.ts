@@ -6,5 +6,6 @@ const routes: any = {
   '/forgot-password': 'ForgotPassword',
   '/reset-password': 'ResetPassword',
   '/help': 'Help',
+  '/station': 'Station',
 };
 export default routes;
