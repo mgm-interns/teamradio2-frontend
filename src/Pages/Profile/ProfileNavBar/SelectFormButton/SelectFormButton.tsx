@@ -6,8 +6,8 @@ import {
   DropdownItem,
   DropdownToggle
 } from 'reactstrap';
-import { InformationForm } from "../../../../Modules/User/Components/InformationForm";
-import { PasswordForm } from "../../../../Modules/User/Components/PasswordForm";
+import { InformationForm } from "Modules/User/Components/InformationForm";
+import { PasswordForm } from "Modules/User/Components/PasswordForm";
 import './SelectFormButton.scss';
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 

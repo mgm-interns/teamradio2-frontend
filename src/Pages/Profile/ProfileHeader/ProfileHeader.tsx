@@ -4,7 +4,7 @@ import {
   Container,
   Row
 } from 'reactstrap';
-import { ImageUploader } from "../../../Components";
+import { ImageUploader } from "Components";
 import './ProfileHeader.scss';
 
 export class ProfileHeader extends Component<any, any> {

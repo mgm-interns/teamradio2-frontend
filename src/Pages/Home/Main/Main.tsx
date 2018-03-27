@@ -1,12 +1,5 @@
 import * as React from 'react';
 import { Component } from 'react';
-import {
-  Button,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-} from 'reactstrap';
 import './Main.scss';
 
 export class Main extends Component {

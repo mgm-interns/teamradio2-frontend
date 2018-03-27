@@ -5,9 +5,9 @@ import { Badge, Nav, NavItem, NavLink as RsNavLink } from 'reactstrap';
 import * as classNames from 'classnames';
 import nav from './_nav';
 import { SidebarFooter } from '../SidebarFooter';
-import { SidebarForm } from './../SidebarForm';
-import { SidebarHeader } from './../SidebarHeader';
-import { SidebarMinimizer } from './../SidebarMinimizer';
+import { SidebarForm } from '../SidebarForm';
+import { SidebarHeader } from '../SidebarHeader';
+import { SidebarMinimizer } from '../SidebarMinimizer';
 
 export class Sidebar extends Component {
 

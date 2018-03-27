@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { RegisterForm } from "../../Modules/User";
+import { RegisterForm } from "Modules/User";
 import { ExtraInformationForm } from './ExtraInformationForm';
 import '../Register/Register.scss';
 import { Row, Col, CardLink, Container } from 'reactstrap';

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import {
-  Nav,
-  NavItem,
   NavbarToggler,
   NavbarBrand,
 } from 'reactstrap';

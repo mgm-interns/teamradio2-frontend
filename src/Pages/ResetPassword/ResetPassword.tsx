@@ -4,14 +4,14 @@ import {
   Container, Row, Col,
   Card, CardBody,
 } from 'reactstrap';
-import { ResetPasswordForm } from '../../Modules/User';
+import { ResetPasswordForm } from 'Modules/User';
 import './ResetPassword.scss';
 
 export class ResetPassword extends Component {
   render() {
     return (
       <div className="reset-password">
-        <div className="reset-password__background-image"></div>
+        <div className="reset-password__background-image" />
         <div className="app flex-row align-items-center">
           <Container>
             <Row className="justify-content-center">
