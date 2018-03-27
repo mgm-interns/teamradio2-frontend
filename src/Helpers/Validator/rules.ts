@@ -1,4 +1,4 @@
-import { EMAIL_REGEX, USERNAME_REGEX, DISPLAY_NAME_REGEX } from "./regExRules";
+import { EMAIL_REGEX, USERNAME_REGEX, DISPLAY_NAME_REGEX } from "./regexRules";
 
 const required = {
   test: (value: any) => value,
