@@ -17,13 +17,18 @@ export class AddLink extends Component<any, AddLinkState> {
       preview: undefined
     };
 
-
     this.setPreviewVideo = this.setPreviewVideo.bind(this);
   }
 
-  setPreviewVideo(preview: any) {
-    console.log(preview)
-    this.setState({
+  setStateAsync(state: any) {
+    return new Promise((resolve) => {
+      this.setState(state, resolve)
+    });
+  }
+
+  async  setPreviewVideo(preview: any) {
+    console.log(preview);
+    await this.setStateAsync({
       preview: preview
     });
   }
@@ -41,13 +46,10 @@ export class AddLink extends Component<any, AddLinkState> {
                 <Col sm="8" xs="12">
                   <PreviewVideo video={this.state.preview}/>
                 </Col>
-
               </Row>
-
             </CardBody>
           </Card>
         </Container>
-
       </div>
     )
   }

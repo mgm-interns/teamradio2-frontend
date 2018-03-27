@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import * as Autosuggest from 'react-autosuggest';
-import axios from 'axios';
-
-const REACT_APP_YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3';
-const REACT_APP_YOUTUBE_API_KEY = 'AIzaSyD_HCz-IjU056WTFjBgWYmjjg1YnwRPXXM';
-
-
+import { YoutubeHelper } from "../../../../Helpers";
 import './SearchSong.scss';
 
 interface SearchSongState {
@@ -24,48 +19,13 @@ export class SearchSong extends Component<any, SearchSongState> {
     };
   }
 
-  getVideoList = async (videoIds: string) => {
-    const {data: {items}} = await axios.get(
-      `${REACT_APP_YOUTUBE_API_URL}/videos`,
-      {
-        params: {
-          key: REACT_APP_YOUTUBE_API_KEY,
-          part: 'id,snippet,contentDetails,status',
-          id: videoIds,
-        },
-      },
-    );
-    return items;
-  };
-
   getSuggestions = async (value: string) => {
-    const {data: {items}} = await axios.get(
-      `${REACT_APP_YOUTUBE_API_URL}/search`,
-      {
-        params: {
-          key: REACT_APP_YOUTUBE_API_KEY,
-          q: value,
-          part: 'snippet',
-          safeSearch: 'strict',
-          // regionCode: 'VN', //	STAMEQ
-          type: 'video',
-          videoEmbeddable: 'true',
-          // videoSyndicated: 'true',
-          maxResults: 5,
-          videoDefinition: 'any',
-          relevanceLanguage: 'en',
-        },
-      },
-    );
-
+    const items = await YoutubeHelper.fetchVideo(value);
     let videoIds = '';
     items.forEach((item: any) => {
       videoIds += `${item.id.videoId},`;
     });
-
-    const result = await this.getVideoList(videoIds);
-    console.log(result);
-    return result;
+    return await YoutubeHelper.getVideoList(videoIds);
   };
 
   getSuggestionValue = (suggestion: any) => suggestion.snippet.title;
@@ -80,15 +40,25 @@ export class SearchSong extends Component<any, SearchSongState> {
   );
 
   onChange = (event: any, {newValue}: any) => {
+    if(newValue === '') {
+      this.props.setPreviewVideo(undefined);
+    }
     this.setState({
       value: newValue
     });
   };
 
   onSuggestionsFetchRequested = async ({value}: any) => {
-    this.setState({
-      suggestions: await this.getSuggestions(value)
-    });
+    const videoId = YoutubeHelper.validYoutubeUrl(value);
+    if(videoId) {
+      const videoList = await YoutubeHelper.getVideoList(videoId);
+      this.props.setPreviewVideo(videoList[0]);
+    }
+    else {
+      this.setState({
+        suggestions: await this.getSuggestions(value)
+      });
+    }
   };
 
   onSuggestionsClearRequested = () => {
