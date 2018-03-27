@@ -27,7 +27,6 @@
     "source-list-map": "2.0.0",
     "source-map-loader": "^0.2.3",
     "style-loader": "0.20.1",
-    "ts-loader": "^3.5.0",
     "typescript": "^2.7.2",
     "uglify-js": "3.3.9",
     "url-loader": "0.6.2",
