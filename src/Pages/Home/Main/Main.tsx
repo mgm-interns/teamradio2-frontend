@@ -3,7 +3,7 @@ import { Component } from 'react';
 import './Main.scss';
 
 export class Main extends Component {
-  render() {
+  public render() {
     return (
       <header className="header">
         <div className="header__text-box">

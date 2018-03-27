@@ -1,51 +1,62 @@
+import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
+import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
-import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
-import { Button, FormGroup, InputGroup, FormFeedback } from 'reactstrap';
-import { Rules, Validator } from 'Helpers';
+import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
 
-interface FormValues {
+interface IFormValues {
   email: string;
 }
 
-const InnerForm = (props: FormikProps<FormValues>) => {
+const InnerForm = (props: FormikProps<IFormValues>) => {
   const { touched, errors, isSubmitting } = props;
   return (
     <Form>
       <FormGroup>
         <InputGroup>
-          <Field type="email" name="email" className="form-control" placeholder="Your email"/>
-          {touched.email && errors.email && <FormFeedback>{errors.email}</FormFeedback>}
+          <Field
+            type="email"
+            name="email"
+            className="form-control"
+            placeholder="Your email"
+          />
+          {touched.email &&
+            errors.email && <FormFeedback>{errors.email}</FormFeedback>}
         </InputGroup>
       </FormGroup>
 
-      <Button color="success" block disabled={isSubmitting}>Reset password</Button>
+      <Button color="success" block disabled={isSubmitting}>
+        Reset password
+      </Button>
     </Form>
   );
 };
 
 // The type of props FormWrapper receives
-interface FormProps {
+interface IFormProps {
   initialEmail?: string;
 }
 
-const FormWrapper = withFormik<FormProps, FormValues>({
+const FormWrapper = withFormik<IFormProps, IFormValues>({
   mapPropsToValues: props => {
     return {
       email: props.initialEmail || '',
     };
   },
 
-  validate: (values: FormValues) => {
-    let errors: FormikErrors<any> = {};
-    const {required, validEmail} = Rules;
-    const emailValidator = new Validator("Email", values.email, [required, validEmail]);
+  validate: (values: IFormValues) => {
+    const errors: FormikErrors<any> = {};
+    const { required, validEmail } = Rules;
+    const emailValidator = new Validator('Email', values.email, [
+      required,
+      validEmail,
+    ]);
     errors.email = emailValidator.validate();
     return Validator.removeUndefinedError(errors);
   },
 
   handleSubmit: values => {
-    console.log(values)
+    console.log(values);
   },
 })(InnerForm);
 
@@ -54,8 +65,7 @@ export class ForgotPasswordForm extends Component<any, any> {
     super(props);
   }
 
-  render() {
-    return (<FormWrapper/>)
+  public render() {
+    return <FormWrapper />;
   }
-
 }

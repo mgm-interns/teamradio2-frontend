@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Row, Col, FormGroup, Label, Button, FormFeedback } from "reactstrap";
-import "./InformationForm.scss";
+import { Button, Col, FormFeedback, FormGroup, Label, Row } from 'reactstrap';
+import './InformationForm.scss';
 
-import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
+import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
 
-interface FormValues {
+interface IFormValues {
   displayName: string;
   userName: string;
   email: string;
@@ -18,16 +18,24 @@ interface FormValues {
   onCloseModal: any;
 }
 
-const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
-  const {touched, errors, isSubmitting} = props;
+const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
+  const { touched, errors, isSubmitting } = props;
   return (
     <Form className="information-form">
       <Row>
         <Col xs="12">
           <FormGroup>
             <Label htmlFor="displayName">Display name</Label>
-            <Field className="form-control" type="text" name="displayName" placeholder="Enter your Display name"/>
-            {touched.displayName && errors.displayName && <FormFeedback>{errors.displayName}</FormFeedback>}
+            <Field
+              className="form-control"
+              type="text"
+              name="displayName"
+              placeholder="Enter your Display name"
+            />
+            {touched.displayName &&
+              errors.displayName && (
+                <FormFeedback>{errors.displayName}</FormFeedback>
+              )}
           </FormGroup>
         </Col>
       </Row>
@@ -35,8 +43,14 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
         <Col xs="12">
           <FormGroup>
             <Label htmlFor="userName">User name</Label>
-            <Field className="form-control" type="text" name="userName" placeholder="Enter your username"/>
-            {touched.userName && errors.userName && <FormFeedback>{errors.userName}</FormFeedback>}
+            <Field
+              className="form-control"
+              type="text"
+              name="userName"
+              placeholder="Enter your username"
+            />
+            {touched.userName &&
+              errors.userName && <FormFeedback>{errors.userName}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
@@ -44,7 +58,13 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
         <Col xs="12">
           <FormGroup>
             <Label htmlFor="email">Email</Label>
-            <Field className="form-control" type="email" name="email" placeholder="Enter your Email" readOnly/>
+            <Field
+              className="form-control"
+              type="email"
+              name="email"
+              placeholder="Enter your Email"
+              readOnly
+            />
           </FormGroup>
         </Col>
       </Row>
@@ -52,7 +72,12 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
         <Col xs="12">
           <FormGroup>
             <Label htmlFor="firstName">First name</Label>
-            <Field className="form-control" type="text" name="firstName" placeholder="Enter your First name"/>
+            <Field
+              className="form-control"
+              type="text"
+              name="firstName"
+              placeholder="Enter your First name"
+            />
           </FormGroup>
         </Col>
       </Row>
@@ -60,7 +85,12 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
         <Col xs="12">
           <FormGroup>
             <Label htmlFor="lastName">Last name</Label>
-            <Field className="form-control" type="text" name="lastName" placeholder="Enter your Last name"/>
+            <Field
+              className="form-control"
+              type="text"
+              name="lastName"
+              placeholder="Enter your Last name"
+            />
           </FormGroup>
         </Col>
       </Row>
@@ -68,7 +98,12 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
         <Col xs="12">
           <FormGroup>
             <Label htmlFor="bio">Bio</Label>
-            <Field className="form-control" type="text" name="bio" placeholder="Enter your Bio"/>
+            <Field
+              className="form-control"
+              type="text"
+              name="bio"
+              placeholder="Enter your Bio"
+            />
           </FormGroup>
         </Col>
       </Row>
@@ -76,7 +111,12 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
         <Col xs="12">
           <FormGroup>
             <Label htmlFor="city">City</Label>
-            <Field className="form-control" type="text" name="city" placeholder="Enter your City"/>
+            <Field
+              className="form-control"
+              type="text"
+              name="city"
+              placeholder="Enter your City"
+            />
           </FormGroup>
         </Col>
       </Row>
@@ -84,20 +124,30 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
         <Col xs="12">
           <FormGroup>
             <Label htmlFor="country">Country</Label>
-            <Field className="form-control" type="text" name="country" placeholder="Enter your Country"/>
+            <Field
+              className="form-control"
+              type="text"
+              name="country"
+              placeholder="Enter your Country"
+            />
           </FormGroup>
         </Col>
       </Row>
       <div className="footer-form">
-        <Button color="secondary" onClick={() => props.onCloseModal()}>CANCEL</Button>
-        <Button type="submit" color="primary" disabled={isSubmitting}>SAVE</Button>
+        {/* tslint:disable-next-line */}
+        <Button color="secondary" onClick={() => props.onCloseModal()}>
+          CANCEL
+        </Button>
+        <Button type="submit" color="primary" disabled={isSubmitting}>
+          SAVE
+        </Button>
       </div>
     </Form>
   );
 };
 
 // The type of props FormWrapper receives
-interface FormProps {
+interface IFormProps {
   displayName?: string;
   userName?: string;
   email?: string;
@@ -109,7 +159,7 @@ interface FormProps {
   onCloseModal: any;
 }
 
-const FormWrapper = withFormik<FormProps, FormValues>({
+const FormWrapper = withFormik<IFormProps, IFormValues>({
   mapPropsToValues: props => {
     return {
       onCloseModal: props.onCloseModal,
@@ -124,13 +174,15 @@ const FormWrapper = withFormik<FormProps, FormValues>({
     };
   },
 
-  validate: (values: FormValues) => {
-    let errors: FormikErrors<any> = {};
-    const {displayName, userName} = values;
-    const {required} = Rules;
+  validate: (values: IFormValues) => {
+    const errors: FormikErrors<any> = {};
+    const { displayName, userName } = values;
+    const { required } = Rules;
 
-    const displayNameValidator = new Validator("Display Name", displayName, [required]);
-    const userNameValidator = new Validator("User name", userName, [required]);
+    const displayNameValidator = new Validator('Display Name', displayName, [
+      required,
+    ]);
+    const userNameValidator = new Validator('User name', userName, [required]);
 
     errors.displayName = displayNameValidator.validate();
     errors.userName = userNameValidator.validate();
@@ -138,19 +190,14 @@ const FormWrapper = withFormik<FormProps, FormValues>({
     return Validator.removeUndefinedError(errors);
   },
 
-  handleSubmit: (values) => {
+  handleSubmit: values => {
     console.log(values);
     values.onCloseModal();
   },
 })(InnerForm);
 
 export class InformationForm extends Component<any, any> {
-  constructor(props: any) {
-    super(props);
+  public render() {
+    return <FormWrapper onCloseModal={this.props.onCloseModal} />;
   }
-
-  render() {
-    return (<FormWrapper onCloseModal={this.props.onCloseModal}/>)
-  }
-
 }

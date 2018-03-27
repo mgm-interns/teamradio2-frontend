@@ -2,7 +2,7 @@ import { Component } from 'react';
 import * as React from 'react';
 
 export class ExtraInformationForm extends Component {
-  render() {
+  public render() {
     return (
       <div className="card-content">
         <h2>A registered user can:</h2>

@@ -1,42 +1,62 @@
+import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
+import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
-import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
-import { Button, InputGroup, FormFeedback, InputGroupAddon, InputGroupText } from 'reactstrap';
-import { Rules, Validator } from 'Helpers';
+import {
+  Button,
+  FormFeedback,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+} from 'reactstrap';
 
-interface FormValues {
+interface IFormValues {
   username: string;
   password: string;
 }
 
-const InnerForm = (props: FormikProps<FormValues>) => {
-  const {touched, errors, isSubmitting} = props;
+const InnerForm = (props: FormikProps<IFormValues>) => {
+  const { touched, errors, isSubmitting } = props;
   return (
     <Form>
       <InputGroup className="mb-3">
         <InputGroupAddon addonType="prepend">
           <InputGroupText>
-            <i className="icon-user"/>
+            <i className="icon-user" />
           </InputGroupText>
         </InputGroupAddon>
-        <Field name="username" type="text" className="form-control" placeholder="Username or Email"/>
-        {touched.username && errors.username && <FormFeedback>{errors.username}</FormFeedback>}
+        <Field
+          name="username"
+          type="text"
+          className="form-control"
+          placeholder="Username or Email"
+        />
+        {touched.username &&
+          errors.username && <FormFeedback>{errors.username}</FormFeedback>}
       </InputGroup>
       <InputGroup className="mb-3">
         <InputGroupAddon addonType="prepend">
           <InputGroupText>
-            <i className="icon-lock"/>
+            <i className="icon-lock" />
           </InputGroupText>
         </InputGroupAddon>
-        <Field name="password" type="password" className="form-control" placeholder="Password"/>
-        {touched.password && errors.password && <FormFeedback>{errors.password}</FormFeedback>}
+        <Field
+          name="password"
+          type="password"
+          className="form-control"
+          placeholder="Password"
+        />
+        {touched.password &&
+          errors.password && <FormFeedback>{errors.password}</FormFeedback>}
       </InputGroup>
-      <Button color="success" block disabled={isSubmitting}>LOG IN</Button>
+      <Button color="success" block disabled={isSubmitting}>
+        LOG IN
+      </Button>
     </Form>
   );
 };
 
-const FormWrapper = withFormik<any, FormValues>({
+const FormWrapper = withFormik<any, IFormValues>({
   mapPropsToValues: props => {
     return {
       username: '',
@@ -44,12 +64,14 @@ const FormWrapper = withFormik<any, FormValues>({
     };
   },
 
-  validate: (values: FormValues) => {
-    let errors: FormikErrors<any> = {};
-    const {username, password} = values;
-    const {required} = Rules;
-    const usernameValidator = new Validator("Username or Email", username, [required]);
-    const passwordValidator = new Validator("Password", password, [required]);
+  validate: (values: IFormValues) => {
+    const errors: FormikErrors<any> = {};
+    const { username, password } = values;
+    const { required } = Rules;
+    const usernameValidator = new Validator('Username or Email', username, [
+      required,
+    ]);
+    const passwordValidator = new Validator('Password', password, [required]);
 
     errors.username = usernameValidator.validate();
     errors.password = passwordValidator.validate();
@@ -58,7 +80,7 @@ const FormWrapper = withFormik<any, FormValues>({
   },
 
   handleSubmit: values => {
-    console.log(values)
+    console.log(values);
   },
 })(InnerForm);
 
@@ -67,8 +89,7 @@ export class LoginForm extends Component<any, any> {
     super(props);
   }
 
-  render() {
-    return (<FormWrapper/>)
+  public render() {
+    return <FormWrapper />;
   }
 }
-

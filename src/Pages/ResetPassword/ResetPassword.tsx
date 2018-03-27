@@ -1,14 +1,11 @@
+import { ResetPasswordForm } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
-import {
-  Container, Row, Col,
-  Card, CardBody,
-} from 'reactstrap';
-import { ResetPasswordForm } from 'Modules/User';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import './ResetPassword.scss';
 
 export class ResetPassword extends Component {
-  render() {
+  public render() {
     return (
       <div className="reset-password">
         <div className="reset-password__background-image" />
@@ -19,8 +16,10 @@ export class ResetPassword extends Component {
                 <Card className="mx-4">
                   <CardBody className="p-4">
                     <h1>Reset password</h1>
-                    <p className="text-muted">Please enter your new password.</p>
-                    <ResetPasswordForm/>
+                    <p className="text-muted">
+                      Please enter your new password.
+                    </p>
+                    <ResetPasswordForm />
                   </CardBody>
                 </Card>
               </Col>

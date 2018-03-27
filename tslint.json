@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-config-airbnb",
+    "tslint-react",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    // override tslint-react rules here
+    "jsx-wrap-multiline": false,
+    "no-duplicate-imports": false,
+    "no-submodule-imports": false,
+    "no-implicit-dependencies": false,
+    "jsx-boolean-value": false,
+    "variable-name": false,
+    "object-literal-sort-keys": false,
+    "import-name": false,
+    "no-console": ["warn"]
+  }
+}

@@ -1,7 +1,7 @@
 export class Validator {
-  fieldName: string;
-  fieldValue: any;
-  rules: any;
+  public fieldName: string;
+  public fieldValue: any;
+  public rules: any;
 
   constructor(fieldName: string, fieldValue: any, rules: any) {
     this.fieldName = fieldName;
@@ -9,16 +9,16 @@ export class Validator {
     this.rules = rules;
   }
 
-  validate() {
-    for(let rule of this.rules) {
-      if(!rule.test(this.fieldValue)) {
+  public validate() {
+    for (const rule of this.rules) {
+      if (!rule.test(this.fieldValue)) {
         return rule.message(this.fieldName);
       }
     }
   }
 
-  static removeUndefinedError(object: Object) {
+  // tslint:disable-next-line
+  public static removeUndefinedError(object: Object) {
     return JSON.parse(JSON.stringify(object));
   }
-
 }

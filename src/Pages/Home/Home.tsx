@@ -5,7 +5,7 @@ import { Main } from './Main';
 import { Sections } from './Sections';
 
 export class Home extends Component {
-  render() {
+  public render() {
     return [<Main key={1} />, <Sections key={2} />];
   }
 }
