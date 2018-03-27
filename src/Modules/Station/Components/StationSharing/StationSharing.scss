@@ -1,10 +1,14 @@
 .btn-no-shadow {
-  &:focus {
-    box-shadow: none;
-  }
-  min-width: 39px;
+    &:focus {
+        box-shadow: none;
+    }
+    min-width: 39px;
 }
 
 .input-link {
-  background-color: #fff;
+    background-color: #fff;
+}
+
+.dropdown-share {
+    display: inline-block;
 }

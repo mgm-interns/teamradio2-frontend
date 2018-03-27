@@ -15,10 +15,6 @@ const buttonActions = {
     iconOn: 'fa fa-lightbulb-o',
     iconOff: 'fa fa-lightbulb-o',
   },
-  share: {
-    iconOn: 'fa fa-share-alt',
-    iconOff: 'fa fa-share-alt',
-  },
 };
 
 interface Props {}
@@ -84,7 +80,7 @@ export class Station extends Component<Props, State> {
               <div>
                 <h1>Station name</h1>
               </div>
-              <div className="nowplaying-actions">
+              <div>
                 {_renderButton(muted, buttonActions.muted, this._onVolumeClick)}
                 {_renderButton(
                   isPassive,

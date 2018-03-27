@@ -2,9 +2,10 @@ import { Component } from 'react';
 import * as React from 'react';
 import {
   Button,
-  Popover,
-  PopoverHeader,
-  PopoverBody,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   Input,
   Row,
   Col,
@@ -19,7 +20,7 @@ const TWITTER_SHARING = 'http://twitter.com/share?url=';
 interface Props {}
 
 interface State {
-  popoverOpen: any;
+  dropdownOpen: any;
   url: string;
   copied: boolean;
 }
@@ -32,7 +33,7 @@ export class StationSharing extends Component<Props, State> {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      popoverOpen: false,
+      dropdownOpen: false,
       url: '',
       copied: false,
     };
@@ -50,10 +51,9 @@ export class StationSharing extends Component<Props, State> {
 
   toggle() {
     this.setState({
-      popoverOpen: !this.state.popoverOpen,
+      dropdownOpen: !this.state.dropdownOpen,
     });
   }
-
   // eslint-disable-next-line
   static _transformUrl() {
     /**
@@ -62,16 +62,16 @@ export class StationSharing extends Component<Props, State> {
     return window.location.href;
   }
 
-  _copyToClipboard() {
-    try {
-      this.inputRef.select();
-      document.execCommand('Copy');
-
-      this.setState({ copied: true });
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // _copyToClipboard() {
+  //   try {
+  //     this.inputRef.select();
+  //     console.log(this.inputRef.value);
+  //     document.execCommand('Copy');
+  //     this.setState({ copied: true });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   _shareTo(prefix: string) {
     try {
@@ -81,53 +81,48 @@ export class StationSharing extends Component<Props, State> {
     }
   }
 
+  _renderDropDownItem(icon: string, text: string, handleClick: any) {
+    return (
+      <DropdownItem onClick={handleClick}>
+        <i className={icon} />
+        <span>{text}</span>
+      </DropdownItem>
+    );
+  }
+
   ref = (input: any) => {
     this.inputRef = input;
   };
 
   render() {
     return [
-      <Button
-        key={1}
-        id="share-station"
-        className="btn-no-shadow"
-        onClick={this.toggle}
-      >
-        <i className="fa fa-share-alt" />
-      </Button>,
-      <Popover
+      <Input key={1} innerRef={this.ref} value={this.state.url} hidden />,
+      <Dropdown
         key={2}
-        placement="bottom"
-        isOpen={this.state.popoverOpen}
-        target="share-station"
+        isOpen={this.state.dropdownOpen}
         toggle={this.toggle}
+        className="dropdown-share"
       >
-        <PopoverHeader>Share {'station name'} to your friends</PopoverHeader>
-        <PopoverBody>
-          <div>
-            <Input
-              readOnly
-              value={this.state.url || ''}
-              innerRef={this.ref}
-              className="input-link"
-            />
-            <div className="btn-social">
-              <Button onClick={() => this._shareTo(FACEBOOK_SHARING)}>
-                <i className="fa fa-facebook" />
-              </Button>
-              <Button onClick={() => this._shareTo(GOOGLE_PLUS_SHARING)}>
-                <i className="fa fa-google" />
-              </Button>
-              <Button onClick={() => this._shareTo(TWITTER_SHARING)}>
-                <i className="fa fa-twitter" />
-              </Button>
-            </div>
-            <Button onClick={() => this._copyToClipboard()}>
-              <i className="fa fa-clipboard" />
-            </Button>
-          </div>
-        </PopoverBody>
-      </Popover>,
+        <DropdownToggle>
+          <i className="fa fa-share-alt" />
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem header>Social sharing</DropdownItem>
+          {this._renderDropDownItem('fa fa-facebook-f', 'Facebook', () =>
+            this._shareTo(FACEBOOK_SHARING),
+          )}
+          {this._renderDropDownItem('fa fa-google', 'Google', () =>
+            this._shareTo(GOOGLE_PLUS_SHARING),
+          )}
+          {this._renderDropDownItem('fa fa-twitter', 'Twitter', () =>
+            this._shareTo(TWITTER_SHARING),
+          )}
+          {/* <DropdownItem header>Copy</DropdownItem> */}
+          {/* {this._renderDropDownItem('fa fa-link', 'Copy Station Link', () =>
+            this._copyToClipboard(),
+          )} */}
+        </DropdownMenu>
+      </Dropdown>,
     ];
   }
 }
