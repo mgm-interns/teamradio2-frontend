@@ -2,7 +2,7 @@
   margin-top: 100px;
 }
 
-.nowplaying-header {
+.title-container {
   flex: 1;
   flex-direction: row;
   padding: 16px;
@@ -14,4 +14,5 @@
   &:focus {
     box-shadow: none;
   }
+  min-width: 39px;
 }

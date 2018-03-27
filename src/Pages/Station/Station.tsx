@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import * as classNames from 'classnames';
+import { Row, Col, Container } from 'reactstrap';
 import './Station.scss';
 
 import { NowPlaying, Sharing } from '../../Modules/Station/Components';
@@ -75,10 +76,10 @@ export class Station extends Component<Props, State> {
     };
 
     return (
-      <div className="container">
-        <div className="row u-margin-top-medium">
-          <div className="col-8 ">
-            <div className="row nowplaying-header">
+      <Container>
+        <Row className="u-margin-top-medium">
+          <Col xs={12} lg={8}>
+            <Row className="title-container">
               <div>
                 <h1>Station name</h1>
               </div>
@@ -91,14 +92,16 @@ export class Station extends Component<Props, State> {
                 )}
                 <Sharing />
               </div>
-            </div>
+            </Row>
             <NowPlaying muted={muted} />
-          </div>
-          <div className="col-4">
-            <span>this is playlist</span>
-          </div>
-        </div>
-      </div>
+          </Col>
+          <Col xs={12} lg={4}>
+            <div>
+              <span>this is playlist</span>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
