@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { Container, Card, CardBody, Row, Col } from 'reactstrap';
-import { SearchSong, PreviewVideo } from '../../Modules/Station';
+import { SearchSong, PreviewVideo } from 'Modules/Station';
 
 import './AddLink.scss';
 

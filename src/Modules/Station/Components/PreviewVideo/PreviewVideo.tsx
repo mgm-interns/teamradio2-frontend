@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import ReactPlayer from 'react-player';
 import { Row, Col, Input, Button } from 'reactstrap';
-import { convertTime } from "../../../../Helpers/TimeHelper";
-import { YoutubeHelper } from "../../../../Helpers";
+import { convertTime } from "Helpers/TimeHelper";
+import { YoutubeHelper } from "Helpers";
 import './PreviewVideo.scss';
 
 export class PreviewVideo extends Component<any, any> {
@@ -41,7 +41,7 @@ export class PreviewVideo extends Component<any, any> {
               <ReactPlayer url={YoutubeHelper.getVideoUrl(video)} playing width='100%' height='100%' volume={1} muted={muted}/>
             </Col>
             <Col sm="8" xs="12">
-              <p>{this.getTitle(video)}</p>
+              <h4 className="preview__title">{this.getTitle(video)}</h4>
               <div>
                 <i className="fa fa-clock-o"/>
                 <span className="preview__duration">{this.getDuration(video)}</span>

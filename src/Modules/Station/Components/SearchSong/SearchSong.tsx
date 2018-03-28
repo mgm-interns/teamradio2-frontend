@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Component } from 'react';
 import * as Autosuggest from 'react-autosuggest';
-import { YoutubeHelper } from "../../../../Helpers";
+import { YoutubeHelper } from "Helpers";
 import './SearchSong.scss';
+import  { Suggestion} from "./Suggestion";
 
 interface SearchSongState {
   value: string;
@@ -31,12 +32,7 @@ export class SearchSong extends Component<any, SearchSongState> {
   getSuggestionValue = (suggestion: any) => suggestion.snippet.title;
 
   renderSuggestion = (suggestion: any) => (
-    <div>
-      <img
-        src={suggestion.snippet.thumbnails.default.url}
-      />
-      <span>{suggestion.snippet.title}</span>
-    </div>
+    <Suggestion url={suggestion.snippet.thumbnails.default.url} title={suggestion.snippet.title} />
   );
 
   onChange = (event: any, {newValue}: any) => {
@@ -67,7 +63,7 @@ export class SearchSong extends Component<any, SearchSongState> {
     });
   };
 
-  onSuggestionSelected = (event: any, { suggestion, suggestionValue }: any ) => {
+  onSuggestionSelected = (event: any, { suggestion }: any) => {
     this.props.setPreviewVideo(suggestion);
   };
 
