@@ -1,10 +1,9 @@
 .play-list {
-  width: 100%;
+  width: inherit;
   margin: auto;
   position: relative;
-  height: 300px;
+  height: inherit;
   font-family: 'Roboto Slab', sans-serif;
-  width: 500px;
   .play-list-none {
     display: flex;
     justify-content: center;
@@ -14,11 +13,5 @@
     & > i {
       font-size: 56px;
     }
-  }
-}
-
-@media (min-width: 960px) {
-  .play-list {
-    height: 600px;
   }
 }
