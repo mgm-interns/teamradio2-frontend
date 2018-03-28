@@ -3,6 +3,8 @@ import { Component } from 'react';
 import { Link } from "react-router-dom";
 import { UncontrolledTooltip } from "reactstrap";
 
+// All css style defined in /scss/_custom.scss
+// Use common for both favourite and history
 export class HistoryItem extends Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -28,12 +30,13 @@ export class HistoryItem extends Component<any, any> {
         </div>
 
         <div className="info">
-          <div className="title">
-            <div id={songId}>{title}</div>
+          <div>
+            <div className="title" id={songId}>{title}</div>
             <UncontrolledTooltip placement="auto" target={songId}>
               {title}
             </UncontrolledTooltip>
           </div>
+
           <div className="creator">
             Added by {!creator ? (' unregistered user') : (
             <Link to={`/profile/${creator.username}`}>
@@ -45,15 +48,14 @@ export class HistoryItem extends Component<any, any> {
           )}</div>
         </div>
 
-        <div className="action" id={'replay-' + songId}>
-          <i className="fa fa-reply action-button" onClick={() => {
+        <div className="action">
+          <i className="fa fa-reply action-button" id={'replay-' + songId} onClick={() => {
             alert('Clicked!')
           }}/>
           <UncontrolledTooltip placement="auto" target={'replay-' + songId}>
             Replay this song
           </UncontrolledTooltip>
         </div>
-
       </div>
     );
   }

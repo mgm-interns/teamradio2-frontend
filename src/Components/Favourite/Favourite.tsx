@@ -2,12 +2,14 @@ import * as React from 'react';
 import { Component } from 'react';
 import { FavouriteItem } from '../FavouriteItem';
 
+// All css style defined in /scss/_custom.scss
+// Use common for both favourite and history
 export class Favourite extends Component {
   render() {
     const song = {
       id: "sf1",
-      thumbnail: "https://i.ytimg.com/vi/Ttb_rNbQHgE/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLDiLLhnxcQ0lc-wMaPSRHQZlsdjug",
-      title: "Nơi tình yêu kết thúc",
+      thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUEnsOa-S63i5AvhFIbl_y5PmjecVKdPxgN0xFEYassOnF2FDurw",
+      title: "Nơi tình yêu kết thúc dfgsdfgsdgdasgfafhdasfhsdfhsdfghsdfgsadfgasdfgsdgfsdfgsdfgsdfgsdfgsdgfsdfgsdfgsdfgsdfgsdfgsdfgsdfgsdfg",
       creator: {
         username: "bui-anh-tuan",
         name: "Bùi Anh Tuấn",
@@ -18,7 +20,7 @@ export class Favourite extends Component {
 
     const song2 = {
       id: "sf2",
-      thumbnail: "https://i.ytimg.com/vi/Ttb_rNbQHgE/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLDiLLhnxcQ0lc-wMaPSRHQZlsdjug",
+      thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBNuMD8zwG2v0GrO5X8w8Nn00-_dTDhi3kd0cD2oHJZiMosA4mWA",
       title: "Nơi tình yêu bắt đầu",
       creator: {
         username: "tien-minh",
@@ -30,7 +32,7 @@ export class Favourite extends Component {
 
     const song3 = {
       id: "sf3",
-      thumbnail: "https://i.ytimg.com/vi/Ttb_rNbQHgE/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLDiLLhnxcQ0lc-wMaPSRHQZlsdjug",
+      thumbnail: "https://i.ytimg.com/vi/Ttb_rNbQHgE/hqdefault.jpg",
       title: "Xin em",
       duration: "05:04",
     };

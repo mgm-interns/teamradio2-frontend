@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 
+// All css style defined in /scss/_custom.scss
+// Use common for both favourite and history
 export class FavouriteItem extends Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -26,16 +28,16 @@ export class FavouriteItem extends Component<any, any> {
         </div>
 
         <div className="info">
-          <div className="title">
-            <div id={songId}>{title}</div>
+          <div>
+            <div className="title" id={songId}>{title}</div>
             <UncontrolledTooltip placement="auto" target={songId}>
               {title}
             </UncontrolledTooltip>
           </div>
         </div>
 
-        <div className="action" id={'add-' + songId}>
-          <i className="fa fa-reply action-button" onClick={() => {
+        <div className="action">
+          <i className="fa fa-reply action-button" id={'add-' + songId} onClick={() => {
             alert('Clicked!')
           }}/>
           <UncontrolledTooltip placement="auto" target={'add-' + songId}>

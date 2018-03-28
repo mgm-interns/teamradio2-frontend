@@ -2,11 +2,13 @@ import * as React from 'react';
 import { Component } from 'react';
 import { HistoryItem } from '../HistoryItem';
 
+// All css style defined in /scss/_custom.scss
+// Use common for both favourite and history
 export class History extends Component {
   render() {
     const song = {
       id: "s1",
-      thumbnail: "https://i.ytimg.com/vi/Ttb_rNbQHgE/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLDiLLhnxcQ0lc-wMaPSRHQZlsdjug",
+      thumbnail: "https://i.ytimg.com/vi/Ttb_rNbQHgE/hqdefault.jpg",
       title: "Nơi tình yêu kết thúc",
       creator: {
         username: "bui-anh-tuan",
@@ -18,8 +20,8 @@ export class History extends Component {
 
     const song2 = {
       id: "s2",
-      thumbnail: "https://i.ytimg.com/vi/Ttb_rNbQHgE/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLDiLLhnxcQ0lc-wMaPSRHQZlsdjug",
-      title: "Nơi tình yêu bắt đầu",
+      thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUEnsOa-S63i5AvhFIbl_y5PmjecVKdPxgN0xFEYassOnF2FDurw",
+      title: "Nơi tình yêu bắt đầu test chữ dài overflow test asfasgkaki oiasgkljas kjkjasgkjaslglai klasgioakngaklsdg oikjasdgoiag",
       creator: {
         username: "tien-minh",
         name: "Tiến Minh",
@@ -30,14 +32,12 @@ export class History extends Component {
 
     const song3 = {
       id: "s3",
-      thumbnail: "https://i.ytimg.com/vi/Ttb_rNbQHgE/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLDiLLhnxcQ0lc-wMaPSRHQZlsdjug",
+      thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBNuMD8zwG2v0GrO5X8w8Nn00-_dTDhi3kd0cD2oHJZiMosA4mWA",
       title: "Xin em",
       duration: "05:04",
     };
 
     return (
-
-
       <div className="list-container">
         <HistoryItem key={1} song={song}/>
         <HistoryItem key={2} song={song2}/>
