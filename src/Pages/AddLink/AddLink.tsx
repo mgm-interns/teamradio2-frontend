@@ -14,7 +14,7 @@ export class AddLink extends Component<any, AddLinkState> {
     super(props);
 
     this.state = {
-      preview: undefined
+      preview: null
     };
 
     this.setPreviewVideo = this.setPreviewVideo.bind(this);

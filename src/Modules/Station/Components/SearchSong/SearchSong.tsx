@@ -37,7 +37,7 @@ export class SearchSong extends Component<any, SearchSongState> {
 
   onChange = (event: any, {newValue}: any) => {
     if(newValue === '') {
-      this.props.setPreviewVideo(undefined);
+      this.props.setPreviewVideo(null);
     }
     this.setState({
       value: newValue
