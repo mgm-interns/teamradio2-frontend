@@ -3,7 +3,7 @@ import { Component } from 'react';
 import * as Autosuggest from 'react-autosuggest';
 import { YoutubeHelper } from "Helpers";
 import './SearchSong.scss';
-import  { Suggestion} from "./Suggestion";
+import  { Suggestion} from "../Suggestion";
 
 interface SearchSongState {
   value: string;
