@@ -3,17 +3,14 @@ import { Component } from 'react';
 import { RegisterForm } from "Modules/User";
 import { ExtraInformationForm } from './ExtraInformationForm';
 import '../Register/Register.scss';
-import { Row, Col, CardLink, Container } from 'reactstrap';
+import { Row, Col, CardLink } from 'reactstrap';
 
 export class Register extends Component {
 
   render() {
     return (
-      //   a app flex-row align-items-center
       <div className="register">
-        <div className="background-image">
-            <img src="img/register-background.jpg" alt="" className="background-image"/>
-        </div>
+        <img src="img/register-background.jpg" alt="" className="background-image"/>
         <div className="main-form-container">
             <Col md="10" className="main-form-layout">
                 <div className="card-group">
@@ -35,9 +32,6 @@ export class Register extends Component {
                 </div>
             </Col>
         </div>
-        {/*<Container>*/}
-          {/**/}
-        {/*</Container>*/}
       </div>
     );
   }
