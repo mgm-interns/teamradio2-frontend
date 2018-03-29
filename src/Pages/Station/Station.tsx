@@ -29,7 +29,7 @@ export class Station extends Component<Props, State> {
     super(props);
 
     this.state = {
-      muted: true,
+      muted: false,
       isPassive: false,
     };
   }
@@ -46,45 +46,51 @@ export class Station extends Component<Props, State> {
     });
   };
 
+  _renderButton = (
+    flag: boolean,
+    { iconOn, iconOff }: any,
+    handleClick: any,
+  ) => {
+    const classes = {
+      icon: classNames(flag ? iconOn : iconOff),
+    };
+    const activeButton = flag ? 'color: red' : null;
+
+    return (
+      <div className="icon-wrapper" onClick={handleClick}>
+        <i className={classNames([classes.icon, activeButton, 'icon'])} />
+      </div>
+    );
+  };
+
+  _renderHeaderStation = (muted: boolean, isPassive: boolean) => {
+    return (
+      <Row className="header-container">
+        <div>
+          <h1>Station name</h1>
+        </div>
+        <div className="buttons-wrapper">
+          {this._renderButton(!muted, buttonActions.muted, this._onVolumeClick)}
+          {this._renderButton(
+            isPassive,
+            buttonActions.passive,
+            this._onLightClick,
+          )}
+          <StationSharing />
+        </div>
+      </Row>
+    );
+  };
+
   render() {
     const muted = this.state.muted;
     const isPassive = this.state.isPassive;
-
-    const _renderButton = (
-      flag: boolean,
-      { iconOn, iconOff }: any,
-      handleClick: any,
-    ) => {
-      const classes = {
-        icon: classNames(flag ? iconOn : iconOff),
-      };
-      const activeButton = flag ? 'color: red' : null;
-
-      return (
-        <div className="icon-wrapper" onClick={handleClick}>
-          <i className={classNames([classes.icon, activeButton])} />
-        </div>
-      );
-    };
 
     return (
       <Container>
         <Row className="u-margin-top-medium">
           <Col xs={12} lg={8}>
-            <Row className="title-container">
-              <div>
-                <h1>Station name</h1>
-              </div>
-              <div className="actions-wrapper">
-                {_renderButton(muted, buttonActions.muted, this._onVolumeClick)}
-                {_renderButton(
-                  isPassive,
-                  buttonActions.passive,
-                  this._onLightClick,
-                )}
-                <StationSharing />
-              </div>
-            </Row>
+            {this._renderHeaderStation(muted, isPassive)}
             <NowPlaying muted={muted} />
           </Col>
           <Col xs={12} lg={4}>

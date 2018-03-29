@@ -2,12 +2,16 @@
     margin-top: 100px;
 }
 
-.title-container {
+.header-container {
     flex: 1;
     flex-direction: row;
     padding: 16px;
     align-items: center;
     justify-content: space-between;
+}
+
+.buttons-wrapper {
+    display: flex;
 }
 
 .btn-no-shadow {
@@ -22,6 +26,6 @@
     padding: 0 10px;
 }
 
-.actions-wrapper {
-    display: flex;
+.icon {
+    min-width: 25px;
 }

@@ -85,6 +85,45 @@ export class StationSharing extends Component<Props, State> {
     this.inputRef = input;
   };
 
+  _renderPopoverContent = () => {
+    return (
+      <div>
+        <Input
+          readOnly
+          value={this.state.url || ''}
+          innerRef={this.ref}
+          className="input-link"
+        />
+        <div className="buttons-wrapper">
+          <div
+            className="btn-icon"
+            onClick={() => this._shareTo(FACEBOOK_SHARING)}
+          >
+            <i className="fa fa-facebook" />
+          </div>
+          <div
+            className="btn-icon"
+            onClick={() => this._shareTo(GOOGLE_PLUS_SHARING)}
+          >
+            <i className="fa fa-google" />
+          </div>
+          <div
+            className="btn-icon"
+            onClick={() => this._shareTo(TWITTER_SHARING)}
+          >
+            <i className="fa fa-twitter" />
+          </div>
+          <div
+            className="btn-icon btn-clipboard"
+            onClick={() => this._copyToClipboard()}
+          >
+            <i className="fa fa-clipboard" />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     return [
       <div
@@ -103,39 +142,7 @@ export class StationSharing extends Component<Props, State> {
         toggle={this.toggle}
       >
         <PopoverHeader>Share {'station name'} to your friends</PopoverHeader>
-        <PopoverBody>
-          <div>
-            <Input
-              readOnly
-              value={this.state.url || ''}
-              innerRef={this.ref}
-              className="input-link"
-            />
-            <div className="action-wrapper">
-              <div
-                className="btn-icon"
-                onClick={() => this._shareTo(FACEBOOK_SHARING)}
-              >
-                <i className="fa fa-facebook" />
-              </div>
-              <div
-                className="btn-icon"
-                onClick={() => this._shareTo(GOOGLE_PLUS_SHARING)}
-              >
-                <i className="fa fa-google" />
-              </div>
-              <div
-                className="btn-icon"
-                onClick={() => this._shareTo(TWITTER_SHARING)}
-              >
-                <i className="fa fa-twitter" />
-              </div>
-              <div className="btn-icon btn-clipboard" onClick={() => this._copyToClipboard()}>
-                <i className="fa fa-clipboard" />
-              </div>
-            </div>
-          </div>
-        </PopoverBody>
+        <PopoverBody>{this._renderPopoverContent()}</PopoverBody>
       </Popover>,
     ];
   }
