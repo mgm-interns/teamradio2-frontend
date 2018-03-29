@@ -7,7 +7,7 @@ import './Login.scss'
 export class Login extends Component {
   render() {
     return (
-      <div className="login">
+      <div className="app login">
         <img src="img/login-background.png" alt="" className="background-image"/>
         <div className="main-form-container">
           <Col md="6" className="main-form-layout">

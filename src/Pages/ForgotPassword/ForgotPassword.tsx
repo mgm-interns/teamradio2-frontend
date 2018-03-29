@@ -11,7 +11,7 @@ import './ForgotPassword.scss';
 export class ForgotPassword extends Component {
   render() {
     return (
-      <div className="forgot-password">
+      <div className="app forgot-password">
         <img src="img/forgot-password-background.jpeg" alt="" className="background-image"/>
         <div className="main-form-container">
           <Col md="6" className="main-form-layout">

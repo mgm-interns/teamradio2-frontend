@@ -9,28 +9,28 @@ export class Register extends Component {
 
   render() {
     return (
-      <div className="register">
+      <div className="app register">
         <img src="img/register-background.jpg" alt="" className="background-image"/>
         <div className="main-form-container">
-            <Col md="10" className="main-form-layout">
-                <div className="card-group">
-                    <div className="card text-white py-6 d-md-down-none card-extra-information">
-                        <div className="card-container card-body text-center">
-                            <ExtraInformationForm/>
-                        </div>
-                    </div>
-                    <div className="card p-4">
-                        <h1>Sign Up</h1>
-                        <p className="text-muted">to get the most out of Team Radio</p>
-                        <RegisterForm/>
-                        <Row>
-                            <Col className="login-callout" xs="12" sm="12">
-                                <span>Already have an account? <CardLink href="/login">Login</CardLink></span>
-                            </Col>
-                        </Row>
-                    </div>
+          <Col md="10" className="main-form-layout">
+            <div className="card-group">
+              <div className="card text-white py-6 d-md-down-none card-extra-information">
+                <div className="card-container card-body text-center">
+                  <ExtraInformationForm/>
                 </div>
-            </Col>
+              </div>
+              <div className="card p-4">
+                <h1>Sign Up</h1>
+                <p className="text-muted">to get the most out of Team Radio</p>
+                <RegisterForm/>
+                <Row>
+                  <Col className="login-callout" xs="12" sm="12">
+                    <span>Already have an account? <CardLink href="/login">Login</CardLink></span>
+                  </Col>
+                </Row>
+              </div>
+            </div>
+          </Col>
         </div>
       </div>
     );
