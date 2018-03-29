@@ -73,7 +73,6 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
       <div className="footer-form">
         <Button
           color="secondary"
-          // tslint:disable-next-line
           onClick={() => props.onCloseModal()}
         >
           CANCEL

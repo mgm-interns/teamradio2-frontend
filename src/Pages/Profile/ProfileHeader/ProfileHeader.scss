@@ -14,7 +14,11 @@ $height-container-sx-md: 400px;
   border-radius: 50%;
 }
 
-@mixin component-display($display : null, $align-items : null, $justify-content : null) {
+@mixin component-display(
+  $display: null,
+  $align-items: null,
+  $justify-content: null
+) {
   @if ($display) {
     display: $display;
   }
@@ -48,7 +52,11 @@ $height-container-sx-md: 400px;
     .background-cover {
       width: 100%;
       height: 100%;
-      background: linear-gradient(to right bottom, rgba(#000000, 0.5), rgba(#000000, 0.5));
+      background: linear-gradient(
+        to right bottom,
+        rgba(#000000, 0.5),
+        rgba(#000000, 0.5)
+      );
       position: absolute;
     }
   }
@@ -80,7 +88,11 @@ $height-container-sx-md: 400px;
 
         .avatar-hover {
           @include avatar-container;
-          background: linear-gradient(to right bottom, rgba(#000000, 0.5), rgba(#000000, 0.5));
+          background: linear-gradient(
+            to right bottom,
+            rgba(#000000, 0.5),
+            rgba(#000000, 0.5)
+          );
           position: absolute;
           top: 0;
           left: 0;
@@ -152,7 +164,8 @@ $height-container-sx-md: 400px;
       }
     }
     .user-info-container {
-      .user-avatar, .update-cover {
+      .user-avatar,
+      .update-cover {
         @include component-display(null, null, center);
       }
     }

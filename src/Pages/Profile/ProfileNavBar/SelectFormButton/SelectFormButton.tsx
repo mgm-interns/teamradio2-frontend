@@ -59,12 +59,10 @@ export class SelectFormButton extends Component<any, any> {
     return (
       <Modal
         isOpen={openState}
-        // tslint:disable-next-line
         toggle={() => this.onCloseModal()}
         className="modal-primary modal-lg modal-edit-form"
       >
         <ModalHeader
-          // tslint:disable-next-line
           toggle={() => this.onCloseModal()}
         >
           {modalHeadline}
@@ -78,7 +76,6 @@ export class SelectFormButton extends Component<any, any> {
     return this.renderModal(
       this.state.openInformationForm,
       'Edit your information',
-      // tslint:disable-next-line
       <InformationForm onCloseModal={() => this.onCloseModal()} />,
     );
   }
@@ -87,7 +84,6 @@ export class SelectFormButton extends Component<any, any> {
     return this.renderModal(
       this.state.openPasswordForm,
       'Edit your password',
-      // tslint:disable-next-line
       <PasswordForm onCloseModal={() => this.onCloseModal()} hadPass={true} />,
     );
   }
@@ -98,7 +94,6 @@ export class SelectFormButton extends Component<any, any> {
         <Dropdown
           className="drop-down"
           isOpen={this.state.dropdownOpen}
-          // tslint:disable-next-line
           toggle={() => {
             this.toggle();
           }}
@@ -111,7 +106,6 @@ export class SelectFormButton extends Component<any, any> {
           <DropdownMenu right className="drop-down-menu">
             <DropdownItem
               className="drop-item"
-              // tslint:disable-next-line
               onClick={() => {
                 this.openInformationForm();
               }}
@@ -120,7 +114,6 @@ export class SelectFormButton extends Component<any, any> {
             </DropdownItem>
             <DropdownItem
               className="drop-item"
-              // tslint:disable-next-line
               onClick={() => {
                 this.openPasswordForm();
               }}

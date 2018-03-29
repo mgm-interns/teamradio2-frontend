@@ -38,8 +38,13 @@
     }
   }
 
-  .background-image{
-    background-image: linear-gradient(to right bottom, rgba(#0a373a, 0.6), rgba(#0a373a, 0.6)), url("../../../public/img/register-background.jpg");
+  .background-image {
+    background-image: linear-gradient(
+        to right bottom,
+        rgba(#0a373a, 0.6),
+        rgba(#0a373a, 0.6)
+      ),
+      url('../../../public/img/register-background.jpg');
   }
 
   .card-content {
@@ -48,4 +53,3 @@
     }
   }
 }
-

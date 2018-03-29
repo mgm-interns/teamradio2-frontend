@@ -118,7 +118,6 @@ export class ProfileHeader extends Component<any, any> {
               <div className="update-cover">
                 <button
                   type="button"
-                  // tslint:disable-next-line
                   onClick={() => {
                     this.uploadCover();
                   }}

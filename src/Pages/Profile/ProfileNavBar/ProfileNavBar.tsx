@@ -37,7 +37,6 @@ export class ProfileNavBar extends Component<any, any> {
                 <NavLink
                   href="#"
                   active={this.state.isOpenStation}
-                  // tslint:disable-next-line
                   onClick={() => {
                     this.openStationTab();
                   }}
@@ -49,7 +48,6 @@ export class ProfileNavBar extends Component<any, any> {
                 <NavLink
                   href="#"
                   active={this.state.isOpenFavouriteSong}
-                  // tslint:disable-next-line
                   onClick={() => {
                     this.openFavouriteSongTab();
                   }}
