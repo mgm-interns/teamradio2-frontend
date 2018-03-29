@@ -1,7 +1,9 @@
 import axios from "axios";
-const REACT_APP_YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3';
-const REACT_APP_YOUTUBE_API_KEY = 'AIzaSyD_HCz-IjU056WTFjBgWYmjjg1YnwRPXXM';
-const REACT_APP_YOUTUBE_URL = 'https://www.youtube.com/watch?v=';
+import * as moment from 'moment';
+
+const REACT_APP_YOUTUBE_API_URL = process.env.REACT_APP_YOUTUBE_API_URL;
+const REACT_APP_YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
+const REACT_APP_YOUTUBE_URL = process.env.REACT_APP_YOUTUBE_URL;
 
 export const YoutubeHelper = {
   validYoutubeUrl: (url: string) => {
@@ -50,5 +52,10 @@ export const YoutubeHelper = {
     );
 
     return items;
+  },
+  convertDuration: (youTubeDuration: string): string => {
+    const duration: number = moment.duration(youTubeDuration).asSeconds();
+    const formatString: string = duration > 3600 ? 'HH:mm:ss' : 'mm:ss';
+    return moment().startOf('day').add(duration, 'seconds').format(formatString);
   }
 };

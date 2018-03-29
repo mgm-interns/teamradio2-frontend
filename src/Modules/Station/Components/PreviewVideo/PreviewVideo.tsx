@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Component } from 'react';
 import ReactPlayer from 'react-player';
 import { Row, Col, Input, Button } from 'reactstrap';
-import { convertTime } from "Helpers/TimeHelper";
 import { YoutubeHelper } from "Helpers";
 import './PreviewVideo.scss';
 
@@ -20,7 +19,7 @@ export class PreviewVideo extends Component<any, any> {
   }
 
   getDuration(video: any) {
-    return convertTime(video.contentDetails.duration);
+    return YoutubeHelper.convertDuration(video.contentDetails.duration);
   }
 
   mutePreview() {
@@ -61,7 +60,7 @@ export class PreviewVideo extends Component<any, any> {
           </Row>
 
         ) : (
-          <img src="img/loading_song.png" alt=""/>
+          <img src="/img/loading_song.png" alt=""/>
         )}
       </div>
     )
