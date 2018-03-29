@@ -87,14 +87,14 @@ export class StationSharing extends Component<Props, State> {
 
   render() {
     return [
-      <Button
+      <div
         key={1}
         id="share-station"
-        className="btn-no-shadow"
+        className="btn-icon"
         onClick={this.toggle}
       >
         <i className="fa fa-share-alt" />
-      </Button>,
+      </div>,
       <Popover
         key={2}
         placement="bottom"
@@ -112,21 +112,26 @@ export class StationSharing extends Component<Props, State> {
               className="input-link"
             />
             <div className="action-wrapper">
-              <div className="btn-no-shadow">
-                <Button onClick={() => this._shareTo(FACEBOOK_SHARING)}>
-                  <i className="fa fa-facebook" />
-                </Button>
-                <Button onClick={() => this._shareTo(GOOGLE_PLUS_SHARING)}>
-                  <i className="fa fa-google" />
-                </Button>
-                <Button onClick={() => this._shareTo(TWITTER_SHARING)}>
-                  <i className="fa fa-twitter" />
-                </Button>
+              <div
+                className="btn-icon"
+                onClick={() => this._shareTo(FACEBOOK_SHARING)}
+              >
+                <i className="fa fa-facebook" />
               </div>
-              <div className="btn-clipboard btn-no-shadow">
-                <Button onClick={() => this._copyToClipboard()}>
-                  <i className="fa fa-clipboard" />
-                </Button>
+              <div
+                className="btn-icon"
+                onClick={() => this._shareTo(GOOGLE_PLUS_SHARING)}
+              >
+                <i className="fa fa-google" />
+              </div>
+              <div
+                className="btn-icon"
+                onClick={() => this._shareTo(TWITTER_SHARING)}
+              >
+                <i className="fa fa-twitter" />
+              </div>
+              <div className="btn-icon btn-clipboard" onClick={() => this._copyToClipboard()}>
+                <i className="fa fa-clipboard" />
               </div>
             </div>
           </div>

@@ -58,17 +58,12 @@ export class Station extends Component<Props, State> {
       const classes = {
         icon: classNames(flag ? iconOn : iconOff),
       };
-      const activeButton = flag ? 'primary' : 'secondary';
+      const activeButton = flag ? 'color: red' : null;
 
       return (
-        <Button
-          type="button"
-          color={activeButton}
-          className="btn btn-no-shadow"
-          onClick={handleClick}
-        >
-          <i className={classes.icon} />
-        </Button>
+        <div className="icon-wrapper" onClick={handleClick}>
+          <i className={classNames([classes.icon, activeButton])} />
+        </div>
       );
     };
 
@@ -80,7 +75,7 @@ export class Station extends Component<Props, State> {
               <div>
                 <h1>Station name</h1>
               </div>
-              <div>
+              <div className="actions-wrapper">
                 {_renderButton(muted, buttonActions.muted, this._onVolumeClick)}
                 {_renderButton(
                   isPassive,
