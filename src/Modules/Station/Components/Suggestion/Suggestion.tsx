@@ -1,25 +1,23 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-interface SuggestionProps {
+interface ISuggestionProps {
   url: string;
   title: string;
 }
 
-export class Suggestion extends Component<SuggestionProps, any> {
+export class Suggestion extends Component<ISuggestionProps, any> {
   constructor(props: any) {
     super(props);
   }
 
-  render() {
+  public render() {
     const { url, title } = this.props;
     return (
       <div>
-        <img
-          src={url}
-        />
+        <img src={url} />
         <span>{title}</span>
       </div>
-    )
+    );
   }
 }

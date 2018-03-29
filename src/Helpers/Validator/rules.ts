@@ -1,8 +1,8 @@
-import { EMAIL_REGEX, USERNAME_REGEX, DISPLAY_NAME_REGEX } from "./regexRules";
+import { DISPLAY_NAME_REGEX, EMAIL_REGEX, USERNAME_REGEX } from './regexRules';
 
 const required = {
   test: (value: any) => value,
-  message: (name: string) => `${name} is required.`
+  message: (name: string) => `${name} is required.`,
 };
 
 const validEmail = {
@@ -14,16 +14,17 @@ const minLength = (minNum: number) => {
   return {
     test: (value: string) => value.length >= minNum,
     message: (name: string) => `${name} must be at least ${minNum} characters.`,
-  }
+  };
 };
 
 const minLength6 = minLength(6);
 
 const maxLength = (maxNum: number) => {
   return {
-    test:  (value: string) => value.length <= maxNum,
-    message: (name: string) => `${name} must be less than ${maxNum} characters.`,
-  }
+    test: (value: string) => value.length <= maxNum,
+    message: (name: string) =>
+      `${name} must be less than ${maxNum} characters.`,
+  };
 };
 
 const maxLength15 = maxLength(15);
@@ -32,12 +33,13 @@ const matchPassword = (password: string) => {
   return {
     test: (value: string) => value === password,
     message: () => `Password does not match the confirm password.`,
-  }
+  };
 };
 
 const validUsername = {
   test: (value: string) => USERNAME_REGEX.test(value),
-  message: () => `Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.`,
+  message: () =>
+    `Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.`,
 };
 
 const validDisplayName = {
@@ -46,13 +48,11 @@ const validDisplayName = {
 };
 
 export const Rules = {
-  required: required,
-  validEmail: validEmail,
-  maxLength15: maxLength15,
-  minLength6: minLength6,
-  matchPassword: matchPassword,
-  validUsername: validUsername,
-  validDisplayName: validDisplayName,
+  required,
+  validEmail,
+  maxLength15,
+  minLength6,
+  matchPassword,
+  validUsername,
+  validDisplayName,
 };
-
-

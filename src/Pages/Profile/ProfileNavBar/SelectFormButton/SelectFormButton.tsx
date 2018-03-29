@@ -62,9 +62,7 @@ export class SelectFormButton extends Component<any, any> {
         toggle={() => this.onCloseModal()}
         className="modal-primary modal-lg modal-edit-form"
       >
-        <ModalHeader
-          toggle={() => this.onCloseModal()}
-        >
+        <ModalHeader toggle={() => this.onCloseModal()}>
           {modalHeadline}
         </ModalHeader>
         <ModalBody>{component}</ModalBody>

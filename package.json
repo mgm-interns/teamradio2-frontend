@@ -80,7 +80,7 @@
     "start": "npm run dev",
     "build": "webpack -p --progress --env.prod",
     "clean": "rimraf ./build",
-    "format": "prettier --single-quote --trailing-comma all --print-width 80 --tab-width 2 --write src/**/*"
+    "format": "prettier --write src/**/*"
   },
   "engines": {
     "node": ">= 8.9.4",

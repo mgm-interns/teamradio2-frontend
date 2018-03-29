@@ -71,10 +71,7 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
         </Col>
       </Row>
       <div className="footer-form">
-        <Button
-          color="secondary"
-          onClick={() => props.onCloseModal()}
-        >
+        <Button color="secondary" onClick={() => props.onCloseModal()}>
           CANCEL
         </Button>
         <Button type="submit" color="primary" disabled={isSubmitting}>

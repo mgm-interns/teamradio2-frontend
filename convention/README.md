@@ -12,7 +12,7 @@
 > - Name:         `Prettier`
 > - Description: 
 > - Program:      `$ContentRoot$/node_modules/.bin/prettier.cmd`
-> - Arguments:    `--single-quote --trailing-comma all --print-width 80 --tab-width 2 --write $FilePathRelativeToProjectRoot$`
+> - Arguments:    `--write $FilePathRelativeToProjectRoot$`
 > - Working dir:  `$ProjectFileDir$`
 > - Advanced Options: Choose `Synchronize files after execution`.
 
