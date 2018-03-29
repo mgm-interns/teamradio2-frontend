@@ -1,0 +1,24 @@
+.btn-no-shadow {
+    &:focus {
+        box-shadow: none;
+    }
+    min-width: 39px;
+}
+
+.input-link {
+    background-color: #fff;
+}
+
+.btn-clipboard {
+    margin-left: auto;
+}
+
+.buttons-wrapper {
+    margin: 10px 0px 5px;
+    display: flex;
+}
+
+.btn-icon {
+    font-size: 25px;
+    padding: 0 10px;
+}
