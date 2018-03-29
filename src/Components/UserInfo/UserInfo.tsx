@@ -33,7 +33,8 @@ export class UserInfo extends Component<any, any> {
           <DropdownMenu right className="drop-down-menu">
             <DropdownItem header className="drop-item"><span>Signed in as: </span><br/>{`Team Radio`}</DropdownItem>
             <DropdownItem className="drop-item"><a href="/profile"><i className="fa fa-user"></i>Your profile</a></DropdownItem>
-            <DropdownItem className="drop-item"><a href="/"><i className="fa fa-question-circle"></i>Help</a></DropdownItem>
+            <DropdownItem className="drop-item"><a href="/help"><i
+              className="fa fa-question-circle"></i>Help</a></DropdownItem>
             <DropdownItem className="drop-item"><a href="/"><i className="fa fa-sign-out"></i>Sign out</a></DropdownItem>
           </DropdownMenu>
         </Dropdown>
