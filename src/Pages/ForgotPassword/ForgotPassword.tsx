@@ -13,6 +13,7 @@ export class ForgotPassword extends Component {
     return (
       <div className="app forgot-password">
         <img src="img/forgot-password-background.jpeg" alt="" className="background-image"/>
+        <div className="fake-background" />
         <div className="main-form-container">
           <Col md="6" className="main-form-layout">
             <Card className="mx-4">

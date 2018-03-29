@@ -9,6 +9,7 @@ export class Login extends Component {
     return (
       <div className="app login">
         <img src="img/login-background.png" alt="" className="background-image"/>
+        <div className="fake-background" />
         <div className="main-form-container">
           <Col md="6" className="main-form-layout">
             <div className="card-group">

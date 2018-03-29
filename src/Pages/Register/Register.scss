@@ -1,6 +1,10 @@
 .register {
   width: 100%;
 
+  .fake-background {
+    background: rgba(34, 104, 97, 0.3);
+  }
+
   .card-extra-information {
     border: none;
     background-color: transparent;

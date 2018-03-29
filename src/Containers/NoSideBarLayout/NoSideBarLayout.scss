@@ -6,11 +6,19 @@
 
 .app.login, .app.register, .app.forgot-password {
   //min-height: calc(100vh - 105px);
+
   .background-image {
     width: 100%;
     height: 100vh;
     object-fit: cover;
-    filter: opacity(0.8);
+  }
+
+  .fake-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
   }
 
   .main-form-container {

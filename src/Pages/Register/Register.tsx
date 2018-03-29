@@ -11,6 +11,7 @@ export class Register extends Component {
     return (
       <div className="app register">
         <img src="img/register-background.jpg" alt="" className="background-image"/>
+        <div className="fake-background" />
         <div className="main-form-container">
           <Col md="10" className="main-form-layout">
             <div className="card-group">
