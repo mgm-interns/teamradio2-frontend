@@ -1,10 +1,14 @@
 .login {
-  .background-image {
-    background-image: linear-gradient(to right bottom, rgba(#0a373a, 0.6), rgba(#0a373a, 0.6)), url("../../../public/img/login-background.png");
+
+  .fake-background {
+    background: rgba(41, 103, 132, 0.3);
   }
-  &__register-callout {
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
+
+  .card-group {
+    width: 100%;
+  }
+
+  .another-actions {
+    text-align: center;
   }
 }

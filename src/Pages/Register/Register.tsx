@@ -3,16 +3,17 @@ import { Component } from 'react';
 import { RegisterForm } from "Modules/User";
 import { ExtraInformationForm } from './ExtraInformationForm';
 import '../Register/Register.scss';
-import { Row, Col, CardLink, Container } from 'reactstrap';
+import { Row, Col, CardLink } from 'reactstrap';
 
 export class Register extends Component {
 
   render() {
     return (
-      <div className="register a app flex-row align-items-center">
-        <div className="background-image"/>
-        <Container>
-          <Col md="12">
+      <div className="app register">
+        <img src="img/register-background.jpg" alt="" className="background-image"/>
+        <div className="fake-background" />
+        <div className="main-form-container">
+          <Col md="10" className="main-form-layout">
             <div className="card-group">
               <div className="card text-white py-6 d-md-down-none card-extra-information">
                 <div className="card-container card-body text-center">
@@ -31,7 +32,7 @@ export class Register extends Component {
               </div>
             </div>
           </Col>
-        </Container>
+        </div>
       </div>
     );
   }

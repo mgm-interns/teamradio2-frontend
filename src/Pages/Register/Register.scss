@@ -1,9 +1,9 @@
 .register {
-  height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+
+  .fake-background {
+    background: rgba(34, 104, 97, 0.3);
+  }
 
   .card-extra-information {
     border: none;
@@ -12,7 +12,15 @@
 
   .login-callout {
     text-align: center;
-    padding-top: 30px;
+    padding-top: 20px;
+  }
+
+  .card-group {
+    width: 100%;
+  }
+
+  .card-layout{
+    height: 100%;
   }
 
   .card-container {
@@ -36,10 +44,6 @@
     span {
       margin-left: 10px;
     }
-  }
-
-  .background-image{
-    background-image: linear-gradient(to right bottom, rgba(#0a373a, 0.6), rgba(#0a373a, 0.6)), url("../../../public/img/register-background.jpg");
   }
 
   .card-content {
