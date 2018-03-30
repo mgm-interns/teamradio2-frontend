@@ -1,1 +1,1 @@
-export { sampleActions } from './SampleActions';
+export { sampleActions } from './sampleActions';
