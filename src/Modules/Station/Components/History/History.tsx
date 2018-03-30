@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { HistoryItem } from '../HistoryItem';
+import { HistoryItem } from './HistoryItem';
 
 // All css style defined in /scss/_custom.scss
 // Use common for both favourite and history

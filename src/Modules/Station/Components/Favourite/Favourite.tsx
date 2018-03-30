@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { FavouriteItem } from '../FavouriteItem';
+import { FavouriteItem } from './FavouriteItem';
 
 // All css style defined in /scss/_custom.scss
 // Use common for both favourite and history
