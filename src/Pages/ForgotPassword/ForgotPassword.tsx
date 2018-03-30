@@ -11,8 +11,8 @@ import './ForgotPassword.scss';
 export class ForgotPassword extends Component {
   render() {
     return (
-      <div className="forgot-password">
-        <div className="forgot-password__background-image" />
+      <div className="forgot-password app">
+        <div className="background-image" />
         <div className="app flex-row align-items-center">
           <Container>
             <Row className="justify-content-center">

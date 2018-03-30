@@ -20,11 +20,11 @@ export class Login extends Component {
                   <LoginForm/>
                 </CardBody>
                 <CardFooter className="p-3 pr-4 pl-4">
-                  <Row>
-                    <Col xs="12" sm="6">
+                  <Row className="other-actions">
+                    <Col xs="12" lg="6">
                       <CardLink href="/forgot-password">Forgot your password?</CardLink>
                     </Col>
-                    <Col xs="12" sm="6" className="login__register-callout">
+                    <Col xs="12" lg="6" className="login__register-callout">
                       <CardLink href="/register">Create an account</CardLink>
                     </Col>
                   </Row>

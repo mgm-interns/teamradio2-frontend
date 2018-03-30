@@ -2,9 +2,10 @@
   .background-image {
     background-image: linear-gradient(to right bottom, rgba(#0a373a, 0.6), rgba(#0a373a, 0.6)), url("../../../public/img/login-background.png");
   }
-  &__register-callout {
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
+  .card {
+    margin-top: 1.5rem;
+  }
+  .other-actions {
+    text-align: center;
   }
 }
