@@ -1,0 +1,1 @@
+export { configureStore } from './Redux';

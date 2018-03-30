@@ -14,14 +14,22 @@ import '../scss/style.scss';
 // Temp fix for reactstrap
 import '../scss/core/_dropdown-menu-right.scss';
 
+// config redux
+import { Provider } from 'react-redux';
+import { configureStore } from './Configuration/Redux';
+
 // Containers
 import { FullLayout, NoSideBarLayout } from './Containers/';
 
+const store = configureStore();
+
 ReactDOM.render((
-  <BrowserRouter>
-    <Switch>
-      <Route path="/dashboard" name="Dashboard" component={FullLayout}/>
-      <Route path="/" name="Home" component={NoSideBarLayout}/>
-    </Switch>
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/dashboard" name="Dashboard" component={FullLayout}/>
+        <Route path="/" name="Home" component={NoSideBarLayout}/>
+      </Switch>
+    </BrowserRouter>
+  </Provider>
 ), document.getElementById('root'));
