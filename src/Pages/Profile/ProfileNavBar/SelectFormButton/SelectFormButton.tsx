@@ -60,8 +60,7 @@ export class SelectFormButton extends Component<any, any> {
       <Modal
         isOpen={openState}
         toggle={() => this.onCloseModal()}
-        className="modal-primary modal-lg modal-edit-form"
-      >
+        className="modal-primary modal-lg modal-edit-form">
         <ModalHeader toggle={() => this.onCloseModal()}>
           {modalHeadline}
         </ModalHeader>
@@ -94,8 +93,7 @@ export class SelectFormButton extends Component<any, any> {
           isOpen={this.state.dropdownOpen}
           toggle={() => {
             this.toggle();
-          }}
-        >
+          }}>
           <DropdownToggle className="nav-link dropdown-toggle button-dropdown-setting">
             <span>
               <i className="fa fa-pencil" />
@@ -106,16 +104,14 @@ export class SelectFormButton extends Component<any, any> {
               className="drop-item"
               onClick={() => {
                 this.openInformationForm();
-              }}
-            >
+              }}>
               <i className="fa fa-user" />Information
             </DropdownItem>
             <DropdownItem
               className="drop-item"
               onClick={() => {
                 this.openPasswordForm();
-              }}
-            >
+              }}>
               <i className="fa fa-key" />Password
             </DropdownItem>
           </DropdownMenu>

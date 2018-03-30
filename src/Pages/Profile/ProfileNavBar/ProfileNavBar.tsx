@@ -39,8 +39,7 @@ export class ProfileNavBar extends Component<any, any> {
                   active={this.state.isOpenStation}
                   onClick={() => {
                     this.openStationTab();
-                  }}
-                >
+                  }}>
                   Stations
                 </NavLink>
               </NavItem>
@@ -50,8 +49,7 @@ export class ProfileNavBar extends Component<any, any> {
                   active={this.state.isOpenFavouriteSong}
                   onClick={() => {
                     this.openFavouriteSongTab();
-                  }}
-                >
+                  }}>
                   Favourite Songs
                 </NavLink>
               </NavItem>

@@ -129,8 +129,7 @@ export class Sidebar extends Component {
               to={url}
               className={classes.link}
               activeClassName="active"
-              onClick={this.hideMobile}
-            >
+              onClick={this.hideMobile}>
               <i className={classes.icon} />
               {item.name}
               {badge(item.badge)}
@@ -147,8 +146,7 @@ export class Sidebar extends Component {
           <a
             className="nav-link nav-dropdown-toggle"
             href="#"
-            onClick={this.handleClick}
-          >
+            onClick={this.handleClick}>
             <i className={item.icon} />
             {item.name}
           </a>

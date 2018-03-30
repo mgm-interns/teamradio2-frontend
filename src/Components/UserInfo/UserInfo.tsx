@@ -33,8 +33,7 @@ export class UserInfo extends Component<any, any> {
           isOpen={this.state.dropdownOpen}
           toggle={() => {
             this.toggle();
-          }}
-        >
+          }}>
           <DropdownToggle className="nav-link dropdown-toggle button-dropdown-toggle">
             <img className="img-avatar" alt="avatar" src="img/avatars/1.jpg" />
             <span className="d-md-down-none">Team Radio</span>

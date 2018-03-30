@@ -5,6 +5,7 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import toBase64 from 'Utilities/toBase64';
 import './ImageUploader.scss';
 
+// TODO: solve this tslint problem in class property (public, private)
 export class ImageUploader extends Component<any, any> {
   private inputFileTag: any;
 
@@ -120,8 +121,7 @@ export class ImageUploader extends Component<any, any> {
         <div>
           <Modal
             isOpen={this.state.isOpenCropModal}
-            toggle={this.setAllValueToDefault}
-          >
+            toggle={this.setAllValueToDefault}>
             <ModalHeader>Crop your photo</ModalHeader>
             <ModalBody className="cropper-modal-body">
               <Cropper

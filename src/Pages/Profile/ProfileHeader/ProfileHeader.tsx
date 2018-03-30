@@ -121,8 +121,7 @@ export class ProfileHeader extends Component<any, any> {
                   onClick={() => {
                     this.uploadCover();
                   }}
-                  className="btn btn-update-cover"
-                >
+                  className="btn btn-update-cover">
                   <i className="fa fa-camera" /> Update Cover Photo
                 </button>
               </div>
