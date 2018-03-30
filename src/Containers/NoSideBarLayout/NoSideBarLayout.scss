@@ -1,10 +1,13 @@
 .app.no-side-bar {
-  .main, .app-footer {
+  .main,
+  .app-footer {
     margin-left: 0;
   }
 }
 
-.app.login, .app.register, .app.forgot-password {
+.app.login,
+.app.register,
+.app.forgot-password {
   min-height: calc(100vh - 105px);
   .background-image {
     position: fixed;

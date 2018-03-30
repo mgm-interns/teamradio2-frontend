@@ -43,7 +43,6 @@ $height-container-sx-md: 400px;
     img {
       @include header-container;
       object-fit: cover;
-
       position: absolute;
     }
     .background-cover {

@@ -1,15 +1,16 @@
 import { ActionCreator } from 'redux';
 import { sampleConstants } from '../Constants';
+import { IUserInfo, IUserListUpdateAction } from '../Types';
 
-import { UserListUpdateAction, UserInfo } from '../Types';
-
-const updateUserList: ActionCreator<UserListUpdateAction> = (users: UserInfo[]) => ({
+const updateUserList: ActionCreator<IUserListUpdateAction> = (
+  users: IUserInfo[],
+) => ({
   type: sampleConstants.USERS_LIST_UPDATED,
   payload: {
     users,
-  }
+  },
 });
 
 export const sampleActions = {
-  updateUserList: updateUserList
+  updateUserList,
 };

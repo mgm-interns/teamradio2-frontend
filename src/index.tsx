@@ -9,10 +9,10 @@ import 'flag-icon-css/css/flag-icon.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 // Import Simple Line Icons Set
 import 'simple-line-icons/css/simple-line-icons.css';
-// Import Main styles for this application
-import '../scss/style.scss';
 // Temp fix for reactstrap
 import '../scss/core/_dropdown-menu-right.scss';
+// Import Main styles for this application
+import '../scss/style.scss';
 
 // config redux
 import { Provider } from 'react-redux';
@@ -23,13 +23,14 @@ import { FullLayout, NoSideBarLayout } from './Containers/';
 
 const store = configureStore();
 
-ReactDOM.render((
+ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route path="/dashboard" name="Dashboard" component={FullLayout}/>
-        <Route path="/" name="Home" component={NoSideBarLayout}/>
+        <Route path="/dashboard" name="Dashboard" component={FullLayout} />
+        <Route path="/" name="Home" component={NoSideBarLayout} />
       </Switch>
     </BrowserRouter>
-  </Provider>
-), document.getElementById('root'));
+  </Provider>,
+  document.getElementById('root'),
+);
