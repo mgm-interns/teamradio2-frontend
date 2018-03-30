@@ -1,31 +1,31 @@
 .u-margin-top-medium {
-    margin-top: 100px;
+  margin-top: 100px;
 }
 
 .header-container {
-    flex: 1;
-    flex-direction: row;
-    padding: 16px;
-    align-items: center;
-    justify-content: space-between;
+  flex: 1;
+  flex-direction: row;
+  padding: 16px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .buttons-wrapper {
-    display: flex;
+  display: flex;
 }
 
 .btn-no-shadow {
-    &:focus {
-        box-shadow: none;
-    }
-    min-width: 39px;
+  &:focus {
+    box-shadow: none;
+  }
+  min-width: 39px;
 }
 
 .icon-wrapper {
-    font-size: 25px;
-    padding: 0 10px;
+  font-size: 25px;
+  padding: 0 10px;
 }
 
 .icon {
-    min-width: 25px;
+  min-width: 25px;
 }

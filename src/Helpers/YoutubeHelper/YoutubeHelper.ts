@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import * as moment from 'moment';
 
 const REACT_APP_YOUTUBE_API_URL = process.env.REACT_APP_YOUTUBE_API_URL;
@@ -19,7 +19,7 @@ export const YoutubeHelper = {
     return `${REACT_APP_YOUTUBE_URL + video.id}&t=0s`;
   },
   getVideoList: async (videoIds: string) => {
-    const {data: {items}} = await axios.get(
+    const { data: { items } } = await axios.get(
       `${REACT_APP_YOUTUBE_API_URL}/videos`,
       {
         params: {
@@ -32,7 +32,7 @@ export const YoutubeHelper = {
     return items;
   },
   fetchVideo: async (value: string) => {
-    const {data: {items}} = await axios.get(
+    const { data: { items } } = await axios.get(
       `${REACT_APP_YOUTUBE_API_URL}/search`,
       {
         params: {
@@ -56,6 +56,9 @@ export const YoutubeHelper = {
   convertDuration: (youTubeDuration: string): string => {
     const duration: number = moment.duration(youTubeDuration).asSeconds();
     const formatString: string = duration > 3600 ? 'HH:mm:ss' : 'mm:ss';
-    return moment().startOf('day').add(duration, 'seconds').format(formatString);
-  }
+    return moment()
+      .startOf('day')
+      .add(duration, 'seconds')
+      .format(formatString);
+  },
 };

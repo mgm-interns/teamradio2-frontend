@@ -2,7 +2,6 @@ $suggestion_height: 48px;
 
 .react-autosuggest {
   &__suggestions-container {
-
   }
   &__suggestions-list {
     list-style: none;
@@ -16,7 +15,7 @@ $suggestion_height: 48px;
     white-space: nowrap;
     padding: 0 16px;
     img {
-      height: calc(#{$suggestion_height}/2);
+      height: calc(#{$suggestion_height}/ 2);
       margin-right: 8px;
     }
 

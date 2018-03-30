@@ -7,11 +7,7 @@ export class LoadingIndicator extends Component {
     super(props);
   }
 
-  render() {
-    return (
-      <div className="loader"></div>
-    )
-
+  public render() {
+    return <div className="loader" />;
   }
-
 }

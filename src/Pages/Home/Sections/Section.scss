@@ -1,6 +1,5 @@
 // FONTS
-$font-title: 'Pacifico',
-sans-serif;
+$font-title: 'Pacifico', sans-serif;
 $font-size-default: 1.25rem;
 $font-size-medium: 2.25rem;
 // COLORS
@@ -9,96 +8,96 @@ $color-tertiary: #f4f0ea;
 $color-black: #000;
 $color-primary: #e06a4e;
 .section-feature {
-    padding: 9rem 0 10.5rem;
-    &--tertinary {
-        background-color: $color-tertiary;
-    }
-    &--white {
-        background-color: $color-white;
-    }
+  padding: 9rem 0 10.5rem;
+  &--tertinary {
+    background-color: $color-tertiary;
+  }
+  &--white {
+    background-color: $color-white;
+  }
 }
 
 .btn-text {
-    &:link,
-    &:visited {
-        font-size: $font-size-default;
-        color: $color-primary;
-        display: inline-block;
-        text-decoration: none;
-        padding: 2px;
-        transition: all 0.2s;
-    }
-    &:hover,
-    &:active {
-        text-decoration: underline;
-    }
+  &:link,
+  &:visited {
+    font-size: $font-size-default;
+    color: $color-primary;
+    display: inline-block;
+    text-decoration: none;
+    padding: 2px;
+    transition: all 0.2s;
+  }
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
 }
 
 .heading-tertiary {
-    font-size: $font-size-medium;
-    font-family: $font-title;
-    font-weight: 700;
+  font-size: $font-size-medium;
+  font-family: $font-title;
+  font-weight: 700;
 }
 
 .paragraph {
-    font-size: $font-size-default;
-    &:not(:last-child) {
-        margin-bottom: 3rem;
-    }
+  font-size: $font-size-default;
+  &:not(:last-child) {
+    margin-bottom: 3rem;
+  }
 }
 
 .composition {
-    margin-top: -4rem;
-    position: relative;
-    &__photo {
-        width: 35%;
-        box-shadow: 0 1.5rem 4rem rgba($color-black, 0.4);
-        border-radius: 2px;
-        position: absolute;
-        z-index: 10;
-        transition: all 0.2s;
-        outline-offset: 0.5rem;
-        &--p1 {
-            left: 25%;
-            top: -2rem;
-        }
-        &--p2 {
-            right: 0;
-            top: 2rem;
-        }
-        &--p3 {
-            left: 40%;
-            top: 10rem;
-        }
-        &--p4 {
-            width: 80%;
-            top: 5rem;
-        }
-        &--p5 {
-            width: 80%;
-            top: 2rem;
-            right: 0;
-        }
-        &:hover {
-            transform: scale(1.2);
-            box-shadow: 0 2.5rem 4rem rgba($color-black, 0.5);
-            z-index: 20;
-        }
+  margin-top: -4rem;
+  position: relative;
+  &__photo {
+    width: 35%;
+    box-shadow: 0 1.5rem 4rem rgba($color-black, 0.4);
+    border-radius: 2px;
+    position: absolute;
+    z-index: 10;
+    transition: all 0.2s;
+    outline-offset: 0.5rem;
+    &--p1 {
+      left: 25%;
+      top: -2rem;
     }
-    &:hover,
-    &__photo:not(:hover) {
-        transform: scale(0.95);
+    &--p2 {
+      right: 0;
+      top: 2rem;
     }
+    &--p3 {
+      left: 40%;
+      top: 10rem;
+    }
+    &--p4 {
+      width: 80%;
+      top: 5rem;
+    }
+    &--p5 {
+      width: 80%;
+      top: 2rem;
+      right: 0;
+    }
+    &:hover {
+      transform: scale(1.2);
+      box-shadow: 0 2.5rem 4rem rgba($color-black, 0.5);
+      z-index: 20;
+    }
+  }
+  &:hover,
+  &__photo:not(:hover) {
+    transform: scale(0.95);
+  }
 }
 
 .u-margin-bottom-small {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .u-margin-bottom-medium {
-    margin-bottom: 4rem;
+  margin-bottom: 4rem;
 }
 
 .u-margin-bottom-big {
-    margin-bottom: 8rem;
+  margin-bottom: 8rem;
 }

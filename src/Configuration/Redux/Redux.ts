@@ -1,17 +1,17 @@
-import { createStore, applyMiddleware, Store } from 'redux';
+import { applyMiddleware, createStore, Store } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+import { IApplicationState, reducers } from './Reducers';
 
-import { ApplicationState, reducers } from './Reducers';
-import { composeWithDevTools } from "redux-devtools-extension";
-
-export function configureStore(initialState?: ApplicationState): Store<ApplicationState> {
+export function configureStore(
+  initialState?: IApplicationState,
+): Store<IApplicationState> {
   // create the composing function for our middlewares
   const composeEnhancers = composeWithDevTools({});
 
-  return createStore<ApplicationState>(
+  return createStore<IApplicationState>(
     reducers,
     initialState,
-    composeEnhancers(
-      applyMiddleware(thunk)
-    ));
+    composeEnhancers(applyMiddleware(thunk)),
+  );
 }

@@ -1,15 +1,15 @@
+import { InformationForm } from 'Modules/User/Components/InformationForm';
+import { PasswordForm } from 'Modules/User/Components/PasswordForm';
 import * as React from 'react';
 import { Component } from 'react';
 import {
   Dropdown,
-  DropdownMenu,
   DropdownItem,
-  DropdownToggle
+  DropdownMenu,
+  DropdownToggle,
 } from 'reactstrap';
-import { InformationForm } from "Modules/User/Components/InformationForm";
-import { PasswordForm } from "Modules/User/Components/PasswordForm";
+import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import './SelectFormButton.scss';
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
 export class SelectFormButton extends Component<any, any> {
   constructor(props: any) {
@@ -18,7 +18,7 @@ export class SelectFormButton extends Component<any, any> {
       dropdownOpen: false,
       openInformationForm: false,
       openPasswordForm: false,
-    }
+    };
     this.toggle = this.toggle.bind(this);
     this.renderInformationForm = this.renderInformationForm.bind(this);
     this.renderPasswordForm = this.renderPasswordForm.bind(this);
@@ -27,83 +27,98 @@ export class SelectFormButton extends Component<any, any> {
     this.onCloseModal = this.onCloseModal.bind(this);
   }
 
-  toggle() {
-    let isOpen = this.state.dropdownOpen;
+  public toggle() {
+    const isOpen = this.state.dropdownOpen;
     this.setState({
-      dropdownOpen: !isOpen
+      dropdownOpen: !isOpen,
     });
   }
 
-  openInformationForm() {
+  public openInformationForm() {
     this.setState({
       openInformationForm: true,
       openPasswordForm: false,
-    })
+    });
   }
 
-  openPasswordForm() {
+  public openPasswordForm() {
     this.setState({
       openInformationForm: false,
       openPasswordForm: true,
-    })
+    });
   }
 
-  onCloseModal() {
+  public onCloseModal() {
     this.setState({
       openInformationForm: false,
       openPasswordForm: false,
     });
   }
 
-  renderModal(openState: any, modalHeadline: any, component: any) {
+  public renderModal(openState: any, modalHeadline: any, component: any) {
     return (
-      <Modal isOpen={openState} toggle={() => this.onCloseModal()}
-             className='modal-primary modal-lg modal-edit-form'>
-        <ModalHeader toggle={() => this.onCloseModal()}>{modalHeadline}</ModalHeader>
-        <ModalBody>
-          {component}
-        </ModalBody>
+      <Modal
+        isOpen={openState}
+        toggle={() => this.onCloseModal()}
+        className="modal-primary modal-lg modal-edit-form">
+        <ModalHeader toggle={() => this.onCloseModal()}>
+          {modalHeadline}
+        </ModalHeader>
+        <ModalBody>{component}</ModalBody>
       </Modal>
     );
   }
 
-  renderInformationForm() {
+  public renderInformationForm() {
     return this.renderModal(
       this.state.openInformationForm,
       'Edit your information',
-      <InformationForm onCloseModal={() => this.onCloseModal()}/>
+      <InformationForm onCloseModal={() => this.onCloseModal()} />,
     );
   }
 
-  renderPasswordForm() {
+  public renderPasswordForm() {
     return this.renderModal(
       this.state.openPasswordForm,
       'Edit your password',
-      <PasswordForm onCloseModal={() => this.onCloseModal()} hadPass={true}/>
+      <PasswordForm onCloseModal={() => this.onCloseModal()} hadPass={true} />,
     );
   }
 
-  render() {
+  public render() {
     return (
       <div className="setting">
-        <Dropdown className="drop-down" isOpen={this.state.dropdownOpen} toggle={() => {
-          this.toggle();
-        }}>
+        <Dropdown
+          className="drop-down"
+          isOpen={this.state.dropdownOpen}
+          toggle={() => {
+            this.toggle();
+          }}>
           <DropdownToggle className="nav-link dropdown-toggle button-dropdown-setting">
-            <span><i className="fa fa-pencil"></i></span>
+            <span>
+              <i className="fa fa-pencil" />
+            </span>
           </DropdownToggle>
           <DropdownMenu right className="drop-down-menu">
-            <DropdownItem className="drop-item" onClick={() => {
-              this.openInformationForm();
-            }}><i className="fa fa-user"></i>Information</DropdownItem>
-            <DropdownItem className="drop-item" onClick={() => {
-              this.openPasswordForm();
-            }}><i className="fa fa-key"></i>Password</DropdownItem>
+            <DropdownItem
+              className="drop-item"
+              onClick={() => {
+                this.openInformationForm();
+              }}>
+              <i className="fa fa-user" />Information
+            </DropdownItem>
+            <DropdownItem
+              className="drop-item"
+              onClick={() => {
+                this.openPasswordForm();
+              }}>
+              <i className="fa fa-key" />Password
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
         {this.state.openInformationForm ? this.renderInformationForm() : null}
         {this.state.openPasswordForm ? this.renderPasswordForm() : null}
       </div>
-    )
+    );
   }
 }

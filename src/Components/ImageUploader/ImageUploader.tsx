@@ -1,18 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
 import Cropper from 'react-cropper';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button
-} from "reactstrap";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import toBase64 from 'Utilities/toBase64';
 import './ImageUploader.scss';
 
-// const SERVER_URL = 'teamradio-server-url';
-
+// TODO: solve this tslint problem in class property (public, private)
 export class ImageUploader extends Component<any, any> {
   private inputFileTag: any;
 
@@ -32,7 +25,7 @@ export class ImageUploader extends Component<any, any> {
     this.setAllValueToDefault = this.setAllValueToDefault.bind(this);
   }
 
-  componentWillMount() {
+  public componentWillMount() {
     this.setState({
       isUploadingImage: false,
       isOpenCropModal: false,
@@ -41,18 +34,18 @@ export class ImageUploader extends Component<any, any> {
     });
   }
 
-  openChooseImageModal() {
+  public openChooseImageModal() {
     this.inputFileTag.click();
   }
 
-  cropImage() {
+  public cropImage() {
     this.setState({
       croppedImage: (this.refs.cropper as any).getCroppedCanvas().toDataURL(),
     });
   }
 
-  uploadImageToServer() {
-    //These code for uploading image to server, It will be used when this feature on back-end implemented
+  public uploadImageToServer() {
+    // These code for uploading image to server, It will be used when this feature on back-end implemented
     // const xmlHttpRequest = new XMLHttpRequest();
     // const formData = new FormData();
     // xmlHttpRequest.open('POST', SERVER_URL, true);
@@ -78,23 +71,22 @@ export class ImageUploader extends Component<any, any> {
     // xmlHttpRequest.send(formData);
     this.responseImageUrl();
     this.setAllValueToDefault();
-  };
+  }
 
-
-  async convertImageUploaded(event: any) {
+  public async convertImageUploaded(event: any) {
     const uploadedImage = event.target.files[0];
     if (uploadedImage.size / 1024 / 1024 > 2) {
-      //Notify image upload exceed 2MB
+      // Notify image upload exceed 2MB
     } else {
       const base64 = await toBase64(uploadedImage);
-      await this.setStateAsync({uploadedImage: base64});
+      await this.setStateAsync({ uploadedImage: base64 });
       this.setState({
-        isOpenCropModal: true
+        isOpenCropModal: true,
       });
     }
   }
 
-  setAllValueToDefault() {
+  public setAllValueToDefault() {
     this.setState({
       isUploadingImage: false,
       isOpenCropModal: false,
@@ -104,19 +96,18 @@ export class ImageUploader extends Component<any, any> {
     this.inputFileTag.value = null;
   }
 
-  setStateAsync(state: any) {
+  public setStateAsync(state: any) {
     return new Promise((resolve: any) => {
       this.setState(state, resolve);
     });
   }
 
-  responseImageUrl() {
+  public responseImageUrl() {
     this.props.imageUploadUrl(this.state.croppedImage);
   }
 
-
-  render() {
-    const {aspectRatio} = this.props;
+  public render() {
+    const { aspectRatio } = this.props;
     return (
       <div className="image-uploader">
         <input
@@ -128,21 +119,29 @@ export class ImageUploader extends Component<any, any> {
           onChange={this.convertImageUploaded}
         />
         <div>
-          <Modal isOpen={this.state.isOpenCropModal} toggle={this.setAllValueToDefault}>
+          <Modal
+            isOpen={this.state.isOpenCropModal}
+            toggle={this.setAllValueToDefault}>
             <ModalHeader>Crop your photo</ModalHeader>
             <ModalBody className="cropper-modal-body">
               <Cropper
-                ref='cropper'
+                // tslint:disable-next-line
+                ref="cropper"
                 src={this.state.uploadedImage}
                 aspectRatio={aspectRatio}
                 guides={false}
                 crop={this.cropImage}
-                className="copper"/>
+                className="copper"
+              />
             </ModalBody>
             <ModalFooter>
               <div className="cropper-modal-footer">
-                <Button color="primary" onClick={this.uploadImageToServer}>Apply</Button>
-                <Button color="secondary" onClick={this.setAllValueToDefault}>Cancel</Button>
+                <Button color="primary" onClick={this.uploadImageToServer}>
+                  Apply
+                </Button>
+                <Button color="secondary" onClick={this.setAllValueToDefault}>
+                  Cancel
+                </Button>
               </div>
             </ModalFooter>
           </Modal>

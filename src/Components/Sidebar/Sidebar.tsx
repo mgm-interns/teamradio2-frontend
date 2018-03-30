@@ -1,16 +1,15 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
 import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Badge, Nav, NavItem, NavLink as RsNavLink } from 'reactstrap';
-import * as classNames from 'classnames';
-import nav from './_nav';
 import { SidebarFooter } from '../SidebarFooter';
 import { SidebarForm } from '../SidebarForm';
 import { SidebarHeader } from '../SidebarHeader';
 import { SidebarMinimizer } from '../SidebarMinimizer';
+import nav from './_nav';
 
 export class Sidebar extends Component {
-
   constructor(props: any) {
     super(props);
 
@@ -19,21 +18,21 @@ export class Sidebar extends Component {
     this.hideMobile = this.hideMobile.bind(this);
   }
 
-
-  handleClick(e: any) {
+  public handleClick(e: any) {
     e.preventDefault();
     e.target.parentElement.classList.toggle('open');
   }
 
-  activeRoute(routeName: string, props: any) {
+  public activeRoute(routeName: string, props: any) {
     // return this.props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
-    return props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
-
+    return props.location.pathname.indexOf(routeName) > -1
+      ? 'nav-item nav-dropdown open'
+      : 'nav-item nav-dropdown';
   }
 
-  hideMobile() {
+  public hideMobile() {
     if (document.body.classList.contains('sidebar-mobile-show')) {
-      document.body.classList.toggle('sidebar-mobile-show')
+      document.body.classList.toggle('sidebar-mobile-show');
     }
   }
 
@@ -42,62 +41,76 @@ export class Sidebar extends Component {
   //   return this.props.location.pathname.indexOf(routeName) > -1 ? "nav nav-second-level collapse in" : "nav nav-second-level collapse";
   // }
 
-
-  render() {
-
+  public render() {
     const props = this.props;
 
     // badge addon to NavItem
+    // tslint:disable-next-line
     const badge = (badge: any) => {
       if (badge) {
-        const classes = classNames( badge.class );
-        return (<Badge className={ classes } color={ badge.variant }>{ badge.text }</Badge>)
+        const classes = classNames(badge.class);
+        return (
+          <Badge className={classes} color={badge.variant}>
+            {badge.text}
+          </Badge>
+        );
       }
     };
 
     // simple wrapper for nav-title item
     const wrapper = (item: any) => {
-      return (item.wrapper && item.wrapper.element ? (React.createElement(item.wrapper.element, item.wrapper.attributes, item.name)) : item.name)
+      return item.wrapper && item.wrapper.element
+        ? React.createElement(
+            item.wrapper.element,
+            item.wrapper.attributes,
+            item.name,
+          )
+        : item.name;
     };
 
     // nav list section title
+    // tslint:disable-next-line
     const title = (title: any, key: string) => {
-      const classes = classNames( 'nav-title', title.class);
-      return (<li key={key} className={ classes }>{wrapper(title)} </li>);
+      const classes = classNames('nav-title', title.class);
+      return (
+        <li key={key} className={classes}>
+          {wrapper(title)}{' '}
+        </li>
+      );
     };
 
     // nav list divider
+    // tslint:disable-next-line
     const divider = (divider: any, key: string) => {
-      const classes = classNames( 'divider', divider.class);
-      return (<li key={key} className={ classes }></li>);
+      const classes = classNames('divider', divider.class);
+      return <li key={key} className={classes} />;
     };
 
     // nav label with nav link
     const navLabel = (item: any, key: string) => {
       const classes = {
-        item: classNames( 'hidden-cn', item.class ),
-        link: classNames( 'nav-label', item.class ? item.class : ''),
+        item: classNames('hidden-cn', item.class),
+        link: classNames('nav-label', item.class ? item.class : ''),
         icon: classNames(
-          !item.icon ? 'fa fa-circle' : item.icon ,
+          !item.icon ? 'fa fa-circle' : item.icon,
           item.label.variant ? `text-${item.label.variant}` : '',
-          item.label.class ?  item.label.class : ''
-        )
+          item.label.class ? item.label.class : '',
+        ),
       };
-      return (
-        navLink(item, key, classes)
-      );
+      return navLink(item, key, classes);
     };
 
     // nav item with nav link
     const navItem = (item: any, key: string) => {
       const classes = {
-        item: classNames( item.class) ,
-        link: classNames( 'nav-link', item.variant ? `nav-link-${item.variant}` : ''),
-        icon: classNames( item.icon )
+        item: classNames(item.class),
+        link: classNames(
+          'nav-link',
+          item.variant ? `nav-link-${item.variant}` : '',
+        ),
+        icon: classNames(item.icon),
       };
-      return (
-        navLink(item, key, classes)
-      )
+      return navLink(item, key, classes);
     };
 
     // nav link
@@ -105,41 +118,56 @@ export class Sidebar extends Component {
       const url = item.url ? item.url : '';
       return (
         <NavItem key={key} className={classes.item}>
-          { isExternal(url) ?
+          {isExternal(url) ? (
             <RsNavLink href={url} className={classes.link} active>
-              <i className={classes.icon}></i>{item.name}{badge(item.badge)}
+              <i className={classes.icon} />
+              {item.name}
+              {badge(item.badge)}
             </RsNavLink>
-            :
-            <NavLink to={url} className={classes.link} activeClassName="active" onClick={this.hideMobile}>
-              <i className={classes.icon}></i>{item.name}{badge(item.badge)}
+          ) : (
+            <NavLink
+              to={url}
+              className={classes.link}
+              activeClassName="active"
+              onClick={this.hideMobile}>
+              <i className={classes.icon} />
+              {item.name}
+              {badge(item.badge)}
             </NavLink>
-          }
+          )}
         </NavItem>
-      )
+      );
     };
 
     // nav dropdown
     const navDropdown = (item: any, key: string) => {
       return (
         <li key={key} className={this.activeRoute(item.url, props)}>
-          <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick}><i className={item.icon}></i>{item.name}</a>
-          <ul className="nav-dropdown-items">
-            {navList(item.children)}
-          </ul>
-        </li>)
+          <a
+            className="nav-link nav-dropdown-toggle"
+            href="#"
+            onClick={this.handleClick}>
+            <i className={item.icon} />
+            {item.name}
+          </a>
+          <ul className="nav-dropdown-items">{navList(item.children)}</ul>
+        </li>
+      );
     };
 
     // nav type
     const navType = (item: any, idx: any) =>
-      item.title ? title(item, idx) :
-      item.divider ? divider(item, idx) :
-      item.label ? navLabel(item, idx) :
-      item.children ? navDropdown(item, idx)
-                    : navItem(item, idx) ;
+      item.title
+        ? title(item, idx)
+        : item.divider
+          ? divider(item, idx)
+          : item.label
+            ? navLabel(item, idx)
+            : item.children ? navDropdown(item, idx) : navItem(item, idx);
 
     // nav list
-    const navList = (items: Array<any>): Array<any> => {
-      return items.map( (item, index) => navType(item, index) );
+    const navList = (items: any[]): any[] => {
+      return items.map((item, index) => navType(item, index));
     };
 
     const isExternal = (url: string) => {
@@ -150,16 +178,14 @@ export class Sidebar extends Component {
     // sidebar-nav root
     return (
       <div className="sidebar">
-        <SidebarHeader/>
-        <SidebarForm/>
+        <SidebarHeader />
+        <SidebarForm />
         <nav className="sidebar-nav">
-          <Nav>
-            {navList(nav.items)}
-          </Nav>
+          <Nav>{navList(nav.items)}</Nav>
         </nav>
-        <SidebarFooter/>
-        <SidebarMinimizer/>
+        <SidebarFooter />
+        <SidebarMinimizer />
       </div>
-    )
+    );
   }
 }

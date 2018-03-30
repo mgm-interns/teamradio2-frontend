@@ -6,17 +6,17 @@
   & > * {
     display: inline-block;
   }
-  .drop-down{
-    .button-dropdown-toggle{
+  .drop-down {
+    .button-dropdown-toggle {
       padding-top: 0px;
       padding-right: 0px;
       padding-bottom: 0px;
-      font-family: Roboto Slab,serif;
+      font-family: Roboto Slab, serif;
       color: white;
       background-color: transparent;
       border-color: transparent;
       box-shadow: none;
-      &:focus{
+      &:focus {
         color: white;
         box-shadow: none;
         background-color: transparent;
@@ -24,30 +24,30 @@
         outline: none;
         border-color: transparent;
       }
-      &:active{
+      &:active {
         color: white;
         box-shadow: none;
         background-color: transparent;
         border-color: transparent;
         outline: none;
       }
-      &:focus:active{
+      &:focus:active {
         box-shadow: none;
       }
       & > span {
         font-size: 1.4em;
       }
     }
-    .show > .btn-secondary.dropdown-toggle{
+    .show > .btn-secondary.dropdown-toggle {
       color: white;
       background-color: transparent;
       border-color: transparent;
-      &:focus{
+      &:focus {
         box-shadow: none;
         outline: none;
         border-color: transparent;
       }
-      &:active{
+      &:active {
         box-shadow: none;
         background-color: transparent;
         border-color: transparent;
@@ -56,7 +56,7 @@
         border-color: transparent;
       }
     }
-    .drop-item{
+    .drop-item {
       font-size: 1.2em;
       color: rgba(0, 0, 0, 0.87);
       & > span {

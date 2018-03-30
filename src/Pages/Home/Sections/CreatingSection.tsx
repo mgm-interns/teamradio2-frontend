@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 
 export class CreatingSection extends Component {
-  render() {
+  public render() {
     return (
       <section className="section-feature section-feature--white">
         <div className="container">

@@ -2,13 +2,13 @@ import { Component } from 'react';
 import * as React from 'react';
 import {
   Button,
-  Popover,
-  PopoverHeader,
-  PopoverBody,
-  Input,
-  Row,
   Col,
   Container,
+  Input,
+  Popover,
+  PopoverBody,
+  PopoverHeader,
+  Row,
 } from 'reactstrap';
 import './StationSharing.scss';
 
@@ -16,18 +16,19 @@ const FACEBOOK_SHARING = 'https://www.facebook.com/sharer/sharer.php?u=';
 const GOOGLE_PLUS_SHARING = 'https://plus.google.com/share?url=';
 const TWITTER_SHARING = 'http://twitter.com/share?url=';
 
-interface Props {}
+interface IProps {} // tslint:disable-line
 
-interface State {
+interface IState {
   popoverOpen: any;
   url: string;
   copied: boolean;
 }
 
-export class StationSharing extends Component<Props, State> {
+// TODO: solve this tslint problem in class property (public, private)
+export class StationSharing extends Component<IProps, IState> {
   private inputRef: any;
 
-  constructor(props: Props) {
+  constructor(props: IProps) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
@@ -38,31 +39,32 @@ export class StationSharing extends Component<Props, State> {
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.setStationUrl(this.props);
   }
 
-  setStationUrl(nextProps = {}) {
+  public setStationUrl(nextProps = {}) {
     this.setState({
       url: StationSharing._transformUrl(),
     });
   }
 
-  toggle() {
+  public toggle() {
     this.setState({
       popoverOpen: !this.state.popoverOpen,
     });
   }
 
-  // eslint-disable-next-line
-  static _transformUrl() {
+  // tslint:disable-next-line
+  public static _transformUrl() {
     /**
      * Only need to return window.location
      */
     return window.location.href;
   }
 
-  _copyToClipboard() {
+  // tslint:disable-next-line
+  public _copyToClipboard() {
     try {
       this.inputRef.select();
       document.execCommand('Copy');
@@ -73,7 +75,8 @@ export class StationSharing extends Component<Props, State> {
     }
   }
 
-  _shareTo(prefix: string) {
+  // tslint:disable-next-line
+  public _shareTo(prefix: string) {
     try {
       window.open(`${prefix}${this.state.url}`, '_newtab');
     } catch (error) {
@@ -81,11 +84,11 @@ export class StationSharing extends Component<Props, State> {
     }
   }
 
-  ref = (input: any) => {
+  public ref = (input: any) => {
     this.inputRef = input;
   };
 
-  _renderPopoverContent = () => {
+  public _renderPopoverContent = () => {
     return (
       <div>
         <Input
@@ -97,26 +100,22 @@ export class StationSharing extends Component<Props, State> {
         <div className="buttons-wrapper">
           <div
             className="btn-icon"
-            onClick={() => this._shareTo(FACEBOOK_SHARING)}
-          >
+            onClick={() => this._shareTo(FACEBOOK_SHARING)}>
             <i className="fa fa-facebook" />
           </div>
           <div
             className="btn-icon"
-            onClick={() => this._shareTo(GOOGLE_PLUS_SHARING)}
-          >
+            onClick={() => this._shareTo(GOOGLE_PLUS_SHARING)}>
             <i className="fa fa-google" />
           </div>
           <div
             className="btn-icon"
-            onClick={() => this._shareTo(TWITTER_SHARING)}
-          >
+            onClick={() => this._shareTo(TWITTER_SHARING)}>
             <i className="fa fa-twitter" />
           </div>
           <div
             className="btn-icon btn-clipboard"
-            onClick={() => this._copyToClipboard()}
-          >
+            onClick={() => this._copyToClipboard()}>
             <i className="fa fa-clipboard" />
           </div>
         </div>
@@ -124,14 +123,13 @@ export class StationSharing extends Component<Props, State> {
     );
   };
 
-  render() {
+  public render() {
     return [
       <div
         key={1}
         id="share-station"
         className="btn-icon"
-        onClick={this.toggle}
-      >
+        onClick={this.toggle}>
         <i className="fa fa-share-alt" />
       </div>,
       <Popover
@@ -139,8 +137,7 @@ export class StationSharing extends Component<Props, State> {
         placement="bottom"
         isOpen={this.state.popoverOpen}
         target="share-station"
-        toggle={this.toggle}
-      >
+        toggle={this.toggle}>
         <PopoverHeader>Share {'station name'} to your friends</PopoverHeader>
         <PopoverBody>{this._renderPopoverContent()}</PopoverBody>
       </Popover>,

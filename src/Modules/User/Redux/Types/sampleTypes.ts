@@ -1,24 +1,24 @@
-import { sampleConstants } from "../Constants";
+import { sampleConstants } from '../Constants';
 
-export interface UserState {
-  data: object,
-  error?: string | null,
-  loading?: boolean,
-  isAuthenticated?: boolean,
+export interface IUserState {
+  data: object;
+  error?: string | null;
+  loading?: boolean;
+  isAuthenticated?: boolean;
 }
 
-export interface UserInfo {
-  name: string,
-  id: number,
+export interface IUserInfo {
+  name: string;
+  id: number;
 }
 
 import { Action } from 'redux';
 
-export interface UserListUpdateAction extends Action {
-  type: typeof sampleConstants.USERS_LIST_UPDATED,
+export interface IUserListUpdateAction extends Action {
+  type: typeof sampleConstants.USERS_LIST_UPDATED;
   payload: {
-    users: UserInfo[];
-  }
+    users: IUserInfo[];
+  };
 }
 
-export type UserActions = UserListUpdateAction;
+export type UserActions = IUserListUpdateAction;

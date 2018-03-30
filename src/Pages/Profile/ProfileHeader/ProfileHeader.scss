@@ -14,7 +14,11 @@ $height-container-sx-md: 400px;
   border-radius: 50%;
 }
 
-@mixin component-display($display : null, $align-items : null, $justify-content : null) {
+@mixin component-display(
+  $display: null,
+  $align-items: null,
+  $justify-content: null
+) {
   @if ($display) {
     display: $display;
   }
@@ -25,7 +29,6 @@ $height-container-sx-md: 400px;
     justify-content: $justify-content;
   }
 }
-
 .profile-header-container {
   @include header-container;
   @include component-display(flex, center, center);
@@ -34,36 +37,34 @@ $height-container-sx-md: 400px;
   overflow-x: hidden;
   z-index: 0;
   position: relative;
-
   .background-wrapper {
     @include header-container;
     position: absolute;
-
     img {
       @include header-container;
       object-fit: cover;
       position: absolute;
     }
-
     .background-cover {
       width: 100%;
       height: 100%;
-      background: linear-gradient(to right bottom, rgba(#000000, 0.5), rgba(#000000, 0.5));
+      background: linear-gradient(
+        to right bottom,
+        rgba(#000000, 0.5),
+        rgba(#000000, 0.5)
+      );
       position: absolute;
     }
   }
-
   .user-info-container {
     @include component-display(flex, center, space-between);
     width: 1280px;
     margin: 0 auto;
-
     & > .row {
       width: inherit;
     }
     .user-avatar {
       @include component-display(flex, center, flex-start);
-
       .avatar {
         @include avatar-container;
         background: #ffffff;
@@ -72,15 +73,17 @@ $height-container-sx-md: 400px;
           @include component-display(flex, null, center);
           flex-direction: column;
         }
-
         img {
           @include avatar-container;
           border: 5px solid #ffffff;
         }
-
         .avatar-hover {
           @include avatar-container;
-          background: linear-gradient(to right bottom, rgba(#000000, 0.5), rgba(#000000, 0.5));
+          background: linear-gradient(
+            to right bottom,
+            rgba(#000000, 0.5),
+            rgba(#000000, 0.5)
+          );
           position: absolute;
           top: 0;
           left: 0;
@@ -92,48 +95,39 @@ $height-container-sx-md: 400px;
           }
         }
       }
-
       .name {
         margin: 20px;
         color: white;
         display: block;
         white-space: nowrap;
-
         .display-name {
           margin: 0;
         }
       }
     }
-
     .summarize {
       height: 100%;
       @include component-display(flex, center, center);
-
       .summarize-item {
         @include component-display(flex, center, null);
         flex-direction: column;
         padding: 0 25px;
-
         .summarize-item-header {
           color: #ffffff;
           font-weight: 500;
           font-size: 1rem;
         }
-
         .summarize-item-score {
           color: #e06a4e;
           font-weight: 500;
         }
       }
     }
-
     .update-cover {
       @include component-display(flex, center, flex-end);
       height: 100%;
-
       .btn-update-cover {
         border-radius: 3px;
-
         &:hover {
           background-color: #a4b7c1;
         }
@@ -141,7 +135,6 @@ $height-container-sx-md: 400px;
     }
   }
 }
-
 @media all and (max-width: 992px) {
   .profile-header-container {
     height: $height-container-sx-md;
@@ -152,7 +145,8 @@ $height-container-sx-md: 400px;
       }
     }
     .user-info-container {
-      .user-avatar, .update-cover {
+      .user-avatar,
+      .update-cover {
         @include component-display(null, null, center);
       }
     }

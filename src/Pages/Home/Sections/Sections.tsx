@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { Component } from 'react';
+import { AddingSongSection } from './AddingSongSection';
+import { CreatingSection } from './CreatingSection';
 import './Section.scss';
-import { CreatingSection } from "./CreatingSection";
-import { AddingSongSection } from "./AddingSongSection";
-import { SharingSection } from "./SharingSection";
+import { SharingSection } from './SharingSection';
 
 export class Sections extends Component {
-  render() {
+  public render() {
     return (
       <main>
-        <CreatingSection/>
-        <AddingSongSection/>
-        <SharingSection/>
+        <CreatingSection />
+        <AddingSongSection />
+        <SharingSection />
       </main>
     );
   }

@@ -1,80 +1,82 @@
+import { YoutubeHelper } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
 import * as Autosuggest from 'react-autosuggest';
-import { YoutubeHelper } from "Helpers";
+import { Suggestion } from '../Suggestion';
 import './SearchSong.scss';
-import  { Suggestion} from "../Suggestion";
 
-interface SearchSongState {
+interface ISearchSongState {
   value: string;
-  suggestions: Array<any>;
+  suggestions: any[];
 }
 
-export class SearchSong extends Component<any, SearchSongState> {
+export class SearchSong extends Component<any, ISearchSongState> {
   constructor(props: any) {
     super(props);
 
     this.state = {
       value: '',
-      suggestions: []
+      suggestions: [],
     };
   }
 
-  getSuggestions = async (value: string) => {
+  public getSuggestions = async (value: string) => {
     const items = await YoutubeHelper.fetchVideo(value);
     let videoIds = '';
     items.forEach((item: any) => {
       videoIds += `${item.id.videoId},`;
     });
-    return await YoutubeHelper.getVideoList(videoIds);
+    return YoutubeHelper.getVideoList(videoIds);
   };
 
-  getSuggestionValue = (suggestion: any) => suggestion.snippet.title;
+  public getSuggestionValue = (suggestion: any) => suggestion.snippet.title;
 
-  renderSuggestion = (suggestion: any) => (
-    <Suggestion url={suggestion.snippet.thumbnails.default.url} title={suggestion.snippet.title} />
+  public renderSuggestion = (suggestion: any) => (
+    <Suggestion
+      url={suggestion.snippet.thumbnails.default.url}
+      title={suggestion.snippet.title}
+    />
   );
 
-  onChange = (event: any, {newValue}: any) => {
-    if(newValue === '') {
+  public onChange = (event: any, { newValue }: any) => {
+    if (newValue === '') {
       this.props.setPreviewVideo(null);
     }
     this.setState({
-      value: newValue
+      value: newValue,
     });
   };
 
-  onSuggestionsFetchRequested = async ({value}: any) => {
+  public onSuggestionsFetchRequested = async ({ value }: any) => {
     const videoId = YoutubeHelper.validYoutubeUrl(value);
-    if(videoId) {
+    if (videoId) {
       const videoList = await YoutubeHelper.getVideoList(videoId);
       this.props.setPreviewVideo(videoList[0]);
-    }
-    else {
+    } else {
       this.setState({
-        suggestions: await this.getSuggestions(value)
+        suggestions: await this.getSuggestions(value),
       });
     }
   };
 
-  onSuggestionsClearRequested = () => {
+  public onSuggestionsClearRequested = () => {
     this.setState({
-      suggestions: []
+      suggestions: [],
     });
   };
 
-  onSuggestionSelected = (event: any, { suggestion }: any) => {
+  public onSuggestionSelected = (event: any, { suggestion }: any) => {
     this.props.setPreviewVideo(suggestion);
   };
 
-  render() {
-    const {value, suggestions} = this.state;
+  public render() {
+    const { value, suggestions } = this.state;
 
     const inputProps = {
-      placeholder: 'Type a video name, e.g., Shape of you',
       value,
+      placeholder: 'Type a video name, e.g., Shape of you',
       onChange: this.onChange,
-      className: 'form-control'
+      className: 'form-control',
     };
 
     return (
@@ -87,6 +89,6 @@ export class SearchSong extends Component<any, SearchSongState> {
         onSuggestionSelected={this.onSuggestionSelected}
         inputProps={inputProps}
       />
-    )
+    );
   }
 }

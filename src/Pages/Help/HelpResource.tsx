@@ -1,6 +1,6 @@
 const Resource = {
-  general:
-`# TeamRadio:
+  general: `
+# TeamRadio:
 ---
 A playlist for teams that can be edited collaboratively by all users
 `,

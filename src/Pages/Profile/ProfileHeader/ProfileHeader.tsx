@@ -1,10 +1,7 @@
+import { ImageUploader } from 'Components';
 import * as React from 'react';
 import { Component } from 'react';
-import {
-  Container,
-  Row
-} from 'reactstrap';
-import { ImageUploader } from "Components";
+import { Container, Row } from 'reactstrap';
 import './ProfileHeader.scss';
 
 export class ProfileHeader extends Component<any, any> {
@@ -12,29 +9,29 @@ export class ProfileHeader extends Component<any, any> {
 
   constructor(props: any) {
     super(props);
-    this.state = ({
+    this.state = {
       isUpdateAvatar: false,
       isUpdateCover: false,
-      avatarUrl: "./img/female-01.png",
-      coverUrl: "./img/profile-cover.png",
-      aspectRatio: 1
-    });
+      avatarUrl: './img/female-01.png',
+      coverUrl: './img/profile-cover.png',
+      aspectRatio: 1,
+    };
     this.uploadAvatar = this.uploadAvatar.bind(this);
     this.uploadCover = this.uploadCover.bind(this);
     this.setImageUploadUrl = this.setImageUploadUrl.bind(this);
   }
 
-  componentWillMount() {
+  public componentWillMount() {
     this.setState({
       isUpdateAvatar: false,
       isUpdateCover: false,
-      avatarUrl: "./img/female-01.png",
-      coverUrl: "./img/profile-cover.png",
-      aspectRatio: 1
+      avatarUrl: './img/female-01.png',
+      coverUrl: './img/profile-cover.png',
+      aspectRatio: 1,
     });
   }
 
-  uploadAvatar() {
+  public uploadAvatar() {
     this.setState({
       isUpdateAvatar: true,
       isUpdateCover: false,
@@ -43,7 +40,7 @@ export class ProfileHeader extends Component<any, any> {
     this.imageUploader.openChooseImageModal();
   }
 
-  uploadCover() {
+  public uploadCover() {
     this.setState({
       isUpdateAvatar: false,
       isUpdateCover: true,
@@ -52,25 +49,25 @@ export class ProfileHeader extends Component<any, any> {
     this.imageUploader.openChooseImageModal();
   }
 
-  setImageUploadUrl(imageUploadUrl: any) {
+  public setImageUploadUrl(imageUploadUrl: any) {
     if (this.state.isUpdateAvatar) {
       this.setState({
-        avatarUrl: imageUploadUrl
+        avatarUrl: imageUploadUrl,
       });
     } else {
       this.setState({
-        coverUrl: imageUploadUrl
+        coverUrl: imageUploadUrl,
       });
     }
   }
 
-  render() {
+  public render() {
     return (
       <div className="profile-header-container">
         {/*Background image cover*/}
         <div className="background-wrapper">
-          <img src={this.state.coverUrl}/>
-          <div className="background-cover"></div>
+          <img src={this.state.coverUrl} />
+          <div className="background-cover" />
         </div>
         {/*User information container*/}
         <Container className="user-info-container">
@@ -81,7 +78,11 @@ export class ProfileHeader extends Component<any, any> {
                 <div className="col-sm-12 col-md-12 col-lg-6">
                   <div className="user-avatar">
                     <div className="avatar" onClick={this.uploadAvatar}>
-                      <img src={this.state.avatarUrl} className="rounded-circle" alt="User Avatar"/>
+                      <img
+                        src={this.state.avatarUrl}
+                        className="rounded-circle"
+                        alt="User Avatar"
+                      />
                       <div className="avatar-hover">
                         <span>camera_alt</span>
                         <span>Upload Profile Photo</span>
@@ -115,10 +116,13 @@ export class ProfileHeader extends Component<any, any> {
             {/* Button update cover photo */}
             <div className="col-sm-12 col-md-4 col-lg-4">
               <div className="update-cover">
-                <button type="button" onClick={() => {
-                  this.uploadCover()
-                }} className="btn btn-update-cover">
-                  <i className="fa fa-camera"></i> Update Cover Photo
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.uploadCover();
+                  }}
+                  className="btn btn-update-cover">
+                  <i className="fa fa-camera" /> Update Cover Photo
                 </button>
               </div>
             </div>
@@ -134,6 +138,6 @@ export class ProfileHeader extends Component<any, any> {
           imageUploadUrl={this.setImageUploadUrl}
         />
       </div>
-    )
+    );
   }
 }

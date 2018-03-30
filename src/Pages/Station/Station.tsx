@@ -1,7 +1,7 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
 import { Component } from 'react';
-import * as classNames from 'classnames';
-import { Row, Col, Container, Button } from 'reactstrap';
+import { Button, Col, Container, Row } from 'reactstrap';
 import './Station.scss';
 
 import { NowPlaying, StationSharing } from '../../Modules/Station/Components';
@@ -17,15 +17,15 @@ const buttonActions = {
   },
 };
 
-interface Props {}
+interface IProps {} // tslint:disable-line
 
-interface State {
+interface IState {
   muted: boolean;
   isPassive: boolean;
 }
 
-export class Station extends Component<Props, State> {
-  constructor(props: Props) {
+export class Station extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -34,19 +34,19 @@ export class Station extends Component<Props, State> {
     };
   }
 
-  _onVolumeClick = () => {
+  public _onVolumeClick = () => {
     this.setState({
       muted: !this.state.muted,
     });
   };
 
-  _onLightClick = () => {
+  public _onLightClick = () => {
     this.setState({
       isPassive: !this.state.isPassive,
     });
   };
 
-  _renderButton = (
+  public _renderButton = (
     flag: boolean,
     { iconOn, iconOff }: any,
     handleClick: any,
@@ -63,7 +63,7 @@ export class Station extends Component<Props, State> {
     );
   };
 
-  _renderHeaderStation = (muted: boolean, isPassive: boolean) => {
+  public _renderHeaderStation = (muted: boolean, isPassive: boolean) => {
     return (
       <Row className="header-container">
         <div>
@@ -82,7 +82,7 @@ export class Station extends Component<Props, State> {
     );
   };
 
-  render() {
+  public render() {
     const muted = this.state.muted;
     const isPassive = this.state.isPassive;
 
