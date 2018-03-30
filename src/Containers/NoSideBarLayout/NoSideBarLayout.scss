@@ -4,7 +4,7 @@
   }
 }
 
-.app.login, .app.register {
+.app.login, .app.register, .app.forgot-password {
   min-height: calc(100vh - 105px);
   .background-image {
     position: fixed;
@@ -13,5 +13,11 @@
     background-repeat: no-repeat;
     background-size: cover;
     z-index: -1;
+    top: 0;
+    left: 0;
+  }
+
+  .card-group {
+    padding: 20px 0;
   }
 }
