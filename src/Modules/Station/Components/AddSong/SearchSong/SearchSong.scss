@@ -2,6 +2,9 @@ $suggestion_height: 48px;
 
 .search-input {
   position: relative;
+  @media screen and (max-width: 480px) {
+    margin-bottom: 10px;
+  }
 }
 
 .react-autosuggest {
