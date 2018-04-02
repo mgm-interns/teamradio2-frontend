@@ -5,7 +5,7 @@ import { Component } from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import './Station.scss';
 
-import { NowPlaying, StationSharing, PlaylistTabs } from 'Modules/Station';
+import { NowPlaying, PlaylistTabs, StationSharing } from 'Modules/Station';
 
 const buttonActions = {
   muted: {
@@ -102,7 +102,7 @@ export class Station extends Component<IProps, IState> {
           <Col xs={12}>
             <div className="add-song-container">
               <h1>Add Song</h1>
-              <AddSong/>
+              <AddSong />
             </div>
           </Col>
         </Row>
