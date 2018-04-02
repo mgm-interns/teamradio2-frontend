@@ -3,6 +3,8 @@ import { Component } from 'react';
 import { UserInfo } from '../UserInfo';
 import './CustomHeader.scss';
 
+const HEADER_MARGIN:number = 200;
+
 export class CustomHeader extends Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -38,34 +40,28 @@ export class CustomHeader extends Component<any, any> {
   }
 
   public render() {
-    const transformHeader =
-      this.state.transform !== 0 ? { filter: 'opacity(0.8)' } : null;
+    const transformHeader = this.state.transform > HEADER_MARGIN ? { filter: 'opacity(0.8)'} : null;
 
     return (
       <header className="app-header" style={transformHeader}>
         <div className="container">
-          <div className="float-left">
+          <div className="header-left">
             <div className="logo">
               <a href="/">
                 <img alt="logo" src="img/logo.png" />
               </a>
             </div>
           </div>
-          {this.state.login ? (
-            <div className="float-right">
+            {this.state.login ? (
+            <div className="header-right">
               <span className="reputation">Reputation: {20}</span>
-              <UserInfo />
-            </div>
-          ) : (
-            <div className="float-right">
-              <a href="/login" className="login-register-button">
-                Login
-              </a>
-              <a href="/register" className="login-register-button">
-                Register
-              </a>
-            </div>
-          )}
+              <UserInfo/>
+            </div> )
+          : (
+            <div className="header-right" >
+              <a href="/login" className="login-register-button">Login</a>
+              <a href="/register" className="login-register-button">Register</a>
+            </div>)}
         </div>
       </header>
     );
