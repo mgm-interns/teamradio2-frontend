@@ -1,5 +1,9 @@
 $suggestion_height: 48px;
 
+.search-input {
+  position: relative;
+}
+
 .react-autosuggest {
   &__suggestions-container {
   }
@@ -23,4 +27,16 @@ $suggestion_height: 48px;
       background-color: rgba(0, 0, 0, 0.07);
     }
   }
+}
+
+$input_height: 35px;
+$icon_height: 14px;
+
+.reset-icon {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  padding: ($input_height - $icon_height)/2 - 1px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.54);
 }
