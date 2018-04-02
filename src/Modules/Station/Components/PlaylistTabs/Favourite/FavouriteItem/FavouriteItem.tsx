@@ -8,7 +8,7 @@ export class FavouriteItem extends Component<any, any> {
     super(props);
   }
 
-  render() {
+  public render() {
     const song = this.props.song;
 
     const songId = song.id;

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { HistoryItem } from './HistoryItem';
 import '../PlaylistTabs.scss';
+import { HistoryItem } from './HistoryItem';
 
 export class History extends Component {
-  render() {
+  public render() {
     const song = {
       id: 's1',
       thumbnail: 'https://i.ytimg.com/vi/Ttb_rNbQHgE/hqdefault.jpg',

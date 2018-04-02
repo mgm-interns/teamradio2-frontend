@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { FavouriteItem } from './FavouriteItem';
 import '../PlaylistTabs.scss';
+import { FavouriteItem } from './FavouriteItem';
 
 export class Favourite extends Component {
-  render() {
+  public render() {
     const song = {
       id: 'sf1',
       thumbnail:

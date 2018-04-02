@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { Favourite } from './Favourite';
 import { History } from './History';
 import './PlaylistTabs.scss';
@@ -18,17 +18,17 @@ export class PlaylistTabs extends Component<any, any> {
     };
   }
 
-  openTab(tabId: any) {
+  public openTab(tabId: any) {
     if (this.state.activeTab === tabId) {
       return;
-    } else {
-      this.setState({
-        activeTab: tabId,
-      });
     }
+
+    this.setState({
+      activeTab: tabId,
+    });
   }
 
-  render() {
+  public render() {
     return (
       <div className="tabs-container">
         <Nav tabs>
