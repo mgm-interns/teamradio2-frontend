@@ -69,6 +69,13 @@ export class SearchSong extends Component<any, ISearchSongState> {
     this.props.setPreviewVideo(suggestion);
   };
 
+  private clearInput = () => {
+    this.setState({
+      value: '',
+    });
+    this.props.setPreviewVideo(null);
+  };
+
   public render() {
     const { value, suggestions } = this.state;
 
@@ -80,15 +87,18 @@ export class SearchSong extends Component<any, ISearchSongState> {
     };
 
     return (
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        onSuggestionSelected={this.onSuggestionSelected}
-        inputProps={inputProps}
-      />
+      <div className="search-input">
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          onSuggestionSelected={this.onSuggestionSelected}
+          inputProps={inputProps}
+        />
+        <i className="fa fa-times reset-icon" onClick={this.clearInput} />
+      </div>
     );
   }
 }
