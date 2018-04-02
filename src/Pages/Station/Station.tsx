@@ -1,7 +1,8 @@
 import * as classNames from 'classnames';
+import { AddSong } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
-import { Button, Col, Container, Row } from 'reactstrap';
+import { Col, Container, Row } from 'reactstrap';
 import './Station.scss';
 
 import { NowPlaying, StationSharing } from '../../Modules/Station/Components';
@@ -96,6 +97,12 @@ export class Station extends Component<IProps, IState> {
           <Col xs={12} lg={4}>
             <div>
               <span>this is playlist</span>
+            </div>
+          </Col>
+          <Col xs={12}>
+            <div className="add-song-container">
+              <h1>Add Song</h1>
+              <AddSong/>
             </div>
           </Col>
         </Row>

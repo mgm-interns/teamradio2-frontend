@@ -1,4 +1,4 @@
-import { YoutubeHelper } from 'Helpers';
+import { YoutubeHelper } from 'Helpers/index';
 import * as React from 'react';
 import { Component } from 'react';
 import ReactPlayer from 'react-player';
@@ -29,8 +29,8 @@ export class PreviewVideo extends Component<any, any> {
   }
 
   public render() {
-    const { video } = this.props;
-    const { muted } = this.state;
+    const {video} = this.props;
+    const {muted} = this.state;
 
     return (
       <div className="preview">
@@ -49,7 +49,7 @@ export class PreviewVideo extends Component<any, any> {
             <Col sm="8" xs="12">
               <h4 className="preview__title">{this.getTitle(video)}</h4>
               <div>
-                <i className="fa fa-clock-o" />
+                <i className="fa fa-clock-o"/>
                 <span className="preview__duration">
                   {this.getDuration(video)}
                 </span>
@@ -77,7 +77,7 @@ export class PreviewVideo extends Component<any, any> {
             </Col>
           </Row>
         ) : (
-          <img src="/img/loading_song.png" alt="" />
+          <img src="/img/loading_song.png" alt=""/>
         )}
       </div>
     );

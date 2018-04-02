@@ -1,6 +1,5 @@
 import { CustomHeader, Footer } from 'Components';
 import {
-  AddLink,
   ForgotPassword,
   Help,
   Home,
@@ -40,7 +39,6 @@ export class NoSideBarLayout extends Component {
               <Route path="/profile" name="Profile" component={Profile} />
               <Route path="/station" name="Station" component={Station} />
               <Route path="/profile" name="Profile" component={Profile} />
-              <Route path="/add-link" name="Profile" component={AddLink} />
               <Redirect from="/" to="/" />
             </Switch>
           </main>

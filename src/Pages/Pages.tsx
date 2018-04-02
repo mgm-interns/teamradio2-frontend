@@ -6,5 +6,4 @@ export { ForgotPassword } from './ForgotPassword';
 export { ResetPassword } from './ResetPassword';
 export { Help } from './Help';
 export { Profile } from './Profile';
-export { AddLink } from './AddLink';
 export { Station } from './Station';

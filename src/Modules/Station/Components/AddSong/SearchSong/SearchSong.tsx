@@ -1,4 +1,4 @@
-import { YoutubeHelper } from 'Helpers';
+import { YoutubeHelper } from 'Helpers/index';
 import * as React from 'react';
 import { Component } from 'react';
 import * as Autosuggest from 'react-autosuggest';
