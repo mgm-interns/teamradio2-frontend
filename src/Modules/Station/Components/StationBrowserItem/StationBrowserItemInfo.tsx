@@ -15,7 +15,7 @@ export class StationBrowserItemInfo extends Component<IStationBrowserItemInfoPro
     const {numberOfOnlineUsers} = this.props;
     return (
       <div className="station-thumbnail">
-        <img src="https://www.w3schools.com/images/picture.jpg"/>
+        <img src="./img/station_default_cover.png"/>
         <div className="online-user">
           <i className={numberOfOnlineUsers > 0 ? "fa fa-circle" : "fa fa-circle-o"} />
           <span> {numberOfOnlineUsers} online</span>
