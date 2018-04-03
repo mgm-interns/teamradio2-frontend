@@ -1,0 +1,17 @@
+.play-list {
+  width: inherit;
+  margin: auto;
+  position: relative;
+  height: inherit;
+  font-family: 'Roboto Slab', sans-serif;
+  .play-list-none {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: auto;
+    & > i {
+      font-size: 56px;
+    }
+  }
+}
