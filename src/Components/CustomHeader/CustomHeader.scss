@@ -1,15 +1,21 @@
 .app-header {
   background-color: #e06a4e;
   color: white;
-  margin: auto;
-  height: 60px;
-  transition: all 0.3s;
+  height: 55px;
   font-family: Roboto Slab, serif;
   font-weight: bold;
-  padding-top: 5px;
+  transition: all 0.1s;
+  .container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
   .logo {
+    height: 100%;
     img {
-      height: 3.4em;
+      height: 100%;
     }
     a {
       text-decoration: none;
@@ -17,8 +23,10 @@
       margin: auto;
     }
   }
-  .float-right {
+  .header-right {
     font-size: 1.5em;
+    display: flex;
+    align-items: center;
     & > * {
       display: inline-block;
     }
@@ -28,9 +36,7 @@
     .login-register-button {
       color: white;
       text-decoration: none;
-      display: inline-block;
       margin-left: 16px;
-      margin-top: 8px;
     }
   }
 }
