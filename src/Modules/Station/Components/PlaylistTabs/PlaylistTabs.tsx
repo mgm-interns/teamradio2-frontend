@@ -2,7 +2,9 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { Favourite } from './Favourite';
+import { favouriteList, historyList, playlist } from './fixture';
 import { History } from './History';
+import { Playlist } from './Playlist';
 import './PlaylistTabs.scss';
 
 const PLAYLIST_TAB_ID = '1';
@@ -65,13 +67,13 @@ export class PlaylistTabs extends Component<any, any> {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId={PLAYLIST_TAB_ID}>
-            <p>playlist</p>
+            <Playlist playlist={playlist} />
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
-            <History />
+            <History historyList={historyList} />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
-            <Favourite />
+            <Favourite favouriteList={favouriteList} />
           </TabPane>
         </TabContent>
       </div>
