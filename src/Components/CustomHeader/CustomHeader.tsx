@@ -49,7 +49,7 @@ export class CustomHeader extends Component<any, any> {
           <div className="header-left">
             <div className="logo">
               <a href="/">
-                <img alt="logo" src="img/logo.png" />
+                <img alt="logo" src="/img/logo.png"/>
               </a>
             </div>
           </div>
