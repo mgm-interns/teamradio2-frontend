@@ -1,0 +1,40 @@
+.u-margin-top-medium {
+  margin-top: 100px;
+}
+
+.header-container {
+  flex: 1;
+  flex-direction: row;
+  padding: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buttons-wrapper {
+  display: flex;
+}
+
+.btn-no-shadow {
+  &:focus {
+    box-shadow: none;
+  }
+  min-width: 39px;
+}
+
+.icon-wrapper {
+  font-size: 25px;
+  padding: 0 10px;
+}
+
+.icon {
+  min-width: 25px;
+}
+
+.add-song-container {
+  margin-top: 20px;
+}
+
+.playlist-tabs-container {
+  width: 300px;
+  height: 400px;
+}

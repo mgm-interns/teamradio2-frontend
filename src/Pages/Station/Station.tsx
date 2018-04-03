@@ -5,18 +5,7 @@ import { Component } from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import './Station.scss';
 
-import { NowPlaying, PlaylistTabs, StationSharing } from 'Modules/Station';
-
-const buttonActions = {
-  muted: {
-    iconOn: 'fa fa-volume-up',
-    iconOff: 'fa fa-volume-off',
-  },
-  passive: {
-    iconOn: 'fa fa-lightbulb-o',
-    iconOff: 'fa fa-lightbulb-o',
-  },
-};
+import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 
 interface IProps {} // tslint:disable-line
 
@@ -35,52 +24,16 @@ export class Station extends Component<IProps, IState> {
     };
   }
 
-  public _onVolumeClick = () => {
+  public onVolumeClick = () => {
     this.setState({
       muted: !this.state.muted,
     });
   };
 
-  public _onLightClick = () => {
+  public onLightClick = () => {
     this.setState({
       isPassive: !this.state.isPassive,
     });
-  };
-
-  public _renderButton = (
-    flag: boolean,
-    { iconOn, iconOff }: any,
-    handleClick: any,
-  ) => {
-    const classes = {
-      icon: classNames(flag ? iconOn : iconOff),
-    };
-    const activeButton = flag ? 'color: red' : null;
-
-    return (
-      <div className="icon-wrapper" onClick={handleClick}>
-        <i className={classNames([classes.icon, activeButton, 'icon'])} />
-      </div>
-    );
-  };
-
-  public _renderHeaderStation = (muted: boolean, isPassive: boolean) => {
-    return (
-      <Row className="header-container">
-        <div>
-          <h1>Station name</h1>
-        </div>
-        <div className="buttons-wrapper">
-          {this._renderButton(!muted, buttonActions.muted, this._onVolumeClick)}
-          {this._renderButton(
-            isPassive,
-            buttonActions.passive,
-            this._onLightClick,
-          )}
-          <StationSharing />
-        </div>
-      </Row>
-    );
   };
 
   public render() {
@@ -94,7 +47,12 @@ export class Station extends Component<IProps, IState> {
             <StationBrowser/>
           </Col>
           <Col xs={12} lg={8}>
-            {this._renderHeaderStation(muted, isPassive)}
+            <StationHeader
+              muted={muted}
+              isPassive={isPassive}
+              onVolumeClick={this.onVolumeClick}
+              onLightClick={this.onLightClick}
+            />
             <NowPlaying muted={muted} />
           </Col>
           <Col xs={12} lg={4}>

@@ -1,54 +1,35 @@
 import { Component } from 'react';
 import * as React from 'react';
-import './NowPlaying.scss';
 import { StationPlayer } from '../../../../Components/StationPlayer';
+import './NowPlaying.scss';
 
-interface Props {
-  // nowPlaying: object;
-  // autoPlay: boolean;
+interface IProps {
   muted: boolean;
-  // skip: object;
 }
 
-interface State {
-  // refPlayer: any;
-  // seekTime: number;
-  // receivedAt: number;
-  // showProgressbar: boolean;
+interface IState {
+  refPlayer: any;
+  seekTime: number;
+  receivedAt: number;
 }
 
-export class NowPlaying extends Component<Props, State> {
-  private playerRef: any;
-
-  constructor(props: Props) {
+export class NowPlaying extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
-      // refPlayer: null,
-      // seekTime: null,
-      // receivedAt: new Date().getTime(),
+      refPlayer: null,
+      seekTime: null,
+      receivedAt: new Date().getTime(),
     };
-
-    this.renderSkipNotification = this.renderSkipNotification.bind(this);
-    this.setStateAsync = this.setStateAsync.bind(this);
   }
 
-  static calculateSeekTime(start: any) {
-    // return parseInt(start, 10) / 1000;
-  }
-
-  setStateAsync(state: any) {}
-
-  async componentWillReceiveProps(nextProps: any) {}
-
-  render() {
+  public render() {
     const url = 'https://www.youtube.com/watch?v=cmSbXsFE3l8';
-    const { muted }: Props = this.props;
+    const { muted }: IProps = this.props;
 
     return (
       <StationPlayer url={url} playing={true} showProgressbar muted={muted} />
     );
   }
-
-  renderSkipNotification() {}
 }
