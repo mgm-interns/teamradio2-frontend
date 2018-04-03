@@ -9,9 +9,13 @@ interface IPlaylistProps {
   playlist: any[];
 }
 
-export class Playlist extends Component<IPlaylistProps, any> {
+export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
   constructor(props: any) {
     super(props);
+
+    this.state = {
+      playlist: props.playlist,
+    };
 
     this.upVote = this.upVote.bind(this);
     this.downVote = this.downVote.bind(this);
@@ -31,6 +35,13 @@ export class Playlist extends Component<IPlaylistProps, any> {
   public addFavouriteSong() {
     alert('Add favourite clicked!');
     // TODO: Implemented addFavouriteSong function
+  }
+
+  public addSong(song: any) {
+    const oldPlaylist = this.state.playlist.slice(0);
+    this.setState({
+      playlist: [song, ...oldPlaylist],
+    });
   }
 
   public render() {
@@ -55,7 +66,7 @@ export class Playlist extends Component<IPlaylistProps, any> {
             paddingTop: 0,
             paddingBottom: 0,
           }}>
-          {this.props.playlist.map((song, index) => (
+          {this.state.playlist.map((song, index) => (
             <PlaylistItem
               key={song.song_id || index}
               {...song}
