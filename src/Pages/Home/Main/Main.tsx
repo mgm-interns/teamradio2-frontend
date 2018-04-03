@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import './Main.scss';
 
-import { CreateStationForm } from 'Modules/Station';
+import { CreateStation } from 'Modules/Station';
 
 export class Main extends Component {
   public render() {
@@ -15,7 +15,7 @@ export class Main extends Component {
               A Radio station for your team
             </span>
           </h1>
-          <CreateStationForm />
+          <CreateStation />
         </div>
       </header>
     );
