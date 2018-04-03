@@ -6,7 +6,7 @@ import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 
 interface IPlaylistProps {
-  playlist: Array<any>;
+  playlist: any[];
 }
 
 export class Playlist extends Component<IPlaylistProps, any> {

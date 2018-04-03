@@ -4,7 +4,7 @@ import '../PlaylistTabs.scss';
 import { FavouriteItem } from './FavouriteItem';
 
 interface IFavouriteProps {
-  favouriteList: Array<any>;
+  favouriteList: any[];
 }
 
 export class Favourite extends Component<IFavouriteProps, any> {

@@ -4,7 +4,7 @@ import '../PlaylistTabs.scss';
 import { HistoryItem } from './HistoryItem';
 
 interface IHistoryProps {
-  historyList: Array<any>;
+  historyList: any[];
 }
 
 export class History extends Component<IHistoryProps, any> {
