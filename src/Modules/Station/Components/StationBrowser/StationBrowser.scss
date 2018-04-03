@@ -1,11 +1,5 @@
 .browser {
-  padding: 0px 0px !important;
-  min-height: 200px;
-  position: relative;
-
   .cover-div {
-    width: 75vw;
-    margin: 0 auto;
     position: relative;
     overflow: hidden;
 
@@ -18,39 +12,19 @@
         align-content: center;
         width: fit-content;
         width: -moz-fit-content; /* Firefox/Gecko */
-        height: 25vh;
-        min-height: 200px;
         margin: 2px auto 5px auto;
         white-space: nowrap;
         position: relative;
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none;
 
         .station-item {
-          margin: 0 1vw 0 1vw;
-          min-width: 180px;
-
-          &:hover {
-            cursor: pointer;
-
-            .station-name {
-              font-size: 1.55em;
-              padding-top: 2px;
-              color: #d55b1c;
-            }
-          }
-
-          .station-name {
-            height: 3vh;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            font-size: 1.5em;
-            margin: 5px;
-          }
+          max-width: 160px;
+          min-width: 100px;
+          width: 14.2vw;
         }
       }
     }
