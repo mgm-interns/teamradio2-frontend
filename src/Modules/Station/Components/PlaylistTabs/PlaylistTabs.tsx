@@ -5,6 +5,7 @@ import { Favourite } from './Favourite';
 import { History } from './History';
 import { Playlist } from './Playlist';
 import './PlaylistTabs.scss';
+import { favouriteList, historyList, playlist } from './fixture';
 
 const PLAYLIST_TAB_ID = '1';
 const HISTORY_TAB_ID = '2';
@@ -66,13 +67,13 @@ export class PlaylistTabs extends Component<any, any> {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId={PLAYLIST_TAB_ID}>
-            <Playlist />
+            <Playlist playlist={playlist}/>
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
-            <History />
+            <History historyList={historyList} />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
-            <Favourite />
+            <Favourite favouriteList={favouriteList} />
           </TabPane>
         </TabContent>
       </div>
