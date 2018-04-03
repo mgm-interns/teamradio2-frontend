@@ -1,4 +1,9 @@
-import { DISPLAY_NAME_REGEX, EMAIL_REGEX, USERNAME_REGEX } from './regexRules';
+import {
+  DISPLAY_NAME_REGEX,
+  EMAIL_REGEX,
+  STATION_NAME_REGEX,
+  USERNAME_REGEX,
+} from './regexRules';
 
 const required = {
   test: (value: any) => value,
@@ -47,6 +52,11 @@ const validDisplayName = {
   message: () => `Display name may only contain alphanumeric characters.`,
 };
 
+const validStationName = {
+  test: (value: string) => STATION_NAME_REGEX.test(value),
+  message: () => `Display station name only contain alphanumeric characters.`,
+};
+
 export const Rules = {
   required,
   validEmail,
@@ -55,4 +65,5 @@ export const Rules = {
   matchPassword,
   validUsername,
   validDisplayName,
+  validStationName,
 };
