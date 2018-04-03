@@ -1,5 +1,5 @@
 import * as classNames from 'classnames';
-import { AddSong } from 'Modules/Station';
+import { AddSong, StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
 import { Col, Container, Row } from 'reactstrap';
@@ -89,7 +89,10 @@ export class Station extends Component<IProps, IState> {
 
     return (
       <Container>
-        <Row className="u-margin-top-medium">
+        <Row>
+          <Col xs={12}>
+            <StationBrowser/>
+          </Col>
           <Col xs={12} lg={8}>
             {this._renderHeaderStation(muted, isPassive)}
             <NowPlaying muted={muted} />
