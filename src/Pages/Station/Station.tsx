@@ -37,8 +37,7 @@ export class Station extends Component<IProps, IState> {
   };
 
   public render() {
-    const muted = this.state.muted;
-    const isPassive = this.state.isPassive;
+    const { muted, isPassive } = this.state;
 
     return (
       <Container>
