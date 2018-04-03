@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { UserInfo } from '../UserInfo';
 import './CustomHeader.scss';
 
-const HEADER_MARGIN:number = 200;
+const HEADER_MARGIN: number = 200;
 
 export class CustomHeader extends Component<any, any> {
   constructor(props: any) {
@@ -40,7 +40,8 @@ export class CustomHeader extends Component<any, any> {
   }
 
   public render() {
-    const transformHeader = this.state.transform > HEADER_MARGIN ? { filter: 'opacity(0.8)'} : null;
+    const transformHeader =
+      this.state.transform > HEADER_MARGIN ? { filter: 'opacity(0.8)' } : null;
 
     return (
       <header className="app-header" style={transformHeader}>
@@ -52,16 +53,21 @@ export class CustomHeader extends Component<any, any> {
               </a>
             </div>
           </div>
-            {this.state.login ? (
+          {this.state.login ? (
             <div className="header-right">
               <span className="reputation">Reputation: {20}</span>
-              <UserInfo/>
-            </div> )
-          : (
-            <div className="header-right" >
-              <a href="/login" className="login-register-button">Login</a>
-              <a href="/register" className="login-register-button">Register</a>
-            </div>)}
+              <UserInfo />
+            </div>
+          ) : (
+            <div className="header-right">
+              <a href="/login" className="login-register-button">
+                Login
+              </a>
+              <a href="/register" className="login-register-button">
+                Register
+              </a>
+            </div>
+          )}
         </div>
       </header>
     );
