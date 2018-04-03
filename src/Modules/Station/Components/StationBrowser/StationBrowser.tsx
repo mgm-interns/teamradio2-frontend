@@ -25,7 +25,7 @@ export class StationBrowser extends Component <{}, IStationBrowserStates> {
     const listStation = [];
     for (let i = 0; i < 30; i += 1) {
       listStation.push(
-        <div className="station-item">
+        <div className="station-item" key={i}>
           <div className="row">
             <StationBrowserItem numberOfOnlineUsers={i}/>
           </div>
