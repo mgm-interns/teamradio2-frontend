@@ -35,7 +35,7 @@ export class UserInfo extends Component<any, any> {
             this.toggle();
           }}>
           <DropdownToggle className="nav-link dropdown-toggle button-dropdown-toggle">
-            <img className="img-avatar" alt="avatar" src="img/avatars/1.jpg" />
+            <img className="img-avatar" alt="avatar" src="/img/avatars/1.jpg"/>
             <span className="d-md-down-none">Team Radio</span>
           </DropdownToggle>
           <DropdownMenu right className="drop-down-menu">
@@ -44,20 +44,14 @@ export class UserInfo extends Component<any, any> {
               <br />
               {`Team Radio`}
             </DropdownItem>
-            <DropdownItem className="drop-item">
-              <a href="/profile">
-                <i className="fa fa-user" />Your profile
-              </a>
+            <DropdownItem className="drop-item" href="/profile">
+              <i className="fa fa-user"/>Your profile
+            </DropdownItem>
+            <DropdownItem className="drop-item" href="/help">
+              <i className="fa fa-question-circle"/>Help
             </DropdownItem>
             <DropdownItem className="drop-item">
-              <a href="/help">
-                <i className="fa fa-question-circle" />Help
-              </a>
-            </DropdownItem>
-            <DropdownItem className="drop-item">
-              <a href="/">
-                <i className="fa fa-sign-out" />Sign out
-              </a>
+              <i className="fa fa-sign-out"/>Sign out
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
