@@ -57,16 +57,13 @@
       }
     }
     .drop-item {
+      &:hover {
+        text-decoration: none;
+      }
       font-size: 1.2em;
       color: rgba(0, 0, 0, 0.87);
       & > span {
         color: rgba(0, 0, 0, 0.54);
-      }
-      & > a {
-        color: rgba(0, 0, 0, 0.87);
-        &:hover {
-          text-decoration: none;
-        }
       }
     }
   }
