@@ -98,15 +98,15 @@
     "webpackbar": "^2.0.3"
   },
   "scripts": {
-    "start":
-      "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.config.dev.js",
-    "build":
-      "cross-env NODE_ENV=production webpack --config ./config/webpack.config.prod.js",
+    "start": "node ./server/bin/www",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.config.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.prod.js",
     "clean": "rimraf build .cache-loader",
-    "format": "prettier --write src/**/*"
+    "format": "prettier --write src/**/*",
+    "postinstall": "cd server && npm install"
   },
   "engines": {
     "node": ">= 8.9.4",
-    "npm": ">= 5.6.0"
+    "yarn": ">= 1.5.0"
   }
 }
