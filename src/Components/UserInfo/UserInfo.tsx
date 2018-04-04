@@ -44,21 +44,21 @@ export class UserInfo extends Component<any, any> {
               <br />
               {`Team Radio`}
             </DropdownItem>
-            <DropdownItem className="drop-item">
-              <a href="/profile">
+            <a href="/profile" className="drop-item">
+              <DropdownItem>
                 <i className="fa fa-user" />Your profile
-              </a>
-            </DropdownItem>
-            <DropdownItem className="drop-item">
-              <a href="/help">
+              </DropdownItem>
+            </a>
+            <a href="/help" className="drop-item">
+              <DropdownItem>
                 <i className="fa fa-question-circle" />Help
-              </a>
-            </DropdownItem>
-            <DropdownItem className="drop-item">
-              <a href="/">
+              </DropdownItem>
+            </a>
+            <a href="/" className="drop-item">
+              <DropdownItem>
                 <i className="fa fa-sign-out" />Sign out
-              </a>
-            </DropdownItem>
+              </DropdownItem>
+            </a>
           </DropdownMenu>
         </Dropdown>
       </div>
