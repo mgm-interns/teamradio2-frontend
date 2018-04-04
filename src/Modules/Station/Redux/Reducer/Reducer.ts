@@ -15,8 +15,7 @@ export const playlistReducer: Reducer<IPlaylistState> = (
 ) => {
   switch (action.type) {
     case actionTypes.ADD_SONG:
-      console.log(action);
-      return { ...state, data: action.payload.data };
+      return { ...state, data: [...state.data, action.payload.data] };
     default:
       return state;
   }

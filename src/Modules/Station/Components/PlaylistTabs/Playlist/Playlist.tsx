@@ -67,7 +67,7 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
             paddingTop: 0,
             paddingBottom: 0,
           }}>
-          {this.state.playlist.map((song, index) => (
+          {this.props.playlist.map((song, index) => (
             <PlaylistItem
               key={song.song_id || index}
               {...song}
