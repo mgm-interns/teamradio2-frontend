@@ -5,6 +5,7 @@ import './InformationForm.scss';
 
 import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
+import { UserServices } from "Services/Http";
 
 interface IFormValues {
   displayName: string;
@@ -197,6 +198,27 @@ const FormWrapper = withFormik<IFormProps, IFormValues>({
 })(InnerForm);
 
 export class InformationForm extends Component<any, any> {
+  private readonly userServices: UserServices;
+
+  constructor(props: any) {
+    super(props);
+    this.userServices = new UserServices();
+  }
+
+  public componentWillMount() {
+    this.getUserProfile();
+  }
+
+  public getUserProfile() {
+    this.userServices.getUserProfile('minh-minh').subscribe(
+      (res: any) => {
+        console.log(res);
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
   public render() {
     return <FormWrapper onCloseModal={this.props.onCloseModal} />;
   }
