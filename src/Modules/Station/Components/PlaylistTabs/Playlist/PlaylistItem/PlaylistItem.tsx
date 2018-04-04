@@ -89,31 +89,35 @@ export class PlaylistItem extends Component<any, any> {
                 </UncontrolledTooltip>
                 <div className="item-addedBy">
                   <span>Added by</span>
-                  <Link to={`/login`}>
-                    <img
-                      className="avatar"
-                      id={'UserAvatar' + song_id}
-                      src={creator.avatar_url}
-                    />
-                    <UncontrolledTooltip
-                      placement="bottom"
-                      target={'UserAvatar' + song_id}>
-                      {creator.username}
-                    </UncontrolledTooltip>
-                    {message ? (
-                      <div>
-                        <i
-                          className="icon-speech icons icon-message"
-                          id={'Message' + song_id}
-                        />
-                        <UncontrolledTooltip
-                          placement="bottom"
-                          target={'Message' + song_id}>
-                          {message}
-                        </UncontrolledTooltip>
-                      </div>
-                    ) : null}
-                  </Link>
+                  {creator ? (
+                    <Link to={`/login`}>
+                      <img
+                        className="avatar"
+                        id={'UserAvatar' + song_id}
+                        src={creator.avatar_url}
+                      />
+                      <UncontrolledTooltip
+                        placement="bottom"
+                        target={'UserAvatar' + song_id}>
+                        {creator.username}
+                      </UncontrolledTooltip>
+                      {message ? (
+                        <div>
+                          <i
+                            className="icon-speech icons icon-message"
+                            id={'Message' + song_id}
+                          />
+                          <UncontrolledTooltip
+                            placement="bottom"
+                            target={'Message' + song_id}>
+                            {message}
+                          </UncontrolledTooltip>
+                        </div>
+                      ) : null}
+                    </Link>
+                  ) : (
+                    ' a user'
+                  )}
                 </div>
               </Col>
               <Col xs={2} className="item-col-favourite">

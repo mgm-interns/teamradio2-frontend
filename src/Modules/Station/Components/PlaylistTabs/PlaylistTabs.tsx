@@ -33,7 +33,6 @@ export class PlaylistTabsComponent extends Component<any, any> {
 
   public render() {
     const { playlist } = this.props;
-    console.log('render', playlist);
     return (
       <div className="tabs-container">
         <Nav tabs>

@@ -61,4 +61,10 @@ export const YoutubeHelper = {
       .add(duration, 'seconds')
       .format(formatString);
   },
+  getTitle(video: any) {
+    return video.snippet.title;
+  },
+  getThumbnail(video: any) {
+    return video.snippet.thumbnails.default.url;
+  },
 };

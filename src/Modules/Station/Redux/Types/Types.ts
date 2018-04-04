@@ -5,7 +5,7 @@ export interface IPlaylistState {
 }
 
 export interface ISong {
-  song_id: string;
+  song_id?: string;
   title: string;
   isPlaying?: boolean,
   thumbnail: string;
