@@ -9,8 +9,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plugin');
-// const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
-// const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const paths = require('./paths');
 
@@ -36,14 +34,14 @@ module.exports = (env = {}) => {
     },
     stats: 'errors-only',
     devtool: 'eval',
-    // devServer: {
-    //   contentBase: paths.appBuild,
-    //   //   port: 9001,
-    //   compress: true,
-    //   hot: true,
-    //   open: true,
-    //   historyApiFallback: true,
-    // },
+    devServer: {
+      contentBase: paths.appBuild,
+      port: 3000,
+      compress: false,
+      hot: true,
+      open: true,
+      historyApiFallback: true,
+    },
     module: {
       rules: [
         { parser: { requireEnsure: false } },
@@ -120,13 +118,6 @@ module.exports = (env = {}) => {
     },
     plugins: [
       new WebpackBar(),
-      // new ForkTsCheckerWebpackPlugin({
-      //   tsconfig: paths.appTsConfigJson,
-      //   tslint: paths.appTsLintJson,
-      //   watch: paths.appSrc,
-      //   checkSyntacticErrors: true,
-      // }),
-      // new ForkTsCheckerNotifierWebpackPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
       new Dotenv(),

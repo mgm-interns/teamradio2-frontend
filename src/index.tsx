@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch, HashRouter } from 'react-router-dom';
-import Loadable from 'react-loadable';
+import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
 
 // Styles
 // Import Flag Icons Set
@@ -22,36 +21,16 @@ import { configureStore } from './Configuration/Redux';
 // Containers
 import { FullLayout, NoSideBarLayout } from './Containers/';
 
-// const AsyncApp = Loadable({
-//   loader: () => import('Containers/App'),
-//   loading: (): any => null,
-// });
-
 const store = configureStore();
 
 ReactDOM.render(
-  <HashRouter>
-    <Provider store={store}>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/dashboard" name="Dashboard" component={FullLayout} />
-          <Route path="/" name="Home" component={NoSideBarLayout} />
-        </Switch>
-      </BrowserRouter>
-    </Provider>
-  </HashRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/dashboard" name="Dashboard" component={FullLayout} />
+        <Route path="/" name="Home" component={NoSideBarLayout} />
+      </Switch>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root'),
 );
-
-// const renderApp = (Component: React.ComponentType) => {
-//   ReactDOM.render(
-//     <HashRouter>
-//       <Provider store={store}>
-//         <Component />
-//       </Provider>
-//     </HashRouter>,
-//     document.getElementById('root'),
-//   );
-// };
-
-// renderApp(AsyncApp);

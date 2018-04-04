@@ -144,13 +144,6 @@ module.exports = {
     new WebpackBar({
       profile: true,
     }),
-    // new ForkTsCheckerWebpackPlugin({
-    //   tsconfig: paths.appTsConfigJson,
-    //   tslint: paths.appTsLintJson,
-    //   watch: paths.appSrc,
-    //   checkSyntacticErrors: true,
-    // }),
-    // new ForkTsCheckerNotifierWebpackPlugin(),
     new Dotenv(),
     new HtmlWebpackPlugin({
       inject: true,
