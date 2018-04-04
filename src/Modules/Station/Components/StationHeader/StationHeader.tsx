@@ -4,7 +4,7 @@ import { Component } from 'react';
 import { Row } from 'reactstrap';
 import './StationHeader.scss';
 
-import { StationSharing } from 'Modules/Station';
+import { StationSharing, ConfigurationButton } from 'Modules/Station';
 
 const buttonActions = {
   muted: {
@@ -63,6 +63,7 @@ export class StationHeader extends Component<IProps, IState> {
           {this.renderButton(!muted, buttonActions.muted, onVolumeClick)}
           {this.renderButton(isPassive, buttonActions.passive, onLightClick)}
           <StationSharing />
+          <ConfigurationButton />
         </div>
       </Row>
     );
