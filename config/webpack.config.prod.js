@@ -8,10 +8,7 @@ const Dotenv = require('dotenv-webpack');
 const WebpackBar = require('webpackbar');
 const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const paths = require('./paths');
@@ -19,7 +16,6 @@ const paths = require('./paths');
 module.exports = {
   entry: [paths.appIndexJs],
   mode: 'production',
-  bail: true,
   stats: 'errors-only',
   output: {
     path: paths.appBuild,
@@ -28,49 +24,16 @@ module.exports = {
     publicPath: '/',
   },
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          ecma: 8,
-          compress: {
-            warnings: false,
-            // Disabled because of an issue with Uglify breaking seemingly valid code:
-            // https://github.com/facebook/create-react-app/issues/2376
-            // Pending further investigation:
-            // https://github.com/mishoo/UglifyJS2/issues/2011
-            comparisons: false,
-          },
-          mangle: {
-            safari10: true,
-          },
-          output: {
-            comments: false,
-            // Turned on because emoji and regex is not minified properly using default
-            // https://github.com/facebook/create-react-app/issues/2488
-            ascii_only: true,
-          },
-        },
-        // Use multi-process parallel running to improve the build speed
-        // Default number of concurrent runs: os.cpus().length - 1
-        parallel: true,
-        // Enable file caching
-        cache: true,
-        sourceMap: false,
-      }),
-    ],
     splitChunks: {
       chunks: 'all',
     },
-    runtimeChunk: true,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-    plugins: [new TsconfigPathsPlugin({configFile: paths.appTsConfigJson})],
+    plugins: [new TsconfigPathsPlugin({ configFile: paths.appTsConfigJson })],
   },
   module: {
-    strictExportPresence: true,
     rules: [
-      {parser: {requireEnsure: false}},
       {
         oneOf: [
           {
@@ -118,11 +81,14 @@ module.exports = {
               {
                 loader: require.resolve('css-loader'),
                 options: {
-                  importLoaders: 2,
+                  importLoaders: 1,
                   minimize: true,
                 },
               },
-              {loader: require.resolve('sass-loader')},
+              {
+                loader: require.resolve('sass-loader'),
+                options: { workParallelJobs: 2 },
+              },
             ],
           },
           {
@@ -167,7 +133,7 @@ module.exports = {
     }),
     new FriendlyErrorsWebpackPlugin(),
     new webpack.IgnorePlugin(/\.d\.ts$/), // Makes webpack ignore declaration files
-    new CopyWebpackPlugin([{from: './public/img', to: 'img'}], {
+    new CopyWebpackPlugin([{ from: './public/img', to: 'img' }], {
       copyUnmodified: false,
     }),
   ],
