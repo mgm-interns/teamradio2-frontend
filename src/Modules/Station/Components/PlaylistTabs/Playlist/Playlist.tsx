@@ -38,9 +38,10 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
   }
 
   public addSong(song: any) {
-    const oldPlaylist = this.state.playlist.slice(0);
-    this.setState({
-      playlist: [song, ...oldPlaylist],
+    this.setState(prevState => {
+      return {
+        playlist: [song, ...prevState.playlist],
+      };
     });
   }
 
