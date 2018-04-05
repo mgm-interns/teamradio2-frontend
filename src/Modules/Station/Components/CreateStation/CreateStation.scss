@@ -1,0 +1,28 @@
+.form-wrapper {
+  .input-wrapper {
+    display: flex;
+    position: relative;
+
+    .button-submit {
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      margin-left: -7px;
+      border-radius: 0 4px 4px 0;
+      width: 3rem;
+      height: 100%;
+      z-index: 5;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .text-error {
+    text-align: left;
+    position: absolute;
+    margin-top: 0;
+  }
+}

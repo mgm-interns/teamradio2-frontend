@@ -24,7 +24,6 @@ interface IState {
   copied: boolean;
 }
 
-// TODO: solve this tslint problem in class property (public, private)
 export class StationSharing extends Component<IProps, IState> {
   private inputRef: any;
 

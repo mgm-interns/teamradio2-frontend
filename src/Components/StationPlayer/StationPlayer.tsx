@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Progress } from 'reactstrap';
 import ReactPlayer from 'react-player';
+import { Progress } from 'reactstrap';
 
 import './StationPlayer.scss';
 
-const ACCEPTABLE_DELAY = 1;
-
-interface Props {
+interface IProps {
   url: string;
   playing: boolean;
   seekTime?: number;
@@ -19,7 +17,7 @@ interface Props {
   ref?: object;
 }
 
-interface State {
+interface IState {
   played: number;
   buffer: number;
   seekTime: number;
@@ -27,15 +25,10 @@ interface State {
   isPaused: boolean;
 }
 
-interface SeekTimeProps {
-  seekTime: number;
-  receivedAt: number;
-}
-
-export class StationPlayer extends Component<Props, State> {
+export class StationPlayer extends Component<IProps, IState> {
   private playerRef: any;
 
-  constructor(props: Props) {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -45,19 +38,15 @@ export class StationPlayer extends Component<Props, State> {
       receivedAt: props.receivedAt,
       isPaused: false,
     };
-
-    this._onStartPlayer = this._onStartPlayer.bind(this);
-    this._onPausePlayer = this._onPausePlayer.bind(this);
-    this._onPlayPlayer = this._onPlayPlayer.bind(this);
-    this._onProgressPlayer = this._onProgressPlayer.bind(this);
   }
 
-  ref = (input: any) => {
+  public ref = (input: any) => {
     this.playerRef = input;
   };
 
-  render() {
-    const { url, playing, showProgressbar, muted }: Props = this.props;
+  public render() {
+    const { url, playing, showProgressbar, muted }: IProps = this.props;
+    console.log(muted);
     return [
       <ReactPlayer
         key={1}
@@ -65,10 +54,7 @@ export class StationPlayer extends Component<Props, State> {
         ref={this.ref}
         controls={false}
         playing={playing}
-        onStart={this._onStartPlayer}
-        onPlay={this._onPlayPlayer}
-        onPause={this._onPausePlayer}
-        onProgress={this._onProgressPlayer}
+        youtubeConfig={{ playerVars: { disablekb: 1 } }}
         style={{ pointerEvents: 'none' }}
         muted={muted}
         width="100%"
@@ -84,48 +70,5 @@ export class StationPlayer extends Component<Props, State> {
         />
       ),
     ];
-  }
-
-  seekToTime({ seekTime, receivedAt }: SeekTimeProps) {
-    // console.log(StationPlayer._getExactlySeektime({seekTime, receivedAt}));
-    // this.playerRef.seekTo(StationPlayer._getExactlySeektime({seekTime, receivedAt}));
-  }
-
-  static _getExactlySeektime({ seekTime, receivedAt }: SeekTimeProps) {
-    // const currentTime: number = new Date().getTime();
-    // const delayedTime: number = (currentTime - receivedAt) / 1000;
-    // return Math.abs(seekTime + delayedTime);
-  }
-
-  _onStartPlayer() {
-    // this.seekToTime(this.state);
-  }
-
-  _onProgressPlayer({ played, loaded, playedSeconds }: any) {
-    // this.setState({
-    //   played: played * 100,
-    //   buffer: loaded * 100,
-    // });
-    // const exactlyTime = StationPlayer._getExactlySeektime(this.state);
-    // const differentTime = Math.abs(exactlyTime - playedSeconds);
-    // if (differentTime > ACCEPTABLE_DELAY) {
-    //   this.playerRef.seekTo(exactlyTime);
-    // }
-  }
-
-  _onPausePlayer() {
-    // this.setState({
-    //   isPaused: true,
-    // });
-  }
-
-  _onPlayPlayer() {
-    // if (this.state.isPaused) {
-    //   this.setState({
-    //     isPaused: false,
-    //   });
-    //   const exactlyTime = StationPlayer._getExactlySeektime(this.state);
-    //   this.playerRef.seekTo(exactlyTime);
-    // }
   }
 }
