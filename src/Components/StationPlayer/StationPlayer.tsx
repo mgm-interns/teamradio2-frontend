@@ -72,4 +72,47 @@ export class StationPlayer extends Component<IProps, IState> {
         url && <Progress key={2} className="progress" animated value={10.2} />,
     ];
   }
+
+  public seekToTime({ seekTime, receivedAt }: ISeekTimeProps) {
+    // console.log(StationPlayer._getExactlySeektime({seekTime, receivedAt}));
+    // this.playerRef.seekTo(StationPlayer._getExactlySeektime({seekTime, receivedAt}));
+  }
+
+  public static _getExactlySeektime({ seekTime, receivedAt }: ISeekTimeProps) {
+    // const currentTime: number = new Date().getTime();
+    // const delayedTime: number = (currentTime - receivedAt) / 1000;
+    // return Math.abs(seekTime + delayedTime);
+  }
+
+  public _onStartPlayer() {
+    // this.seekToTime(this.state);
+  }
+
+  public _onProgressPlayer({ played, loaded, playedSeconds }: any) {
+    // this.setState({
+    //   played: played * 100,
+    //   buffer: loaded * 100,
+    // });
+    // const exactlyTime = StationPlayer._getExactlySeektime(this.state);
+    // const differentTime = Math.abs(exactlyTime - playedSeconds);
+    // if (differentTime > ACCEPTABLE_DELAY) {
+    //   this.playerRef.seekTo(exactlyTime);
+    // }
+  }
+
+  public _onPausePlayer() {
+    // this.setState({
+    //   isPaused: true,
+    // });
+  }
+
+  public _onPlayPlayer() {
+    // if (this.state.isPaused) {
+    //   this.setState({
+    //     isPaused: false,
+    //   });
+    //   const exactlyTime = StationPlayer._getExactlySeektime(this.state);
+    //   this.playerRef.seekTo(exactlyTime);
+    // }
+  }
 }
