@@ -46,7 +46,6 @@ export class StationPlayer extends Component<IProps, IState> {
 
   public render() {
     const { url, playing, showProgressbar, muted }: IProps = this.props;
-    console.log(muted);
     return [
       <ReactPlayer
         key={1}
@@ -56,6 +55,7 @@ export class StationPlayer extends Component<IProps, IState> {
         playing={playing}
         youtubeConfig={{ playerVars: { disablekb: 1 } }}
         style={{ pointerEvents: 'none' }}
+        volume={1}
         muted={muted}
         width="100%"
         height="60vh"
