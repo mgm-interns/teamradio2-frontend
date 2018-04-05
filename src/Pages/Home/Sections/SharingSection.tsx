@@ -4,10 +4,10 @@ import { Component } from 'react';
 export class SharingSection extends Component {
   public render() {
     return (
-      <section className="section-feature section-feature--white">
+      <section className="section-feature-share section-feature--white">
         <div className="container">
           <div className="row">
-            <div className="col">
+            <div className="col-lg-6 col-lg-push-6 pd-bt-10">
               <h3 className="heading-tertiary u-margin-bottom-small">
                 Share your station
               </h3>
@@ -19,8 +19,8 @@ export class SharingSection extends Component {
                 Explore music together &rarr;
               </a>
             </div>
-            <div className="col">
-              <div className="composition">
+            <div className="col-lg-6 col-lg-pull-6">
+              <div className="composition-share">
                 <img
                   src="img/home/share-station.png"
                   alt="Share Station"
