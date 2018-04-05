@@ -53,8 +53,7 @@ export const YoutubeHelper = {
 
     return items;
   },
-  convertDuration: (youTubeDuration: string): string => {
-    const duration: number = moment.duration(youTubeDuration).asSeconds();
+  convertDuration: (duration: number): string => {
     const formatString: string = duration > 3600 ? 'HH:mm:ss' : 'mm:ss';
     return moment()
       .startOf('day')
@@ -67,4 +66,8 @@ export const YoutubeHelper = {
   getThumbnail(video: any) {
     return video.snippet.thumbnails.default.url;
   },
+  getDuration(video: any) {
+    const youTubeDuration = video.contentDetails.duration;
+    return moment.duration(youTubeDuration).asSeconds();
+  }
 };

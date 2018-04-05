@@ -16,6 +16,8 @@ export const playlistReducer: Reducer<IPlaylistState> = (
   switch (action.type) {
     case actionTypes.ADD_SONG:
       return { ...state, data: [...state.data, action.payload.data] };
+    case actionTypes.SHIFT_SONG:
+      return { ...state, data: state.data.slice(1) };
     default:
       return state;
   }

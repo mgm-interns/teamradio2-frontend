@@ -15,5 +15,6 @@ export interface ISong {
   message?: string;
   upVotes?: number,
   downVotes?: number,
+  url: string;
 }
 

@@ -8,3 +8,8 @@ export const addSong: ActionCreator<any> = (song: ISong) => ({
     data: song,
   },
 });
+
+export const shiftSong: ActionCreator<any> = (song: ISong) => ({
+  type: actionTypes.SHIFT_SONG,
+  payload: {},
+});

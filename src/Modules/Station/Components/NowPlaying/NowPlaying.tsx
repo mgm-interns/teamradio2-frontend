@@ -1,10 +1,14 @@
+import { StationPlayer } from 'Components/StationPlayer';
 import { Component } from 'react';
 import * as React from 'react';
-import { StationPlayer } from '../../../../Components/StationPlayer';
+import { connect } from 'react-redux';
+import { shiftSong } from '../../Redux';
 import './NowPlaying.scss';
 
 interface IProps {
   muted: boolean;
+  song?: any;
+  shiftSong?: () => void;
 }
 
 interface IState {
@@ -13,7 +17,8 @@ interface IState {
   receivedAt: number;
 }
 
-export class NowPlaying extends Component<IProps, IState> {
+export class NowPlayingComponent extends Component<IProps, IState> {
+
   constructor(props: IProps) {
     super(props);
 
@@ -24,12 +29,38 @@ export class NowPlaying extends Component<IProps, IState> {
     };
   }
 
+  public async componentWillReceiveProps(nextProps: any) {
+    const { song } = nextProps;
+    if (song !== undefined) {
+      setTimeout(() => {
+        this.props.shiftSong();
+      }, song.duration * 1000);
+    }
+  }
+
   public render() {
-    const url = 'https://www.youtube.com/watch?v=cmSbXsFE3l8';
-    const { muted }: IProps = this.props;
+    const { muted, song } = this.props;
+    const url = song ? song.url : null;
 
     return (
       <StationPlayer url={url} playing={true} showProgressbar muted={muted} />
     );
   }
 }
+
+const mapStateToProps = (state: any) => ({
+  song: state.playlist.data[0],
+});
+
+interface IDispatchFromProps {
+  shiftSong: () => void;
+}
+
+const mapDispatchToProps = (dispatch: any) => ({
+  shiftSong: () => dispatch(shiftSong()),
+});
+
+export const NowPlaying = connect<any, IDispatchFromProps, void>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NowPlayingComponent);
