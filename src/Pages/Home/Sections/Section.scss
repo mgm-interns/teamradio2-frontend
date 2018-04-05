@@ -8,7 +8,15 @@ $color-tertiary: #f4f0ea;
 $color-black: #000;
 $color-primary: #e06a4e;
 .section-feature {
-  padding: 9rem 0 10.5rem;
+  &-create {
+    padding: 5% 0 5%;
+  }
+  &-share {
+    padding: 10% 0 15%;
+  }
+  &-search {
+    padding: 10% 0 10%;
+  }
   &--tertinary {
     background-color: $color-tertiary;
   }
@@ -46,9 +54,26 @@ $color-primary: #e06a4e;
   }
 }
 
+.describe-create {
+  padding: 30% 0 0 0;
+}
+
 .composition {
   margin-top: -4rem;
   position: relative;
+  &-create {
+    position: relative;
+    padding-bottom: 100%;
+  }
+  &-search {
+    position: relative;
+    padding-bottom: 50%;
+  }
+  &-share {
+    position: relative;
+    padding-bottom: 50%;
+    top: -10%;
+  }
   &__photo {
     width: 35%;
     box-shadow: 0 1.5rem 4rem rgba($color-black, 0.4);
@@ -58,25 +83,31 @@ $color-primary: #e06a4e;
     transition: all 0.2s;
     outline-offset: 0.5rem;
     &--p1 {
-      left: 25%;
-      top: -2rem;
+      width: 40%;
+      left: 20%;
+      top: 5%;
+      z-index: 30;
     }
     &--p2 {
-      right: 0;
-      top: 2rem;
+      width: 30%;
+      top: 45%;
+      left: 45%;
+      z-index: 10;
     }
     &--p3 {
-      left: 40%;
-      top: 10rem;
+      width: 23%;
+      left: 66%;
+      top: 25%;
+      z-index: 20;
     }
     &--p4 {
-      width: 80%;
-      top: 5rem;
+      width: 90%;
+      right: 5%;
+      top: 10%;
     }
     &--p5 {
-      width: 80%;
-      top: 2rem;
-      right: 0;
+      width: 90%;
+      right: 5%;
     }
     &:hover {
       transform: scale(1.2);
@@ -100,4 +131,8 @@ $color-primary: #e06a4e;
 
 .u-margin-bottom-big {
   margin-bottom: 8rem;
+}
+
+.pd-bt-10 {
+  padding-bottom: 10%;
 }
