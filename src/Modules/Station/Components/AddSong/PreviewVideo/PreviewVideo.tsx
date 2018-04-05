@@ -19,7 +19,8 @@ export class PreviewVideo extends Component<any, any> {
   }
 
   public getDuration(video: any) {
-    return YoutubeHelper.convertDuration(video.contentDetails.duration);
+    const duration = YoutubeHelper.getDuration(video);
+    return YoutubeHelper.convertDuration(duration);
   }
 
   public mutePreview() {

@@ -3,6 +3,7 @@ import * as React from 'react';
 import './NowPlaying.scss';
 import { StationPlayer } from '../../../../Components/StationPlayer';
 import { connect } from 'react-redux';
+import { shiftSong } from '../../Redux';
 
 interface Props {
   // nowPlaying: object;
@@ -10,6 +11,7 @@ interface Props {
   muted: boolean;
   // skip: object;
   song?: any;
+  shiftSong?: () => void;
 }
 
 interface State {
@@ -41,7 +43,14 @@ export class NowPlayingComponent extends Component<Props, State> {
 
   setStateAsync(state: any) {}
 
-  async componentWillReceiveProps(nextProps: any) {}
+  async componentWillReceiveProps(nextProps: any) {
+    const { song } = nextProps;
+    if (song !== undefined) {
+      setTimeout(() => {
+        this.props.shiftSong();
+      }, song.duration * 1000);
+    }
+  }
 
   render() {
     const { muted, song } = this.props;
@@ -59,4 +68,15 @@ const mapStateToProps = (state: any) => ({
   song: state.playlist.data[0],
 });
 
-export const NowPlaying = connect(mapStateToProps, null)(NowPlayingComponent);
+interface DispatchFromProps {
+  shiftSong: () => void;
+}
+
+const mapDispatchToProps = (dispatch: any) => ({
+  shiftSong: () => dispatch(shiftSong()),
+});
+
+export const NowPlaying = connect<any, DispatchFromProps, void>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NowPlayingComponent);

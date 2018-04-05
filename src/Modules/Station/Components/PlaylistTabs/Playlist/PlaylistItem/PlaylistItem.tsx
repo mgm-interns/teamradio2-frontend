@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Col, Row, UncontrolledTooltip } from 'reactstrap';
 import './PlaylistItem.scss';
+import { YoutubeHelper } from "Helpers";
 
 export class PlaylistItem extends Component<any, any> {
   constructor(props: any) {
@@ -62,7 +63,7 @@ export class PlaylistItem extends Component<any, any> {
           <Col xs="3" className="item-col-video">
             <img className="item-img" src={thumbnail} />
             {!willBeSkipped ? (
-              <div className="duration">{duration}</div>
+              <div className="duration">{YoutubeHelper.convertDuration(duration)}</div>
             ) : (
               <div>
                 <div className="skip-icon" id={`WillBeSkipped` + song_id}>

@@ -40,7 +40,7 @@ export class AddSongComponent extends Component<any, IAddLinkState> {
     this.props.addSong({
       title: YoutubeHelper.getTitle(preview),
       thumbnail: YoutubeHelper.getThumbnail(preview),
-      duration: YoutubeHelper.convertDuration(preview.contentDetails.duration),
+      duration: YoutubeHelper.getDuration(preview),
       upVotes: 0,
       downVotes: 0,
       url: YoutubeHelper.getVideoUrl(preview),
