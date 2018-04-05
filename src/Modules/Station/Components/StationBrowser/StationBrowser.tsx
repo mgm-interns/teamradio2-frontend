@@ -1,6 +1,8 @@
 import { StationBrowserSlider } from 'Components/StationBrowserSlider';
+import { Station } from "Models/Station";
 import * as React from 'react';
 import { Component } from 'react';
+import {StationServices} from 'Services/Http';
 import './StationBrowser.scss';
 import { IStationBrowserItem, StationBrowserItem } from './StationBrowserItem';
 
@@ -11,12 +13,14 @@ interface IStationBrowserStates {
 }
 
 export class StationBrowser extends Component<{}, IStationBrowserStates> {
+  private stationServices: StationServices;
   constructor(props: {}) {
     super(props);
+    this.stationServices = new StationServices();
     this.state = {
       stationBrowser: 'station-browser',
       stationItemContainer: 'station-item-container',
-      listStation: null,
+      listStation: [],
     };
   }
 
@@ -24,19 +28,29 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
     this.getListStation();
   }
 
-  public getListStation() {
-    const listStation = [];
-    for (let i = 0; i < 30; i += 1) {
-      const item: IStationBrowserItem = {
-        stationName: 'Station ' + i,
-        numberOfOnlineUsers: i,
-        picture: '',
-      };
-      listStation.push(item);
-    }
-    this.setState({
-      listStation,
+  public stationModelToStationView(res : Station[]) {
+    return res.map((item: Station) => {
+      return {
+        stationName: item.name,
+        numberOfOnlineUsers: 0,
+        picture: ''
+      }
     });
+  }
+  public getListStation() {
+    this.stationServices.getListStation().subscribe(
+      (res: Station[]) => {
+        console.log(res);
+        const listStation = this.stationModelToStationView(res);
+        console.log(listStation);
+        this.setState({
+          listStation,
+        });
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
   }
 
   public render() {
