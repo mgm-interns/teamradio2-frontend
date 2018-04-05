@@ -1,10 +1,12 @@
 .help-container {
-  &_cover-image {
+  .cover {
     width: 100%;
     height: 350px;
+    background: url(/img/help-page/cover.svg) center;
+    background-size: 100% auto;
   }
 
-  &_content {
+  .content {
     margin: 0 auto;
     padding: 20px 30px 20px 30px;
     max-width: 1280px;

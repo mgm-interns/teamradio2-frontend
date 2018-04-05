@@ -9,11 +9,8 @@ export class Help extends Component {
   public render() {
     return (
       <div className="help-container">
-        <img
-          src="img/help-page/cover.jpg"
-          className="help-container_cover-image"
-        />
-        <div className="help-container_content">
+        <div className="cover"/>
+        <div className="content">
           <ReactMarkdown source={Resource.score} />
         </div>
       </div>
