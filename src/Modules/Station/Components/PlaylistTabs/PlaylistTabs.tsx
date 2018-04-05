@@ -38,31 +38,28 @@ export class PlaylistTabsComponent extends Component<any, any> {
         <Nav tabs>
           <NavItem>
             <NavLink
-              href="#"
-              active={this.state.activeTab === PLAYLIST_TAB_ID}
-              onClick={() => {
-                this.openTab(PLAYLIST_TAB_ID);
-              }}>
+              className={
+                this.state.activeTab === PLAYLIST_TAB_ID ? 'active' : ''
+              }
+              onClick={() => this.openTab(PLAYLIST_TAB_ID)}>
               Playlist
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              href="#"
-              active={this.state.activeTab === HISTORY_TAB_ID}
-              onClick={() => {
-                this.openTab(HISTORY_TAB_ID);
-              }}>
+              className={
+                this.state.activeTab === HISTORY_TAB_ID ? 'active' : ''
+              }
+              onClick={() => this.openTab(HISTORY_TAB_ID)}>
               History
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              href="#"
-              active={this.state.activeTab === FAVOURITE_TAB_ID}
-              onClick={() => {
-                this.openTab(FAVOURITE_TAB_ID);
-              }}>
+              className={
+                this.state.activeTab === FAVOURITE_TAB_ID ? 'active' : ''
+              }
+              onClick={() => this.openTab(FAVOURITE_TAB_ID)}>
               Favourite
             </NavLink>
           </NavItem>

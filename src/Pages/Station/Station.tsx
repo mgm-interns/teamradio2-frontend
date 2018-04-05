@@ -2,10 +2,27 @@ import * as classNames from 'classnames';
 import { AddSong, StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import './Station.scss';
 
-import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
+import {
+  ConfigurationButton,
+  NowPlaying,
+  PlaylistTabs,
+  StationSharing,
+  StationHeader,
+} from 'Modules/Station';
+
+const buttonActions = {
+  muted: {
+    iconOn: 'fa fa-volume-up',
+    iconOff: 'fa fa-volume-off',
+  },
+  passive: {
+    iconOn: 'fa fa-lightbulb-o',
+    iconOff: 'fa fa-lightbulb-o',
+  },
+};
 
 interface IProps {} // tslint:disable-line
 
@@ -40,33 +57,31 @@ export class Station extends Component<IProps, IState> {
     const { muted, isPassive } = this.state;
 
     return (
-      <Container>
-        <Row>
-          <Col xs={12}>
-            <StationBrowser/>
-          </Col>
-          <Col xs={12} lg={8}>
-            <StationHeader
-              muted={muted}
-              isPassive={isPassive}
-              onVolumeClick={this.onVolumeClick}
-              onLightClick={this.onLightClick}
-            />
-            <NowPlaying muted={muted} />
-          </Col>
-          <Col xs={12} lg={4}>
-            <div className="playlist-tabs-container">
-              <PlaylistTabs />
-            </div>
-          </Col>
-          <Col xs={12}>
-            <div className="add-song-container">
-              <h1>Add Song</h1>
-              <AddSong />
-            </div>
-          </Col>
-        </Row>
-      </Container>
+      <Row className="m-0 station-container">
+        <Col xs={12} className="station-browser-container">
+          <StationBrowser />
+        </Col>
+        <Col xs={12} lg={8} className="mt-3 pr-lg-0 player-container">
+          <StationHeader
+            muted={muted}
+            isPassive={isPassive}
+            onVolumeClick={this.onVolumeClick}
+            onLightClick={this.onLightClick}
+          />
+          <NowPlaying muted={muted} />
+        </Col>
+        <Col xs={12} lg={4} className="mt-3">
+          <div className="playlist-tabs-container">
+            <PlaylistTabs />
+          </div>
+        </Col>
+        <Col xs={12}>
+          <div className="add-song-container">
+            <h1>Add Song</h1>
+            <AddSong />
+          </div>
+        </Col>
+      </Row>
     );
   }
 }

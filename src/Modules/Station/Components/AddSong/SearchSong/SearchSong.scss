@@ -6,7 +6,13 @@ $suggestion_height: 48px;
 }
 
 .react-autosuggest {
-  &__suggestions-container {
+  &__container {
+    height: 40px;
+
+    .form-control:focus {
+      border-color: #ffcfc4;
+      box-shadow: 0 0 0 0.2rem rgba(224, 106, 78, 0.1);
+    }
   }
   &__suggestions-list {
     list-style: none;
