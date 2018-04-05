@@ -1,6 +1,6 @@
-import { Station } from "Models/Station";
-import { Observable } from "rxjs/Observable";
-import { HttpServices } from "./HttpServices";
+import { Station } from 'Models/Station';
+import { Observable } from 'rxjs/Observable';
+import { HttpServices } from './HttpServices';
 
 export class StationServices {
   private _httpServices: HttpServices;

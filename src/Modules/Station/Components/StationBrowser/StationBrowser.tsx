@@ -1,5 +1,5 @@
 import { StationBrowserSlider } from 'Components/StationBrowserSlider';
-import { Station } from "Models/Station";
+import { Station } from 'Models/Station';
 import * as React from 'react';
 import { Component } from 'react';
 import { StationServices } from 'Services/Http';
@@ -28,28 +28,28 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
     this.getListStation();
   }
 
-  public stationModelToStationView(res : Station[]) {
-    return res.map((item: Station) => {
-      return {
-        stationName: item.name,
-        numberOfOnlineUsers: 0,
-        picture: ''
-      }
-    });
+  public convertStationToIStationBrowserItem(
+    item: Station,
+  ): IStationBrowserItem {
+    return {
+      stationName: item.name,
+      numberOfOnlineUsers: 0,
+      picture: '',
+    };
   }
   public getListStation() {
     this.stationServices.getListStation().subscribe(
       (res: Station[]) => {
-        console.log(res);
-        const listStation = this.stationModelToStationView(res);
-        console.log(listStation);
+        const listStation: IStationBrowserItem[] = res.map(
+          this.convertStationToIStationBrowserItem,
+        );
         this.setState({
           listStation,
         });
       },
       (err: any) => {
         console.log(err);
-      }
+      },
     );
   }
 
