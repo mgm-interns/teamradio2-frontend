@@ -43,7 +43,7 @@ export class SearchSong extends Component<any, ISearchSongState> {
       this.props.setPreviewVideo(null);
     }
     this.setState({
-        value: newValue,
+      value: newValue,
     });
   };
 
@@ -72,13 +72,6 @@ export class SearchSong extends Component<any, ISearchSongState> {
     });
   };
 
-  private clearInput = () => {
-    this.setState({
-      value: '',
-    });
-    this.props.setPreviewVideo(null);
-  };
-
   public render() {
     const { value, suggestions } = this.state;
 
@@ -104,4 +97,11 @@ export class SearchSong extends Component<any, ISearchSongState> {
       </div>
     );
   }
+
+  private clearInput = () => {
+    this.setState({
+      value: '',
+    });
+    this.props.setPreviewVideo(null);
+  };
 }

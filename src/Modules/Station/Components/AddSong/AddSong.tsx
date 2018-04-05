@@ -1,11 +1,11 @@
+import { YoutubeHelper } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import { Card, CardBody, Col, Row } from 'reactstrap';
+import { addSong, ISong } from '../../Redux';
 import { PreviewVideo } from './PreviewVideo';
 import { SearchSong } from './SearchSong';
-import { connect } from "react-redux";
-import { addSong } from "../../Redux/Actions";
-import { YoutubeHelper } from 'Helpers';
 
 interface IAddLinkState {
   preview: any;
@@ -35,7 +35,7 @@ export class AddSongComponent extends Component<any, IAddLinkState> {
     });
   }
 
-  addSong() {
+  public addSong() {
     const { preview } = this.state;
     this.props.addSong({
       title: YoutubeHelper.getTitle(preview),
@@ -55,10 +55,13 @@ export class AddSongComponent extends Component<any, IAddLinkState> {
           <CardBody>
             <Row>
               <Col sm="4" xs="12">
-                <SearchSong setPreviewVideo={this.setPreviewVideo}/>
+                <SearchSong setPreviewVideo={this.setPreviewVideo} />
               </Col>
               <Col sm="8" xs="12">
-                <PreviewVideo video={this.state.preview} addSong={this.addSong}/>
+                <PreviewVideo
+                  video={this.state.preview}
+                  addSong={this.addSong}
+                />
               </Col>
             </Row>
           </CardBody>
@@ -69,10 +72,7 @@ export class AddSongComponent extends Component<any, IAddLinkState> {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  addSong: (song: any) => dispatch(addSong(song))
+  addSong: (song: ISong) => dispatch(addSong(song)),
 });
 
-export const AddSong = connect(null, mapDispatchToProps)(
-  AddSongComponent
-);
-
+export const AddSong = connect(null, mapDispatchToProps)(AddSongComponent);
