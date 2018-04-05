@@ -43,6 +43,7 @@ export class AddSongComponent extends Component<any, IAddLinkState> {
       duration: YoutubeHelper.convertDuration(preview.contentDetails.duration),
       upVotes: 0,
       downVotes: 0,
+      url: YoutubeHelper.getVideoUrl(preview),
     });
 
     this.setPreviewVideo(null);
