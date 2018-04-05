@@ -5,6 +5,8 @@ import { Progress } from 'reactstrap';
 
 import './StationPlayer.scss';
 
+const ACCEPTABLE_DELAY = 1;
+
 interface IProps {
   url: string;
   playing: boolean;
@@ -23,6 +25,11 @@ interface IState {
   seekTime: number;
   receivedAt: number;
   isPaused: boolean;
+}
+
+interface ISeekTimeProps {
+  seekTime: number;
+  receivedAt: number;
 }
 
 export class StationPlayer extends Component<IProps, IState> {
