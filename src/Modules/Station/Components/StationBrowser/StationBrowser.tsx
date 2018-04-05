@@ -2,7 +2,7 @@ import { StationBrowserSlider } from 'Components/StationBrowserSlider';
 import { Station } from "Models/Station";
 import * as React from 'react';
 import { Component } from 'react';
-import {StationServices} from 'Services/Http';
+import { StationServices } from 'Services/Http';
 import './StationBrowser.scss';
 import { IStationBrowserItem, StationBrowserItem } from './StationBrowserItem';
 
