@@ -77,10 +77,11 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --progress --color --inline --env.dev",
-    "start": "npm run dev",
+    "start": "node ./server/bin/www",
     "build": "webpack -p --progress --env.prod",
     "clean": "rimraf ./build",
-    "format": "prettier --write src/**/*"
+    "format": "prettier --write src/**/*",
+    "postinstall": "cd server && npm install && cd .. && npm run build"
   },
   "engines": {
     "node": ">= 8.9.4",
