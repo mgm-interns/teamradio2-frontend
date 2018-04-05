@@ -67,13 +67,9 @@ export class SearchSong extends Component<any, ISearchSongState> {
 
   public onSuggestionSelected = (event: any, { suggestion }: any) => {
     this.props.setPreviewVideo(suggestion);
-  };
-
-  private clearInput = () => {
     this.setState({
       value: '',
     });
-    this.props.setPreviewVideo(null);
   };
 
   public render() {
@@ -101,4 +97,11 @@ export class SearchSong extends Component<any, ISearchSongState> {
       </div>
     );
   }
+
+  private clearInput = () => {
+    this.setState({
+      value: '',
+    });
+    this.props.setPreviewVideo(null);
+  };
 }

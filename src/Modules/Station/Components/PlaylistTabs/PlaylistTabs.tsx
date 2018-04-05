@@ -2,16 +2,17 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { Favourite } from './Favourite';
-import { favouriteList, historyList, playlist } from './fixture';
+import { favouriteList, historyList } from './fixture';
 import { History } from './History';
 import { Playlist } from './Playlist';
 import './PlaylistTabs.scss';
+import { connect } from 'react-redux';
 
 const PLAYLIST_TAB_ID = '1';
 const HISTORY_TAB_ID = '2';
 const FAVOURITE_TAB_ID = '3';
 
-export class PlaylistTabs extends Component<any, any> {
+export class PlaylistTabsComponent extends Component<any, any> {
   constructor(props: any) {
     super(props);
 
@@ -31,6 +32,7 @@ export class PlaylistTabs extends Component<any, any> {
   }
 
   public render() {
+    const { playlist } = this.props;
     return (
       <div className="tabs-container">
         <Nav tabs>
@@ -80,3 +82,11 @@ export class PlaylistTabs extends Component<any, any> {
     );
   }
 }
+
+const mapStateToProps = (state: any) => ({
+  playlist: state.playlist.data,
+});
+
+export const PlaylistTabs = connect(mapStateToProps, null)(
+  PlaylistTabsComponent,
+);
