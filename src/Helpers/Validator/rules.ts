@@ -54,7 +54,7 @@ const validDisplayName = {
 
 const validStationName = {
   test: (value: string) => STATION_NAME_REGEX.test(value),
-  message: () => `Display station name only contain alphanumeric characters.`,
+  message: (name: string) => `${name} only contain alphanumeric characters.`,
 };
 
 export const Rules = {

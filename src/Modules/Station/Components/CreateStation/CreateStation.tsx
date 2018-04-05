@@ -18,7 +18,7 @@ const InnerForm = (props: FormikProps<IStationFormValues>) => {
         <InputGroup>
           <Field
             type="text"
-            name="stationName"
+            name="name"
             className="transparent-form-control"
             placeholder="Your team station"
           />
@@ -56,11 +56,12 @@ const FormWrapper = withFormik<IFormProps, IStationFormValues>({
 
   validate: (values: IStationFormValues) => {
     const errors: FormikErrors<any> = {};
-    const { validStationName } = Rules;
-    const stationNameValidator = new Validator('Email', values.name, [
+    const { validStationName, required } = Rules;
+    const stationNameValidator = new Validator('Station name', values.name, [
+      required,
       validStationName,
     ]);
-    errors.stationName = stationNameValidator.validate();
+    errors.name = stationNameValidator.validate();
     return Validator.removeUndefinedError(errors);
   },
 
