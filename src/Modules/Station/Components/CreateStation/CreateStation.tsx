@@ -2,7 +2,9 @@ import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
+import { Redirect, Router } from 'react-router';
 import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
+import { StationServices } from 'Services/Http';
 import './CreateStation.scss';
 
 interface IStationFormValues {
@@ -70,9 +72,26 @@ const FormWrapper = withFormik<IFormProps, IStationFormValues>({
   },
 })(InnerForm);
 
-export class CreateStation extends Component {
+export class CreateStation extends Component<any, any> {
+  private stationServices: StationServices;
+
+  constructor(props: any) {
+    super(props);
+    this.stationServices = new StationServices();
+  }
+
   public handleSubmit = (formValues: IStationFormValues) => {
-    console.log(formValues);
+    const name = formValues.name;
+    this.stationServices.createStation(name).subscribe(
+      (res: object) => {
+        console.log(`Success: ${res}`);
+      },
+      (err: any) => {
+        console.log(`Error when create: ${err}`);
+      },
+    );
+
+    console.log(`Ten ${formValues.name}`);
   };
 
   public render() {
