@@ -13,7 +13,7 @@ export class ProfileHeader extends Component<any, any> {
       isUpdateAvatar: false,
       isUpdateCover: false,
       avatarUrl: './img/female-01.png',
-      coverUrl: './img/profile-cover.png',
+      coverUrl: './img/profile-cover.jpg',
       aspectRatio: 1,
     };
     this.uploadAvatar = this.uploadAvatar.bind(this);
