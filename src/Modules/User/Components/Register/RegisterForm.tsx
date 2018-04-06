@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
+  Alert,
 } from 'reactstrap';
 import { UserServices } from 'Services/Http';
 const userServices = new UserServices();
@@ -37,9 +38,7 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
           placeholder="Display Name"
         />
         {touched.name &&
-          errors.name && (
-            <FormFeedback>{errors.name}</FormFeedback>
-          )}
+          errors.name && <FormFeedback>{errors.name}</FormFeedback>}
       </InputGroup>
       <InputGroup className="mb-3">
         <InputGroupAddon addonType="prepend">
@@ -101,9 +100,11 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
             <FormFeedback>{errors.confirmPassword}</FormFeedback>
           )}
       </InputGroup>
-      {/*<InputGroup className="mb-3 text-center">*/}
-        {/*<FormFeedback>server errors</FormFeedback>*/}
-      {/*</InputGroup>*/}
+      {/*<Alert color="danger">*/}
+        {/*server errors*/}
+      {/*</Alert>*/}
+      {/*<Alert color="success">You have successfully registered!</Alert>*/}
+
       <Button color="success" block disabled={isSubmitting}>
         LOG IN
       </Button>
@@ -156,7 +157,7 @@ const FormWrapper = withFormik<any, IFormValues>({
       [required, matchPassword(password)],
     );
 
-    errors.displayName = displayNameValidator.validate();
+    errors.name = displayNameValidator.validate();
     errors.username = usernameValidator.validate();
     errors.email = emailValidator.validate();
     errors.password = passwordValidator.validate();
@@ -165,11 +166,11 @@ const FormWrapper = withFormik<any, IFormValues>({
     return Validator.removeUndefinedError(errors);
   },
 
-  handleSubmit: (values, { setSubmitting }) => {
-
+  handleSubmit: (values, { setSubmitting, resetForm }) => {
     userServices.register(values).subscribe(
       (res: any) => {
         setSubmitting(false);
+        resetForm();
       },
       (err: any) => {
         setSubmitting(false);
