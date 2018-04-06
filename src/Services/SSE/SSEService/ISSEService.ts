@@ -1,4 +1,4 @@
-export interface IRadioSSE {
+export interface ISSEService {
   eventSource: EventSource;
   options: IRadioSSEOptions;
   start: () => void;
@@ -10,8 +10,8 @@ export interface IRadioSSEOptions {
   action: string;
   eventKey: string;
   endpoint: string;
-  beforeStart: () => void;
-  afterStart: () => void;
-  beforeClose: () => void;
-  afterClose: () => void;
+  beforeStart?: () => void;
+  afterStart?: () => void;
+  beforeClose?: () => void;
+  afterClose?: () => void;
 }

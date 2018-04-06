@@ -22,6 +22,7 @@ interface IProps {
   isPassive: boolean;
   onVolumeClick: (e: React.FormEvent<EventTarget>) => void;
   onLightClick: (e: React.FormEvent<EventTarget>) => void;
+  stationName: string,
 }
 
 interface IState {
@@ -52,12 +53,12 @@ export class StationHeader extends Component<IProps, IState> {
   };
 
   public render() {
-    const { muted, isPassive, onVolumeClick, onLightClick } = this.props;
+    const { muted, isPassive, onVolumeClick, onLightClick, stationName } = this.props;
 
     return (
       <Row className="header-container">
         <div>
-          <h1>Station name</h1>
+          <h1>{stationName}</h1>
         </div>
         <div className="buttons-wrapper">
           {this.renderButton(!muted, buttonActions.muted, onVolumeClick)}

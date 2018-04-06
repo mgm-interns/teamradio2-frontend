@@ -1,1 +1,1 @@
-export { configureStore } from './Redux';
+export { configureStore, getStore } from './Redux';

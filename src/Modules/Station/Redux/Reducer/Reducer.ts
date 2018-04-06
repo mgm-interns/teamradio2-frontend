@@ -18,6 +18,11 @@ export const playlistReducer: Reducer<IPlaylistState> = (
       return { ...state, data: [...state.data, action.payload.data] };
     case actionTypes.SHIFT_SONG:
       return { ...state, data: state.data.slice(1) };
+    case actionTypes.STATION_PLAYLIST_UPDATED:
+      return {
+        ...state,
+        data: action.payload.listSong,
+      };
     default:
       return state;
   }

@@ -1,2 +1,1 @@
-export * from './IRadioSSE';
-export * from './RadioSSE';
+export * from './SSE';

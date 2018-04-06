@@ -1,6 +1,6 @@
 import { ActionCreator } from 'redux';
-import { ISong } from '../Types';
 import { actionTypes } from '../Constants';
+import { ISong } from '../Types';
 
 export const addSong: ActionCreator<any> = (song: ISong) => ({
   type: actionTypes.ADD_SONG,
