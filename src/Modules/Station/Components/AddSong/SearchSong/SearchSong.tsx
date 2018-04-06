@@ -67,9 +67,6 @@ export class SearchSong extends Component<any, ISearchSongState> {
 
   public onSuggestionSelected = (event: any, { suggestion }: any) => {
     this.props.setPreviewVideo(suggestion);
-    this.setState({
-      value: '',
-    });
   };
 
   public render() {

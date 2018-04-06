@@ -22,20 +22,20 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
     this.addFavouriteSong = this.addFavouriteSong.bind(this);
   }
 
-  public upVote() {
-    alert('Up vote clicked!');
-    // TODO: Implemented upVote function
-  }
+  public upVote = () => {
+      alert('Up vote clicked!');
+      // TODO: Implemented upVote function
+  };
 
-  public downVote() {
+  public downVote = () => {
     alert('Down vote clicked!');
     // TODO: Implemented downVote function
-  }
+  };
 
-  public addFavouriteSong() {
+  public addFavouriteSong = () => {
     alert('Add favourite clicked!');
     // TODO: Implemented addFavouriteSong function
-  }
+  };
 
   public addSong(song: any) {
     this.setState(prevState => {
@@ -61,22 +61,20 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
     }
 
     return (
-      <Card className="play-list">
-        <FlipMoveList
-          style={{
-            paddingTop: 0,
-            paddingBottom: 0,
-          }}>
-          {this.props.playlist.map((song, index) => (
-            <PlaylistItem
-              key={song.song_id || index}
-              {...song}
-              upVote={() => this.upVote()}
-              downVote={() => this.downVote()}
-            />
-          ))}
+      <div className="playlist">
+        <FlipMoveList className="flip-move-playlist">
+          {this.props.playlist.map((song, index) => {
+            return (
+              <PlaylistItem
+                key={song.song_id || index}
+                {...song}
+                upVote={() => this.upVote()}
+                downVote={() => this.downVote()}
+              />
+            );
+          })}
         </FlipMoveList>
-      </Card>
+      </div>
     );
   }
 }

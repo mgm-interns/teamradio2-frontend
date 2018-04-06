@@ -62,6 +62,11 @@ export const historyList = [
     thumbnail:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBNuMD8zwG2v0GrO5X8w8Nn00-_dTDhi3kd0cD2oHJZiMosA4mWA',
     title: 'Xin em',
+    creator: {
+      username: 'tien-minh',
+      name: 'Tiến Minh',
+      avatarUrl: 'img/avatars/7.jpg',
+    },
     duration: '05:04',
   },
 ];
@@ -86,6 +91,125 @@ export const playlist = [
   },
   {
     song_id: '15',
+    title: 'Perfect- Ed Sheeran',
+    isPlaying: false,
+    thumbnail: 'https://i.ytimg.com/vi/JGwWNGJdvx8/default.jpg',
+    creator: {
+      name: 'Thuy Tien',
+      username: 'ThuyTien',
+      avatar_url:
+        'https://res.cloudinary.com/cocacode2/image/upload/v1517992692/hhunvpjq7ogvoehk7flk.png',
+    },
+    duration: '20:06',
+    willBeSkipped: true,
+    message: 'Iloveyou',
+    upVotes: 2,
+    downVotes: 1,
+  },
+  {
+    song_id: '13',
+    title: 'Perfect- Ed Sheeran',
+    isPlaying: false,
+    thumbnail: 'https://i.ytimg.com/vi/JGwWNGJdvx8/default.jpg',
+    creator: {
+      name: 'Thuy Tien',
+      username: 'ThuyTien',
+      avatar_url:
+        'https://res.cloudinary.com/cocacode2/image/upload/v1517992692/hhunvpjq7ogvoehk7flk.png',
+    },
+    duration: '20:06',
+    willBeSkipped: true,
+    message: 'Iloveyou',
+    upVotes: 2,
+    downVotes: 1,
+  },
+  {
+    song_id: '16',
+    title: 'Perfect- Ed Sheeran',
+    isPlaying: false,
+    thumbnail: 'https://i.ytimg.com/vi/JGwWNGJdvx8/default.jpg',
+    creator: {
+      name: 'Thuy Tien',
+      username: 'ThuyTien',
+      avatar_url:
+        'https://res.cloudinary.com/cocacode2/image/upload/v1517992692/hhunvpjq7ogvoehk7flk.png',
+    },
+    duration: '20:06',
+    willBeSkipped: true,
+    message: 'Iloveyou',
+    upVotes: 2,
+    downVotes: 1,
+  },
+  {
+    song_id: '17',
+    title: 'Perfect- Ed Sheeran',
+    isPlaying: false,
+    thumbnail: 'https://i.ytimg.com/vi/JGwWNGJdvx8/default.jpg',
+    creator: {
+      name: 'Thuy Tien',
+      username: 'ThuyTien',
+      avatar_url:
+        'https://res.cloudinary.com/cocacode2/image/upload/v1517992692/hhunvpjq7ogvoehk7flk.png',
+    },
+    duration: '20:06',
+    willBeSkipped: true,
+    message: 'Iloveyou',
+    upVotes: 2,
+    downVotes: 1,
+  },
+  {
+    song_id: '19',
+    title: 'Perfect- Ed Sheeran',
+    isPlaying: false,
+    thumbnail: 'https://i.ytimg.com/vi/JGwWNGJdvx8/default.jpg',
+    creator: {
+      name: 'Thuy Tien',
+      username: 'ThuyTien',
+      avatar_url:
+        'https://res.cloudinary.com/cocacode2/image/upload/v1517992692/hhunvpjq7ogvoehk7flk.png',
+    },
+    duration: '20:06',
+    willBeSkipped: true,
+    message: 'Iloveyou',
+    upVotes: 2,
+    downVotes: 1,
+  },
+  {
+    song_id: '18',
+    title: 'Perfect- Ed Sheeran',
+    isPlaying: false,
+    thumbnail: 'https://i.ytimg.com/vi/JGwWNGJdvx8/default.jpg',
+    creator: {
+      name: 'Thuy Tien',
+      username: 'ThuyTien',
+      avatar_url:
+        'https://res.cloudinary.com/cocacode2/image/upload/v1517992692/hhunvpjq7ogvoehk7flk.png',
+    },
+    duration: '20:06',
+    willBeSkipped: true,
+    message: 'Iloveyou',
+    upVotes: 2,
+    downVotes: 1,
+  },
+  {
+    song_id: '20',
+    title: 'Perfect- Ed Sheeran',
+    isPlaying: false,
+    thumbnail: 'https://i.ytimg.com/vi/JGwWNGJdvx8/default.jpg',
+    creator: {
+      name: 'Thuy Tien',
+      username: 'ThuyTien',
+      avatar_url:
+        'https://res.cloudinary.com/cocacode2/image/upload/v1517992692/hhunvpjq7ogvoehk7flk.png',
+    },
+    duration: '20:06',
+    willBeSkipped: true,
+    message: 'Iloveyou',
+    upVotes: 2,
+    downVotes: 1,
+  },
+  {
+    song_id: '21',
     title: 'Perfect- Ed Sheeran',
     isPlaying: false,
     thumbnail: 'https://i.ytimg.com/vi/JGwWNGJdvx8/default.jpg',

@@ -86,7 +86,7 @@ export class ConfigurationButton extends Component<any, any> {
                     type="radio"
                     name="ruleOption"
                     value={rule.type}
-                    defaultChecked={rule.checked}
+                    checked={rule.checked}
                     onChange={this._onOptionChange}
                   />
                   {rule.title}

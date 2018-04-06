@@ -1,9 +1,11 @@
-.play-list {
+.playlist {
   width: inherit;
   margin: auto;
   position: relative;
-  height: inherit;
   font-family: 'Roboto Slab', sans-serif;
+  overflow-y: auto;
+  height: 80vh;
+
   .play-list-none {
     display: flex;
     justify-content: center;
@@ -13,5 +15,10 @@
     & > i {
       font-size: 56px;
     }
+  }
+
+  .flip-move-playlist {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }

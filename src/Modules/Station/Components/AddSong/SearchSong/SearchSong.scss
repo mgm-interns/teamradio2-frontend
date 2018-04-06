@@ -6,7 +6,13 @@ $suggestion_height: 48px;
 }
 
 .react-autosuggest {
-  &__suggestions-container {
+  &__container {
+    height: 40px;
+
+    .form-control:focus {
+      border-color: #ffcfc4;
+      box-shadow: 0 0 0 0.2rem rgba(224, 106, 78, 0.1);
+    }
   }
   &__suggestions-list {
     list-style: none;
@@ -28,6 +34,15 @@ $suggestion_height: 48px;
       background-color: rgba(0, 0, 0, 0.07);
     }
   }
+
+  &__suggestions-container--open {
+    display: block;
+    position: absolute;
+    top: 40px;
+    max-width: 100%;
+    background-color: #fff;
+    z-index: 2;
+  }
 }
 
 $input_height: 35px;
@@ -40,4 +55,9 @@ $icon_height: 14px;
   padding: ($input_height - $icon_height)/2 - 1px;
   background: #fff;
   color: rgba(0, 0, 0, 0.54);
+
+  &:hover {
+    cursor: pointer;
+    filter: opacity(0.8);
+  }
 }

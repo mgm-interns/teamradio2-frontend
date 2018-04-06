@@ -55,10 +55,10 @@ export class AddSongComponent extends Component<any, IAddLinkState> {
         <Card>
           <CardBody>
             <Row>
-              <Col sm="4" xs="12">
+              <Col lg="4" xs="12">
                 <SearchSong setPreviewVideo={this.setPreviewVideo} />
               </Col>
-              <Col sm="8" xs="12">
+              <Col lg="8" xs="12">
                 <PreviewVideo
                   video={this.state.preview}
                   addSong={this.addSong}

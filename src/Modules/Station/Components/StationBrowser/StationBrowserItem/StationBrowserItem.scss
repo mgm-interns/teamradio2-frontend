@@ -1,11 +1,12 @@
 .station-item {
   padding: 10px;
+
   &:hover {
     cursor: pointer;
+    -webkit-transform: scale(1.05); /* Safari 3-8 */
+    transform: scale(1.05);
 
     .station-name {
-      font-size: 1.05em;
-      padding-top: 2px;
       color: #d55b1c;
     }
   }
@@ -13,19 +14,13 @@
   .station-name {
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: 1em;
+    font-size: 1.05em;
     margin: 5px;
+    padding-top: 2px;
   }
 
   .station-thumbnail {
     background-size: 100%;
-
-    &:hover {
-      -webkit-transform: scale(1.1); /* Safari 3-8 */
-      transform: scale(1.1);
-      //border: 1.5px solid #fe7a15;
-      border-radius: 3px;
-    }
 
     img {
       max-width: 100%;

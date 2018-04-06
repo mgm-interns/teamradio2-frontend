@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { Favourite } from './Favourite';
 import { favouriteList, historyList } from './fixture';
 import { History } from './History';
 import { Playlist } from './Playlist';
 import './PlaylistTabs.scss';
-import { connect } from 'react-redux';
 
 const PLAYLIST_TAB_ID = '1';
 const HISTORY_TAB_ID = '2';
@@ -38,31 +38,28 @@ export class PlaylistTabsComponent extends Component<any, any> {
         <Nav tabs>
           <NavItem>
             <NavLink
-              href="#"
-              active={this.state.activeTab === PLAYLIST_TAB_ID}
-              onClick={() => {
-                this.openTab(PLAYLIST_TAB_ID);
-              }}>
+              className={
+                this.state.activeTab === PLAYLIST_TAB_ID ? 'active' : ''
+              }
+              onClick={() => this.openTab(PLAYLIST_TAB_ID)}>
               Playlist
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              href="#"
-              active={this.state.activeTab === HISTORY_TAB_ID}
-              onClick={() => {
-                this.openTab(HISTORY_TAB_ID);
-              }}>
+              className={
+                this.state.activeTab === HISTORY_TAB_ID ? 'active' : ''
+              }
+              onClick={() => this.openTab(HISTORY_TAB_ID)}>
               History
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              href="#"
-              active={this.state.activeTab === FAVOURITE_TAB_ID}
-              onClick={() => {
-                this.openTab(FAVOURITE_TAB_ID);
-              }}>
+              className={
+                this.state.activeTab === FAVOURITE_TAB_ID ? 'active' : ''
+              }
+              onClick={() => this.openTab(FAVOURITE_TAB_ID)}>
               Favourite
             </NavLink>
           </NavItem>

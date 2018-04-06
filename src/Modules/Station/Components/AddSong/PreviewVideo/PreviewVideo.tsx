@@ -36,8 +36,8 @@ export class PreviewVideo extends Component<any, any> {
     return (
       <div className="preview">
         {video ? (
-          <Row>
-            <Col sm="4" xs="12">
+          <Row className="h-100">
+            <Col md="5" xs="12">
               <ReactPlayer
                 url={YoutubeHelper.getVideoUrl(video)}
                 playing
@@ -47,33 +47,38 @@ export class PreviewVideo extends Component<any, any> {
                 muted={muted}
               />
             </Col>
-            <Col sm="8" xs="12">
-              <h4 className="preview__title">{this.getTitle(video)}</h4>
+            <Col md="7" xs="12" className="d-flex flex-column justify-content-between">
               <div>
-                <i className="fa fa-clock-o" />
-                <span className="preview__duration">
-                  {this.getDuration(video)}
-                </span>
+                <h4 className="preview__title">{this.getTitle(video)}</h4>
+                <p>
+                  <i className="fa fa-clock-o" />
+                  <span className="preview__duration">
+                    {this.getDuration(video)}
+                  </span>
+                </p>
                 <Input
                   className="preview__input"
                   placeholder="Do you want to say something about this video?"
                 />
-                <div className="preview__buttons">
-                  {muted ? (
-                    <i
-                      className="icon-volume-off icons font-2xl"
-                      onClick={this.mutePreview}
-                    />
-                  ) : (
-                    <i
-                      className="icon-volume-2 icons font-2xl"
-                      onClick={this.mutePreview}
-                    />
-                  )}
-                  <Button className="preview__button" color="primary" onClick={addSong}>
-                    Add
-                  </Button>
-                </div>
+              </div>
+              <div className="preview__buttons">
+                {muted ? (
+                  <i
+                    className="icon-volume-off icons font-2xl"
+                    onClick={this.mutePreview}
+                  />
+                ) : (
+                  <i
+                    className="icon-volume-2 icons font-2xl"
+                    onClick={this.mutePreview}
+                  />
+                )}
+                <Button
+                  className="preview__button"
+                  color="primary"
+                  onClick={addSong}>
+                  Add
+                </Button>
               </div>
             </Col>
           </Row>
@@ -84,5 +89,3 @@ export class PreviewVideo extends Component<any, any> {
     );
   }
 }
-
-

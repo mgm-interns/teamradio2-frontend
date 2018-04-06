@@ -58,17 +58,10 @@ export class StationPlayer extends Component<IProps, IState> {
         volume={1}
         muted={muted}
         width="100%"
-        height="60vh"
+        height="80vh"
       />,
-      showProgressbar && (
-        <Progress
-          key={2}
-          className="progress"
-          animated
-          color="info"
-          value={10.2}
-        />
-      ),
+      showProgressbar &&
+        url && <Progress key={2} className="progress" animated value={10.2} />,
     ];
   }
 }

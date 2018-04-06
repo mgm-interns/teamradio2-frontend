@@ -4,7 +4,7 @@ import { Component } from 'react';
 import { Row } from 'reactstrap';
 import './StationHeader.scss';
 
-import { StationSharing, ConfigurationButton } from 'Modules/Station';
+import { ConfigurationButton, StationSharing } from 'Modules/Station';
 
 const buttonActions = {
   muted: {
