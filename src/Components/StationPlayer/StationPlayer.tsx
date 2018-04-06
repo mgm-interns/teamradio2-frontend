@@ -53,6 +53,7 @@ export class StationPlayer extends Component<IProps, IState> {
 
   public render() {
     const { url, playing, showProgressbar, muted }: IProps = this.props;
+    console.log(url);
     return [
       <ReactPlayer
         key={1}
