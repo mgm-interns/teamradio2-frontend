@@ -10,7 +10,7 @@ import {
   NowPlaying,
   PlaylistTabs,
   StationSharing,
-  StationHeader,
+  StationHeader
 } from 'Modules/Station';
 
 const buttonActions = {

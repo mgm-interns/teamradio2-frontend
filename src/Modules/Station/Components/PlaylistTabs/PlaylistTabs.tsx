@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { Favourite } from './Favourite';
 import { favouriteList, historyList } from './fixture';
 import { History } from './History';
 import { Playlist } from './Playlist';
 import './PlaylistTabs.scss';
-import { connect } from 'react-redux';
 
 const PLAYLIST_TAB_ID = '1';
 const HISTORY_TAB_ID = '2';

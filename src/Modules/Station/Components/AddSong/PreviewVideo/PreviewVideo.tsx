@@ -36,7 +36,7 @@ export class PreviewVideo extends Component<any, any> {
     return (
       <div className="preview">
         {video ? (
-          <Row>
+          <Row className="h-100">
             <Col sm="4" xs="12">
               <ReactPlayer
                 url={YoutubeHelper.getVideoUrl(video)}
