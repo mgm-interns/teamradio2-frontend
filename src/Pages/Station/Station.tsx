@@ -6,23 +6,10 @@ import { Col, Row } from 'reactstrap';
 import './Station.scss';
 
 import {
-  ConfigurationButton,
   NowPlaying,
   PlaylistTabs,
-  StationSharing,
-  StationHeader
+  StationHeader,
 } from 'Modules/Station';
-
-const buttonActions = {
-  muted: {
-    iconOn: 'fa fa-volume-up',
-    iconOff: 'fa fa-volume-off',
-  },
-  passive: {
-    iconOn: 'fa fa-lightbulb-o',
-    iconOff: 'fa fa-lightbulb-o',
-  },
-};
 
 interface IProps {} // tslint:disable-line
 

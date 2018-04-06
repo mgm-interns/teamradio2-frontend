@@ -53,6 +53,7 @@ export class StationPlayer extends Component<IProps, IState> {
 
   public render() {
     const { url, playing, showProgressbar, muted }: IProps = this.props;
+    console.log(url);
     return [
       <ReactPlayer
         key={1}
@@ -67,9 +68,8 @@ export class StationPlayer extends Component<IProps, IState> {
         width="100%"
         height="80vh"
       />,
-      showProgressbar && (
-        <Progress key={2} className="progress" animated value={10.2} />
-      ),
+      showProgressbar &&
+        url && <Progress key={2} className="progress" animated value={10.2} />,
     ];
   }
 
