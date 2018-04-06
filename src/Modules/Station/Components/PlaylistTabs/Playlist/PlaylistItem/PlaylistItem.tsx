@@ -171,7 +171,9 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
         })}>
         <Col xs={3} className="p-0 thumbnail-container">
           <img className="video-img" src={thumbnail} />
-          <div className="duration">{YoutubeHelper.convertDuration(duration)}</div>
+          <div className="duration">
+            {YoutubeHelper.convertDuration(duration)}
+          </div>
           {willBeSkipped ? (
             <div className="skip-bg" id={`WillBeSkipped` + song_id}>
               <div className="skip-icon">
@@ -213,16 +215,21 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
               <div className="h-100 item-addedBy">
                 <span className="title">Added by</span>
                 <Link to={`/login`} className="creator-container">
-                  <img
-                    className="avatar"
-                    id={'UserAvatar' + song_id}
-                    src={creator.avatar_url}
-                  />
-                  <UncontrolledTooltip
-                    placement="bottom"
-                    target={'UserAvatar' + song_id}>
-                    {creator.username}
-                  </UncontrolledTooltip>
+                  {creator && (
+                    <div>
+                      <img
+                        className="avatar"
+                        id={'UserAvatar' + song_id}
+                        src={creator.avatar_url}
+                      />
+                      <UncontrolledTooltip
+                        placement="bottom"
+                        target={'UserAvatar' + song_id}>
+                        {creator.username}
+                      </UncontrolledTooltip>
+                    </div>
+                  )}
+
                   {message ? (
                     <span className="message-icon">
                       <i

@@ -4,9 +4,6 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Row } from 'reactstrap';
 import { StationServices } from 'Services/Http';
-import { Row } from 'reactstrap';
-import { StationServices } from 'Services/Http';
-import { Row } from 'reactstrap';
 import './StationBrowser.scss';
 import { IStationBrowserItem, StationBrowserItem } from './StationBrowserItem';
 
