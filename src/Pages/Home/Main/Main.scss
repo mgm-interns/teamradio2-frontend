@@ -9,13 +9,13 @@ $font-title: 'Pacifico', sans-serif;
 .header {
   height: 100vh;
   min-height: 700px;
-  background-size: cover;
   background: linear-gradient(
       to right bottom,
       rgba($color-primary-light, 0.4),
       rgba($color-primary-dark, 0.6)
-  ),
-  url($background-image) top;
+    ),
+    url($background-image) top;
+  background-size: cover;
   position: relative;
   &__text-box {
     position: absolute;
