@@ -1,4 +1,4 @@
 export { User } from './User';
 export { Station } from './Station';
 export { Song } from './Song';
-export { FavoriteSong } from './FavoriteSong'
+export { FavoriteSong } from './FavoriteSong';
