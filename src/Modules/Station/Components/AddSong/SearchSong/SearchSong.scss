@@ -34,6 +34,15 @@ $suggestion_height: 48px;
       background-color: rgba(0, 0, 0, 0.07);
     }
   }
+
+  &__suggestions-container--open {
+    display: block;
+    position: absolute;
+    top: 40px;
+    max-width: 100%;
+    background-color: #fff;
+    z-index: 2;
+  }
 }
 
 $input_height: 35px;
@@ -46,4 +55,9 @@ $icon_height: 14px;
   padding: ($input_height - $icon_height)/2 - 1px;
   background: #fff;
   color: rgba(0, 0, 0, 0.54);
+
+  &:hover {
+    cursor: pointer;
+    filter: opacity(0.8);
+  }
 }

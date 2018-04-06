@@ -1,6 +1,13 @@
 .preview {
-  //text-align: center;
-  height: 330px;
+  height: 280px;
+
+  @media (max-width: 767px) {
+    height: 500px;
+
+    &__title {
+      margin-top: 8px;
+    }
+  }
 
   img {
     width: 100%;
@@ -14,6 +21,11 @@
 
   &__input {
     margin-top: 10px;
+
+    &:focus {
+      border-color: #ffcfc4;
+      box-shadow: 0 0 0 0.2rem rgba(224, 106, 78, 0.1);
+    }
   }
 
   &__buttons {
@@ -26,5 +38,14 @@
   &__button {
     background: rgb(224, 106, 78);
     border: none;
+
+    &:hover {
+      background: rgb(224, 106, 78);
+      filter: opacity(0.8);
+    }
+
+    &:focus {
+      box-shadow: none;
+    }
   }
 }
