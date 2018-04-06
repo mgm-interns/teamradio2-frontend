@@ -60,3 +60,9 @@
     margin: 10.25rem auto;
   }
 }
+
+.disable-outline-modal {
+  .close:focus {
+    outline: none;
+  }
+}
