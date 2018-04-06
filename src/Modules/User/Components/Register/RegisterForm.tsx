@@ -1,4 +1,11 @@
-import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
+import {
+  Field,
+  Form,
+  Formik,
+  FormikErrors,
+  FormikProps,
+  withFormik,
+} from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
@@ -11,7 +18,6 @@ import {
   Alert,
 } from 'reactstrap';
 import { UserServices } from 'Services/Http';
-const userServices = new UserServices();
 
 interface IFormValues {
   name: string;
@@ -101,7 +107,7 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
           )}
       </InputGroup>
       {/*<Alert color="danger">*/}
-        {/*server errors*/}
+      {/*server errors*/}
       {/*</Alert>*/}
       {/*<Alert color="success">You have successfully registered!</Alert>*/}
 
@@ -112,18 +118,39 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
   );
 };
 
-const FormWrapper = withFormik<any, IFormValues>({
-  mapPropsToValues: props => {
-    return {
+export class RegisterForm extends Component<any, any> {
+  private userServices: UserServices;
+  private initialValues: IFormValues;
+
+  constructor(props: any) {
+    super(props);
+
+    this.initialValues = {
       name: '',
       username: '',
       email: '',
       password: '',
       confirmPassword: '',
     };
-  },
 
-  validate: (values: IFormValues) => {
+    this.userServices = new UserServices();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(values: IFormValues, { setSubmitting, resetForm }: any) {
+    this.userServices.register(values).subscribe(
+      (res: any) => {
+        console.log(res);
+        setSubmitting(false);
+        resetForm();
+      },
+      (err: any) => {
+        setSubmitting(false);
+      },
+    );
+  }
+
+  validate(values: IFormValues) {
     const errors: FormikErrors<any> = {};
     const { name, username, email, password, confirmPassword } = values;
     const {
@@ -164,27 +191,16 @@ const FormWrapper = withFormik<any, IFormValues>({
     errors.confirmPassword = confirmPasswordValidator.validate();
 
     return Validator.removeUndefinedError(errors);
-  },
-
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    userServices.register(values).subscribe(
-      (res: any) => {
-        setSubmitting(false);
-        resetForm();
-      },
-      (err: any) => {
-        setSubmitting(false);
-      },
-    );
-  },
-})(InnerForm);
-
-export class RegisterForm extends Component<any, any> {
-  constructor(props: any) {
-    super(props);
   }
 
   public render() {
-    return <FormWrapper />;
+    return (
+      <Formik
+        initialValues={this.initialValues}
+        onSubmit={this.handleSubmit}
+        render={InnerForm}
+        validate={this.validate}
+      />
+    );
   }
 }
