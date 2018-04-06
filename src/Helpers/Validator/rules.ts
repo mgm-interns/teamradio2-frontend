@@ -1,7 +1,6 @@
 import {
-  DISPLAY_NAME_REGEX,
+  ALPHANUMERIC_REGEX,
   EMAIL_REGEX,
-  STATION_NAME_REGEX,
   USERNAME_REGEX,
 } from './regexRules';
 
@@ -48,12 +47,12 @@ const validUsername = {
 };
 
 const validDisplayName = {
-  test: (value: string) => DISPLAY_NAME_REGEX.test(value),
+  test: (value: string) => ALPHANUMERIC_REGEX.test(value),
   message: () => `Display name may only contain alphanumeric characters.`,
 };
 
 const validStationName = {
-  test: (value: string) => STATION_NAME_REGEX.test(value),
+  test: (value: string) => ALPHANUMERIC_REGEX.test(value),
   message: (name: string) => `${name} only contain alphanumeric characters.`,
 };
 
