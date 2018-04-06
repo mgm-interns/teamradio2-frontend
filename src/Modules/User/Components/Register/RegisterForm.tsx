@@ -9,9 +9,11 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from 'reactstrap';
+import { UserServices } from 'Services/Http';
+const userServices = new UserServices();
 
 interface IFormValues {
-  displayName: string;
+  name: string;
   username: string;
   email: string;
   password: string;
@@ -29,14 +31,14 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
           </InputGroupText>
         </InputGroupAddon>
         <Field
-          name="displayName"
+          name="name"
           type="text"
           className="form-control"
           placeholder="Display Name"
         />
-        {touched.displayName &&
-          errors.displayName && (
-            <FormFeedback>{errors.displayName}</FormFeedback>
+        {touched.name &&
+          errors.name && (
+            <FormFeedback>{errors.name}</FormFeedback>
           )}
       </InputGroup>
       <InputGroup className="mb-3">
@@ -99,6 +101,9 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
             <FormFeedback>{errors.confirmPassword}</FormFeedback>
           )}
       </InputGroup>
+      {/*<InputGroup className="mb-3 text-center">*/}
+        {/*<FormFeedback>server errors</FormFeedback>*/}
+      {/*</InputGroup>*/}
       <Button color="success" block disabled={isSubmitting}>
         LOG IN
       </Button>
@@ -109,7 +114,7 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
 const FormWrapper = withFormik<any, IFormValues>({
   mapPropsToValues: props => {
     return {
-      displayName: '',
+      name: '',
       username: '',
       email: '',
       password: '',
@@ -119,7 +124,7 @@ const FormWrapper = withFormik<any, IFormValues>({
 
   validate: (values: IFormValues) => {
     const errors: FormikErrors<any> = {};
-    const { displayName, username, email, password, confirmPassword } = values;
+    const { name, username, email, password, confirmPassword } = values;
     const {
       required,
       validEmail,
@@ -129,7 +134,7 @@ const FormWrapper = withFormik<any, IFormValues>({
       minLength6,
       matchPassword,
     } = Rules;
-    const displayNameValidator = new Validator('Display name', displayName, [
+    const displayNameValidator = new Validator('Display name', name, [
       required,
       validDisplayName,
       maxLength15,
@@ -160,8 +165,16 @@ const FormWrapper = withFormik<any, IFormValues>({
     return Validator.removeUndefinedError(errors);
   },
 
-  handleSubmit: values => {
-    console.log(values);
+  handleSubmit: (values, { setSubmitting }) => {
+
+    userServices.register(values).subscribe(
+      (res: any) => {
+        setSubmitting(false);
+      },
+      (err: any) => {
+        setSubmitting(false);
+      },
+    );
   },
 })(InnerForm);
 

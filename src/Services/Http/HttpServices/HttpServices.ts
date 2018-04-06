@@ -109,7 +109,7 @@ export class HttpServices {
   private createHeaders(accessToken?: string): any {
     const headerParams: any = {
       'Content-Type': 'application/json',
-    };
+  };
     if (accessToken) {
       headerParams.Authorization = 'Bearer ' + accessToken;
     }
