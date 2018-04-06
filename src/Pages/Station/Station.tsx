@@ -8,7 +8,7 @@ import './Station.scss';
 import {
   NowPlaying,
   PlaylistTabs,
-  StationHeader,
+  StationHeader
 } from 'Modules/Station';
 
 interface IProps {} // tslint:disable-line
