@@ -32,6 +32,8 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
     item: Station,
   ): IStationBrowserItem {
     return {
+      stationId: item.id,
+      friendlyId: item.id,
       stationName: item.name,
       numberOfOnlineUsers: 0,
       picture: '',
@@ -70,9 +72,7 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
                   return (
                     <StationBrowserItem
                       key={index}
-                      numberOfOnlineUsers={item.numberOfOnlineUsers}
-                      stationName={item.stationName}
-                      picture={item.picture}
+                      {...item}
                     />
                   );
                 },
