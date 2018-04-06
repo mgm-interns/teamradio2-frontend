@@ -5,12 +5,13 @@ import './StationBrowserItem.scss';
 
 export interface IStationBrowserItem {
   stationId: string;
+  friendlyId: string;
   stationName: string;
   numberOfOnlineUsers: number;
   picture: string;
 }
 
-export class StationBrowserItems extends Component<
+class SBItem extends Component<
   IStationBrowserItem & RouteComponentProps<any>,
   {}
 > {
@@ -20,8 +21,8 @@ export class StationBrowserItems extends Component<
   }
 
   public joinStation() {
-    const { stationId } = this.props;
-    this.props.history.push(`/station/${stationId}`);
+    const { friendlyId } = this.props;
+    this.props.history.push(`/station/${friendlyId}`);
   }
 
   public render() {
@@ -45,4 +46,4 @@ export class StationBrowserItems extends Component<
   }
 }
 
-export const StationBrowserItem = withRouter(StationBrowserItems);
+export const StationBrowserItem = withRouter(SBItem);
