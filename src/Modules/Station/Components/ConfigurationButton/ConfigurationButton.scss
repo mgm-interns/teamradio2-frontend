@@ -1,3 +1,9 @@
 .config-modal {
   height: 100%;
 }
+
+.disable-outline-modal {
+  .close:focus {
+    outline: none;
+  }
+}

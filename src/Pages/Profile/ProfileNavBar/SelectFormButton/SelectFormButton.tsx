@@ -60,7 +60,7 @@ export class SelectFormButton extends Component<any, any> {
       <Modal
         isOpen={openState}
         toggle={() => this.onCloseModal()}
-        className="modal-primary modal-lg modal-edit-form">
+        className="modal-primary modal-lg modal-edit-form disable-outline-modal">
         <ModalHeader toggle={() => this.onCloseModal()}>
           {modalHeadline}
         </ModalHeader>

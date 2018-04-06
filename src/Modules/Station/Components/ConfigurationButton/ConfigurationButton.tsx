@@ -74,7 +74,7 @@ export class ConfigurationButton extends Component<any, any> {
         <Modal
           isOpen={modal}
           toggle={this._onModalToggle}
-          className="d-flex mt-0 mb-0 align-items-center config-modal">
+          className="d-flex mt-0 mb-0 align-items-center config-modal disable-outline-modal">
           <ModalHeader toggle={this._onModalToggle}>
             Configuration skip rule
           </ModalHeader>
