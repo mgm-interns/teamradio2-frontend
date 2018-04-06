@@ -1,22 +1,33 @@
 import { Component } from 'react';
 import * as React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './StationBrowserItem.scss';
 
 export interface IStationBrowserItem {
+  stationId: string;
   stationName: string;
   numberOfOnlineUsers: number;
   picture: string;
 }
 
-export class StationBrowserItem extends Component<IStationBrowserItem, {}> {
-  constructor(props: IStationBrowserItem) {
+export class StationBrowserItems extends Component<
+  IStationBrowserItem & RouteComponentProps<any>,
+  {}
+> {
+  constructor(props: IStationBrowserItem & RouteComponentProps<any>) {
     super(props);
+    this.joinStation = this.joinStation.bind(this);
+  }
+
+  public joinStation() {
+    const { stationId } = this.props;
+    this.props.history.push(`/station/${stationId}`);
   }
 
   public render() {
     const { stationName, numberOfOnlineUsers, picture } = this.props;
     return (
-      <div className="station-item">
+      <div className="station-item" onClick={this.joinStation}>
         <div className="station-thumbnail">
           <img src={picture || '/img/station_default_cover.png'} />
           <div className="online-user">
@@ -33,3 +44,5 @@ export class StationBrowserItem extends Component<IStationBrowserItem, {}> {
     );
   }
 }
+
+export const StationBrowserItem = withRouter(StationBrowserItems);
