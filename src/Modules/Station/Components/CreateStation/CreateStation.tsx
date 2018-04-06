@@ -1,14 +1,20 @@
 import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
+import { Station } from 'Models/Station';
 import * as React from 'react';
 import { Component } from 'react';
-import { Redirect, Router } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
 import { StationServices } from 'Services/Http';
 import './CreateStation.scss';
 
 interface IStationFormValues {
   name: string;
+}
+
+interface IFormProps {
+  initialStationName?: string;
+  handleSubmit: any;
 }
 
 const InnerForm = (props: FormikProps<IStationFormValues>) => {
@@ -43,12 +49,6 @@ const InnerForm = (props: FormikProps<IStationFormValues>) => {
   );
 };
 
-// The type of props FormWrapper receives
-interface IFormProps {
-  initialStationName?: string;
-  handleSubmit: any;
-}
-
 const FormWrapper = withFormik<IFormProps, IStationFormValues>({
   mapPropsToValues: props => {
     return {
@@ -72,10 +72,10 @@ const FormWrapper = withFormik<IFormProps, IStationFormValues>({
   },
 })(InnerForm);
 
-export class CreateStation extends Component<any, any> {
+class CreateStationForm extends Component<RouteComponentProps<any>, any> {
   private stationServices: StationServices;
 
-  constructor(props: any) {
+  constructor(props: RouteComponentProps<any>) {
     super(props);
     this.stationServices = new StationServices();
   }
@@ -83,18 +83,19 @@ export class CreateStation extends Component<any, any> {
   public handleSubmit = (formValues: IStationFormValues) => {
     const name = formValues.name;
     this.stationServices.createStation(name).subscribe(
-      (res: object) => {
-        console.log(`Success: ${res}`);
+      (res: Station) => {
+        console.log(`Create success: ${res.name}`);
+        this.props.history.push(`/station/${res.id}`);
       },
       (err: any) => {
         console.log(`Error when create: ${err}`);
       },
     );
-
-    console.log(`Ten ${formValues.name}`);
   };
 
   public render() {
     return <FormWrapper handleSubmit={this.handleSubmit} />;
   }
 }
+
+export const CreateStation = withRouter(CreateStationForm);
