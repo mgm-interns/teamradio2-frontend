@@ -4,15 +4,14 @@
     "paths": {
       "*": ["src/*"]
     },
+    "target": "esnext",
+    "module": "esnext",
     "declaration": false,
     "sourceMap": true,
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "module": "esnext",
-    "target": "esnext",
     "jsx": "react",
-    "esModuleInterop": true,
     "moduleResolution": "node"
   },
   "files": ["src/index.tsx"],

@@ -6,7 +6,7 @@ import { Suggestion } from '../Suggestion';
 import './SearchSong.scss';
 
 interface ISearchSongState {
-  value: string;
+  value: any;
   suggestions: any[];
 }
 
@@ -20,7 +20,7 @@ export class SearchSong extends Component<any, ISearchSongState> {
     };
   }
 
-  public getSuggestions = async (value: string) => {
+  public getSuggestions = async (value: any) => {
     const items = await YoutubeHelper.fetchVideo(value);
     let videoIds = '';
     items.forEach((item: any) => {
