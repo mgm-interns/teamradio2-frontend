@@ -1,10 +1,13 @@
 import * as classNames from 'classnames';
+import { Station } from 'Models/Station';
+import { ConfigurationButton, StationSharing } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { Row } from 'reactstrap';
+import { StationServices } from 'Services/Http';
 import './StationHeader.scss';
-
-import { ConfigurationButton, StationSharing } from 'Modules/Station';
 
 const buttonActions = {
   muted: {
@@ -22,17 +25,39 @@ interface IProps {
   isPassive: boolean;
   onVolumeClick: (e: React.FormEvent<EventTarget>) => void;
   onLightClick: (e: React.FormEvent<EventTarget>) => void;
-  stationName: string,
+  stationId: string;
 }
 
 interface IState {
-  muted: boolean;
-  isPassive: boolean;
+  station: Station;
 }
 
-export class StationHeader extends Component<IProps, IState> {
-  constructor(props: IProps) {
+class OriginStationHeader extends Component<
+  IProps & RouteComponentProps<any>,
+  IState
+> {
+  private stationServices: StationServices;
+  constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
+
+    this.state = {
+      station: null,
+    };
+
+    this.stationServices = new StationServices();
+  }
+
+  public componentWillMount() {
+    const { stationId } = this.props;
+    this.stationServices.getStationById(stationId).subscribe(
+      (station: any) => {
+        this.setState({ station });
+      },
+      err => {
+        // If station not found, redirect user to home page
+        this.props.history.replace('/');
+      },
+    );
   }
 
   public renderButton = (
@@ -53,12 +78,13 @@ export class StationHeader extends Component<IProps, IState> {
   };
 
   public render() {
-    const { muted, isPassive, onVolumeClick, onLightClick, stationName } = this.props;
+    const { muted, isPassive, onVolumeClick, onLightClick } = this.props;
+    const { station } = this.state;
 
     return (
       <Row className="header-container">
         <div>
-          <h1>{stationName}</h1>
+          <h1>{station && station.name}</h1>
         </div>
         <div className="buttons-wrapper">
           {this.renderButton(!muted, buttonActions.muted, onVolumeClick)}
@@ -70,3 +96,5 @@ export class StationHeader extends Component<IProps, IState> {
     );
   }
 }
+
+export const StationHeader = withRouter(OriginStationHeader);

@@ -3,16 +3,10 @@ import { AddSong, StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import './Station.scss';
 
-import {
-  NowPlaying,
-  PlaylistTabs,
-  StationHeader,
-} from 'Modules/Station';
-import { StationServices } from 'Services/Http';
-import { StationPlaylistSSE } from 'Services/SSE';
+import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 import './Station.scss';
 
 interface IProps {} // tslint:disable-line
@@ -27,9 +21,6 @@ export class Station extends Component<
   IProps & RouteComponentProps<any>,
   IState
 > {
-  private stationPlaylistSSEService: StationPlaylistSSE;
-  private stationServices: StationServices;
-
   constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
 
@@ -38,8 +29,6 @@ export class Station extends Component<
       isPassive: false,
       station: null,
     };
-
-    this.stationServices = new StationServices();
   }
 
   public onVolumeClick = () => {
@@ -54,30 +43,9 @@ export class Station extends Component<
     });
   };
 
-  public componentDidMount() {
-    const stationId = this.parseStationId();
-
-    this.stationServices.getStationById(stationId).subscribe(
-      station => {
-        this.setState({ station });
-      },
-      err => {
-        // If station not found, redirect user to home page
-        this.props.history.replace('/');
-      },
-    );
-
-    // Start SSE service
-    this.stationPlaylistSSEService = new StationPlaylistSSE(stationId);
-    this.stationPlaylistSSEService.start();
-  }
-
-  public componentWillUnmount() {
-    this.stationPlaylistSSEService.close();
-  }
-
   public render() {
-    const { muted, isPassive, station } = this.state;
+    const { muted, isPassive } = this.state;
+    const stationId = this.parseStationId();
 
     return (
       <Row className="m-0 station-container">
@@ -90,13 +58,13 @@ export class Station extends Component<
             isPassive={isPassive}
             onVolumeClick={this.onVolumeClick}
             onLightClick={this.onLightClick}
-            stationName={station && station.name}
+            stationId={stationId}
           />
           <NowPlaying muted={muted} />
         </Col>
         <Col xs={12} lg={4} className="mt-3">
           <div className="playlist-tabs-container">
-            <PlaylistTabs />
+            <PlaylistTabs stationId={stationId} />
           </div>
         </Col>
         <Col xs={12}>
