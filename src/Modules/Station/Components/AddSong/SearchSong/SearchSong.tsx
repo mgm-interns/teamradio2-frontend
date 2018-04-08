@@ -6,7 +6,7 @@ import { Suggestion } from '../Suggestion';
 import './SearchSong.scss';
 
 interface ISearchSongState {
-  value: any;
+  value: string;
   suggestions: any[];
 }
 
@@ -20,7 +20,7 @@ export class SearchSong extends Component<any, ISearchSongState> {
     };
   }
 
-  public getSuggestions = async (value: any) => {
+  public getSuggestions = async (value: string) => {
     const items = await YoutubeHelper.fetchVideo(value);
     let videoIds = '';
     items.forEach((item: any) => {
@@ -82,7 +82,7 @@ export class SearchSong extends Component<any, ISearchSongState> {
     return (
       <div className="search-input">
         <Autosuggest
-          suggestions={suggestions}
+          suggestions={suggestions} // TODO: invalid type of suggestions
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
           getSuggestionValue={this.getSuggestionValue}
