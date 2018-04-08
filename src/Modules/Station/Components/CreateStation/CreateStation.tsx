@@ -14,7 +14,7 @@ interface IStationFormValues {
 
 interface IFormProps {
   initialStationName?: string;
-  handleSubmit: any;
+  handleSubmit: (values: IStationFormValues) => void;
 }
 
 const InnerForm = (props: FormikProps<IStationFormValues>) => {
@@ -84,7 +84,6 @@ class CreateStationForm extends Component<RouteComponentProps<any>, any> {
     const name = formValues.name;
     this.stationServices.createStation(name).subscribe(
       (res: Station) => {
-        console.log(`Create success: ${res.name}`);
         this.props.history.push(`/station/${res.id}`);
       },
       (err: any) => {
