@@ -18,7 +18,6 @@ interface IState {
 }
 
 export class NowPlayingComponent extends Component<IProps, IState> {
-
   constructor(props: IProps) {
     super(props);
 

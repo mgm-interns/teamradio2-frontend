@@ -5,7 +5,7 @@ import './InformationForm.scss';
 
 import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
-import { UserServices } from "Services/Http";
+import { UserServices } from 'Services/Http';
 
 interface IFormValues {
   displayName: string;
@@ -216,7 +216,7 @@ export class InformationForm extends Component<any, any> {
       },
       (err: any) => {
         console.log(err);
-      }
+      },
     );
   }
   public render() {

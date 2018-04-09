@@ -23,8 +23,8 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
   }
 
   public upVote = () => {
-      alert('Up vote clicked!');
-      // TODO: Implemented upVote function
+    alert('Up vote clicked!');
+    // TODO: Implemented upVote function
   };
 
   public downVote = () => {

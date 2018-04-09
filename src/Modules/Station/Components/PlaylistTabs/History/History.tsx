@@ -8,7 +8,6 @@ interface IHistoryProps {
 }
 
 export class History extends Component<IHistoryProps, IHistoryProps> {
-
   constructor(props: any) {
     super(props);
 

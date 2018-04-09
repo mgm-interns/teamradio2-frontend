@@ -22,23 +22,23 @@ export class CreatingSection extends Component {
               </div>
             </div>
             <div className="col-lg-6 col-lg-pull-6">
-                <div className="composition-create">
-                  <img
-                    src="img/home/create-station-1-large.jpg"
-                    alt="Station 1"
-                    className="composition__photo composition__photo--p1"
-                  />
-                  <img
-                    src="img/home/create-station-2-large.jpg"
-                    alt="Station 2"
-                    className="composition__photo composition__photo--p2"
-                  />
-                  <img
-                    src="img/home/create-station-3-large.jpg"
-                    alt="Station 3"
-                    className="composition__photo composition__photo--p3"
-                  />
-                </div>
+              <div className="composition-create">
+                <img
+                  src="img/home/create-station-1-large.jpg"
+                  alt="Station 1"
+                  className="composition__photo composition__photo--p1"
+                />
+                <img
+                  src="img/home/create-station-2-large.jpg"
+                  alt="Station 2"
+                  className="composition__photo composition__photo--p2"
+                />
+                <img
+                  src="img/home/create-station-3-large.jpg"
+                  alt="Station 3"
+                  className="composition__photo composition__photo--p3"
+                />
+              </div>
             </div>
           </div>
         </div>

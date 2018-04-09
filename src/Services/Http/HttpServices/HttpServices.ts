@@ -4,7 +4,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
-import { RequestMethod } from "./RequestMethod";
+import { RequestMethod } from './RequestMethod';
 
 export class HttpServices {
   private _httpClient: AxiosInstance;
@@ -44,40 +44,49 @@ export class HttpServices {
     return this.makeRequest(RequestMethod.Delete, url, queryParams);
   }
 
-  private makeRequest<T>(method: string, url: string, queryParams?: object, body?: object, showSpinner: boolean = true, needAccessToken: boolean = true) {
+  private makeRequest<T>(
+    method: string,
+    url: string,
+    queryParams?: object,
+    body?: object,
+    showSpinner: boolean = true,
+    needAccessToken: boolean = true,
+  ) {
     let request: AxiosPromise<T>;
     this.beforeSendRequest(showSpinner);
     this._httpClient = this.getAxiousInstance();
     switch (method) {
       case RequestMethod.Get:
-        request = this._httpClient.get<T>(url, {params: queryParams});
+        request = this._httpClient.get<T>(url, { params: queryParams });
         break;
       case RequestMethod.Post:
-        request = this._httpClient.post<T>(url, body, {params: queryParams});
+        request = this._httpClient.post<T>(url, body, { params: queryParams });
         break;
       case RequestMethod.Put:
-        request = this._httpClient.put<T>(url, body, {params: queryParams});
+        request = this._httpClient.put<T>(url, body, { params: queryParams });
         break;
       case RequestMethod.Patch:
-        request = this._httpClient.patch<T>(url, body, {params: queryParams});
+        request = this._httpClient.patch<T>(url, body, { params: queryParams });
         break;
       case RequestMethod.Delete:
-        request = this._httpClient.delete(url, {params: queryParams});
+        request = this._httpClient.delete(url, { params: queryParams });
         break;
 
       default:
         throw new Error('Method not supported');
     }
     return new Observable<T>(observer => {
-      request.then(response => {
-        this.afterSendRequest();
-        observer.next(response.data);
-        observer.complete();
-      }).catch((err: Error) => {
-        this.afterSendRequest();
-        observer.error(err);
-        observer.complete();
-      });
+      request
+        .then(response => {
+          this.afterSendRequest();
+          observer.next(response.data);
+          observer.complete();
+        })
+        .catch((err: Error) => {
+          this.afterSendRequest();
+          observer.error(err);
+          observer.complete();
+        });
     });
   }
 

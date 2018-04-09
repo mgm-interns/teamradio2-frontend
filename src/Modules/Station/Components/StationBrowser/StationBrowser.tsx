@@ -74,12 +74,7 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
                 id={this.state.stationItemContainer}>
                 {this.state.listStation.map(
                   (item: IStationBrowserItem, index: number) => {
-                    return (
-                      <StationBrowserItem
-                        key={index}
-                        {...item}
-                      />
-                    );
+                    return <StationBrowserItem key={index} {...item} />;
                   },
                 )}
               </div>

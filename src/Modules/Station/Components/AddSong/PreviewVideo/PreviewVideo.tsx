@@ -47,7 +47,10 @@ export class PreviewVideo extends Component<any, any> {
                 muted={muted}
               />
             </Col>
-            <Col md="7" xs="12" className="d-flex flex-column justify-content-between">
+            <Col
+              md="7"
+              xs="12"
+              className="d-flex flex-column justify-content-between">
               <div>
                 <h4 className="preview__title">{this.getTitle(video)}</h4>
                 <p>
