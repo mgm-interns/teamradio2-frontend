@@ -150,7 +150,13 @@ export class RegisterForm extends Component<any, any> {
       success: false
     });
 
-    this.userServices.register(values).subscribe(
+    const { username } = values;
+    const formValues = { ...values };
+    if(username === '') {
+      formValues.username = null;
+    }
+
+    this.userServices.register(formValues).subscribe(
       (res: any) => {
         this.setState({ success: true });
         setSubmitting(false);
@@ -158,7 +164,7 @@ export class RegisterForm extends Component<any, any> {
       },
       (err: any) => {
         this.setState({
-          serverError: err.error
+          serverError: err
         });
         setSubmitting(false);
       },
