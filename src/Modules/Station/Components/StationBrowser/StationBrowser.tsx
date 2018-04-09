@@ -57,6 +57,9 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
   }
 
   public render() {
+    if (this.state.listStation.length === 0) {
+      return null;
+    }
     return (
       <Row className="m-0 justify-content-center justify-content-center">
         <div className="col-xl-12 browser">
