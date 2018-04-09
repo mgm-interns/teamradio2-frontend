@@ -20,15 +20,15 @@ import {
 import { UserServices } from 'Services/Http';
 
 interface IFormValues {
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
+  name?: string;
+  username?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
 }
 
-const InnerForm = (props: FormikProps<IFormValues>) => {
-  const { touched, errors, isSubmitting } = props;
+const InnerForm = (props: any) => {
+  const { touched, errors, isSubmitting, success } = props;
   return (
     <Form>
       <InputGroup className="mb-3">
@@ -109,7 +109,8 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
       {/*<Alert color="danger">*/}
       {/*server errors*/}
       {/*</Alert>*/}
-      {/*<Alert color="success">You have successfully registered!</Alert>*/}
+
+      {success && (<Alert color="success">You have successfully registered!</Alert>)}
 
       <Button color="success" block disabled={isSubmitting}>
         LOG IN
@@ -133,6 +134,10 @@ export class RegisterForm extends Component<any, any> {
       confirmPassword: '',
     };
 
+    this.state = {
+      success: false
+    };
+
     this.userServices = new UserServices();
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -141,6 +146,7 @@ export class RegisterForm extends Component<any, any> {
     this.userServices.register(values).subscribe(
       (res: any) => {
         console.log(res);
+        this.setState({success: res.success});
         setSubmitting(false);
         resetForm();
       },
@@ -198,7 +204,7 @@ export class RegisterForm extends Component<any, any> {
       <Formik
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
-        render={InnerForm}
+        render={formikProps => <InnerForm {...formikProps} success={this.state.success}/>}
         validate={this.validate}
       />
     );
