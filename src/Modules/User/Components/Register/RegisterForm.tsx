@@ -22,10 +22,11 @@ interface IFormValues {
 
 interface IFormProps {
   success: boolean;
+  serverError: string;
 }
 
 const InnerForm = (props: FormikProps<IFormValues> & IFormProps) => {
-  const { touched, errors, isSubmitting, success } = props;
+  const { touched, errors, isSubmitting, success, serverError } = props;
   return (
     <Form>
       <InputGroup className="mb-3">
@@ -103,16 +104,17 @@ const InnerForm = (props: FormikProps<IFormValues> & IFormProps) => {
             <FormFeedback>{errors.confirmPassword}</FormFeedback>
           )}
       </InputGroup>
-      {/*<Alert color="danger">*/}
-      {/*server errors*/}
-      {/*</Alert>*/}
+
+      {serverError && (
+        <Alert color="danger">{serverError}</Alert>
+      )}
 
       {success && (
         <Alert color="success">You have successfully registered!</Alert>
       )}
 
       <Button color="success" block disabled={isSubmitting}>
-        LOG IN
+        SIGN UP
       </Button>
     </Form>
   );
@@ -135,6 +137,7 @@ export class RegisterForm extends Component<any, any> {
 
     this.state = {
       success: false,
+      serverError: ''
     };
 
     this.userServices = new UserServices();
@@ -142,14 +145,21 @@ export class RegisterForm extends Component<any, any> {
   }
 
   handleSubmit(values: IFormValues, { setSubmitting, resetForm }: FormikActions<any>) {
+    this.setState({
+      serverError: '',
+      success: false
+    });
+
     this.userServices.register(values).subscribe(
       (res: any) => {
-        console.log(res);
-        this.setState({ success: res.success });
+        this.setState({ success: true });
         setSubmitting(false);
         resetForm();
       },
       (err: any) => {
+        this.setState({
+          serverError: err.error
+        });
         setSubmitting(false);
       },
     );
@@ -199,12 +209,13 @@ export class RegisterForm extends Component<any, any> {
   }
 
   public render() {
+    const { success, serverError } = this.state;
     return (
       <Formik
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
         render={formikProps => (
-          <InnerForm {...formikProps} success={this.state.success} />
+          <InnerForm {...formikProps} success={success} serverError={serverError}/>
         )}
         validate={this.validate}
       />
