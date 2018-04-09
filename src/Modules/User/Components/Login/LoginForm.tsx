@@ -1,4 +1,4 @@
-import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
+import { Field, Form, FormikErrors, FormikProps, Formik } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
@@ -56,15 +56,22 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
   );
 };
 
-const FormWrapper = withFormik<any, IFormValues>({
-  mapPropsToValues: props => {
-    return {
+export class LoginForm extends Component<any, any> {
+  private initialValues: IFormValues;
+  constructor(props: any) {
+    super(props);
+
+    this.initialValues = {
       username: '',
       password: '',
     };
-  },
 
-  validate: (values: IFormValues) => {
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit() {}
+
+  validate(values: IFormValues) {
     const errors: FormikErrors<any> = {};
     const { username, password } = values;
     const { required } = Rules;
@@ -77,19 +84,16 @@ const FormWrapper = withFormik<any, IFormValues>({
     errors.password = passwordValidator.validate();
 
     return Validator.removeUndefinedError(errors);
-  },
-
-  handleSubmit: values => {
-    console.log(values);
-  },
-})(InnerForm);
-
-export class LoginForm extends Component<any, any> {
-  constructor(props: any) {
-    super(props);
   }
 
   public render() {
-    return <FormWrapper />;
+    return (
+      <Formik
+        initialValues={this.initialValues}
+        onSubmit={this.handleSubmit}
+        render={formikProps => <InnerForm {...formikProps} />}
+        validate={this.validate}
+      />
+    );
   }
 }
