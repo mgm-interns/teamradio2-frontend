@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
+import { localStorageManager } from 'Helpers';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { IServerError } from './IServerError';
 import { RequestMethod } from './RequestMethod';
 
 export class HttpServices {
@@ -82,9 +84,9 @@ export class HttpServices {
           observer.next(response.data);
           observer.complete();
         })
-        .catch((err: Error) => {
+        .catch((err: IServerError) => {
           this.afterSendRequest();
-          observer.error(err);
+          observer.error(err.response.data.error);
           observer.complete();
         });
     });
@@ -95,7 +97,8 @@ export class HttpServices {
   }
 
   private createAxiosInstance(): AxiosInstance {
-    const headers = this.createHeaders();
+    const accessToken = localStorageManager.getAccessToken();
+    const headers = this.createHeaders(accessToken);
     const options: AxiosRequestConfig = {
       headers,
       baseURL: this._endPoint,
@@ -108,7 +111,7 @@ export class HttpServices {
       'Content-Type': 'application/json',
     };
     if (accessToken) {
-      headerParams.Authorization = 'JWT ' + accessToken;
+      headerParams.Authorization = 'Bearer ' + accessToken;
     }
     return headerParams;
   }

@@ -8,7 +8,7 @@ export class UserServices {
     this._httpServices = new HttpServices();
   }
 
-  public getUserProfile(userId: string): Observable<any> {
-    return this._httpServices.get('profile/' + userId);
+  public getCurrentUserProfile() {
+    return this._httpServices.get('users/me');
   }
 }

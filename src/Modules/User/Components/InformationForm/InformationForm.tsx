@@ -210,7 +210,7 @@ export class InformationForm extends Component<any, any> {
   }
 
   public getUserProfile() {
-    this.userServices.getUserProfile('minh-minh').subscribe(
+    this.userServices.getCurrentUserProfile().subscribe(
       (res: any) => {
         console.log(res);
       },
