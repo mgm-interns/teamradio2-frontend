@@ -37,7 +37,7 @@ export class PreviewVideo extends Component<any, any> {
       <div className="preview">
         {video ? (
           <Row className="h-100">
-            <Col md="5" xs="12">
+            <Col md="4" xs="12">
               <ReactPlayer
                 url={YoutubeHelper.getVideoUrl(video)}
                 playing
@@ -48,7 +48,7 @@ export class PreviewVideo extends Component<any, any> {
               />
             </Col>
             <Col
-              md="7"
+              md="8"
               xs="12"
               className="d-flex flex-column justify-content-between">
               <div>

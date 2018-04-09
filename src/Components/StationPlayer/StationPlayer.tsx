@@ -47,19 +47,20 @@ export class StationPlayer extends Component<IProps, IState> {
   public render() {
     const { url, playing, showProgressbar, muted }: IProps = this.props;
     return [
-      <ReactPlayer
-        key={1}
-        url={url}
-        ref={this.ref}
-        controls={false}
-        playing={playing}
-        youtubeConfig={{ playerVars: { disablekb: 1 } }}
-        style={{ pointerEvents: 'none' }}
-        volume={1}
-        muted={muted}
-        width="100%"
-        height="80vh"
-      />,
+      <div className="player-container" key={1}>
+        <ReactPlayer
+          url={url}
+          ref={this.ref}
+          controls={false}
+          playing={playing}
+          youtubeConfig={{ playerVars: { disablekb: 1 } }}
+          style={{ pointerEvents: 'none' }}
+          volume={1}
+          muted={muted}
+          width="100%"
+          height="100%"
+        />
+      </div>,
       showProgressbar &&
         url && <Progress key={2} className="progress" animated value={10.2} />,
     ];
