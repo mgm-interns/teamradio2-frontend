@@ -1,6 +1,7 @@
+import { IApplicationState} from 'Configuration/Redux';
 import { Song } from 'Models/Song';
-import * as React from 'react';
 import { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { StationPlaylistSSE } from 'Services/SSE';
@@ -44,11 +45,14 @@ export class PlaylistTabsComponent extends Component<IProps, any> {
     });
   }
 
-  public componentDidMount() {
-    const { stationId } = this.props;
-    // Start SSE service
+  public startSSEService(stationId: string) {
     this.stationPlaylistSSE = new StationPlaylistSSE(stationId);
     this.stationPlaylistSSE.start();
+  }
+
+  public componentDidMount() {
+    const { stationId } = this.props;
+    this.startSSEService(stationId);
   }
 
   public componentWillUnmount() {
@@ -104,7 +108,7 @@ export class PlaylistTabsComponent extends Component<IProps, any> {
   }
 }
 
-const mapStateToProps = (state: any): IStateProps => ({
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
   playlist: state.playlist.data,
 });
 

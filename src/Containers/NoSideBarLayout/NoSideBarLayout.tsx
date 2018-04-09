@@ -37,7 +37,7 @@ export class NoSideBarLayout extends Component {
               />
               <Route path="/help" name="Help" component={Help} />
               <Route path="/profile" name="Profile" component={Profile} />
-              <Route path="/station" name="Station" component={Station} />
+              <Route path="/station/:stationId" name="Station" component={Station} />
               <Route path="/profile" name="Profile" component={Profile} />
               <Redirect from="/" to="/" />
             </Switch>
