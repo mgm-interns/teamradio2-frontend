@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { UncontrolledTooltip } from 'reactstrap';
 import './StationBrowserItem.scss';
 
 export interface IStationBrowserItem {
@@ -26,7 +27,12 @@ class SBItem extends Component<
   }
 
   public render() {
-    const { stationName, numberOfOnlineUsers, picture } = this.props;
+    const {
+      stationName,
+      numberOfOnlineUsers,
+      picture,
+      friendlyId,
+    } = this.props;
     return (
       <div className="station-item" onClick={this.joinStation}>
         <div className="station-thumbnail">
@@ -40,7 +46,14 @@ class SBItem extends Component<
             <span> {numberOfOnlineUsers} online</span>
           </div>
         </div>
-        <div className="row station-name">{stationName}</div>
+        <div className="station-name">
+          <span id={`Station` + friendlyId}>{stationName}</span>
+          <UncontrolledTooltip
+            placement="top"
+            target={`Station` + friendlyId}>
+            {stationName}
+          </UncontrolledTooltip>
+        </div>
       </div>
     );
   }

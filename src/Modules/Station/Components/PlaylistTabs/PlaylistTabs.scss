@@ -41,7 +41,11 @@
     padding: 8px;
     height: 90px;
 
-    @media (max-width: 991px) {
+    @media (max-width: 1199px) {
+      height: 150px;
+    }
+
+    @media (max-width: 767px) {
       height: 120px;
     }
 
