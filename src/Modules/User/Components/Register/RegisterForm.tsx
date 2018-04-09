@@ -1,11 +1,4 @@
-import {
-  Field,
-  Form,
-  Formik,
-  FormikErrors,
-  FormikProps,
-  withFormik,
-} from 'formik';
+import { Field, Form, Formik, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
@@ -110,7 +103,9 @@ const InnerForm = (props: any) => {
       {/*server errors*/}
       {/*</Alert>*/}
 
-      {success && (<Alert color="success">You have successfully registered!</Alert>)}
+      {success && (
+        <Alert color="success">You have successfully registered!</Alert>
+      )}
 
       <Button color="success" block disabled={isSubmitting}>
         LOG IN
@@ -135,7 +130,7 @@ export class RegisterForm extends Component<any, any> {
     };
 
     this.state = {
-      success: false
+      success: false,
     };
 
     this.userServices = new UserServices();
@@ -146,7 +141,7 @@ export class RegisterForm extends Component<any, any> {
     this.userServices.register(values).subscribe(
       (res: any) => {
         console.log(res);
-        this.setState({success: res.success});
+        this.setState({ success: res.success });
         setSubmitting(false);
         resetForm();
       },
@@ -204,7 +199,9 @@ export class RegisterForm extends Component<any, any> {
       <Formik
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
-        render={formikProps => <InnerForm {...formikProps} success={this.state.success}/>}
+        render={formikProps => (
+          <InnerForm {...formikProps} success={this.state.success} />
+        )}
         validate={this.validate}
       />
     );
