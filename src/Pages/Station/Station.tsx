@@ -52,26 +52,30 @@ export class Station extends Component<
         <Col xs={12} className="station-browser-container">
           <StationBrowser />
         </Col>
-        <Col xs={12} lg={8} className="mt-3 pr-lg-0 player-container">
-          <StationHeader
-            muted={muted}
-            isPassive={isPassive}
-            onVolumeClick={this.onVolumeClick}
-            onLightClick={this.onLightClick}
-            stationId={stationId}
-          />
-          <NowPlaying muted={muted} />
-        </Col>
-        <Col xs={12} lg={4} className="mt-3">
-          <div className="playlist-tabs-container">
-            <PlaylistTabs stationId={stationId} />
-          </div>
-        </Col>
-        <Col xs={12}>
-          <div className="add-song-container">
-            <h1>Add Song</h1>
-            <AddSong />
-          </div>
+        <Col className="p-0 m-auto extra-large-container">
+          <Row className="m-0">
+            <Col xs={12} xl={8} className="mt-3 pr-xl-0 player-container">
+              <StationHeader
+                muted={muted}
+                isPassive={isPassive}
+                onVolumeClick={this.onVolumeClick}
+                onLightClick={this.onLightClick}
+                stationId={stationId}
+              />
+              <NowPlaying muted={muted} />
+            </Col>
+            <Col xs={12} xl={4} className="mt-3">
+              <div className="playlist-tabs-container">
+                <PlaylistTabs stationId={stationId}/>
+              </div>
+            </Col>
+            <Col xs={12}>
+              <div className="add-song-container">
+                <h1>Add Song</h1>
+                <AddSong />
+              </div>
+            </Col>
+          </Row>
         </Col>
       </Row>
     );

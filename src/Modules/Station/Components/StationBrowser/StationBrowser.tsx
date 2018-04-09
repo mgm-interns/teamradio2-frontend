@@ -68,7 +68,7 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
               stationBrowser={this.state.stationBrowser}
               stationItemContainer={this.state.stationItemContainer}
             />
-            <div className="list-station" id={this.state.stationBrowser}>
+            <div className="m-auto extra-large-container list-station" id={this.state.stationBrowser}>
               <div
                 className="station-item-container"
                 id={this.state.stationItemContainer}>
