@@ -1,7 +1,14 @@
-import { applyMiddleware, createStore, Store } from 'redux';
+import {
+  applyMiddleware,
+  createStore,
+  Dispatch as ReduxDispatch,
+  Store,
+} from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { IApplicationState, reducers } from './Reducers';
+
+export type Dispatch = ReduxDispatch<IApplicationState>;
 
 let store: Store<IApplicationState> = null;
 
@@ -15,7 +22,7 @@ export function configureStore(
   // create the composing function for our middlewares
   const composeEnhancers = composeWithDevTools({});
 
-  if(store) {
+  if (store) {
     return store;
   }
 

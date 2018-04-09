@@ -109,7 +109,7 @@ export class PlaylistTabsComponent extends Component<IProps, any> {
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
-  playlist: state.playlist.data,
+  playlist: state.playlist.playlist,
 });
 
 export const PlaylistTabs = connect<IStateProps, {}, IOwnProps>(

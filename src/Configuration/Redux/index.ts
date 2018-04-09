@@ -1,2 +1,2 @@
-export { configureStore, getStore } from './Redux';
+export * from './Redux';
 export * from './Reducers';
