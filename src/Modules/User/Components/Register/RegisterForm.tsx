@@ -1,4 +1,4 @@
-import { Field, Form, Formik, FormikErrors } from 'formik';
+import { Field, Form, Formik, FormikActions, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
@@ -13,14 +13,18 @@ import {
 import { UserServices } from 'Services/Http';
 
 interface IFormValues {
-  name?: string;
-  username?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
-const InnerForm = (props: any) => {
+interface IFormProps {
+  success: boolean;
+}
+
+const InnerForm = (props: FormikProps<IFormValues> & IFormProps) => {
   const { touched, errors, isSubmitting, success } = props;
   return (
     <Form>
@@ -137,7 +141,7 @@ export class RegisterForm extends Component<any, any> {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(values: IFormValues, { setSubmitting, resetForm }: any) {
+  handleSubmit(values: IFormValues, { setSubmitting, resetForm }: FormikActions<any>) {
     this.userServices.register(values).subscribe(
       (res: any) => {
         console.log(res);
