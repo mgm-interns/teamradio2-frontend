@@ -1,1 +1,2 @@
-export * from './User';
+export { RegisteredUser } from './RegisteredUser';
+export { UnregisteredUser } from './UnregisteredUser';
