@@ -99,10 +99,10 @@ export const InnerForm = (props: FormikProps<FormValues> & IFormProps) => {
           )}
       </InputGroup>
 
-      {serverError && <Alert color="danger">{serverError}</Alert>}
+      {serverError && <Alert className="capitalize-first-letter" color="danger">{serverError}</Alert>}
 
       {success && (
-        <Alert color="success">You have successfully registered!</Alert>
+        <Alert className="capitalize-first-letter" color="success">You have successfully registered!</Alert>
       )}
 
       <Button color="success" block disabled={isSubmitting}>
