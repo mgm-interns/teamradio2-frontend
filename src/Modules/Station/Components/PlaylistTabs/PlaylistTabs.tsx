@@ -1,7 +1,10 @@
-import * as React from 'react';
+import { IApplicationState} from 'Configuration/Redux';
+import { Song } from 'Models/Song';
 import { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import { StationPlaylistSSE } from 'Services/SSE';
 import { Favourite } from './Favourite';
 import { favouriteList, historyList } from './fixture';
 import { History } from './History';
@@ -12,7 +15,18 @@ const PLAYLIST_TAB_ID = '1';
 const HISTORY_TAB_ID = '2';
 const FAVOURITE_TAB_ID = '3';
 
-export class PlaylistTabsComponent extends Component<any, any> {
+interface IStateProps {
+  playlist: Song[];
+}
+
+interface IOwnProps {
+  stationId: string;
+}
+
+type IProps = IStateProps & IOwnProps;
+
+export class PlaylistTabsComponent extends Component<IProps, any> {
+  private stationPlaylistSSE: StationPlaylistSSE;
   constructor(props: any) {
     super(props);
 
@@ -29,6 +43,20 @@ export class PlaylistTabsComponent extends Component<any, any> {
     this.setState({
       activeTab: tabId,
     });
+  }
+
+  public startSSEService(stationId: string) {
+    this.stationPlaylistSSE = new StationPlaylistSSE(stationId);
+    this.stationPlaylistSSE.start();
+  }
+
+  public componentDidMount() {
+    const { stationId } = this.props;
+    this.startSSEService(stationId);
+  }
+
+  public componentWillUnmount() {
+    this.stationPlaylistSSE.close();
   }
 
   public render() {
@@ -80,10 +108,11 @@ export class PlaylistTabsComponent extends Component<any, any> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  playlist: state.playlist.data,
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
+  playlist: state.playlist.playlist,
 });
 
-export const PlaylistTabs = connect(mapStateToProps, null)(
-  PlaylistTabsComponent,
-);
+export const PlaylistTabs = connect<IStateProps, {}, IOwnProps>(
+  mapStateToProps,
+  null,
+)(PlaylistTabsComponent);

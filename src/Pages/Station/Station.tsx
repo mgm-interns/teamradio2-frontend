@@ -1,30 +1,33 @@
-import * as classNames from 'classnames';
+import { Station as StationModel } from 'Models/Station';
 import { AddSong, StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import './Station.scss';
 
-import {
-  NowPlaying,
-  PlaylistTabs,
-  StationHeader,
-} from 'Modules/Station';
+import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
+import './Station.scss';
 
 interface IProps {} // tslint:disable-line
 
 interface IState {
   muted: boolean;
   isPassive: boolean;
+  station: StationModel;
 }
 
-export class Station extends Component<IProps, IState> {
-  constructor(props: IProps) {
+export class Station extends Component<
+  IProps & RouteComponentProps<any>,
+  IState
+> {
+  constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
 
     this.state = {
       muted: false,
       isPassive: false,
+      station: null,
     };
   }
 
@@ -42,6 +45,7 @@ export class Station extends Component<IProps, IState> {
 
   public render() {
     const { muted, isPassive } = this.state;
+    const stationId = this.parseStationId();
 
     return (
       <Row className="m-0 station-container">
@@ -54,12 +58,13 @@ export class Station extends Component<IProps, IState> {
             isPassive={isPassive}
             onVolumeClick={this.onVolumeClick}
             onLightClick={this.onLightClick}
+            stationId={stationId}
           />
           <NowPlaying muted={muted} />
         </Col>
         <Col xs={12} lg={4} className="mt-3">
           <div className="playlist-tabs-container">
-            <PlaylistTabs />
+            <PlaylistTabs stationId={stationId} />
           </div>
         </Col>
         <Col xs={12}>
@@ -70,5 +75,22 @@ export class Station extends Component<IProps, IState> {
         </Col>
       </Row>
     );
+  }
+
+  private parseStationId() {
+    const { history: { location: { pathname } } } = this.props;
+
+    const PATHNAME_REGEX = /(station\/)(.{0,})/;
+
+    // Default station id if there is no station
+    let stationId = '';
+
+    const regexResult = PATHNAME_REGEX.exec(pathname);
+
+    if (regexResult && regexResult[2]) {
+      stationId = regexResult[2];
+    }
+
+    return stationId;
   }
 }

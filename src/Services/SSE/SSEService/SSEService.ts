@@ -1,15 +1,16 @@
+import { getStore } from 'Configuration/Redux/index';
 import { IApplicationState } from 'Configuration/Redux/Reducers';
 import { Store } from 'redux';
-import { IRadioSSE, IRadioSSEOptions } from './IRadioSSE';
+import { IRadioSSEOptions, ISSEService } from './ISSEService';
 
-export default class RadioSSE implements IRadioSSE {
+export default class SSEService implements ISSEService {
   public eventSource: EventSource;
   public options: IRadioSSEOptions;
 
   private store: Store<IApplicationState>;
 
-  constructor(store: Store<IApplicationState>, options: IRadioSSEOptions) {
-    this.store = store;
+  constructor(options: IRadioSSEOptions) {
+    this.store = getStore();
     this.options = options;
   }
 
@@ -37,7 +38,7 @@ export default class RadioSSE implements IRadioSSE {
     // Bind listener
     this.eventSource.addEventListener(
       this.options.eventKey,
-      this.onReceivedEvent,
+      this.onReceivedEvent.bind(this),
     );
 
     //
