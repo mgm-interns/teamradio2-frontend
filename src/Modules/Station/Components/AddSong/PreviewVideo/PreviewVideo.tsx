@@ -10,8 +10,10 @@ export class PreviewVideo extends Component<any, any> {
     super(props);
     this.state = {
       muted: true,
+      message: null,
     };
     this.mutePreview = this.mutePreview.bind(this);
+    this.handleButtonAddSong = this.handleButtonAddSong.bind(this);
   }
 
   public getTitle(video: any) {
@@ -29,8 +31,12 @@ export class PreviewVideo extends Component<any, any> {
     }));
   }
 
+  public handleButtonAddSong() {
+    this.props.addSong('This is a message');
+  }
+
   public render() {
-    const { video, addSong } = this.props;
+    const { video } = this.props;
     const { muted } = this.state;
 
     return (
@@ -79,7 +85,7 @@ export class PreviewVideo extends Component<any, any> {
                 <Button
                   className="preview__button"
                   color="primary"
-                  onClick={addSong}>
+                  onClick={this.handleButtonAddSong}>
                   Add
                 </Button>
               </div>

@@ -1,22 +1,37 @@
-import { YoutubeHelper } from 'Helpers';
+import { Song } from 'Models/Song';
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardBody, Col, Row } from 'reactstrap';
+import { StationServices } from 'Services/Http';
+import { SongServices } from 'Services/Http';
 import { addSong, ISong } from '../../Redux';
 import { PreviewVideo } from './PreviewVideo';
 import { SearchSong } from './SearchSong';
 
 interface IAddLinkState {
   preview: any;
+  message: string;
 }
 
-export class AddSongComponent extends Component<any, IAddLinkState> {
-  constructor(props: any) {
+interface IAddLinkProps {
+  stationId: string;
+  addSong: () => void;
+}
+
+export class AddSongComponent extends Component<IAddLinkProps, IAddLinkState> {
+  private stationServices: StationServices;
+  private songServices: SongServices;
+
+  constructor(props: IAddLinkProps) {
     super(props);
+
+    this.stationServices = new StationServices();
+    this.songServices = new SongServices();
 
     this.state = {
       preview: null,
+      message: null,
     };
 
     this.setPreviewVideo = this.setPreviewVideo.bind(this);
@@ -35,18 +50,19 @@ export class AddSongComponent extends Component<any, IAddLinkState> {
     });
   }
 
-  public addSong() {
+  public addSong(message: string) {
     const { preview } = this.state;
-    this.props.addSong({
-      title: YoutubeHelper.getTitle(preview),
-      thumbnail: YoutubeHelper.getThumbnail(preview),
-      duration: YoutubeHelper.getDuration(preview),
-      upVotes: 0,
-      downVotes: 0,
-      url: YoutubeHelper.getVideoUrl(preview),
-    });
+    const videoId = preview.id;
+    const stationId = this.props.stationId;
 
-    this.setPreviewVideo(null);
+    this.songServices.addSong(stationId, videoId, message).subscribe(
+      (res: Song) => {
+        this.setPreviewVideo(null);
+      },
+      (err: any) => {
+        console.log(`Add song error: ${err}`);
+      },
+    );
   }
 
   public render() {
