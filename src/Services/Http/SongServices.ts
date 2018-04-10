@@ -15,8 +15,6 @@ export class SongServices {
     message: string,
   ): Observable<Song> {
     const body: any = {
-      stationId,
-      youTubeVideoId,
       message: message || null,
     };
     const url = `station/${stationId}/${youTubeVideoId}`;
