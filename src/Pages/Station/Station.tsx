@@ -1,12 +1,10 @@
 import { Station as StationModel } from 'Models/Station';
 import { AddSong, StationBrowser } from 'Modules/Station';
+import { ChatBox, NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
-import './Station.scss';
-
-import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 import './Station.scss';
 
 interface IProps {} // tslint:disable-line
@@ -75,6 +73,12 @@ export class Station extends Component<
                 <AddSong />
               </div>
             </Col>
+            {/*<Col xs={12} >*/}
+              {/*<div className="chat-box-container">*/}
+                {/*<h1>Chat Box</h1>*/}
+                {/*<ChatBox />*/}
+              {/*</div>*/}
+            {/*</Col>*/}
           </Row>
         </Col>
       </Row>
