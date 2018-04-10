@@ -1,4 +1,4 @@
-import { RegisteredUser, UnregisteredUser } from 'Models';
+import { RegisteredUser, UnregisteredUser, UnauthorizedUser } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices, LoginService } from "../HttpServices";
 
@@ -20,7 +20,7 @@ export class UserServices {
     return this._httpServices.post(`${this.serviceUrl}/register`, user);
   }
 
-  public login(user: any) {
+  public login(user: UnauthorizedUser) {
     return this._loginService.post('oauth/token', user);
   }
 }

@@ -1,4 +1,4 @@
-export { RegisteredUser, UnregisteredUser } from './User';
+export { RegisteredUser, UnregisteredUser, UnauthorizedUser } from './User';
 export { Station } from './Station';
 export { Song } from './Song';
 export { FavoriteSong } from './FavoriteSong';
