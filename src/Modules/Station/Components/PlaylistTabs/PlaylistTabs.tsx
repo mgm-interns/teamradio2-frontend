@@ -1,4 +1,4 @@
-import { IApplicationState} from 'Configuration/Redux';
+import { IApplicationState } from 'Configuration/Redux';
 import { Song } from 'Models/Song';
 import { Component } from 'react';
 import * as React from 'react';

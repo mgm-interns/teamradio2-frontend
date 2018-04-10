@@ -48,9 +48,7 @@ class SBItem extends Component<
         </div>
         <div className="station-name">
           <span id={`Station` + friendlyId}>{stationName}</span>
-          <UncontrolledTooltip
-            placement="top"
-            target={`Station` + friendlyId}>
+          <UncontrolledTooltip placement="top" target={`Station` + friendlyId}>
             {stationName}
           </UncontrolledTooltip>
         </div>

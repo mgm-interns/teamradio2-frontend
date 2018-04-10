@@ -48,12 +48,10 @@
 
     @include media-breakpoint-down(lg) {
       height: 150px;
-
     }
 
     @include media-breakpoint-down(md) {
       height: 120px;
-
     }
 
     .thumbnail-container {

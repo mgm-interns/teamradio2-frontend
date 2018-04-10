@@ -3,7 +3,6 @@ export interface ISSEService {
   options: IRadioSSEOptions;
   start: () => void;
   close: () => void;
-
 }
 
 export interface IRadioSSEOptions {

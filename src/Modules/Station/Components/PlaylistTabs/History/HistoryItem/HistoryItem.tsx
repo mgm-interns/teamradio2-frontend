@@ -1,5 +1,5 @@
 import * as classNames from 'classnames';
-import {Song} from "Models/Song";
+import { Song } from 'Models/Song';
 import * as React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
 
 interface IHistoryItemProps {
-  song: Song
+  song: Song;
 }
 
 export class HistoryItem extends Component<IHistoryItemProps, any> {
