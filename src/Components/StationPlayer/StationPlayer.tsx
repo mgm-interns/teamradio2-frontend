@@ -2,50 +2,54 @@ import * as React from 'react';
 import { Component } from 'react';
 import ReactPlayer from 'react-player';
 import { Progress } from 'reactstrap';
-
 import './StationPlayer.scss';
 
 interface IProps {
   url: string;
   playing: boolean;
-  seekTime?: number;
-  receivedAt?: number;
-  width?: string;
-  height?: string;
   showProgressbar: boolean;
+  progress?: number;
   muted: boolean;
-  ref?: object;
+  playerRef?: (node: ReactPlayer) => void;
 }
 
 interface IState {
   played: number;
-  buffer: number;
-  seekTime: number;
-  receivedAt: number;
-  isPaused: boolean;
+  loaded: number;
+}
+
+interface IReactPlayerPropsOnProgressState {
+  played: number;
+  playedSeconds: number;
+  loaded: number;
+  loadedSeconds: number;
 }
 
 export class StationPlayer extends Component<IProps, IState> {
-  private playerRef: any;
+  private playerRef: ReactPlayer;
 
   constructor(props: IProps) {
     super(props);
 
     this.state = {
-      played: 0,
-      buffer: 0,
-      seekTime: props.seekTime,
-      receivedAt: props.receivedAt,
-      isPaused: false,
+      played: this.props.progress || 0,
+      loaded: 0,
     };
   }
 
-  public ref = (input: any) => {
-    this.playerRef = input;
-  };
+  public componentWillReceiveProps(nextProps: IProps) {
+    const { progress: oldProgress } = this.props;
+    const { progress: nextProgress } = nextProps;
+    if (oldProgress !== nextProgress) {
+      this.setState({
+        played: nextProgress,
+      });
+    }
+  }
 
   public render() {
-    const { url, playing, showProgressbar, muted }: IProps = this.props;
+    const { url, playing, showProgressbar, muted } = this.props;
+    const { played } = this.state;
     return [
       <div className="player" key={1}>
         <ReactPlayer
@@ -53,6 +57,7 @@ export class StationPlayer extends Component<IProps, IState> {
           ref={this.ref}
           controls={false}
           playing={playing}
+          onProgress={this.onProgress}
           youtubeConfig={{ playerVars: { disablekb: 1 } }}
           style={{ pointerEvents: 'none' }}
           volume={1}
@@ -62,7 +67,33 @@ export class StationPlayer extends Component<IProps, IState> {
         />
       </div>,
       showProgressbar &&
-        url && <Progress key={2} className="progress" animated value={10.2} />,
+        url && (
+          <Progress
+            key={2}
+            className="progress"
+            animated
+            value={played * 100 || 0}
+          />
+        ),
     ];
   }
+
+  private ref = (input: ReactPlayer) => {
+    this.playerRef = input;
+
+    const { playerRef } = this.props;
+    if (playerRef) {
+      playerRef(this.playerRef);
+    }
+  };
+
+  private onProgress = ({
+    played,
+    loaded,
+  }: IReactPlayerPropsOnProgressState) => {
+    this.setState({
+      played,
+      loaded,
+    });
+  };
 }

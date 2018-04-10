@@ -94,7 +94,7 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
                 <img
                   className="avatar"
                   id={'UserAvatar' + song_id}
-                  src={creator.avatar_url}
+                  src={creator.avatarUrl}
                 />
                 <UncontrolledTooltip
                   placement="bottom"

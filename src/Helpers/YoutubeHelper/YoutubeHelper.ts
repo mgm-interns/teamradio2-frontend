@@ -54,10 +54,10 @@ export const YoutubeHelper = {
     return items;
   },
   convertDuration: (duration: number): string => {
-    const formatString: string = duration > 3600 ? 'HH:mm:ss' : 'mm:ss';
+    const formatString: string = duration > 3600000 ? 'HH:mm:ss' : 'mm:ss';
     return moment()
       .startOf('day')
-      .add(duration, 'seconds')
+      .add(duration, 'milliseconds')
       .format(formatString);
   },
   getTitle(video: any) {
