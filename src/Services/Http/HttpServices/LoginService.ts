@@ -11,7 +11,7 @@ export class LoginService extends HttpServices {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
     if (accessToken) {
-      headerParams.Authorization = 'Bearer ' + accessToken;
+      headerParams.Authorization = 'Basic ' + accessToken;
     }
     return headerParams;
   }

@@ -7,6 +7,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
+  Alert,
 } from 'reactstrap';
 
 export class FormValues extends UnauthorizedUser {}
@@ -17,7 +18,7 @@ export interface IFormProps {
 }
 
 export const InnerForm = (props: FormikProps<FormValues> & IFormProps) => {
-  const { touched, errors, isSubmitting } = props;
+  const { touched, errors, isSubmitting, serverError, success } = props;
   return (
     <Form>
       <InputGroup className="mb-3">
@@ -50,6 +51,18 @@ export const InnerForm = (props: FormikProps<FormValues> & IFormProps) => {
         {touched.password &&
           errors.password && <FormFeedback>{errors.password}</FormFeedback>}
       </InputGroup>
+
+      {serverError && (
+        <Alert className="capitalize-first-letter" color="danger">
+          {serverError}
+        </Alert>
+      )}
+
+      {success && (
+        <Alert className="capitalize-first-letter" color="success">
+          You have successfully logged in!
+        </Alert>
+      )}
       <Button color="success" block disabled={isSubmitting}>
         LOG IN
       </Button>

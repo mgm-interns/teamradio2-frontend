@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { UserServices } from "Services/Http";
 import { FormValues, InnerForm, IFormProps } from './InnerForm';
+import { UnauthorizedUser } from "../../../../../Models/User";
 
 interface IState extends IFormProps {} // tslint:disable-line
 
@@ -30,15 +31,38 @@ export class LoginForm extends Component<IProps, IState> {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  public showFormAlertError(err: string) {
+    this.setState({
+      serverError: err,
+    });
+  }
+
+  public showFormAlerSuccess() {
+    this.setState({ success: true });
+  }
+
+  public clearFormAlert() {
+    this.setState({
+      serverError: '',
+      success: false,
+    });
+  }
+
   handleSubmit(values: FormValues, { setSubmitting, resetForm }: FormikActions<any>) {
-    this.userServices.login(values).subscribe(
+    this.clearFormAlert();
+    const { username, password } = values;
+    const userObj = new UnauthorizedUser(username, password);
+    const user = userObj.encode(userObj);
+
+    this.userServices.login(user).subscribe(
       (res: any) => {
-        console.log(res);
+        this.showFormAlerSuccess();
         setSubmitting(false);
         resetForm();
       },
       (err: any) => {
         console.log(err);
+        this.showFormAlertError(err);
         setSubmitting(false);
       },
     );

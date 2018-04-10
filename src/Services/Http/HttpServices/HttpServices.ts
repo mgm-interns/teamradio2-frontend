@@ -86,7 +86,9 @@ export class HttpServices {
         })
         .catch((err: IServerError) => {
           this.afterSendRequest();
-          observer.error(err.response.data.error);
+          const errResponseData = err.response.data;
+          const message = errResponseData.error_description ? errResponseData.error_description : errResponseData.error;
+          observer.error(message);
           observer.complete();
         });
     });

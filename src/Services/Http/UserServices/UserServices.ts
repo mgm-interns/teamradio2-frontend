@@ -20,7 +20,7 @@ export class UserServices {
     return this._httpServices.post(`${this.serviceUrl}/register`, user);
   }
 
-  public login(user: UnauthorizedUser) {
+  public login(user: any) {
     return this._loginService.post('oauth/token', user);
   }
 }
