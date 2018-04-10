@@ -64,13 +64,13 @@ export class Station extends Component<
             </Col>
             <Col xs={12} xl={4} className="mt-3">
               <div className="playlist-tabs-container">
-                <PlaylistTabs stationId={stationId}/>
+                <PlaylistTabs stationId={stationId} />
               </div>
             </Col>
             <Col xs={12}>
               <div className="add-song-container">
                 <h1>Add Song</h1>
-                <AddSong />
+                <AddSong stationId={stationId} />
               </div>
             </Col>
             {/*<Col xs={12} >*/}
