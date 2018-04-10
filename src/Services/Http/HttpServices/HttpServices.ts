@@ -12,8 +12,8 @@ export class HttpServices {
   private _httpClient: AxiosInstance;
   private readonly _endPoint: string;
 
-  constructor() {
-    this._endPoint = process.env.REACT_APP_HTTP_END_POINT;
+  constructor(endPoint?: string) {
+    this._endPoint = endPoint ? endPoint : process.env.REACT_APP_HTTP_END_POINT;
   }
 
   public beforeSendRequest(showSpinner: boolean = true) {
@@ -106,7 +106,7 @@ export class HttpServices {
     return axios.create(options);
   }
 
-  private createHeaders(accessToken?: string): any {
+  protected createHeaders(accessToken?: string): any {
     const headerParams: any = {
       'Content-Type': 'application/json',
     };
