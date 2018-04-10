@@ -1,13 +1,25 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
 .preview {
   height: 280px;
 
-  @media (max-width: 767px) {
+  @include media-breakpoint-down(md) {
     height: 500px;
 
     &__title {
       margin-top: 8px;
     }
   }
+
+  //@media (max-width: 767px) {
+  //  height: 500px;
+  //
+  //  &__title {
+  //    margin-top: 8px;
+  //  }
+  //}
 
   img {
     width: 100%;

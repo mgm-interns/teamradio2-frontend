@@ -3,9 +3,8 @@
 }
 
 .header-container {
-  flex: 1;
   flex-direction: row;
-  padding: 16px;
+  padding: 0 16px 3px 16px;
   align-items: center;
   justify-content: space-between;
 }
@@ -29,8 +28,4 @@
 .icon {
   min-width: 25px;
   text-align: center;
-}
-
-.add-song-container {
-  margin-top: 20px;
 }
