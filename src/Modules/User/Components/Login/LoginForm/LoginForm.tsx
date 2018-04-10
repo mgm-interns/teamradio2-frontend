@@ -5,6 +5,8 @@ import { Component } from 'react';
 import { UserServices } from "Services/Http";
 import { FormValues, InnerForm, IFormProps } from './InnerForm';
 import { UnauthorizedUser } from "../../../../../Models/User";
+import { log } from "util";
+import { localStorageManager } from "../../../../../Helpers/LocalStorageManager";
 
 interface IState extends IFormProps {} // tslint:disable-line
 
@@ -56,6 +58,7 @@ export class LoginForm extends Component<IProps, IState> {
 
     this.userServices.login(user).subscribe(
       (res: any) => {
+        localStorageManager.setAccessToken(res.access_token);
         this.showFormAlerSuccess();
         setSubmitting(false);
         resetForm();
