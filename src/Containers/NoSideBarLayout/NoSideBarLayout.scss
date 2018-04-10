@@ -24,3 +24,7 @@
     padding: 20px 0;
   }
 }
+
+.capitalize-first-letter:first-letter {
+  text-transform: capitalize;
+}

@@ -183,7 +183,9 @@ const FormWrapper = withFormik<IFormProps, IFormValues>({
     const displayNameValidator = new Validator('Display Name', displayName, [
       required,
     ]);
-    const userNameValidator = new Validator('User name', userName, [required]);
+    const userNameValidator = new Validator('RegisteredUser name', userName, [
+      required,
+    ]);
 
     errors.displayName = displayNameValidator.validate();
     errors.userName = userNameValidator.validate();

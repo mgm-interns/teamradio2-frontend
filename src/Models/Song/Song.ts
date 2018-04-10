@@ -1,4 +1,4 @@
-import { User } from '../User';
+import { RegisteredUser } from '../User';
 
 export class Song {
   public id: string;
@@ -10,11 +10,11 @@ export class Song {
   public title: string;
   public thumbnail: string;
   public duration: number;
-  public creator: User;
+  public creator: RegisteredUser;
   public upVoteCount: number;
   public downVoteCount: number;
-  public upvoteUserList: User[];
-  public downvoteUserList: User[];
+  public upvoteUserList: RegisteredUser[];
+  public downvoteUserList: RegisteredUser[];
   public message: string;
   public createdAt: string;
 }

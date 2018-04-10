@@ -1,8 +1,8 @@
-import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
-import { Rules, Validator } from 'Helpers';
+import { Field, Form, FormikProps } from 'formik';
+import { UnregisteredUser } from 'Models/index';
 import * as React from 'react';
-import { Component } from 'react';
 import {
+  Alert,
   Button,
   FormFeedback,
   InputGroup,
@@ -10,16 +10,17 @@ import {
   InputGroupText,
 } from 'reactstrap';
 
-interface IFormValues {
-  displayName: string;
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
+export class FormValues extends UnregisteredUser {
+  public confirmPassword: string;
 }
 
-const InnerForm = (props: FormikProps<IFormValues>) => {
-  const { touched, errors, isSubmitting } = props;
+export interface IFormProps {
+  success: boolean;
+  serverError: string;
+}
+
+export const InnerForm = (props: FormikProps<FormValues> & IFormProps) => {
+  const { touched, errors, isSubmitting, success, serverError } = props;
   return (
     <Form>
       <InputGroup className="mb-3">
@@ -29,15 +30,13 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
           </InputGroupText>
         </InputGroupAddon>
         <Field
-          name="displayName"
+          name="name"
           type="text"
           className="form-control"
           placeholder="Display Name"
         />
-        {touched.displayName &&
-          errors.displayName && (
-            <FormFeedback>{errors.displayName}</FormFeedback>
-          )}
+        {touched.name &&
+          errors.name && <FormFeedback>{errors.name}</FormFeedback>}
       </InputGroup>
       <InputGroup className="mb-3">
         <InputGroupAddon addonType="prepend">
@@ -99,78 +98,16 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
             <FormFeedback>{errors.confirmPassword}</FormFeedback>
           )}
       </InputGroup>
+
+      {serverError && <Alert className="capitalize-first-letter" color="danger">{serverError}</Alert>}
+
+      {success && (
+        <Alert className="capitalize-first-letter" color="success">You have successfully registered!</Alert>
+      )}
+
       <Button color="success" block disabled={isSubmitting}>
-        LOG IN
+        SIGN UP
       </Button>
     </Form>
   );
 };
-
-const FormWrapper = withFormik<any, IFormValues>({
-  mapPropsToValues: props => {
-    return {
-      displayName: '',
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    };
-  },
-
-  validate: (values: IFormValues) => {
-    const errors: FormikErrors<any> = {};
-    const { displayName, username, email, password, confirmPassword } = values;
-    const {
-      required,
-      validEmail,
-      validUsername,
-      validDisplayName,
-      maxLength15,
-      minLength6,
-      matchPassword,
-    } = Rules;
-    const displayNameValidator = new Validator('Display name', displayName, [
-      required,
-      validDisplayName,
-      maxLength15,
-    ]);
-    const usernameValidator = new Validator('Username', username, [
-      validUsername,
-    ]);
-    const emailValidator = new Validator('Email', email, [
-      required,
-      validEmail,
-    ]);
-    const passwordValidator = new Validator('Password', password, [
-      required,
-      minLength6,
-    ]);
-    const confirmPasswordValidator = new Validator(
-      'Confirm password',
-      confirmPassword,
-      [required, matchPassword(password)],
-    );
-
-    errors.displayName = displayNameValidator.validate();
-    errors.username = usernameValidator.validate();
-    errors.email = emailValidator.validate();
-    errors.password = passwordValidator.validate();
-    errors.confirmPassword = confirmPasswordValidator.validate();
-
-    return Validator.removeUndefinedError(errors);
-  },
-
-  handleSubmit: values => {
-    console.log(values);
-  },
-})(InnerForm);
-
-export class RegisterForm extends Component<any, any> {
-  constructor(props: any) {
-    super(props);
-  }
-
-  public render() {
-    return <FormWrapper />;
-  }
-}
