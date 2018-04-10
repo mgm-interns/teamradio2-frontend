@@ -3,26 +3,26 @@
 @import '~bootstrap/scss/mixins';
 
 // Custom Breakpoints
-$bp-small: 48em; // 768px
-$bp-medium: 64em; // 1024px
-$bp-large: 85.375em; // 1366px
+//$bp-small: 48em; // 768px
+//$bp-medium: 64em; // 1024px
+//$bp-large: 85.375em; // 1366px
 $bp-xlarge: 120em; // 1920px
-$bp-xxlarge: 160em; // 2560px
+//$bp-xxlarge: 160em; // 2560px
 
 // Custom Media Queries
-$mq-small: "(min-width: #{$bp-small})";
-$mq-medium: "(min-width: #{$bp-medium})";
-$mq-large: "(min-width: #{$bp-large})";
+//$mq-small: "(min-width: #{$bp-small})";
+//$mq-medium: "(min-width: #{$bp-medium})";
+//$mq-large: "(min-width: #{$bp-large})";
 $mq-xlarge: "(min-width: #{$bp-xlarge})";
-$mq-xxlarge: "(min-width: #{$bp-xxlarge})";
+//$mq-xxlarge: "(min-width: #{$bp-xxlarge})";
 
 .station-container {
   background: white;
 
   @media #{$mq-xlarge} {
     .extra-large-container {
-      flex: 0 0 66.66667%;
-      max-width: 66.66667%;
+      flex: 0 0 58.33333%;
+      max-width: 58.33333%;
     }
   }
 

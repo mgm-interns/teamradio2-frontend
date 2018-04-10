@@ -1,18 +1,9 @@
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-
 .playlist {
   width: inherit;
   margin: auto;
   position: relative;
   font-family: 'Roboto Slab', sans-serif;
   overflow-y: auto;
-  height: 50vh;
-
-  @include media-breakpoint-down(lg) {
-    max-height: 30vh;
-  }
 
   .play-list-none {
     display: flex;

@@ -3,7 +3,12 @@
 @import '~bootstrap/scss/mixins';
 
 .tabs-container {
-  height: 100%;
+  //height: 100%;
+  height: 50vh;
+
+  @include media-breakpoint-down(lg) {
+    max-height: 30vh;
+  }
 
   .nav-tabs {
     justify-content: space-around;
