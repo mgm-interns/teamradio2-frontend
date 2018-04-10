@@ -12,15 +12,10 @@ export class BaseComponent<P, S> extends Component<P, S> {
   public showError(message: string, title?: string) {
     this.context.store.dispatch(
       error({
-        // uid: 'once-please', // you can specify your own uid if required
         message,
         title: title || undefined,
         position: 'tr',
         autoDismiss: 5,
-        // action: {
-        //   label: 'Click me!!',
-        //   callback: () => alert('clicked!'),
-        // },
       }),
     );
   }
@@ -28,15 +23,10 @@ export class BaseComponent<P, S> extends Component<P, S> {
   public showSuccess(message: string, title?: string) {
     this.context.store.dispatch(
       success({
-        // uid: 'once-please', // you can specify your own uid if required
         message,
         title: title || undefined,
         position: 'tr',
         autoDismiss: 5,
-        // action: {
-        //   label: 'Click me!!',
-        //   callback: () => alert('clicked!'),
-        // },
       }),
     );
   }
@@ -44,15 +34,10 @@ export class BaseComponent<P, S> extends Component<P, S> {
   public showWarning(message: string, title?: string) {
     this.context.store.dispatch(
       warning({
-        // uid: 'once-please', // you can specify your own uid if required
         message,
         title: title || undefined,
         position: 'tr',
         autoDismiss: 5,
-        // action: {
-        //   label: 'Click me!!',
-        //   callback: () => alert('clicked!'),
-        // },
       }),
     );
   }
@@ -60,15 +45,10 @@ export class BaseComponent<P, S> extends Component<P, S> {
   public showInfo(message: string, title?: string) {
     this.context.store.dispatch(
       info({
-        // uid: 'once-please', // you can specify your own uid if required
         message,
         title: title || undefined,
         position: 'tr',
         autoDismiss: 5,
-        // action: {
-        //   label: 'Click me!!',
-        //   callback: () => alert('clicked!'),
-        // },
       }),
     );
   }
