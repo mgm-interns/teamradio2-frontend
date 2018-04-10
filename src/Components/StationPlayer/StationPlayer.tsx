@@ -47,7 +47,7 @@ export class StationPlayer extends Component<IProps, IState> {
   public render() {
     const { url, playing, showProgressbar, muted }: IProps = this.props;
     return [
-      <div className="player-container" key={1}>
+      <div className="player" key={1}>
         <ReactPlayer
           url={url}
           ref={this.ref}

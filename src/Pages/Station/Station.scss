@@ -1,3 +1,7 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
 // Custom Breakpoints
 $bp-small: 48em; // 768px
 $bp-medium: 64em; // 1024px
@@ -11,7 +15,6 @@ $mq-medium: "(min-width: #{$bp-medium})";
 $mq-large: "(min-width: #{$bp-large})";
 $mq-xlarge: "(min-width: #{$bp-xlarge})";
 $mq-xxlarge: "(min-width: #{$bp-xxlarge})";
-//$mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
 
 .station-container {
   background: white;
@@ -28,6 +31,13 @@ $mq-xxlarge: "(min-width: #{$bp-xxlarge})";
   }
 
   .player-container {
+    display: flex;
+    flex-direction: column;
+
+    @include media-breakpoint-down(lg){
+      min-height: 30vh;
+    }
+
     .progress {
       height: 0.2rem;
     }
