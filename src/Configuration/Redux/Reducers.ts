@@ -4,6 +4,8 @@ import { userReducer } from 'Modules/User/Redux/Reducer';
 import { IUser } from 'Modules/User/Redux/Types';
 import { combineReducers, Reducer } from 'redux';
 
+import { reducer as notificationsReducer } from 'react-notification-system-redux';
+
 // The top-level state object
 export interface IApplicationState {
   user: IUser;
@@ -15,4 +17,5 @@ export const reducers: Reducer<IApplicationState> = combineReducers<
 >({
   user: userReducer,
   playlist: playlistReducer,
+  notifications: notificationsReducer,
 });

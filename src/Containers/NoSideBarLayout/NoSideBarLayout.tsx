@@ -14,8 +14,27 @@ import { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './NoSideBarLayout.scss';
 
-export class NoSideBarLayout extends Component {
+import { object } from 'prop-types';
+import * as Notifications from 'react-notification-system-redux';
+import { connect } from 'react-redux';
+
+interface IPropsPass {
+  notifications: any;
+  foo: string;
+}
+
+class NoSideBarLayoutComponent extends Component<IPropsPass> {
+  public static contextTypes = {
+    store: object,
+  };
+
+  constructor(props: IPropsPass) {
+    super(props);
+  }
+
   public render() {
+    const { notifications } = this.props;
+
     return (
       <div className="app no-side-bar">
         <CustomHeader />
@@ -44,7 +63,12 @@ export class NoSideBarLayout extends Component {
           </main>
         </div>
         <Footer />
+        <Notifications notifications={notifications} />
       </div>
     );
   }
 }
+
+export const NoSideBarLayout = connect((state: any) => ({
+  notifications: state.notifications,
+}))(NoSideBarLayoutComponent);
