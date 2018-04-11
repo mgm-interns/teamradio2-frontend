@@ -1,0 +1,64 @@
+.favorite-song-item {
+  max-width: 210px;
+  min-width: 100px;
+  padding: 10px;
+  width: 17.2vw;
+  position: relative;
+
+  .trash-favorite-song {
+    position: absolute;
+    top: 30%;
+    left: 45%;
+  }
+
+  .duration {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    position: absolute;
+    bottom: 50px;
+    right: 10px;
+    padding: 2px 4px;
+    font-size: 12px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    -webkit-transform: scale(1.05); /* Safari 3-8 */
+    transform: scale(1.05);
+
+    .favorite-song-name {
+      color: #d55b1c;
+    }
+  }
+
+  .favorite-song-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 1.05em;
+    margin: 5px;
+    padding-top: 2px;
+  }
+
+  .favorite-song-thumbnail {
+    background-size: 100%;
+
+    img {
+      width: 210px;
+      max-width: 100%;
+      height: 120px;
+    }
+
+    .online-user {
+      height: 15%;
+      background-color: rgba(108, 108, 108, 0.56);
+      text-align: left;
+      padding-left: 5%;
+      color: #ffffff;
+
+      .fa-circle {
+        color: #51ff9a;
+      }
+    }
+  }
+}

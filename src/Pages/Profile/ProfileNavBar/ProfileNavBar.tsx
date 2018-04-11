@@ -6,25 +6,6 @@ import { SelectFormButton } from './SelectFormButton';
 export class ProfileNavBar extends Component<any, any> {
   constructor(props: any) {
     super(props);
-
-    this.state = {
-      isOpenStation: true,
-      isOpenFavouriteSong: false,
-    };
-  }
-
-  public openStationTab() {
-    this.setState({
-      isOpenStation: true,
-      isOpenFavouriteSong: false,
-    });
-  }
-
-  public openFavouriteSongTab() {
-    this.setState({
-      isOpenStation: false,
-      isOpenFavouriteSong: true,
-    });
   }
 
   public render() {
@@ -36,9 +17,9 @@ export class ProfileNavBar extends Component<any, any> {
               <NavItem>
                 <NavLink
                   href="#"
-                  active={this.state.isOpenStation}
+                  active={this.props.isOpenStation}
                   onClick={() => {
-                    this.openStationTab();
+                    this.props.openStationTab();
                   }}>
                   Stations
                 </NavLink>
@@ -46,9 +27,9 @@ export class ProfileNavBar extends Component<any, any> {
               <NavItem>
                 <NavLink
                   href="#"
-                  active={this.state.isOpenFavouriteSong}
+                  active={this.props.isOpenFavouriteSong}
                   onClick={() => {
-                    this.openFavouriteSongTab();
+                    this.props.openFavouriteSongTab();
                   }}>
                   Favourite Songs
                 </NavLink>
