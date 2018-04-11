@@ -18,8 +18,8 @@ export class LoginForm extends Component<IProps, IState> {
     super(props);
 
     this.initialValues = {
-      username: 'datnguyen01',
-      password: '12345678',
+      username: '',
+      password: '',
     };
 
     this.state = {
