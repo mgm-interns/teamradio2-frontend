@@ -68,6 +68,6 @@ export const YoutubeHelper = {
   },
   getDuration(video: any) {
     const youTubeDuration = video.contentDetails.duration;
-    return moment.duration(youTubeDuration).asSeconds();
+    return moment.duration(youTubeDuration).asMilliseconds();
   }
 };
