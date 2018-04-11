@@ -59,3 +59,18 @@ $mq-xlarge: "(min-width: #{$bp-xlarge})";
     margin-top: 20px;
   }
 }
+
+.passive-modal {
+  background: rgba(0,0,0,0.95);
+
+  .modal-dialog {
+    max-width: 66.666667%;
+    height: 100%;
+  }
+
+  .modal-content {
+    background: transparent;
+    color: white;
+    border: none;
+  }
+}

@@ -3,10 +3,14 @@ import { Station } from 'Models/Station';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row } from 'reactstrap';
+import { compose } from 'redux';
 import { StationServices } from 'Services/Http';
+import { IApplicationState } from '../../../../Configuration/Redux';
+import { Song } from '../../../../Models/Song';
 import './StationHeader.scss';
 
 const buttonActions = {
@@ -20,13 +24,19 @@ const buttonActions = {
   },
 };
 
-interface IProps {
+interface IStateProps {
+  nowPlaying?: Song;
+}
+
+interface IOwnProps {
   muted: boolean;
   isPassive: boolean;
   onVolumeClick: (e: React.FormEvent<EventTarget>) => void;
   onLightClick: (e: React.FormEvent<EventTarget>) => void;
   stationId: string;
 }
+
+type IProps = IStateProps & IOwnProps;
 
 interface IState {
   station: Station;
@@ -69,17 +79,25 @@ class OriginStationHeader extends Component<
     const classes = {
       icon: classNames(flag ? iconOn : iconOff),
     };
-    const activeButton = flag ? 'color: red' : null;
+    // const activeButton = flag ? 'color: red' : null;
 
     return (
       <div className="icon-wrapper" onClick={handleClick}>
-        <i className={classNames([classes.icon, activeButton, 'icon'])} />
+        <i
+          className={classNames([classes.icon, { activeButton: flag }, 'icon'])}
+        />
       </div>
     );
   };
 
   public render() {
-    const { muted, isPassive, onVolumeClick, onLightClick } = this.props;
+    const {
+      muted,
+      isPassive,
+      onVolumeClick,
+      onLightClick,
+      nowPlaying,
+    } = this.props;
     const { station } = this.state;
 
     return (
@@ -89,7 +107,8 @@ class OriginStationHeader extends Component<
         </div>
         <div className="buttons-wrapper">
           {this.renderButton(!muted, buttonActions.muted, onVolumeClick)}
-          {this.renderButton(isPassive, buttonActions.passive, onLightClick)}
+          {nowPlaying &&
+            this.renderButton(isPassive, buttonActions.passive, onLightClick)}
           <StationSharing />
           <ConfigurationButton />
         </div>
@@ -110,4 +129,11 @@ class OriginStationHeader extends Component<
   }
 }
 
-export const StationHeader = withRouter(OriginStationHeader);
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
+  nowPlaying: state.playlist.nowPlaying,
+});
+
+export const StationHeader = compose(
+  connect<IStateProps, any, any>(mapStateToProps),
+  withRouter,
+)(OriginStationHeader);

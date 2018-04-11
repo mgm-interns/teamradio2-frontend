@@ -4,10 +4,12 @@ import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Col, Row } from 'reactstrap';
+import { Col, Modal, ModalBody, Row } from 'reactstrap';
 import './Station.scss';
 
-interface IProps {} // tslint:disable-line
+interface IOwnProps {} // tslint:disable-line
+
+type IProps = IOwnProps;
 
 interface IState {
   muted: boolean;
@@ -36,13 +38,64 @@ export class Station extends Component<
   };
 
   public onLightClick = () => {
-    this.setState({
-      isPassive: !this.state.isPassive,
-    });
+    this.setState(
+      {
+        isPassive: !this.state.isPassive,
+      },
+      () => {
+        if (this.state.isPassive) {
+          this._renderPassiveModal();
+        }
+      },
+    );
+  };
+
+  public _renderPassiveModal = () => {
+    const { muted, isPassive } = this.state;
+    const stationId = this.parseStationId();
+
+    return (
+      <Modal
+        isOpen={isPassive}
+        toggle={this.onLightClick}
+        modalClassName="passive-modal"
+        backdrop="static" // disable click event on backdrop
+        className="d-flex mt-0 mb-0 align-items-center" // add classNames for modal-dialog
+      >
+        <ModalBody>
+          <StationHeader
+            muted={muted}
+            isPassive={isPassive}
+            onVolumeClick={this.onVolumeClick}
+            onLightClick={this.onLightClick}
+            stationId={stationId}
+          />
+          <NowPlaying muted={muted} />
+        </ModalBody>
+      </Modal>
+    );
+  };
+
+  public _renderPlayer = () => {
+    const { muted, isPassive } = this.state;
+    const stationId = this.parseStationId();
+
+    return (
+      <div>
+        <StationHeader
+          muted={muted}
+          isPassive={isPassive}
+          onVolumeClick={this.onVolumeClick}
+          onLightClick={this.onLightClick}
+          stationId={stationId}
+        />
+        <NowPlaying muted={muted} />
+      </div>
+    );
   };
 
   public render() {
-    const { muted, isPassive } = this.state;
+    const { isPassive } = this.state;
     const stationId = this.parseStationId();
 
     return (
@@ -53,14 +106,7 @@ export class Station extends Component<
         <Col className="p-0 m-auto extra-large-container">
           <Row className="m-0">
             <Col xs={12} xl={8} className="mt-3 pr-xl-0 player-container">
-              <StationHeader
-                muted={muted}
-                isPassive={isPassive}
-                onVolumeClick={this.onVolumeClick}
-                onLightClick={this.onLightClick}
-                stationId={stationId}
-              />
-              <NowPlaying muted={muted} />
+              {!isPassive ? this._renderPlayer() : this._renderPassiveModal()}
             </Col>
             <Col xs={12} xl={4} className="mt-3">
               <div className="playlist-tabs-container">
