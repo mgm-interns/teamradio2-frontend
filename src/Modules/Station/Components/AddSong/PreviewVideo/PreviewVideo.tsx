@@ -13,6 +13,7 @@ export class PreviewVideo extends Component<any, any> {
       message: null,
     };
     this.mutePreview = this.mutePreview.bind(this);
+    this.updateMessage = this.updateMessage.bind(this);
     this.handleButtonAddSong = this.handleButtonAddSong.bind(this);
   }
 
@@ -31,8 +32,14 @@ export class PreviewVideo extends Component<any, any> {
     }));
   }
 
+  public updateMessage(event: any) {
+    this.setState({
+      message: event.target.value,
+    });
+  }
+
   public handleButtonAddSong() {
-    this.props.addSong('This is a message');
+    this.props.addSong(this.state.message);
   }
 
   public render() {
@@ -68,6 +75,7 @@ export class PreviewVideo extends Component<any, any> {
                 <Input
                   className="preview__input"
                   placeholder="Do you want to say something about this video?"
+                  onChange={this.updateMessage}
                 />
               </div>
               <div className="preview__buttons">
