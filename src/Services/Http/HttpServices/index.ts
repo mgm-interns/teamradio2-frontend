@@ -1,3 +1,3 @@
 export * from './HttpServices';
 export * from './RequestMethod';
-export * from './LoginService';
+export * from './OAuthService';

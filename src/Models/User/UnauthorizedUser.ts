@@ -11,10 +11,4 @@ export class UnauthorizedUser {
     this.grant_type = 'password';
     this.scope = 'read write';
   }
-
-  public encode?(userObj: any) {
-    return Object.keys(userObj).map((key) => {
-      return encodeURIComponent(key) + '=' + encodeURIComponent(userObj[key]);
-    }).join('&');
-  }
 }

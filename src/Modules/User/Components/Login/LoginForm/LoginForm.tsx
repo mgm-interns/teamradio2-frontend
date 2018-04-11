@@ -1,11 +1,10 @@
-import { FormikErrors, Formik, FormikActions } from 'formik';
+import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
+import { AccessToken, UnauthorizedUser } from 'Models/User';
 import * as React from 'react';
 import { Component } from 'react';
-import { UserServices } from "Services/Http";
-import { FormValues, InnerForm, IFormProps } from './InnerForm';
-import { UnauthorizedUser } from "Models/User";
-import { localStorageManager } from "Helpers/LocalStorageManager";
+import { UserServices } from 'Services/Http';
+import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {} // tslint:disable-line
 
@@ -19,8 +18,8 @@ export class LoginForm extends Component<IProps, IState> {
     super(props);
 
     this.initialValues = {
-      username: '',
-      password: '',
+      username: 'datnguyen01',
+      password: '12345678',
     };
 
     this.state = {
@@ -49,15 +48,16 @@ export class LoginForm extends Component<IProps, IState> {
     });
   }
 
-  handleSubmit(values: FormValues, { setSubmitting, resetForm }: FormikActions<any>) {
+  public handleSubmit(
+    values: FormValues,
+    { setSubmitting, resetForm }: FormikActions<any>,
+  ) {
     this.clearFormAlert();
     const { username, password } = values;
-    const userObj = new UnauthorizedUser(username, password);
-    const user = userObj.encode(userObj);
+    const user = new UnauthorizedUser(username, password);
 
     this.userServices.login(user).subscribe(
-      (res: any) => {
-        localStorageManager.setAccessToken(res.access_token);
+      (accessToken: AccessToken) => {
         this.showFormAlerSuccess();
         setSubmitting(false);
         resetForm();
@@ -70,7 +70,7 @@ export class LoginForm extends Component<IProps, IState> {
     );
   }
 
-  validate(values: FormValues) {
+  public validate(values: FormValues) {
     const errors: FormikErrors<any> = {};
     const { username, password } = values;
     const { required } = Rules;
@@ -91,7 +91,13 @@ export class LoginForm extends Component<IProps, IState> {
       <Formik
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
-        render={formikProps => <InnerForm {...formikProps} success={success} serverError={serverError}/>}
+        render={formikProps => (
+          <InnerForm
+            {...formikProps}
+            success={success}
+            serverError={serverError}
+          />
+        )}
         validate={this.validate}
       />
     );

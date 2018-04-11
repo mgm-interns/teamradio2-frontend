@@ -1,15 +1,20 @@
-import { RegisteredUser, UnregisteredUser, UnauthorizedUser } from 'Models';
+import {
+  AccessToken,
+  RegisteredUser,
+  UnauthorizedUser,
+  UnregisteredUser,
+} from 'Models';
 import { Observable } from 'rxjs/Observable';
-import { HttpServices, LoginService } from "../HttpServices";
+import { HttpServices, OAuthService } from '../HttpServices';
 
 export class UserServices {
   private _httpServices: HttpServices;
-  private _loginService: LoginService;
+  private _oAuthService: OAuthService;
   private serviceUrl = 'users';
 
   constructor() {
     this._httpServices = new HttpServices();
-    this._loginService = new LoginService();
+    this._oAuthService = new OAuthService();
   }
 
   public getCurrentUserProfile(): Observable<RegisteredUser> {
@@ -20,7 +25,7 @@ export class UserServices {
     return this._httpServices.post(`${this.serviceUrl}/register`, user);
   }
 
-  public login(user: any) {
-    return this._loginService.post('oauth/token', user);
+  public login(user: UnauthorizedUser): Observable<AccessToken> {
+    return this._oAuthService.authorize(user);
   }
 }
