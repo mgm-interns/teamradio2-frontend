@@ -14,21 +14,22 @@ import { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './NoSideBarLayout.scss';
 
+import { IApplicationState } from 'Configuration/Redux';
+import { Notification } from 'Models/Notification';
 import { object } from 'prop-types';
 import * as Notifications from 'react-notification-system-redux';
 import { connect } from 'react-redux';
 
-interface IPropsPass {
-  notifications: any;
-  foo: string;
+interface IProps {
+  notifications: Notification[];
 }
 
-class NoSideBarLayoutComponent extends Component<IPropsPass> {
+class NoSideBarLayoutComponent extends Component<IProps> {
   public static contextTypes = {
     store: object,
   };
 
-  constructor(props: IPropsPass) {
+  constructor(props: IProps) {
     super(props);
   }
 
@@ -56,7 +57,11 @@ class NoSideBarLayoutComponent extends Component<IPropsPass> {
               />
               <Route path="/help" name="Help" component={Help} />
               <Route path="/profile" name="Profile" component={Profile} />
-              <Route path="/station/:stationId" name="Station" component={Station} />
+              <Route
+                path="/station/:stationId"
+                name="Station"
+                component={Station}
+              />
               <Route path="/profile" name="Profile" component={Profile} />
               <Redirect from="/" to="/" />
             </Switch>
@@ -69,6 +74,6 @@ class NoSideBarLayoutComponent extends Component<IPropsPass> {
   }
 }
 
-export const NoSideBarLayout = connect((state: any) => ({
+export const NoSideBarLayout = connect((state: IApplicationState) => ({
   notifications: state.notifications,
 }))(NoSideBarLayoutComponent);
