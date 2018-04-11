@@ -66,7 +66,7 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
           {this.props.playlist.map((song, index) => {
             return (
               <PlaylistItem
-                key={song.song_id || index}
+                key={song.id || index}
                 {...song}
                 upVote={() => this.upVote()}
                 downVote={() => this.downVote()}

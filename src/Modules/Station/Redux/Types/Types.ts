@@ -1,7 +1,7 @@
-import { Song } from 'Models/Song';
+import { NowPlayingSong, Song } from 'Models/Song';
 
 export interface IPlaylistState {
-  nowPlaying: Song;
+  nowPlaying: NowPlayingSong;
   playlist: Song[];
   error?: string | null;
   loading?: boolean;

@@ -9,7 +9,7 @@ import './PlaylistItem.scss';
 interface IPlayListItemProps {
   upVotes: number;
   downVotes: number;
-  song_id: any;
+  id: any;
   title: string;
   isPlaying: boolean;
   thumbnail: any;
@@ -57,7 +57,7 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
   }
 
   public _renderThumbnail = () => {
-    const { song_id, thumbnail, duration, willBeSkipped } = this.props;
+    const { id, thumbnail, duration, willBeSkipped } = this.props;
 
     return (
       <Col xs={3} className="p-0 thumbnail-container">
@@ -66,14 +66,14 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
           {YoutubeHelper.convertDuration(duration)}
         </div>
         {willBeSkipped ? (
-          <div className="skip-bg" id={`WillBeSkipped` + song_id}>
+          <div className="skip-bg" id={`WillBeSkipped` + id}>
             <div className="skip-icon">
               <i className="fa fa-step-forward" />
             </div>
             <UncontrolledTooltip
               placement="right"
               target={
-                `WillBeSkipped` + song_id
+                `WillBeSkipped` + id
               }>{`This song will be skipped when player starts it.`}</UncontrolledTooltip>
           </div>
         ) : null}
@@ -82,7 +82,7 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
   };
 
   public _renderCreator = () => {
-    const { song_id, creator, message } = this.props;
+    const { id, creator, message } = this.props;
 
     return (
       <Col xs={7} className="pl-0">
@@ -93,12 +93,12 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
               <div>
                 <img
                   className="avatar"
-                  id={'UserAvatar' + song_id}
-                  src={creator.avatar_url}
+                  id={'UserAvatar' + id}
+                  src={creator.avatarUrl}
                 />
                 <UncontrolledTooltip
                   placement="bottom"
-                  target={'UserAvatar' + song_id}>
+                  target={'UserAvatar' + id}>
                   {creator.username}
                 </UncontrolledTooltip>
               </div>
@@ -108,11 +108,9 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
               <span className="message-icon">
                 <i
                   className="icon-speech icons icon-message"
-                  id={'Message' + song_id}
+                  id={'Message' + id}
                 />
-                <UncontrolledTooltip
-                  placement="bottom"
-                  target={'Message' + song_id}>
+                <UncontrolledTooltip placement="bottom" target={'Message' + id}>
                   {message}
                 </UncontrolledTooltip>
               </span>
@@ -144,7 +142,7 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
   };
 
   public render() {
-    const { song_id, title, isPlaying } = this.props;
+    const { id, title, isPlaying } = this.props;
 
     const { isFavourite } = this.state;
 
@@ -157,10 +155,10 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
         <Col xs={9} className="pr-0">
           <Row className="m-0 h-100">
             <Col xs={10} className="pl-0 item-title">
-              <h6 className="item-title" id={`Song` + song_id}>
+              <h6 className="item-title" id={`Song` + id}>
                 {title}
               </h6>
-              <UncontrolledTooltip placement="bottom" target={`Song` + song_id}>
+              <UncontrolledTooltip placement="bottom" target={`Song` + id}>
                 {title}
               </UncontrolledTooltip>
             </Col>
