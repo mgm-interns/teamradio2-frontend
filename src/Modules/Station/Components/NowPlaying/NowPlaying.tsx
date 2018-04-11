@@ -34,25 +34,25 @@ export class NowPlayingComponent extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    const { nowPlaying } = this.props;
-    if (nowPlaying) {
-      // Null checker
-      this.seekTime(nowPlaying);
-    }
+    this.seekTime(this.props.nowPlaying);
   }
 
   public async componentWillReceiveProps(nextProps: IProps) {
-    const { nowPlaying: oldNowPlaying } = this.props;
-    const { nowPlaying: nextNowPlaying } = nextProps;
-    if (
-      JSON.stringify(oldNowPlaying) !== JSON.stringify(nextNowPlaying) &&
-      nextNowPlaying // Null checker
-    ) {
-      this.seekTime(nextNowPlaying);
+    if (this.isNowPlayingChanged(nextProps)) {
+      this.seekTime(nextProps.nowPlaying);
     }
   }
 
+  public isNowPlayingChanged(nextProps: IProps) {
+    const { nowPlaying: oldNowPlaying } = this.props;
+    const { nowPlaying: nextNowPlaying } = nextProps;
+    return JSON.stringify(oldNowPlaying) !== JSON.stringify(nextNowPlaying);
+  }
+
   public seekTime = (nowPlaying: NowPlayingSong): void => {
+    if (!nowPlaying) {
+      return;
+    }
     const duration = convertToEpochTimeInSeconds(nowPlaying.duration);
     const startingTime = nowPlaying.startingTime;
     const now = convertToEpochTimeInSeconds(Date.now().valueOf());
@@ -64,7 +64,6 @@ export class NowPlayingComponent extends Component<IProps, IState> {
       {
         progress: playedTimeInFraction,
       },
-      // Must call seekTo after updating state due to render process
       () => {
         this.playerRef.seekTo(playedTime);
       },
@@ -88,8 +87,9 @@ export class NowPlayingComponent extends Component<IProps, IState> {
     );
   }
 
-  private bindPlayerRef = (ref: ReactPlayer) => {
+  private bindPlayerRef = (ref: ReactPlayer): ReactPlayer => {
     this.playerRef = ref;
+    return ref;
   };
 }
 
