@@ -4,9 +4,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import { UserServices } from "Services/Http";
 import { FormValues, InnerForm, IFormProps } from './InnerForm';
-import { UnauthorizedUser } from "../../../../../Models/User";
-import { log } from "util";
-import { localStorageManager } from "../../../../../Helpers/LocalStorageManager";
+import { UnauthorizedUser } from "Models/User";
+import { localStorageManager } from "Helpers/LocalStorageManager";
 
 interface IState extends IFormProps {} // tslint:disable-line
 
