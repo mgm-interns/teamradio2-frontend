@@ -1,5 +1,13 @@
+import { AccessToken } from 'Models/User';
+
+const accessTokenKey = 'accessToken';
+
 export const localStorageManager = {
-  getAccessToken: (): string => {
-    return localStorage.getItem('accessToken');
-  }
+  getAccessToken: (): AccessToken => {
+    const accessToken = localStorage.getItem(accessTokenKey);
+    return accessToken ? JSON.parse(accessToken) : null;
+  },
+  setAccessToken: (token: AccessToken) => {
+    localStorage.setItem(accessTokenKey, JSON.stringify(token));
+  },
 };

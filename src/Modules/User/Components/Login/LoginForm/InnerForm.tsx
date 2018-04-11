@@ -1,22 +1,24 @@
-import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
-import { Rules, Validator } from 'Helpers';
+import { Field, Form, FormikProps } from 'formik';
+import { UnauthorizedUser } from 'Models';
 import * as React from 'react';
-import { Component } from 'react';
 import {
   Button,
   FormFeedback,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
+  Alert,
 } from 'reactstrap';
 
-interface IFormValues {
-  username: string;
-  password: string;
+export class FormValues extends UnauthorizedUser {}
+
+export interface IFormProps {
+  success: boolean;
+  serverError: string;
 }
 
-const InnerForm = (props: FormikProps<IFormValues>) => {
-  const { touched, errors, isSubmitting } = props;
+export const InnerForm = (props: FormikProps<FormValues> & IFormProps) => {
+  const { touched, errors, isSubmitting, serverError, success } = props;
   return (
     <Form>
       <InputGroup className="mb-3">
@@ -49,47 +51,21 @@ const InnerForm = (props: FormikProps<IFormValues>) => {
         {touched.password &&
           errors.password && <FormFeedback>{errors.password}</FormFeedback>}
       </InputGroup>
+
+      {serverError && (
+        <Alert className="capitalize-first-letter" color="danger">
+          {serverError}
+        </Alert>
+      )}
+
+      {success && (
+        <Alert className="capitalize-first-letter" color="success">
+          You have successfully logged in!
+        </Alert>
+      )}
       <Button color="success" block disabled={isSubmitting}>
         LOG IN
       </Button>
     </Form>
   );
 };
-
-const FormWrapper = withFormik<any, IFormValues>({
-  mapPropsToValues: props => {
-    return {
-      username: '',
-      password: '',
-    };
-  },
-
-  validate: (values: IFormValues) => {
-    const errors: FormikErrors<any> = {};
-    const { username, password } = values;
-    const { required } = Rules;
-    const usernameValidator = new Validator('Username or Email', username, [
-      required,
-    ]);
-    const passwordValidator = new Validator('Password', password, [required]);
-
-    errors.username = usernameValidator.validate();
-    errors.password = passwordValidator.validate();
-
-    return Validator.removeUndefinedError(errors);
-  },
-
-  handleSubmit: values => {
-    console.log(values);
-  },
-})(InnerForm);
-
-export class LoginForm extends Component<any, any> {
-  constructor(props: any) {
-    super(props);
-  }
-
-  public render() {
-    return <FormWrapper />;
-  }
-}

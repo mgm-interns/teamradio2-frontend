@@ -5,15 +5,16 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { AccessToken } from '../../../Models/User';
 import { IServerError } from './IServerError';
 import { RequestMethod } from './RequestMethod';
 
 export class HttpServices {
+  protected readonly _endPoint: string;
   private _httpClient: AxiosInstance;
-  private readonly _endPoint: string;
 
-  constructor() {
-    this._endPoint = process.env.REACT_APP_HTTP_END_POINT;
+  constructor(endPoint?: string) {
+    this._endPoint = endPoint ? endPoint : process.env.REACT_APP_HTTP_END_POINT;
   }
 
   public beforeSendRequest(showSpinner: boolean = true) {
@@ -46,11 +47,21 @@ export class HttpServices {
     return this.makeRequest(RequestMethod.Delete, url, queryParams);
   }
 
-  private makeRequest<T>(
+  protected createAxiosInstance(): AxiosInstance {
+    const accessToken = localStorageManager.getAccessToken();
+    const headers = this.createHeaders(accessToken);
+    const options: AxiosRequestConfig = {
+      headers,
+      baseURL: this._endPoint,
+    };
+    return axios.create(options);
+  }
+
+  protected makeRequest<T>(
     method: string,
     url: string,
     queryParams?: object,
-    body?: object,
+    body?: any,
     showSpinner: boolean = true,
     needAccessToken: boolean = true,
   ) {
@@ -86,7 +97,11 @@ export class HttpServices {
         })
         .catch((err: IServerError) => {
           this.afterSendRequest();
-          observer.error(err.response.data.error);
+          const errResponseData = err.response.data;
+          const message = errResponseData.error_description
+            ? errResponseData.error_description
+            : errResponseData.error;
+          observer.error(message);
           observer.complete();
         });
     });
@@ -96,22 +111,13 @@ export class HttpServices {
     return this.createAxiosInstance();
   }
 
-  private createAxiosInstance(): AxiosInstance {
-    const accessToken = localStorageManager.getAccessToken();
-    const headers = this.createHeaders(accessToken);
-    const options: AxiosRequestConfig = {
-      headers,
-      baseURL: this._endPoint,
-    };
-    return axios.create(options);
-  }
-
-  private createHeaders(accessToken?: string): any {
+  private createHeaders(accessToken?: AccessToken): any {
     const headerParams: any = {
       'Content-Type': 'application/json',
     };
     if (accessToken) {
-      headerParams.Authorization = 'Bearer ' + accessToken;
+      const { access_token, token_type } = accessToken;
+      headerParams.Authorization = `${token_type} ${access_token}`;
     }
     return headerParams;
   }
