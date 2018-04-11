@@ -28,6 +28,7 @@ export class ProfileNavBar extends Component<any, any> {
   }
 
   public render() {
+    const { userInformation } = this.props;
     return (
       <Container>
         <Row>
@@ -56,7 +57,7 @@ export class ProfileNavBar extends Component<any, any> {
             </Nav>
           </div>
           <div className="col-sm-1">
-            <SelectFormButton />
+            <SelectFormButton userInformation={userInformation} />
           </div>
         </Row>
       </Container>

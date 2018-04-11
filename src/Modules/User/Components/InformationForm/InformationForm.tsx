@@ -6,6 +6,7 @@ import './InformationForm.scss';
 import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { UserServices } from 'Services/Http';
+import { RegisteredUser } from "../../../../Models/User";
 
 interface IFormValues {
   displayName: string;
@@ -34,9 +35,9 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
               placeholder="Enter your Display name"
             />
             {touched.displayName &&
-              errors.displayName && (
-                <FormFeedback>{errors.displayName}</FormFeedback>
-              )}
+            errors.displayName && (
+              <FormFeedback>{errors.displayName}</FormFeedback>
+            )}
           </FormGroup>
         </Col>
       </Row>
@@ -51,7 +52,7 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
               placeholder="Enter your username"
             />
             {touched.userName &&
-              errors.userName && <FormFeedback>{errors.userName}</FormFeedback>}
+            errors.userName && <FormFeedback>{errors.userName}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
@@ -158,6 +159,7 @@ interface IFormProps {
   city?: string;
   country?: string;
   onCloseModal: any;
+  handleSubmit: any;
 }
 
 const FormWrapper = withFormik<IFormProps, IFormValues>({
@@ -193,35 +195,70 @@ const FormWrapper = withFormik<IFormProps, IFormValues>({
     return Validator.removeUndefinedError(errors);
   },
 
-  handleSubmit: values => {
-    console.log(values);
-    values.onCloseModal();
+  handleSubmit: (userInfo, informationForm) => {
+    console.log(userInfo);
+    informationForm.props.handleSubmit(userInfo);
   },
+
 })(InnerForm);
 
-export class InformationForm extends Component<any, any> {
+interface IInformationFormStates {
+  userInformation: RegisteredUser;
+  onCloseModal: boolean;
+}
+
+export class InformationForm extends Component<any, IInformationFormStates> {
   private readonly userServices: UserServices;
 
   constructor(props: any) {
     super(props);
     this.userServices = new UserServices();
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   public componentWillMount() {
-    this.getUserProfile();
+    const {userInformation, onCloseModal} = this.props;
+    this.setState({
+      userInformation,
+      onCloseModal
+    });
   }
 
-  public getUserProfile() {
-    this.userServices.getCurrentUserProfile().subscribe(
-      (res: any) => {
-        console.log(res);
-      },
-      (err: any) => {
-        console.log(err);
-      },
-    );
+  public handleSubmit(userInfo: IFormProps) {
+    const user = new RegisteredUser();
+    user.name = userInfo.displayName;
+    user.username = userInfo.userName;
+    user.email = userInfo.email;
+    user.firstName = userInfo.firstName;
+    user.lastName = userInfo.lastName;
+    user.bio = userInfo.bio;
+    user.city = userInfo.city;
+    user.country = userInfo.country;
+    this.userServices.updateUserInfo(user).subscribe(
+      (userInformation: RegisteredUser) => {
+        this.props.updateUserInfo(userInformation);
+      }, error => {
+        // Notify error
+      }
+    )
   }
+
   public render() {
-    return <FormWrapper onCloseModal={this.props.onCloseModal} />;
+    const {userInformation, onCloseModal} = this.state;
+    console.log(userInformation.name);
+    return (
+      <FormWrapper
+        onCloseModal={onCloseModal}
+        displayName={userInformation.name}
+        userName={userInformation.username}
+        email={userInformation.email}
+        firstName={userInformation.firstName}
+        lastName={userInformation.lastName}
+        bio={userInformation.bio}
+        city={userInformation.city}
+        country={userInformation.country}
+        handleSubmit={this.handleSubmit}
+      />
+    );
   }
 }

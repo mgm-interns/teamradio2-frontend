@@ -28,4 +28,20 @@ export class UserServices {
   public login(user: UnauthorizedUser): Observable<AccessToken> {
     return this._oAuthService.authorize(user);
   }
+
+  public updateUserInfo(user: RegisteredUser): Observable<any> {
+    return this._httpServices.patch('users/me', user);
+  }
+
+  public uploadUserAvatar(userAvatar: Blob): Observable<any> {
+    const formData = new FormData();
+    formData.append("file", userAvatar);
+    return this._httpServices.patch('users/me/avatar', formData );
+  }
+
+  public uploadUserCover(userAvatar: Blob): Observable<any> {
+    const formData = new FormData();
+    formData.append("file", userAvatar);
+    return this._httpServices.patch('users/me/cover', formData );
+  }
 }

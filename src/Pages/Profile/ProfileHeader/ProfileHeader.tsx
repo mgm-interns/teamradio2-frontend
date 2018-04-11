@@ -12,6 +12,8 @@ export class ProfileHeader extends Component<any, any> {
     this.state = {
       isUpdateAvatar: false,
       isUpdateCover: false,
+      displayName: null,
+      username: null,
       avatarUrl: './img/female-01.png',
       coverUrl: './img/profile-cover.jpg',
       aspectRatio: 1,
@@ -22,11 +24,14 @@ export class ProfileHeader extends Component<any, any> {
   }
 
   public componentWillMount() {
+    const { userInformation } = this.props;
     this.setState({
       isUpdateAvatar: false,
       isUpdateCover: false,
-      avatarUrl: './img/female-01.png',
-      coverUrl: './img/profile-cover.png',
+      displayName: userInformation.displayName || '',
+      username: userInformation.username || '',
+      avatarUrl: userInformation.avatarUrl || './img/female-01.png',
+      coverUrl: userInformation.coverUrl || './img/profile-cover.png',
       aspectRatio: 1,
     });
   }
