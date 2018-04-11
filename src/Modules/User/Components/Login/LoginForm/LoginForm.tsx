@@ -15,7 +15,7 @@ export class LoginForm extends Component<IProps, IState> {
   private initialValues: FormValues;
   private userServices: UserServices;
 
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
 
     this.initialValues = {
