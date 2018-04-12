@@ -1,14 +1,14 @@
+import { IApplicationState } from 'Configuration/Redux';
+import { NowPlayingSong } from 'Models/Song';
 import { Station as StationModel } from 'Models/Station';
 import { AddSong, StationBrowser } from 'Modules/Station';
 import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 import * as React from 'react';
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Col, Modal, ModalBody, Row } from 'reactstrap';
 import { compose } from 'redux';
-import { IApplicationState } from '../../Configuration/Redux';
-import { NowPlayingSong } from '../../Models/Song';
 import './Station.scss';
 
 interface IStateProps {
@@ -95,7 +95,7 @@ class StationComponent extends Component<
     const stationId = this.parseStationId();
 
     return (
-      <div>
+      <Fragment>
         <StationHeader
           muted={muted}
           isPassive={isPassive}
@@ -104,7 +104,7 @@ class StationComponent extends Component<
           stationId={stationId}
         />
         <NowPlaying muted={muted} />
-      </div>
+      </Fragment>
     );
   };
 
