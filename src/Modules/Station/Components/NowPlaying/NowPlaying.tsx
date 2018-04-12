@@ -94,7 +94,7 @@ export class NowPlayingComponent extends Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
-  nowPlaying: state.playlist.nowPlaying,
+  nowPlaying: state.station.nowPlaying,
 });
 
 export const NowPlaying = connect<IStateProps, {}, IOwnProps>(

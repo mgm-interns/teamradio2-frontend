@@ -2,15 +2,13 @@ import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
 import { Song } from 'Models/Song';
 import { Station } from 'Models/Station';
+import { RegisteredUser } from 'Models/User';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
-import * as React from 'react';
 import { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
 import { Row } from 'reactstrap';
-import { compose } from 'redux';
-import { StationServices } from 'Services/Http';
+import { StationSSE } from 'Services/SSE';
 import './StationHeader.scss';
 
 const buttonActions = {
@@ -25,6 +23,8 @@ const buttonActions = {
 };
 
 interface IStateProps {
+  station: Station;
+  users: RegisteredUser[];
   nowPlaying?: Song;
 }
 
@@ -36,30 +36,17 @@ interface IOwnProps {
   stationId: string;
 }
 
-type IProps = IStateProps & IOwnProps;
+type IProps = IOwnProps & IStateProps;
 
-interface IState {
-  station: Station;
-}
-
-class OriginStationHeader extends Component<
-  IProps & RouteComponentProps<any>,
-  IState
-> {
-  private stationServices: StationServices;
-  constructor(props: IProps & RouteComponentProps<any>) {
+class OriginStationHeader extends Component<IProps, any> {
+  private stationSSE: StationSSE;
+  constructor(props: IProps) {
     super(props);
-
-    this.state = {
-      station: null,
-    };
-
-    this.stationServices = new StationServices();
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     const { stationId } = this.props;
-    this.updateStation(stationId);
+    this.startSSEService(stationId);
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
@@ -69,6 +56,10 @@ class OriginStationHeader extends Component<
     if (oldStationId !== nextStationId) {
       this.updateStation(nextStationId);
     }
+  }
+
+  public componentWillUnmount() {
+    this.stationSSE.close();
   }
 
   public renderButton = (
@@ -91,6 +82,7 @@ class OriginStationHeader extends Component<
   };
 
   public render() {
+    const { name } = this.props.station;
     const {
       muted,
       isPassive,
@@ -98,12 +90,11 @@ class OriginStationHeader extends Component<
       onLightClick,
       nowPlaying,
     } = this.props;
-    const { station } = this.state;
 
     return (
       <Row className="header-container">
         <div>
-          <h1>{station && station.name}</h1>
+          <h1>{name || ''}</h1>
         </div>
         <div className="buttons-wrapper">
           {this.renderButton(!muted, buttonActions.muted, onVolumeClick)}
@@ -116,24 +107,25 @@ class OriginStationHeader extends Component<
     );
   }
 
-  private updateStation = (stationId: string) => {
-    this.stationServices.getStationById(stationId).subscribe(
-      (station: any) => {
-        this.setState({ station });
-      },
-      err => {
-        // If station not found, redirect user to home page
-        this.props.history.replace('/');
-      },
-    );
+  private startSSEService(stationId: string) {
+    this.stationSSE = new StationSSE(stationId);
+    this.stationSSE.start();
   }
+
+  private updateStation = (stationId: string) => {
+    this.startSSEService(stationId);
+  };
 }
 
-const mapStateToProps = (state: IApplicationState): IStateProps => ({
-  nowPlaying: state.playlist.nowPlaying,
-});
+const mapStateToProps = (state: IApplicationState): IStateProps => {
+  return {
+    station: state.station.station,
+    users: state.station.users,
+    nowPlaying: state.station.nowPlaying,
+  };
+};
 
-export const StationHeader = compose(
-  connect<IStateProps, any, any>(mapStateToProps),
-  withRouter,
+export const StationHeader = connect<IStateProps, {}, IOwnProps>(
+  mapStateToProps,
+  null,
 )(OriginStationHeader);
