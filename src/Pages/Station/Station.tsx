@@ -1,13 +1,23 @@
+import { IApplicationState } from 'Configuration/Redux';
+import { NowPlayingSong } from 'Models/Song';
 import { Station as StationModel } from 'Models/Station';
 import { AddSong, StationBrowser } from 'Modules/Station';
 import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 import * as React from 'react';
-import { Component } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Col, Row } from 'reactstrap';
+import { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Col, Modal, ModalBody, Row } from 'reactstrap';
+import { compose } from 'redux';
 import './Station.scss';
 
-interface IProps {} // tslint:disable-line
+interface IStateProps {
+  nowPlaying: NowPlayingSong;
+}
+
+interface IOwnProps {} // tslint:disable-line
+
+type IProps = IOwnProps & IStateProps;
 
 interface IState {
   muted: boolean;
@@ -15,7 +25,7 @@ interface IState {
   station: StationModel;
 }
 
-export class Station extends Component<
+class StationComponent extends Component<
   IProps & RouteComponentProps<any>,
   IState
 > {
@@ -29,6 +39,12 @@ export class Station extends Component<
     };
   }
 
+  public componentWillReceiveProps(nextProps: IProps) {
+    if (!nextProps.nowPlaying) {
+      this.setState({ isPassive: false });
+    }
+  }
+
   public onVolumeClick = () => {
     this.setState({
       muted: !this.state.muted,
@@ -36,13 +52,64 @@ export class Station extends Component<
   };
 
   public onLightClick = () => {
-    this.setState({
-      isPassive: !this.state.isPassive,
-    });
+    this.setState(
+      {
+        isPassive: !this.state.isPassive,
+      },
+      () => {
+        if (this.state.isPassive) {
+          this._renderPassiveModal();
+        }
+      },
+    );
+  };
+
+  public _renderPassiveModal = () => {
+    const { muted, isPassive } = this.state;
+    const stationId = this.parseStationId();
+
+    return (
+      <Modal
+        isOpen={isPassive}
+        toggle={this.onLightClick}
+        modalClassName="passive-modal"
+        backdrop="static" // disable click event on backdrop
+        className="d-flex mt-0 mb-0 align-items-center" // add classNames for modal-dialog
+      >
+        <ModalBody className="d-flex flex-column">
+          <StationHeader
+            muted={muted}
+            isPassive={isPassive}
+            onVolumeClick={this.onVolumeClick}
+            onLightClick={this.onLightClick}
+            stationId={stationId}
+          />
+          <NowPlaying muted={muted} />
+        </ModalBody>
+      </Modal>
+    );
+  };
+
+  public _renderPlayer = () => {
+    const { muted, isPassive } = this.state;
+    const stationId = this.parseStationId();
+
+    return (
+      <Fragment>
+        <StationHeader
+          muted={muted}
+          isPassive={isPassive}
+          onVolumeClick={this.onVolumeClick}
+          onLightClick={this.onLightClick}
+          stationId={stationId}
+        />
+        <NowPlaying muted={muted} />
+      </Fragment>
+    );
   };
 
   public render() {
-    const { muted, isPassive } = this.state;
+    const { isPassive } = this.state;
     const stationId = this.parseStationId();
 
     return (
@@ -53,14 +120,7 @@ export class Station extends Component<
         <Col className="p-0 m-auto extra-large-container">
           <Row className="m-0">
             <Col xs={12} xl={8} className="mt-3 pr-xl-0 player-container">
-              <StationHeader
-                muted={muted}
-                isPassive={isPassive}
-                onVolumeClick={this.onVolumeClick}
-                onLightClick={this.onLightClick}
-                stationId={stationId}
-              />
-              <NowPlaying muted={muted} />
+              {!isPassive ? this._renderPlayer() : this._renderPassiveModal()}
             </Col>
             <Col xs={12} xl={4} className="mt-3">
               <div className="playlist-tabs-container">
@@ -91,3 +151,12 @@ export class Station extends Component<
     return match.params.stationId;
   }
 }
+
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
+  nowPlaying: state.playlist.nowPlaying,
+});
+
+export const Station = compose(
+  connect<IStateProps, {}, IOwnProps>(mapStateToProps, undefined),
+  withRouter,
+)(StationComponent);
