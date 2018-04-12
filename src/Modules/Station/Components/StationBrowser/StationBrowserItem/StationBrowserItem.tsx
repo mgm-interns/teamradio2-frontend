@@ -19,13 +19,12 @@ class SBItem extends Component<
 > {
   constructor(props: IStationBrowserItem & RouteComponentProps<any>) {
     super(props);
-    this.joinStation = this.joinStation.bind(this);
   }
 
-  public joinStation() {
+  public joinStation = () => {
     const { friendlyId } = this.props;
     this.props.history.push(`/station/${friendlyId}`);
-  }
+  };
 
   public render() {
     const {
@@ -35,7 +34,7 @@ class SBItem extends Component<
       friendlyId,
     } = this.props;
     return (
-      <div className="station-item d-flex">
+      <div className="station-item d-flex" onClick={this.joinStation}>
         <div className="thumbnail">
           <img src={picture || '/img/station_default_cover.png'} />
           <div className="online-users">
