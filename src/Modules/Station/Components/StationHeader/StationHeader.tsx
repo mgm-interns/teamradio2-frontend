@@ -1,4 +1,6 @@
 import * as classNames from 'classnames';
+import { IApplicationState } from 'Configuration/Redux';
+import { Song } from 'Models/Song';
 import { Station } from 'Models/Station';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
 import * as React from 'react';
@@ -9,8 +11,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Row } from 'reactstrap';
 import { compose } from 'redux';
 import { StationServices } from 'Services/Http';
-import { IApplicationState } from '../../../../Configuration/Redux';
-import { Song } from '../../../../Models/Song';
 import './StationHeader.scss';
 
 const buttonActions = {
