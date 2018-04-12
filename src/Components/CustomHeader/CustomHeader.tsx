@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { UserInfo } from '../UserInfo';
 import './CustomHeader.scss';
+import { localStorageManager } from "Helpers/LocalStorageManager";
 
 const HEADER_MARGIN: number = 200;
 
@@ -13,11 +14,12 @@ export class CustomHeader extends Component<any, any> {
       transform: 0,
     };
     this.handleScroll = this.handleScroll.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   public componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorageManager.getAccessToken();
     accessToken
       ? this.setState({
           login: true,
@@ -25,6 +27,13 @@ export class CustomHeader extends Component<any, any> {
       : this.setState({
           login: false,
         });
+  }
+
+  signOut() {
+    localStorageManager.removeAccessToken();
+    this.setState({
+      login: false,
+    });
   }
 
   public componentWillUnmount() {
@@ -56,7 +65,7 @@ export class CustomHeader extends Component<any, any> {
           {this.state.login ? (
             <div className="header-right">
               <span className="reputation">Reputation: {20}</span>
-              <UserInfo />
+              <UserInfo signOut={this.signOut}/>
             </div>
           ) : (
             <div className="header-right">

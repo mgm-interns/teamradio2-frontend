@@ -10,4 +10,7 @@ export const localStorageManager = {
   setAccessToken: (token: AccessToken) => {
     localStorage.setItem(accessTokenKey, JSON.stringify(token));
   },
+  removeAccessToken: () => {
+    localStorage.removeItem(accessTokenKey);
+  },
 };

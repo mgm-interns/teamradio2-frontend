@@ -26,6 +26,7 @@ export class UserInfo extends Component<any, any> {
   }
 
   public render() {
+    const { signOut } = this.props;
     return (
       <div className="user-info">
         <Dropdown
@@ -51,7 +52,10 @@ export class UserInfo extends Component<any, any> {
               <i className="fa fa-question-circle"/>Help
             </DropdownItem>
             <DropdownItem className="drop-item">
-              <i className="fa fa-sign-out"/>Sign out
+              <div onClick={signOut}>
+                <i className="fa fa-sign-out"  />
+                Sign out
+              </div>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
