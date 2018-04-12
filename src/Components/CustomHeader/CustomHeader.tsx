@@ -20,13 +20,18 @@ export class CustomHeader extends Component<any, any> {
   public componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
     const accessToken = localStorageManager.getAccessToken();
-    accessToken
-      ? this.setState({
-          login: true,
-        })
-      : this.setState({
-          login: false,
-        });
+    if(accessToken) {
+      const userInfo = localStorageManager.getUserInfo();
+      this.setState({
+        login: true,
+        userInfo: JSON.parse(userInfo),
+      });
+    }
+    else {
+      this.setState({
+        login: false,
+      });
+    }
   }
 
   signOut() {
@@ -51,6 +56,7 @@ export class CustomHeader extends Component<any, any> {
   public render() {
     const transformHeader =
       this.state.transform > HEADER_MARGIN ? { filter: 'opacity(0.8)' } : null;
+    const { userInfo } = this.state;
 
     return (
       <header className="app-header" style={transformHeader}>
@@ -64,7 +70,7 @@ export class CustomHeader extends Component<any, any> {
           </div>
           {this.state.login ? (
             <div className="header-right">
-              <UserInfo signOut={this.signOut} />
+              <UserInfo signOut={this.signOut} userInfo={userInfo}/>
             </div>
           ) : (
             <div className="header-right">
