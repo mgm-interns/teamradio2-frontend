@@ -1,6 +1,7 @@
-import { AccessToken } from 'Models/User';
+import { AccessToken, RegisteredUser } from 'Models/User';
 
 const accessTokenKey = 'accessToken';
+const userInfoKey = 'userInfo';
 
 export const localStorageManager = {
   getAccessToken: (): AccessToken => {
@@ -13,4 +14,7 @@ export const localStorageManager = {
   removeAccessToken: () => {
     localStorage.removeItem(accessTokenKey);
   },
+  setUserInfo: (userInfo: RegisteredUser) => {
+    localStorage.setItem(userInfoKey, JSON.stringify(userInfo));
+  }
 };
