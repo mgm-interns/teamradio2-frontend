@@ -64,8 +64,7 @@ export class CustomHeader extends Component<any, any> {
           </div>
           {this.state.login ? (
             <div className="header-right">
-              <span className="reputation">Reputation: {20}</span>
-              <UserInfo signOut={this.signOut}/>
+              <UserInfo signOut={this.signOut} />
             </div>
           ) : (
             <div className="header-right">
