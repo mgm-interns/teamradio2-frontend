@@ -3,7 +3,12 @@ import { Component } from 'react';
 import { Container, Nav, NavItem, NavLink, Row } from 'reactstrap';
 import { SelectFormButton } from './SelectFormButton';
 
-export class ProfileNavBar extends Component<any, any> {
+interface IProfileNavBarStates {
+  isOpenStation: boolean;
+  isOpenFavouriteSong: boolean;
+}
+
+export class ProfileNavBar extends Component<{}, IProfileNavBarStates> {
   constructor(props: any) {
     super(props);
 
@@ -28,7 +33,6 @@ export class ProfileNavBar extends Component<any, any> {
   }
 
   public render() {
-    const { userInformation } = this.props;
     return (
       <Container>
         <Row>
@@ -57,7 +61,7 @@ export class ProfileNavBar extends Component<any, any> {
             </Nav>
           </div>
           <div className="col-sm-1">
-            <SelectFormButton userInformation={userInformation} />
+            <SelectFormButton />
           </div>
         </Row>
       </Container>

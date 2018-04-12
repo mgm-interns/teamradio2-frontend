@@ -1,4 +1,3 @@
-import { RegisteredUser } from "Models";
 import { InformationForm } from 'Modules/User/Components/InformationForm';
 import { PasswordForm } from 'Modules/User/Components/PasswordForm';
 import * as React from 'react';
@@ -8,12 +7,13 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  Modal,
+  ModalBody,
+  ModalHeader,
 } from 'reactstrap';
-import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import './SelectFormButton.scss';
 
 export class SelectFormButton extends Component<any, any> {
-
   constructor(props: any) {
     super(props);
     this.state = {
@@ -21,14 +21,12 @@ export class SelectFormButton extends Component<any, any> {
       openInformationForm: false,
       openPasswordForm: false,
     };
-
     this.toggle = this.toggle.bind(this);
     this.renderInformationForm = this.renderInformationForm.bind(this);
     this.renderPasswordForm = this.renderPasswordForm.bind(this);
     this.openInformationForm = this.openInformationForm.bind(this);
     this.openPasswordForm = this.openPasswordForm.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
-    this.updateUserInfo = this.updateUserInfo.bind(this);
   }
 
   public toggle() {
@@ -74,11 +72,10 @@ export class SelectFormButton extends Component<any, any> {
   }
 
   public renderInformationForm() {
-    const { userInformation } = this.props;
     return this.renderModal(
       this.state.openInformationForm,
       'Edit your information',
-      <InformationForm onCloseModal={() => this.onCloseModal()} userInformation={userInformation} updateUserInfo={this.updateUserInfo}/>,
+      <InformationForm onCloseModal={() => this.onCloseModal()} />,
     );
   }
 
@@ -88,10 +85,6 @@ export class SelectFormButton extends Component<any, any> {
       'Edit your password',
       <PasswordForm onCloseModal={() => this.onCloseModal()} hadPass={true} />,
     );
-  }
-
-  public updateUserInfo(userInfo: any) {
-    console.log(userInfo);
   }
 
   public render() {

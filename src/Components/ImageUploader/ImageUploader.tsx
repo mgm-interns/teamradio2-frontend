@@ -17,6 +17,7 @@ export class ImageUploader extends Component<any, any> {
     this.state = {
       isUploadingImage: false,
       isOpenCropModal: false,
+      isSubmitting: false,
       uploadedImage: '',
       croppedImage: '',
     };
@@ -27,15 +28,6 @@ export class ImageUploader extends Component<any, any> {
     this.uploadImageToServer = this.uploadImageToServer.bind(this);
     this.responseImageUrl = this.responseImageUrl.bind(this);
     this.setAllValueToDefault = this.setAllValueToDefault.bind(this);
-  }
-
-  public componentWillMount() {
-    this.setState({
-      isUploadingImage: false,
-      isOpenCropModal: false,
-      uploadedImage: '',
-      croppedImage: '',
-    });
   }
 
   public openChooseImageModal() {
@@ -52,6 +44,7 @@ export class ImageUploader extends Component<any, any> {
     const { isUpdateAvatar } = this.props;
     this.setState({
       isUploadingImage: true,
+      isSubmitting: true,
     });
     if (isUpdateAvatar) {
       this.uploadUserAvatar();
@@ -109,6 +102,7 @@ export class ImageUploader extends Component<any, any> {
     this.setState({
       isUploadingImage: false,
       isOpenCropModal: false,
+      isSubmitting: false,
       uploadedImage: '',
       croppedImage: '',
     });
@@ -142,7 +136,7 @@ export class ImageUploader extends Component<any, any> {
             isOpen={this.state.isOpenCropModal}
             toggle={this.setAllValueToDefault}>
             <ModalHeader>Crop your photo</ModalHeader>
-            <ModalBody className="cropper-modal-body">
+            <ModalBody>
               <Cropper
                 // tslint:disable-next-line
                 ref="cropper"
@@ -150,12 +144,15 @@ export class ImageUploader extends Component<any, any> {
                 aspectRatio={aspectRatio}
                 guides={false}
                 crop={this.cropImage}
-                className="copper"
+                style={{ width: 465, height: 465 }}
               />
             </ModalBody>
             <ModalFooter>
               <div className="cropper-modal-footer">
-                <Button color="primary" onClick={this.uploadImageToServer}>
+                <Button
+                  color="primary"
+                  disabled={this.state.isSubmitting}
+                  onClick={this.uploadImageToServer}>
                   Apply
                 </Button>
                 <Button color="secondary" onClick={this.setAllValueToDefault}>
