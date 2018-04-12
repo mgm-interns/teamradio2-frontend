@@ -3,7 +3,6 @@ import { Song } from 'Models/Song';
 import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { StationPlaylistSSE } from 'Services/SSE';
 import { Favourite } from './Favourite';
@@ -20,9 +19,11 @@ interface IStateProps {
   playlist: Song[];
 }
 
-interface IOwnProps {} // tslint:disable-line
+interface IOwnProps {
+  stationId: string;
+}
 
-type IProps = IStateProps & IOwnProps & RouteComponentProps<any>;
+type IProps = IStateProps & IOwnProps;
 
 interface IState {
   activeTab: string;
@@ -30,8 +31,6 @@ interface IState {
 
 export class PlaylistTabsComponent extends Component<IProps, IState> {
   private stationPlaylistSSE: StationPlaylistSSE;
-
-  private unlistenRouterEvents: () => void;
 
   constructor(props: any) {
     super(props);
@@ -50,15 +49,26 @@ export class PlaylistTabsComponent extends Component<IProps, IState> {
       activeTab: tabId,
     });
   }
+
   public componentDidMount() {
-    const { match } = this.props;
-    this.startSSEService(match.params.stationId);
-    this.registerRouterEvents();
+    const { stationId } = this.props;
+    this.startSSEService(stationId);
   }
 
   public componentWillUnmount() {
     this.stationPlaylistSSE.close();
-    this.unregisterRouteEvents();
+  }
+
+  public componentWillReceiveProps(nextProps: IProps) {
+    const { stationId: oldStationId } = this.props;
+    const { stationId: nextStationId } = nextProps;
+
+    if (oldStationId !== nextStationId) {
+      // Close old SSE instance
+      this.stationPlaylistSSE.close();
+      // Open new instance
+      this.startSSEService(nextStationId);
+    }
   }
 
   public render() {
@@ -113,35 +123,6 @@ export class PlaylistTabsComponent extends Component<IProps, IState> {
     this.stationPlaylistSSE = new StationPlaylistSSE(stationId);
     this.stationPlaylistSSE.start();
   }
-
-  private registerRouterEvents = () => {
-    this.unlistenRouterEvents = this.props.history.listen(location => {
-      const stationId = this.parseStationId(location.pathname);
-      // Close old SSE instance
-      this.stationPlaylistSSE.close();
-      // Open new instance
-      this.startSSEService(stationId);
-    });
-  };
-
-  private unregisterRouteEvents = () => {
-    this.unlistenRouterEvents();
-  };
-
-  private parseStationId = (pathname: string) => {
-    const PATHNAME_REGEX = /(station\/)(.{0,})/;
-
-    // Default station id if there is no station
-    let stationId = '';
-
-    const regexResult = PATHNAME_REGEX.exec(pathname);
-
-    if (regexResult && regexResult[2]) {
-      stationId = regexResult[2];
-    }
-
-    return stationId;
-  };
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
@@ -151,4 +132,4 @@ const mapStateToProps = (state: IApplicationState): IStateProps => ({
 export const PlaylistTabs = connect<IStateProps, {}, IOwnProps>(
   mapStateToProps,
   null,
-)(withRouter<IProps>(PlaylistTabsComponent));
+)(PlaylistTabsComponent);

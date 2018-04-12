@@ -1,10 +1,6 @@
 import { Station as StationModel } from 'Models/Station';
 import { AddSong, StationBrowser } from 'Modules/Station';
-import {
-  NowPlaying,
-  PlaylistTabs,
-  StationHeader,
-} from 'Modules/Station';
+import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -68,7 +64,7 @@ export class Station extends Component<
             </Col>
             <Col xs={12} xl={4} className="mt-3">
               <div className="playlist-tabs-container">
-                <PlaylistTabs />
+                <PlaylistTabs stationId={stationId} />
               </div>
             </Col>
             <Col xs={12}>
