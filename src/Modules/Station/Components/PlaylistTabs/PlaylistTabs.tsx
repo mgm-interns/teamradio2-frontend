@@ -25,8 +25,13 @@ interface IOwnProps {
 
 type IProps = IStateProps & IOwnProps;
 
-export class PlaylistTabsComponent extends Component<IProps, any> {
+interface IState {
+  activeTab: string;
+}
+
+export class PlaylistTabsComponent extends Component<IProps, IState> {
   private stationPlaylistSSE: StationPlaylistSSE;
+
   constructor(props: any) {
     super(props);
 
@@ -45,11 +50,6 @@ export class PlaylistTabsComponent extends Component<IProps, any> {
     });
   }
 
-  public startSSEService(stationId: string) {
-    this.stationPlaylistSSE = new StationPlaylistSSE(stationId);
-    this.stationPlaylistSSE.start();
-  }
-
   public componentDidMount() {
     const { stationId } = this.props;
     this.startSSEService(stationId);
@@ -57,6 +57,18 @@ export class PlaylistTabsComponent extends Component<IProps, any> {
 
   public componentWillUnmount() {
     this.stationPlaylistSSE.close();
+  }
+
+  public componentWillReceiveProps(nextProps: IProps) {
+    const { stationId: oldStationId } = this.props;
+    const { stationId: nextStationId } = nextProps;
+
+    if (oldStationId !== nextStationId) {
+      // Close old SSE instance
+      this.stationPlaylistSSE.close();
+      // Open new instance
+      this.startSSEService(nextStationId);
+    }
   }
 
   public render() {
@@ -105,6 +117,11 @@ export class PlaylistTabsComponent extends Component<IProps, any> {
         </TabContent>
       </div>
     );
+  }
+
+  private startSSEService(stationId: string) {
+    this.stationPlaylistSSE = new StationPlaylistSSE(stationId);
+    this.stationPlaylistSSE.start();
   }
 }
 

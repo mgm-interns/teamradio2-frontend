@@ -1,6 +1,6 @@
 import { Station as StationModel } from 'Models/Station';
 import { AddSong, StationBrowser } from 'Modules/Station';
-import { ChatBox, NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
+import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
@@ -74,10 +74,10 @@ export class Station extends Component<
               </div>
             </Col>
             {/*<Col xs={12} >*/}
-              {/*<div className="chat-box-container">*/}
-                {/*<h1>Chat Box</h1>*/}
-                {/*<ChatBox />*/}
-              {/*</div>*/}
+            {/*<div className="chat-box-container">*/}
+            {/*<h1>Chat Box</h1>*/}
+            {/*<ChatBox />*/}
+            {/*</div>*/}
             {/*</Col>*/}
           </Row>
         </Col>
@@ -86,19 +86,8 @@ export class Station extends Component<
   }
 
   private parseStationId() {
-    const { history: { location: { pathname } } } = this.props;
+    const { match } = this.props;
 
-    const PATHNAME_REGEX = /(station\/)(.{0,})/;
-
-    // Default station id if there is no station
-    let stationId = '';
-
-    const regexResult = PATHNAME_REGEX.exec(pathname);
-
-    if (regexResult && regexResult[2]) {
-      stationId = regexResult[2];
-    }
-
-    return stationId;
+    return match.params.stationId;
   }
 }

@@ -49,15 +49,16 @@ class OriginStationHeader extends Component<
 
   public componentWillMount() {
     const { stationId } = this.props;
-    this.stationServices.getStationById(stationId).subscribe(
-      (station: any) => {
-        this.setState({ station });
-      },
-      err => {
-        // If station not found, redirect user to home page
-        this.props.history.replace('/');
-      },
-    );
+    this.updateStation(stationId);
+  }
+
+  public componentWillReceiveProps(nextProps: IProps) {
+    const { stationId: oldStationId } = this.props;
+    const { stationId: nextStationId } = nextProps;
+
+    if (oldStationId !== nextStationId) {
+      this.updateStation(nextStationId);
+    }
   }
 
   public renderButton = (
@@ -93,6 +94,18 @@ class OriginStationHeader extends Component<
           <ConfigurationButton />
         </div>
       </Row>
+    );
+  }
+
+  private updateStation = (stationId: string) => {
+    this.stationServices.getStationById(stationId).subscribe(
+      (station: any) => {
+        this.setState({ station });
+      },
+      err => {
+        // If station not found, redirect user to home page
+        this.props.history.replace('/');
+      },
     );
   }
 }
