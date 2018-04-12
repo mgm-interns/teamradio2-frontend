@@ -11,7 +11,7 @@ export interface IFavoriteSongProfileItem {
 }
 
 interface IFavoriteSongProfileItemStates {
-  isOpenTrash: boolean;
+  isShowTrash: boolean;
 }
 
 class FSPItem extends Component<
@@ -22,7 +22,7 @@ class FSPItem extends Component<
     super(props);
     this.handleMouseHover = this.handleMouseHover.bind(this);
     this.state = {
-      isOpenTrash: false,
+      isShowTrash: false,
     };
   }
 
@@ -32,7 +32,7 @@ class FSPItem extends Component<
 
   public toggleHoverState() {
     return {
-      isOpenTrash: !this.state.isOpenTrash,
+      isShowTrash: !this.state.isShowTrash,
     };
   }
 
@@ -43,7 +43,7 @@ class FSPItem extends Component<
         className="favorite-song-item p-2 my-flex-item"
         onMouseEnter={this.handleMouseHover}
         onMouseLeave={this.handleMouseHover}>
-        {this.state.isOpenTrash && (
+        {this.state.isShowTrash && (
           <div className="trash-favorite-song">
             <a href="#">
               <span className="w3-jumbo w3-teal ">
