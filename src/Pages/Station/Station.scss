@@ -73,4 +73,12 @@ $mq-xlarge: "(min-width: #{$bp-xlarge})";
     color: white;
     border: none;
   }
+
+  .progress {
+    height: 0.2rem;
+  }
+
+  .progress-bar {
+    background: rgb(224, 106, 78) !important;
+  }
 }

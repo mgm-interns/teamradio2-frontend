@@ -3,13 +3,21 @@ import { AddSong, StationBrowser } from 'Modules/Station';
 import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Col, Modal, ModalBody, Row } from 'reactstrap';
+import { compose } from 'redux';
+import { IApplicationState } from '../../Configuration/Redux';
+import { NowPlayingSong } from '../../Models/Song';
 import './Station.scss';
+
+interface IStateProps {
+  nowPlaying: NowPlayingSong;
+}
 
 interface IOwnProps {} // tslint:disable-line
 
-type IProps = IOwnProps;
+type IProps = IOwnProps & IStateProps;
 
 interface IState {
   muted: boolean;
@@ -17,7 +25,7 @@ interface IState {
   station: StationModel;
 }
 
-export class Station extends Component<
+class StationComponent extends Component<
   IProps & RouteComponentProps<any>,
   IState
 > {
@@ -29,6 +37,12 @@ export class Station extends Component<
       isPassive: false,
       station: null,
     };
+  }
+
+  public componentWillReceiveProps(nextProps: IProps) {
+    if (!nextProps.nowPlaying) {
+      this.setState({ isPassive: false });
+    }
   }
 
   public onVolumeClick = () => {
@@ -137,3 +151,12 @@ export class Station extends Component<
     return match.params.stationId;
   }
 }
+
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
+  nowPlaying: state.playlist.nowPlaying,
+});
+
+export const Station = compose(
+  connect<IStateProps, {}, IOwnProps>(mapStateToProps, undefined),
+  withRouter,
+)(StationComponent);
