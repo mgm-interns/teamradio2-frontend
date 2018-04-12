@@ -74,6 +74,11 @@ $mq-xlarge: "(min-width: #{$bp-xlarge})";
     border: none;
   }
 
+  .modal-body {
+    height: 80vh;
+    max-width: 90vw;
+  }
+
   .progress {
     height: 0.2rem;
   }

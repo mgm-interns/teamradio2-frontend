@@ -76,7 +76,7 @@ class StationComponent extends Component<
         backdrop="static" // disable click event on backdrop
         className="d-flex mt-0 mb-0 align-items-center" // add classNames for modal-dialog
       >
-        <ModalBody>
+        <ModalBody className="d-flex flex-column">
           <StationHeader
             muted={muted}
             isPassive={isPassive}
