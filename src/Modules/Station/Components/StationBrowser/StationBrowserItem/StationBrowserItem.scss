@@ -1,50 +1,75 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
 .station-item {
-  padding: 10px;
+  flex-direction: column;
+  padding: 3px 6px;
+  cursor: pointer;
 
-  &:first-child {
-    padding-left: 0;
+  @include media-breakpoint-up(sm) {
+    padding: 8px;
   }
 
-  &:last-child {
-    padding-right: 0;
+  .thumbnail {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    transition: all 0.3s;
+
+    @include media-breakpoint-up(sm) {
+      width: 120px;
+      height: 120px;
+    }
+
+    @include media-breakpoint-up(md) {
+      width: 160px;
+      height: 160px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
   }
 
-  &:hover {
-    cursor: pointer;
-    -webkit-transform: scale(1.05); /* Safari 3-8 */
-    transform: scale(1.05);
+  .online-users {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2px 12px;
+    background-color: rgba(0,0,0,.56);
+    color: white;
+    font-size: 10px;
 
-    .station-name {
-      color: #d55b1c;
+    @include media-breakpoint-up(sm) {
+      font-size: 12px;
     }
   }
 
   .station-name {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    font-size: 1.05em;
-    margin: 5px;
-    padding-top: 2px;
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100px;
+
+      @include media-breakpoint-up(sm) {
+        width: 120px;
+      }
+
+      @include media-breakpoint-up(md) {
+        width: 160px;
+      }
+    }
   }
 
-  .station-thumbnail {
-    background-size: 100%;
-
-    img {
-      max-width: 100%;
-    }
-
-    .online-user {
-      height: 15%;
-      background-color: rgba(108, 108, 108, 0.56);
-      text-align: left;
-      padding-left: 5%;
-      color: #ffffff;
-
-      .fa-circle {
-        color: #51ff9a;
-      }
+  &:hover, &:active {
+    .thumbnail {
+      transform: scale(1.03, 1.03);
     }
   }
 }
