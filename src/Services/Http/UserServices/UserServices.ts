@@ -30,18 +30,18 @@ export class UserServices {
   }
 
   public updateUserInfo(user: RegisteredUser): Observable<any> {
-    return this._httpServices.patch('users/me', user);
+    return this._httpServices.patch(`${this.serviceUrl}/me`, user);
   }
 
   public uploadUserAvatar(userAvatar: Blob): Observable<any> {
     const formData = new FormData();
     formData.append("file", userAvatar);
-    return this._httpServices.patch('users/me/avatar', formData );
+    return this._httpServices.patch(`${this.serviceUrl}/me/avatar`, formData );
   }
 
   public uploadUserCover(userAvatar: Blob): Observable<any> {
     const formData = new FormData();
     formData.append("file", userAvatar);
-    return this._httpServices.patch('users/me/cover', formData );
+    return this._httpServices.patch(`${this.serviceUrl}/me/cover`, formData );
   }
 }
