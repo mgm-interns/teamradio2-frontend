@@ -1,3 +1,4 @@
+import { localStorageManager } from 'Helpers/LocalStorageManager';
 import * as React from 'react';
 import { Component } from 'react';
 import { UserInfo } from '../UserInfo';
@@ -13,18 +14,30 @@ export class CustomHeader extends Component<any, any> {
       transform: 0,
     };
     this.handleScroll = this.handleScroll.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
   public componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    const accessToken = localStorage.getItem('accessToken');
-    accessToken
-      ? this.setState({
-          login: true,
-        })
-      : this.setState({
-          login: false,
-        });
+    const accessToken = localStorageManager.getAccessToken();
+    if (accessToken) {
+      const userInfo = localStorageManager.getUserInfo();
+      this.setState({
+        login: true,
+        userInfo: JSON.parse(userInfo),
+      });
+    } else {
+      this.setState({
+        login: false,
+      });
+    }
+  }
+
+  public signOut() {
+    localStorageManager.removeAccessToken();
+    this.setState({
+      login: false,
+    });
   }
 
   public componentWillUnmount() {
@@ -42,6 +55,7 @@ export class CustomHeader extends Component<any, any> {
   public render() {
     const transformHeader =
       this.state.transform > HEADER_MARGIN ? { filter: 'opacity(0.8)' } : null;
+    const { userInfo } = this.state;
 
     return (
       <header className="app-header" style={transformHeader}>
@@ -49,14 +63,13 @@ export class CustomHeader extends Component<any, any> {
           <div className="header-left">
             <div className="logo">
               <a href="/">
-                <img alt="logo" src="/img/logo.png"/>
+                <img alt="logo" src="/img/logo.png" />
               </a>
             </div>
           </div>
           {this.state.login ? (
             <div className="header-right">
-              <span className="reputation">Reputation: {20}</span>
-              <UserInfo />
+              <UserInfo signOut={this.signOut} userInfo={userInfo} />
             </div>
           ) : (
             <div className="header-right">

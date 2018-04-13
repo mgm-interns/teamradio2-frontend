@@ -3,6 +3,8 @@ import { Rules, Validator } from 'Helpers/index';
 import { RegisteredUser } from 'Models/User';
 import * as React from 'react';
 import { Component } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http/index';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
@@ -10,11 +12,14 @@ interface IState extends IFormProps {} // tslint:disable-line
 
 interface IProps {} // tslint:disable-line
 
-export class RegisterForm extends Component<IProps, IState> {
+export class RegisterFormComponent extends Component<
+  IProps & RouteComponentProps<any>,
+  IState
+> {
   private userServices: UserServices;
   private initialValues: FormValues;
 
-  constructor(props: IProps) {
+  constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
 
     this.initialValues = {
@@ -70,6 +75,7 @@ export class RegisterForm extends Component<IProps, IState> {
         this.showFormAlerSuccess();
         setSubmitting(false);
         resetForm();
+        this.props.history.push('/login');
       },
       (err: string) => {
         this.showFormAlertError(err);
@@ -139,3 +145,5 @@ export class RegisterForm extends Component<IProps, IState> {
     );
   }
 }
+
+export const RegisterForm = withRouter(RegisterFormComponent);

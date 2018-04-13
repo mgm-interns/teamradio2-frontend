@@ -1,8 +1,11 @@
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
+import { localStorageManager } from 'Helpers/LocalStorageManager';
 import { AccessToken, UnauthorizedUser } from 'Models/User';
 import * as React from 'react';
 import { Component } from 'react';
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
@@ -10,11 +13,14 @@ interface IState extends IFormProps {} // tslint:disable-line
 
 interface IProps {} // tslint:disable-line
 
-export class LoginForm extends Component<IProps, IState> {
+export class LoginFormComponent extends Component<
+  IProps & RouteComponentProps<any>,
+  IState
+> {
   private initialValues: FormValues;
   private userServices: UserServices;
 
-  constructor(props: IProps) {
+  constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
 
     this.initialValues = {
@@ -61,6 +67,17 @@ export class LoginForm extends Component<IProps, IState> {
         this.showFormAlerSuccess();
         setSubmitting(false);
         resetForm();
+        this.userServices.getCurrentUserProfile().subscribe(
+          userInfo => {
+            localStorageManager.setUserInfo(userInfo);
+            // this.props.history.push('/');
+            // TODO: Update user info on header instead of redirecting
+            window.location.href = '/';
+          },
+          err => {
+            console.log(err);
+          },
+        );
       },
       (err: any) => {
         console.log(err);
@@ -103,3 +120,5 @@ export class LoginForm extends Component<IProps, IState> {
     );
   }
 }
+
+export const LoginForm = withRouter(LoginFormComponent);
