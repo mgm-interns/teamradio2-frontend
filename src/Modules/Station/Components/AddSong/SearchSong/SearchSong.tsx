@@ -95,7 +95,7 @@ export class SearchSong extends Component<any, ISearchSongState> {
     );
   }
 
-  private clearInput = () => {
+  public clearInput = () => {
     this.setState({
       value: '',
     });
