@@ -1,3 +1,4 @@
+import { Station } from 'Models/Station';
 import { Reducer } from 'redux';
 import { actionTypes } from '../Constants';
 import { IStationState } from '../Types';
@@ -6,16 +7,7 @@ import { IStationState } from '../Types';
 export const initialState: IStationState = {
   nowPlaying: null,
   playlist: [],
-  station: {
-    id: '',
-    name: '',
-    ownerId: '',
-    playlist: [],
-    privacy: '',
-    starttingTime: 0,
-    deleted: false,
-    createAt: '',
-  },
+  station: new Station(),
   users: [],
 };
 

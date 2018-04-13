@@ -46,7 +46,7 @@ class OriginStationHeader extends Component<IProps, any> {
 
   public componentDidMount() {
     const { stationId } = this.props;
-    this.startSSEService(stationId);
+    this.updateStation(stationId);
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
@@ -113,7 +113,12 @@ class OriginStationHeader extends Component<IProps, any> {
   }
 
   private updateStation = (stationId: string) => {
-    this.startSSEService(stationId);
+    if (this.stationSSE) {
+      this.stationSSE.close();
+      this.startSSEService(stationId);
+    } else {
+      this.startSSEService(stationId);
+    }
   };
 }
 
