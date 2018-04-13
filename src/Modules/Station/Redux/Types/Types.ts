@@ -1,10 +1,12 @@
 import { NowPlayingSong, Song } from 'Models/Song';
+import { Station } from 'Models/Station';
+import { RegisteredUser } from 'Models/User';
 
-export interface IPlaylistState {
+export interface IStationState {
   nowPlaying: NowPlayingSong;
   playlist: Song[];
-  error?: string | null;
-  loading?: boolean;
+  station: Station;
+  users: RegisteredUser[];
 }
 
 export interface ISong {

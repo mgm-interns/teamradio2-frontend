@@ -153,7 +153,7 @@ class StationComponent extends Component<
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
-  nowPlaying: state.playlist.nowPlaying,
+  nowPlaying: state.station.nowPlaying,
 });
 
 export const Station = compose(
