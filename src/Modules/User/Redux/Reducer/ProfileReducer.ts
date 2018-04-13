@@ -1,12 +1,12 @@
+import { actionTypes } from "Modules/User/Redux/Constants";
 import { Reducer } from 'redux';
-import { actionTypes } from '../Constants';
-import { IUser } from '../Types';
+import { IUser } from "../Types";
 
 const userInitialState: IUser = {
   userInfo: null,
 };
 
-export const userReducer: Reducer<IUser> = (
+export const profileReducer: Reducer<IUser> = (
   state: IUser = userInitialState,
   action,
 ) => {

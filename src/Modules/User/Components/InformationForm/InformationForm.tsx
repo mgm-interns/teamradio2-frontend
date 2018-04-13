@@ -1,12 +1,12 @@
 import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
+import { RegisteredUser } from 'Models/User';
+import { updateUserInfo } from 'Modules/User/Redux/Actions';
 import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Button, Col, FormFeedback, FormGroup, Label, Row } from 'reactstrap';
 import { UserServices } from 'Services/Http';
-import { RegisteredUser } from '../../../../Models/User';
-import { updateUserInfo } from '../../../Station/Redux/Actions';
 import './InformationForm.scss';
 
 interface IFormValues {

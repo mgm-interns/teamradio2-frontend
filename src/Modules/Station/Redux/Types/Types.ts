@@ -1,5 +1,4 @@
 import { NowPlayingSong, Song } from 'Models/Song';
-import { RegisteredUser } from "../../../../Models/User";
 
 export interface IPlaylistState {
   nowPlaying: NowPlayingSong;
@@ -12,6 +11,7 @@ export interface ISong {
   song_id?: string;
   title: string;
   isPlaying?: boolean;
+  thumbnail: string;
   creator?: object;
   duration: string;
   willBeSkipped?: boolean;
@@ -20,8 +20,3 @@ export interface ISong {
   downVotes?: number;
   url: string;
 }
-
-export interface IUser {
-  userInfo: RegisteredUser;
-}
-

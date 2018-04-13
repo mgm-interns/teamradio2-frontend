@@ -1,18 +1,18 @@
 import { ImageUploader } from 'Components/index';
+import { IApplicationState } from 'Configuration/Redux';
+import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row } from 'reactstrap';
-import { IApplicationState } from '../../../../../Configuration/Redux';
-import { RegisteredUser } from '../../../../../Models';
-import { UserServices } from '../../../../../Services/Http';
+import { UserServices } from 'Services/Http';
 import './ProfileHeader.scss';
 
-interface IProfileHeaderProps {
+interface IProps {
   userInfo: RegisteredUser;
 }
 
-interface IProfileHeaderStates {
+interface IStates {
   name: string;
   username: string;
   avatarUrl: string;
@@ -24,8 +24,8 @@ interface IProfileHeaderStates {
 }
 
 export class ProfileHeaders extends Component<
-  IProfileHeaderProps,
-  IProfileHeaderStates
+  IProps,
+  IStates
 > {
   private imageUploader: any;
   private readonly userServices: UserServices;
@@ -64,7 +64,7 @@ export class ProfileHeaders extends Component<
   }
 
   public componentWillReceiveProps(nextProps: any) {
-    const newUserInfo = nextProps.userInfo.userInfo.userInfoUpdated;
+    const newUserInfo = nextProps.userInfo.userInfoUpdated;
     this.setState({
       name: newUserInfo.name || '',
       username: newUserInfo.username || '',
@@ -102,7 +102,7 @@ export class ProfileHeaders extends Component<
     this.imageUploader.openChooseImageModal();
   }
 
-  public setImageUploadUrl(imageUploadUrl: any) {
+  public setImageUploadUrl(imageUploadUrl: string) {
     if (this.state.isUpdateAvatar) {
       this.setState({
         avatarUrl: imageUploadUrl,
@@ -201,7 +201,7 @@ export class ProfileHeaders extends Component<
 }
 
 const mapStateToProps = (state: IApplicationState) => ({
-  userInfo: state.userInfo,
+  userInfo: state.userInfo.userInfo,
 });
 
 export const ProfileHeader = connect(mapStateToProps, null)(ProfileHeaders);
