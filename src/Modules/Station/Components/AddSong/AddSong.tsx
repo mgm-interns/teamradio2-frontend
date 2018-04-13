@@ -12,6 +12,7 @@ import { SearchSong } from './SearchSong';
 interface IAddLinkState {
   preview: any;
   message: string;
+  clearText: boolean;
 }
 
 interface IAddLinkProps {
@@ -32,6 +33,7 @@ export class AddSongComponent extends Component<IAddLinkProps, IAddLinkState> {
     this.state = {
       preview: null,
       message: null,
+      clearText: false
     };
 
     this.setPreviewVideo = this.setPreviewVideo.bind(this);
@@ -58,6 +60,7 @@ export class AddSongComponent extends Component<IAddLinkProps, IAddLinkState> {
     this.songServices.addSong(stationId, videoId, message).subscribe(
       (res: Song) => {
         this.setPreviewVideo(null);
+        this.setState({clearText: !this.state.clearText});
       },
       (err: any) => {
         console.log(`Add song error: ${err}`);
@@ -72,7 +75,7 @@ export class AddSongComponent extends Component<IAddLinkProps, IAddLinkState> {
           <CardBody>
             <Row>
               <Col lg="4" xs="12">
-                <SearchSong setPreviewVideo={this.setPreviewVideo} />
+                <SearchSong setPreviewVideo={this.setPreviewVideo} clearText={this.state.clearText}/>
               </Col>
               <Col lg="8" xs="12">
                 <PreviewVideo
