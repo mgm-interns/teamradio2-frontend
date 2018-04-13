@@ -65,6 +65,7 @@ export class LoginForm extends Component<IProps, IState> {
         this.userServices.getCurrentUserProfile().subscribe(
           (userInfo) => {
             localStorageManager.setUserInfo(userInfo);
+
           },
           err => {
             console.log(err);
