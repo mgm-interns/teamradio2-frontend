@@ -20,12 +20,6 @@ export class SearchSong extends Component<any, ISearchSongState> {
     };
   }
 
-  componentWillReceiveProps(nextProps: any) {
-    if (nextProps.clearText !== this.props.clearText) {
-      this.clearInput()
-    }
-  }
-
   public getSuggestions = async (value: string) => {
     const items = await YoutubeHelper.fetchVideo(value);
     let videoIds = '';
@@ -101,7 +95,7 @@ export class SearchSong extends Component<any, ISearchSongState> {
     );
   }
 
-  private clearInput = () => {
+  public clearInput = () => {
     this.setState({
       value: '',
     });
