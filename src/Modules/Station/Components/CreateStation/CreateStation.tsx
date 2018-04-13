@@ -2,7 +2,7 @@ import { Field, Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { Station } from 'Models/Station';
 import * as React from 'react';
-import { Component } from 'react';
+import {Component, FormEvent} from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
 import { StationServices } from 'Services/Http';
@@ -11,12 +11,11 @@ import './CreateStation.scss';
 interface IStationFormValues {
   name: string;
   serverError?: string;
-  error: number;
 }
 
 interface IFormProps {
   initialStationName?: string;
-  handleSubmit: any;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   serverError?: string;
 }
 
