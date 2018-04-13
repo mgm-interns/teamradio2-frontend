@@ -34,9 +34,7 @@ export class UserInfo extends Component<any, any> {
           <Dropdown
             className="drop-down"
             isOpen={this.state.dropdownOpen}
-            toggle={() => {
-              this.toggle();
-            }}>
+            toggle={this.toggle}>
             <DropdownToggle className="nav-link dropdown-toggle button-dropdown-toggle">
               <img
                 className="img-avatar"
