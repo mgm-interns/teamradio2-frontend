@@ -11,12 +11,12 @@ interface IPlayListItemProps {
   downVotes: number;
   id: any;
   title: string;
-  isPlaying: boolean;
   thumbnail: any;
   creator: any;
   duration: number;
   willBeSkipped: boolean;
   message: string;
+  status: string;
 }
 
 export class PlaylistItem extends Component<IPlayListItemProps, any> {
@@ -142,14 +142,14 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
   };
 
   public render() {
-    const { id, title, isPlaying } = this.props;
+    const {id, title, status} = this.props;
 
     const { isFavourite } = this.state;
 
     return (
       <Row
         className={classNames('m-0', 'item-container', {
-          'playing-item': isPlaying,
+          'playing-item': status !== null,
         })}>
         {this._renderThumbnail()}
         <Col xs={9} className="pr-0">
