@@ -26,7 +26,7 @@ export class UserInfo extends Component<any, any> {
   }
 
   public render() {
-    const { signOut, userInfo: {name} } = this.props;
+    const { signOut, userInfo: { name } } = this.props;
     return (
       <Fragment>
         <span className="reputation">Reputation: {20}</span>
@@ -38,7 +38,11 @@ export class UserInfo extends Component<any, any> {
               this.toggle();
             }}>
             <DropdownToggle className="nav-link dropdown-toggle button-dropdown-toggle">
-              <img className="img-avatar" alt="avatar" src="/img/avatars/1.jpg"/>
+              <img
+                className="img-avatar"
+                alt="avatar"
+                src="/img/avatars/1.jpg"
+              />
               <span className="d-md-down-none">{name}</span>
             </DropdownToggle>
             <DropdownMenu right className="drop-down-menu">
@@ -48,14 +52,14 @@ export class UserInfo extends Component<any, any> {
                 {name}
               </DropdownItem>
               <DropdownItem className="drop-item" href="/profile">
-                <i className="fa fa-user"/>Your profile
+                <i className="fa fa-user" />Your profile
               </DropdownItem>
               <DropdownItem className="drop-item" href="/help">
-                <i className="fa fa-question-circle"/>Help
+                <i className="fa fa-question-circle" />Help
               </DropdownItem>
               <DropdownItem className="drop-item">
                 <div onClick={signOut}>
-                  <i className="fa fa-sign-out"  />
+                  <i className="fa fa-sign-out" />
                   Sign out
                 </div>
               </DropdownItem>

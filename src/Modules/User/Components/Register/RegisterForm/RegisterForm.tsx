@@ -3,16 +3,19 @@ import { Rules, Validator } from 'Helpers/index';
 import { RegisteredUser } from 'Models/User';
 import * as React from 'react';
 import { Component } from 'react';
-import { UserServices } from 'Services/Http/index';
-import { FormValues, IFormProps, InnerForm } from './InnerForm';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
+import { UserServices } from 'Services/Http/index';
+import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {} // tslint:disable-line
 
 interface IProps {} // tslint:disable-line
 
-export class RegisterFormComponent extends Component<IProps & RouteComponentProps<any>, IState> {
+export class RegisterFormComponent extends Component<
+  IProps & RouteComponentProps<any>,
+  IState
+> {
   private userServices: UserServices;
   private initialValues: FormValues;
 

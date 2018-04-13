@@ -20,5 +20,5 @@ export const localStorageManager = {
   },
   getUserInfo: () => {
     return localStorage.getItem(userInfoKey);
-  }
+  },
 };
