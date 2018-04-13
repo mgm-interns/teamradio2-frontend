@@ -57,7 +57,7 @@ export class ProfileHeaders extends Component<
         name: userInfo.name || '',
         username: userInfo.username || '',
         avatarUrl: userInfo.avatarUrl || './img/female-01.png',
-        coverUrl: userInfo.coverUrl || './img/profile-cover.png',
+        coverUrl: userInfo.coverUrl || './img/profile-cover.jpg',
         isLoadingUserInfo: false,
       });
     });
