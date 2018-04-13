@@ -19,10 +19,10 @@ export class StationServices {
   }
 
   public createStation(name: string, privacy?: string): Observable<Station> {
-    const params: any = {
+    const body: any = {
       name,
       privacy: privacy || 'station_public'
     };
-    return this._httpServices.post(this.serviceUrl, params);
+    return this._httpServices.post(this.serviceUrl, body);
   }
 }

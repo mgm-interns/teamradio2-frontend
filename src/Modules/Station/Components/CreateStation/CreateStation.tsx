@@ -1,4 +1,4 @@
-import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
+import { Field, Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { Station } from 'Models/Station';
 import * as React from 'react';
@@ -10,15 +10,18 @@ import './CreateStation.scss';
 
 interface IStationFormValues {
   name: string;
+  serverError?: string;
+  error: number;
 }
 
 interface IFormProps {
   initialStationName?: string;
-  handleSubmit: (values: IStationFormValues) => void;
+  handleSubmit: any;
+  serverError?: string;
 }
 
-const InnerForm = (props: FormikProps<IStationFormValues>) => {
-  const { touched, errors, isSubmitting, handleSubmit } = props;
+const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
+  const { touched, errors, handleSubmit, serverError } = props;
 
   return (
     <Form onSubmit={handleSubmit} className="form-wrapper">
@@ -32,52 +35,53 @@ const InnerForm = (props: FormikProps<IStationFormValues>) => {
           />
         </InputGroup>
 
-        <Button
-          color="success"
-          block
-          disabled={isSubmitting}
-          className="button-submit">
+        <Button color="success" block className="button-submit">
           <i className="fa fa-paper-plane-o input--fa" />
         </Button>
       </FormGroup>
 
-      {touched.name &&
-        errors.name && (
-          <FormFeedback className="text-error">{errors.name}</FormFeedback>
-        )}
+      {((touched.name && errors.name) || serverError) && (
+        <FormFeedback className="text-error">
+          {errors.name || serverError}
+        </FormFeedback>
+      )}
     </Form>
   );
 };
 
-const FormWrapper = withFormik<IFormProps, IStationFormValues>({
-  mapPropsToValues: props => {
-    return {
-      name: props.initialStationName || '',
-    };
-  },
-
-  validate: (values: IStationFormValues) => {
-    const errors: FormikErrors<any> = {};
-    const { validStationName, required } = Rules;
-    const stationNameValidator = new Validator('Station name', values.name, [
-      required,
-      validStationName,
-    ]);
-    errors.name = stationNameValidator.validate();
-    return Validator.removeUndefinedError(errors);
-  },
-
-  handleSubmit: (values: IStationFormValues, { props }) => {
-    props.handleSubmit(values);
-  },
-})(InnerForm);
-
 class CreateStationForm extends Component<RouteComponentProps<any>, any> {
   private stationServices: StationServices;
+  private initialValues: any;
 
   constructor(props: RouteComponentProps<any>) {
     super(props);
     this.stationServices = new StationServices();
+
+    this.state = {
+      error: '',
+    };
+
+    this.initialValues = {
+      name: '',
+      error: '',
+    };
+  }
+
+  public componentWillUnmount() {
+    this.setState({ error: '', name: '' });
+  }
+
+  public validate(values: any) {
+    const errors: FormikErrors<any> = {};
+    const { required, validStationName } = Rules;
+    const stationNameValidator = new Validator('Station name', values.name, [
+      required,
+      validStationName,
+    ]);
+
+    errors.name = stationNameValidator.validate();
+
+    return Validator.removeUndefinedError(errors);
   }
 
   public handleSubmit = (formValues: IStationFormValues) => {
@@ -87,13 +91,22 @@ class CreateStationForm extends Component<RouteComponentProps<any>, any> {
         this.props.history.push(`/station/${res.id}`);
       },
       (err: any) => {
-        console.log(`Error when create: ${err}`);
+        this.setState({ error: err || 'Something went wrong!' });
       },
     );
   };
 
   public render() {
-    return <FormWrapper handleSubmit={this.handleSubmit} />;
+    return (
+      <Formik
+        initialValues={this.initialValues}
+        onSubmit={this.handleSubmit}
+        render={formikProps => (
+          <InnerForm {...formikProps} serverError={this.state.error} />
+        )}
+        validate={this.validate}
+      />
+    );
   }
 }
 
