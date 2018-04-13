@@ -7,8 +7,10 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  Modal,
+  ModalBody,
+  ModalHeader,
 } from 'reactstrap';
-import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import './SelectFormButton.scss';
 
 export class SelectFormButton extends Component<any, any> {
@@ -107,17 +109,17 @@ export class SelectFormButton extends Component<any, any> {
               }}>
               <i className="fa fa-user" />Information
             </DropdownItem>
-            <DropdownItem
-              className="drop-item"
-              onClick={() => {
-                this.openPasswordForm();
-              }}>
-              <i className="fa fa-key" />Password
-            </DropdownItem>
+            {/*<DropdownItem*/}
+              {/*className="drop-item"*/}
+              {/*onClick={() => {*/}
+                {/*this.openPasswordForm();*/}
+              {/*}}>*/}
+              {/*<i className="fa fa-key" />Password*/}
+            {/*</DropdownItem>*/}
           </DropdownMenu>
         </Dropdown>
         {this.state.openInformationForm ? this.renderInformationForm() : null}
-        {this.state.openPasswordForm ? this.renderPasswordForm() : null}
+        {/*{this.state.openPasswordForm ? this.renderPasswordForm() : null}*/}
       </div>
     );
   }

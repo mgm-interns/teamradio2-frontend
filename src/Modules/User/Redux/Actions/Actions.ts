@@ -1,1 +1,2 @@
-export { sampleActions } from './sampleActions';
+export * from './sampleActions';
+export * from './ProfileAction';

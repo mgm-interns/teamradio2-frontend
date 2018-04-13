@@ -3,7 +3,12 @@ import { Component } from 'react';
 import { Container, Nav, NavItem, NavLink, Row } from 'reactstrap';
 import { SelectFormButton } from './SelectFormButton';
 
-export class ProfileNavBar extends Component<any, any> {
+interface IProfileNavBarStates {
+  isOpenStation: boolean;
+  isOpenFavouriteSong: boolean;
+}
+
+export class ProfileNavBar extends Component<{}, IProfileNavBarStates> {
   constructor(props: any) {
     super(props);
 

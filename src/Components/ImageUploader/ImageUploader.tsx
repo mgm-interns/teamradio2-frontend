@@ -1,22 +1,27 @@
+import { RegisteredUser } from 'Models/User';
 import * as React from 'react';
 import { Component } from 'react';
 import Cropper from 'react-cropper';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { UserServices } from 'Services/Http';
 import toBase64 from 'Utilities/toBase64';
 import './ImageUploader.scss';
 
 // TODO: solve this tslint problem in class property (public, private)
 export class ImageUploader extends Component<any, any> {
   private inputFileTag: any;
+  private userServices: UserServices;
 
   constructor(props: any) {
     super(props);
     this.state = {
       isUploadingImage: false,
       isOpenCropModal: false,
+      isSubmitting: false,
       uploadedImage: '',
       croppedImage: '',
     };
+    this.userServices = new UserServices();
     this.openChooseImageModal = this.openChooseImageModal.bind(this);
     this.cropImage = this.cropImage.bind(this);
     this.convertImageUploaded = this.convertImageUploaded.bind(this);
@@ -25,52 +30,59 @@ export class ImageUploader extends Component<any, any> {
     this.setAllValueToDefault = this.setAllValueToDefault.bind(this);
   }
 
-  public componentWillMount() {
-    this.setState({
-      isUploadingImage: false,
-      isOpenCropModal: false,
-      uploadedImage: '',
-      croppedImage: '',
-    });
-  }
-
   public openChooseImageModal() {
     this.inputFileTag.click();
   }
 
   public cropImage() {
     this.setState({
-      croppedImage: (this.refs.cropper as any).getCroppedCanvas().toDataURL(),
+      croppedImage: (this.refs.cropper as any).getCroppedCanvas(),
     });
   }
 
   public uploadImageToServer() {
-    // These code for uploading image to server, It will be used when this feature on back-end implemented
-    // const xmlHttpRequest = new XMLHttpRequest();
-    // const formData = new FormData();
-    // xmlHttpRequest.open('POST', SERVER_URL, true);
-    // xmlHttpRequest.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    //
-    // this.setState({
-    //   isUploadingImage: true,
-    // });
-    //
-    // xmlHttpRequest.onreadystatechange = () => {
-    //   if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200) {
-    //     // Get response from server
-    //     this.props.responseAvatarUrl('avatar.png');
-    //
-    //     //Close cropper modal
-    //     this.setState({
-    //       isUploadingImage: false,
-    //       isOpenCropModal: false,
-    //     });
-    //   }
-    // };
-    // formData.append('user_avatar', this.state.croppedImage);
-    // xmlHttpRequest.send(formData);
-    this.responseImageUrl();
-    this.setAllValueToDefault();
+    const { isUpdateAvatar } = this.props;
+    this.setState({
+      isUploadingImage: true,
+      isSubmitting: true,
+    });
+    if (isUpdateAvatar) {
+      this.uploadUserAvatar();
+    } else {
+      this.uploadUserCover();
+    }
+  }
+
+  public uploadUserAvatar() {
+    this.state.croppedImage.toBlob((croppedImageBlob: Blob) => {
+      this.userServices
+        .uploadUserAvatar(croppedImageBlob)
+        .subscribe((userInfo: RegisteredUser) => {
+          this.setState({
+            croppedImage: userInfo.avatarUrl,
+            isUploadingImage: false,
+            isOpenCropModal: false,
+          });
+          this.responseImageUrl();
+          this.setAllValueToDefault();
+        });
+    });
+  }
+
+  public uploadUserCover() {
+    this.state.croppedImage.toBlob((croppedImageBlob: Blob) => {
+      this.userServices
+        .uploadUserCover(croppedImageBlob)
+        .subscribe((userInfo: RegisteredUser) => {
+          this.setState({
+            croppedImage: userInfo.coverUrl,
+            isUploadingImage: false,
+            isOpenCropModal: false,
+          });
+          this.responseImageUrl();
+          this.setAllValueToDefault();
+        });
+    });
   }
 
   public async convertImageUploaded(event: any) {
@@ -90,6 +102,7 @@ export class ImageUploader extends Component<any, any> {
     this.setState({
       isUploadingImage: false,
       isOpenCropModal: false,
+      isSubmitting: false,
       uploadedImage: '',
       croppedImage: '',
     });
@@ -123,7 +136,7 @@ export class ImageUploader extends Component<any, any> {
             isOpen={this.state.isOpenCropModal}
             toggle={this.setAllValueToDefault}>
             <ModalHeader>Crop your photo</ModalHeader>
-            <ModalBody className="cropper-modal-body">
+            <ModalBody>
               <Cropper
                 // tslint:disable-next-line
                 ref="cropper"
@@ -131,12 +144,15 @@ export class ImageUploader extends Component<any, any> {
                 aspectRatio={aspectRatio}
                 guides={false}
                 crop={this.cropImage}
-                className="copper"
+                style={{ width: 465, height: 465 }}
               />
             </ModalBody>
             <ModalFooter>
               <div className="cropper-modal-footer">
-                <Button color="primary" onClick={this.uploadImageToServer}>
+                <Button
+                  color="primary"
+                  disabled={this.state.isSubmitting}
+                  onClick={this.uploadImageToServer}>
                   Apply
                 </Button>
                 <Button color="secondary" onClick={this.setAllValueToDefault}>
