@@ -6,16 +6,18 @@ import { Component } from 'react';
 import { UserServices } from 'Services/Http';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 import { localStorageManager } from "Helpers/LocalStorageManager";
+import { withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 
 interface IState extends IFormProps {} // tslint:disable-line
 
 interface IProps {} // tslint:disable-line
 
-export class LoginForm extends Component<IProps, IState> {
+export class LoginFormComponent extends Component<IProps & RouteComponentProps<any>, IState> {
   private initialValues: FormValues;
   private userServices: UserServices;
 
-  constructor(props: IProps) {
+  constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
 
     this.initialValues = {
@@ -65,13 +67,14 @@ export class LoginForm extends Component<IProps, IState> {
         this.userServices.getCurrentUserProfile().subscribe(
           (userInfo) => {
             localStorageManager.setUserInfo(userInfo);
-
+            // this.props.history.push('/');
+            //TODO: Update user info on header instead of redirecting
+            window.location.href = '/';
           },
           err => {
             console.log(err);
           },
         );
-        console.log(accessToken);
       },
       (err: any) => {
         console.log(err);
@@ -114,3 +117,5 @@ export class LoginForm extends Component<IProps, IState> {
     );
   }
 }
+
+export const LoginForm = withRouter(LoginFormComponent);
