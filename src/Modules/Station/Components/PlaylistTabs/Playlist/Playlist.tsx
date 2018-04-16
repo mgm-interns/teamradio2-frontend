@@ -1,7 +1,11 @@
+import {element} from "prop-types";
 import * as React from 'react';
 import { Component } from 'react';
 import FlipMoveList from 'react-flip-move';
 import { Card, CardBody } from 'reactstrap';
+import {Song} from "../../../../../Models/Song";
+import {UserServices} from "../../../../../Services/Http/UserServices";
+import {FavouriteItem, IFavouriteItem} from "../Favourite/FavouriteItem";
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 
@@ -9,10 +13,17 @@ interface IPlaylistProps {
   playlist: any[];
 }
 
-export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
+interface IFavoriteListProps{
+  favoriteList: IFavouriteItem[];
+}
+
+type Iprops = IPlaylistProps & IFavoriteListProps
+
+export class Playlist extends Component<Iprops, IPlaylistProps> {
+  private userServices: UserServices;
   constructor(props: any) {
     super(props);
-
+    this.userServices = new UserServices()
     this.state = {
       playlist: props.playlist,
     };
@@ -26,6 +37,8 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
     alert('Up vote clicked!');
     // TODO: Implemented upVote function
   };
+
+
 
   public downVote = () => {
     alert('Down vote clicked!');
@@ -45,7 +58,12 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
     });
   }
 
+  public isFavorited(playlistItem: Song, favoriteList: IFavouriteItem[]){
+    return favoriteList.some(item => item.songId === playlistItem.id);
+  }
+
   public render() {
+    console.log(this.props.favoriteList);
     const nowPlaying = true;
     if (!nowPlaying) {
       return (
@@ -64,12 +82,15 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
       <div className="playlist">
         <FlipMoveList className="flip-move-playlist">
           {this.props.playlist.map((song, index) => {
+            console.log(this.isFavorited(song, this.props.favoriteList));
             return (
               <PlaylistItem
                 key={song.id || index}
                 {...song}
+                favoriteList={this.props.favoriteList}
                 upVote={() => this.upVote()}
                 downVote={() => this.downVote()}
+                isFavorite={this.isFavorited(song, this.props.favoriteList)}
               />
             );
           })}
