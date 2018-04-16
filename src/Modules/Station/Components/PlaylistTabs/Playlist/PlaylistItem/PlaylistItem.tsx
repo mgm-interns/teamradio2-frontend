@@ -4,8 +4,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
-import {FavoriteSong} from "../../../../../../Models/FavoriteSong";
-import { UserServices } from "../../../../../../Services/Http/UserServices";
+import { FavoriteSong } from '../../../../../../Models/FavoriteSong';
+import { UserServices } from '../../../../../../Services/Http/UserServices';
 import './PlaylistItem.scss';
 
 interface IPlayListItemProps {
@@ -40,7 +40,7 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
 
   public componentWillReceiveProps(nextProps: IPlayListItemProps) {
     if (this.props.isFavorite !== nextProps.isFavorite) {
-      this.setState({isFavorite: nextProps.isFavorite});
+      this.setState({ isFavorite: nextProps.isFavorite });
     }
   }
 
@@ -57,19 +57,7 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
         },
       );
     }
-
-    this.userServices.deleteFavoriteById(this.props.id).subscribe(
-      (res: FavoriteSong) => {
-        this.setState({
-          isFavorite: !this.state.isFavorite,
-        });
-      },
-      (err: any) => {
-        console.log(`Error when create: ${err}`);
-      },
-    );
   }
-
 
   public setUpVote() {
     const { isUpVote, upVotes } = this.state;

@@ -2,14 +2,14 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import { Component } from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
-import {Song} from "../../../../../../Models/Song";
+import { Song } from '../../../../../../Models/Song';
 import '../../PlaylistTabs.scss';
 
 export interface IFavouriteItem {
-  id: string,
-  userId: string,
-  songId: string,
-  song: Song
+  id: string;
+  userId: string;
+  songId: string;
+  song: Song;
 }
 
 export class FavouriteItem extends Component<any, any> {
