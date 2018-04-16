@@ -11,6 +11,7 @@ interface IProps {
   progress?: number;
   muted: boolean;
   playerRef?: (node: ReactPlayer) => void;
+  onProgress?: (playerState: IReactPlayerPropsOnProgressState) => void;
 }
 
 interface IState {
@@ -18,7 +19,7 @@ interface IState {
   loaded: number;
 }
 
-interface IReactPlayerPropsOnProgressState {
+export interface IReactPlayerPropsOnProgressState {
   played: number;
   playedSeconds: number;
   loaded: number;
@@ -87,13 +88,18 @@ export class StationPlayer extends Component<IProps, IState> {
     }
   };
 
-  private onProgress = ({
-    played,
-    loaded,
-  }: IReactPlayerPropsOnProgressState) => {
-    this.setState({
-      played,
-      loaded,
-    });
+  private onProgress = (playerState: IReactPlayerPropsOnProgressState) => {
+    const { played, loaded } = playerState;
+    this.setState(
+      {
+        played,
+        loaded,
+      },
+      () => {
+        if (this.props.onProgress) {
+          this.props.onProgress(playerState);
+        }
+      },
+    );
   };
 }
