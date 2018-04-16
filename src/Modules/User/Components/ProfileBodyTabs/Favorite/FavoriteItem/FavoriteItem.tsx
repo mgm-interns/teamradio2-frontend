@@ -1,24 +1,24 @@
 import { Component } from 'react';
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Song } from '../../../../../Models/Song';
-import './FavoriteSongProfileItem.scss';
+import {Song} from "../../../../../../Models/Song";
+import './FavoriteItem.scss';
 
-export interface IFavoriteSongProfileItem {
+export interface IFavoriteItem {
   userId: string;
   songId: string;
   song: Song;
 }
 
-interface IFavoriteSongProfileItemStates {
+interface IFavoriteItemStates {
   isShowTrash: boolean;
 }
 
 class FSPItem extends Component<
-  IFavoriteSongProfileItem & RouteComponentProps<any>,
-  IFavoriteSongProfileItemStates
+  IFavoriteItem & RouteComponentProps<any>,
+  IFavoriteItemStates
 > {
-  constructor(props: IFavoriteSongProfileItem & RouteComponentProps<any>) {
+  constructor(props: IFavoriteItem & RouteComponentProps<any>) {
     super(props);
     this.handleMouseHover = this.handleMouseHover.bind(this);
     this.state = {
@@ -37,6 +37,7 @@ class FSPItem extends Component<
   }
 
   public render() {
+    // alert("a");
     const { userId, songId, song } = this.props;
     return (
       <div
@@ -62,4 +63,4 @@ class FSPItem extends Component<
   }
 }
 
-export const FavoriteSongProfileItem = withRouter(FSPItem);
+export const FavoriteItem = withRouter(FSPItem);

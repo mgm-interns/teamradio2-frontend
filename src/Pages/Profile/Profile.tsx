@@ -1,9 +1,8 @@
 import 'cropperjs/dist/cropper.css';
 import * as React from 'react';
 import { Component } from 'react';
-import { FavoriteSongProfile } from '../../Modules/FavoriteSong/Components/FavoriteSongProfile';
+import {ProfileBodyTabs} from "../../Modules/User/Components/ProfileBodyTabs";
 import { ProfileHeader } from './ProfileHeader';
-import { ProfileNavBar } from './ProfileNavBar';
 
 interface IStationBrowserStates {
   isOpenStation: boolean;
@@ -36,12 +35,12 @@ export class Profile extends Component<{}, IStationBrowserStates> {
     });
   }
 
-  public renderProfileBody() {
-    if (this.state.isOpenFavouriteSong) {
-      return <FavoriteSongProfile />;
-    }
-    return null;
-  }
+  // public renderProfileBody() {
+  //   if (this.state.isOpenFavouriteSong) {
+  //     return <FavoriteSongProfile />;
+  //   }
+  //   return null;
+  // }
 
   public render() {
     return (
@@ -50,13 +49,18 @@ export class Profile extends Component<{}, IStationBrowserStates> {
           <ProfileHeader />
         </div>
         <div className="profile-body">
-          <ProfileNavBar
-            isOpenStation={this.state.isOpenStation}
-            isOpenFavouriteSong={this.state.isOpenFavouriteSong}
-            openStationTab={this.openStationTab}
-            openFavouriteSongTab={this.openFavouriteSongTab}
-          />
-          {this.renderProfileBody()}
+            <div className="playlist-tabs-container">
+          {/*<ProfileNavBar*/}
+              {/*isOpenStation={this.state.isOpenStation}*/}
+              {/*isOpenFavouriteSong={this.state.isOpenFavouriteSong}*/}
+              {/*openStationTab={this.openStationTab}*/}
+              {/*openFavouriteSongTab={this.openFavouriteSongTab}*/}
+              {/*/>*/}
+              {/*{this.renderProfileBody()}*/}
+              <div className="playlist-tabs-container">
+                <ProfileBodyTabs/>
+              </div>
+            </div>
         </div>
       </div>
     );

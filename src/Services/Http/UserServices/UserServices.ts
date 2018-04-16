@@ -5,6 +5,7 @@ import {
   UnregisteredUser,
 } from 'Models';
 import { Observable } from 'rxjs/Observable';
+import {FavoriteSong} from "../../../Models/FavoriteSong";
 import { HttpServices, OAuthService } from '../HttpServices';
 
 export class UserServices {
@@ -27,5 +28,9 @@ export class UserServices {
 
   public login(user: UnauthorizedUser): Observable<AccessToken> {
     return this._oAuthService.authorize(user);
+  }
+
+  public getListFavortieSong(): Observable<FavoriteSong[]> {
+    return this._httpServices.get(this.serviceUrl + '/me/favorites');
   }
 }
