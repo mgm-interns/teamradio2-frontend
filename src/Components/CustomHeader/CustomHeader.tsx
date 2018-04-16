@@ -1,8 +1,7 @@
-import { localStorageManager } from 'Helpers/LocalStorageManager';
 import * as React from 'react';
 import { Component } from 'react';
-import { UserInfo } from '../UserInfo';
 import './CustomHeader.scss';
+import { UserDropdown } from "Modules/User/Components/UserDropdown";
 
 const HEADER_MARGIN: number = 200;
 
@@ -10,35 +9,16 @@ export class CustomHeader extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      login: false,
       transform: 0,
     };
     this.handleScroll = this.handleScroll.bind(this);
-    this.signOut = this.signOut.bind(this);
   }
 
   public componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    const accessToken = localStorageManager.getAccessToken();
-    if (accessToken) {
-      const userInfo = localStorageManager.getUserInfo();
-      this.setState({
-        login: true,
-        userInfo: JSON.parse(userInfo),
-      });
-    } else {
-      this.setState({
-        login: false,
-      });
-    }
   }
 
-  public signOut() {
-    localStorageManager.removeAccessToken();
-    this.setState({
-      login: false,
-    });
-  }
+
 
   public componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
@@ -55,7 +35,6 @@ export class CustomHeader extends Component<any, any> {
   public render() {
     const transformHeader =
       this.state.transform > HEADER_MARGIN ? { filter: 'opacity(0.8)' } : null;
-    const { userInfo } = this.state;
 
     return (
       <header className="app-header" style={transformHeader}>
@@ -67,20 +46,9 @@ export class CustomHeader extends Component<any, any> {
               </a>
             </div>
           </div>
-          {this.state.login ? (
-            <div className="header-right">
-              <UserInfo signOut={this.signOut} userInfo={userInfo} />
-            </div>
-          ) : (
-            <div className="header-right">
-              <a href="/login" className="login-register-button">
-                Login
-              </a>
-              <a href="/register" className="login-register-button">
-                Register
-              </a>
-            </div>
-          )}
+          <div className="header-right">
+            <UserDropdown />
+          </div>
         </div>
       </header>
     );
