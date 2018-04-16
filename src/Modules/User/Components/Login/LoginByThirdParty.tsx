@@ -2,6 +2,7 @@ import { Component } from 'react';
 import * as React from 'react';
 import { Button, Col, Row } from 'reactstrap';
 import './LoginByThirdParty.scss';
+import { FacebookLogin } from './FacebookLogin';
 
 export class LoginByThirdParty extends Component {
   public render() {
@@ -9,9 +10,10 @@ export class LoginByThirdParty extends Component {
       <div className="social-login">
         <Row>
           <Col>
-            <Button className="btn-facebook" block>
-              <span>Login with Facebook</span>
-            </Button>
+            {/*<Button className="btn-facebook" block>*/}
+              {/*<span>Login with Facebook</span>*/}
+            {/*</Button>*/}
+            <FacebookLogin />
           </Col>
         </Row>
         <Row>
