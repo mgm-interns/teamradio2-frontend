@@ -99,7 +99,7 @@ class UserDropdownComponent extends Component<IProps, any> {
                   <img
                     className="img-avatar"
                     alt="avatar"
-                    src={avatarUrl}
+                    src={avatarUrl || '/img/avatars/1.jpg'}
                   />
                   <span className="d-md-down-none">{name}</span>
                 </DropdownToggle>
