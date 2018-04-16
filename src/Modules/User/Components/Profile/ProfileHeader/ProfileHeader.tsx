@@ -50,7 +50,7 @@ export class ProfileHeaders extends Component<IProps, IStates> {
     this.setState({
       isLoadingUserInfo: true,
     });
-    const userInfo = JSON.parse(localStorageManager.getUserInfo());
+    const userInfo = localStorageManager.getUserInfo();
     this.setUserHeaderInfo(userInfo);
     this.getUserProfile().then((userInfo: RegisteredUser) => {
       this.setUserHeaderInfo(userInfo);

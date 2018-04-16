@@ -9,14 +9,13 @@ import {
 import './UserDropdown.scss';
 import { localStorageManager } from 'Helpers/LocalStorageManager';
 import { RegisteredUser } from 'Models/User';
-import { UserServices } from "Services/Http/UserServices";
-import { IApplicationState } from "Configuration/Redux";
-import { connect } from "react-redux";
+import { UserServices } from 'Services/Http/UserServices';
+import { IApplicationState } from 'Configuration/Redux';
+import { connect } from 'react-redux';
 
 interface IProps {
-  userInfo: RegisteredUser
+  userInfo: RegisteredUser;
 }
-
 
 class UserDropdownComponent extends Component<IProps, any> {
   private userServices: UserServices;
@@ -32,7 +31,7 @@ class UserDropdownComponent extends Component<IProps, any> {
     };
 
     this.userServices = new UserServices();
-    this.signOut = this.signOut.bind(this );
+    this.signOut = this.signOut.bind(this);
   }
 
   public toggle() {
@@ -44,7 +43,7 @@ class UserDropdownComponent extends Component<IProps, any> {
   public componentWillReceiveProps(nextProps: IProps) {
     const userInfo = nextProps.userInfo;
     this.setState({
-      userInfo: userInfo
+      userInfo: userInfo,
     });
   }
 
@@ -54,7 +53,7 @@ class UserDropdownComponent extends Component<IProps, any> {
       const userInfo = localStorageManager.getUserInfo();
       this.setState({
         isAuthenticated: true,
-        userInfo: JSON.parse(userInfo),
+        userInfo: userInfo,
       });
     } else {
       this.setState({
@@ -82,8 +81,11 @@ class UserDropdownComponent extends Component<IProps, any> {
   }
 
   public render() {
-    const { userInfo: { name, avatarUrl } } = this.state;
-    const { isAuthenticated, dropdownOpen } = this.state;
+    const {
+      userInfo: { name, avatarUrl },
+      isAuthenticated,
+      dropdownOpen,
+    } = this.state;
 
     return (
       <Fragment>
@@ -144,4 +146,6 @@ const mapStateToProps = (state: IApplicationState) => ({
   userInfo: state.user.userInfo,
 });
 
-export const UserDropdown = connect(mapStateToProps, null)(UserDropdownComponent);
+export const UserDropdown = connect(mapStateToProps, null)(
+  UserDropdownComponent,
+);
