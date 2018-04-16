@@ -1,10 +1,10 @@
+import { fileContentToBase64 } from 'Helpers';
 import { RegisteredUser } from 'Models/User';
 import * as React from 'react';
 import { Component } from 'react';
 import Cropper from 'react-cropper';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { UserServices } from 'Services/Http';
-import toBase64 from 'Utilities/toBase64';
 import './ImageUploader.scss';
 
 // TODO: solve this tslint problem in class property (public, private)
@@ -90,7 +90,7 @@ export class ImageUploader extends Component<any, any> {
     if (uploadedImage.size / 1024 / 1024 > 2) {
       // Notify image upload exceed 2MB
     } else {
-      const base64 = await toBase64(uploadedImage);
+      const base64 = await fileContentToBase64(uploadedImage);
       await this.setStateAsync({ uploadedImage: base64 });
       this.setState({
         isOpenCropModal: true,

@@ -1,5 +1,5 @@
-export default (file: any) =>
-  new Promise((resolve: any, reject: any) => {
+export function fileContentToBase64(file: any) {
+  return new Promise((resolve: any, reject: any) => {
     const fileReader = new FileReader();
 
     fileReader.onload = () => {
@@ -10,3 +10,4 @@ export default (file: any) =>
 
     fileReader.readAsDataURL(file);
   });
+}
