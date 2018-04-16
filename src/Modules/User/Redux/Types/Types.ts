@@ -6,3 +6,4 @@ export interface IUser {
   loading?: boolean,
   isAuthenticated?: boolean,
 }
+

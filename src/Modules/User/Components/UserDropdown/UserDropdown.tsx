@@ -8,9 +8,12 @@ import {
 } from 'reactstrap';
 import './UserDropdown.scss';
 import { localStorageManager } from 'Helpers/LocalStorageManager';
-import { RegisteredUser } from "Models/User";
+import { RegisteredUser } from 'Models/User';
+import { UserServices } from "Services/Http/UserServices";
 
 export class UserDropdown extends Component<any, any> {
+  private userServices: UserServices;
+
   constructor(props: any) {
     super(props);
 
@@ -21,7 +24,8 @@ export class UserDropdown extends Component<any, any> {
       isAuthenticated: false,
     };
 
-    this.signOut = this.signOut.bind(this);
+    this.userServices = new UserServices();
+    this.signOut = this.signOut.bind(this );
   }
 
   public toggle() {
@@ -44,6 +48,17 @@ export class UserDropdown extends Component<any, any> {
         isAuthenticated: false,
       });
     }
+    this.userServices.getCurrentUserProfile().subscribe(
+      userInfo => {
+        localStorageManager.setUserInfo(userInfo);
+        this.setState({
+          userInfo: userInfo,
+        });
+      },
+      err => {
+        console.log(err);
+      },
+    );
   }
 
   public signOut() {
@@ -54,7 +69,7 @@ export class UserDropdown extends Component<any, any> {
   }
 
   public render() {
-    const { userInfo: { name } } = this.state;
+    const { userInfo: { name, avatarUrl } } = this.state;
     const { isAuthenticated, dropdownOpen } = this.state;
 
     return (
@@ -71,7 +86,7 @@ export class UserDropdown extends Component<any, any> {
                   <img
                     className="img-avatar"
                     alt="avatar"
-                    src="/img/avatars/1.jpg"
+                    src={avatarUrl}
                   />
                   <span className="d-md-down-none">{name}</span>
                 </DropdownToggle>

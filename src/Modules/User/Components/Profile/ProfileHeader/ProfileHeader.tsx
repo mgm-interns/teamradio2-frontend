@@ -198,7 +198,7 @@ export class ProfileHeaders extends Component<IProps, IStates> {
 }
 
 const mapStateToProps = (state: IApplicationState) => ({
-  userInfo: state.userInfo.userInfo,
+  userInfo: state.user.userInfo,
 });
 
 export const ProfileHeader = connect(mapStateToProps, null)(ProfileHeaders);

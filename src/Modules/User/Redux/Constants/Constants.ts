@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { actionTypes } from 'Modules/User/Redux/Constants';
 import { Reducer } from 'redux';
 import { IUser } from '../Types';
@@ -19,4 +20,8 @@ export const userReducer: Reducer<IUser> = (
     default:
       return state;
   }
+=======
+export const actionTypes = {
+  UPDATE_USER_PROFILE: 'UPDATE_USER_PROFILE',
+>>>>>>> Update user avatar in header
 };
