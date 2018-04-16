@@ -95,7 +95,7 @@ export class ProfileHeaders extends Component<IProps, IStates> {
       isUpdateCover: false,
       aspectRatio: 1,
     });
-    this.imageUploader.openChooseImageModal();
+    this.imageUploader.getWrappedInstance().openChooseImageModal();
   }
 
   public uploadCover() {
@@ -104,7 +104,7 @@ export class ProfileHeaders extends Component<IProps, IStates> {
       isUpdateCover: true,
       aspectRatio: 16 / 9,
     });
-    this.imageUploader.openChooseImageModal();
+    this.imageUploader.getWrappedInstance().openChooseImageModal();
   }
 
   public setImageUploadUrl(imageUploadUrl: string) {

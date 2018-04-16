@@ -18,8 +18,8 @@ interface IProps {
   ref: (instance: any) => void;
 }
 // TODO: solve this tslint problem in class property (public, private)
-export class ImageUploader extends Component<any, any> {
-// class ImageUploaderComponent extends Component<any, any> {
+// export class ImageUploader extends Component<any, any> {
+class ImageUploaderComponent extends Component<any, any> {
   private inputFileTag: any;
   private userServices: UserServices;
 
@@ -69,6 +69,7 @@ export class ImageUploader extends Component<any, any> {
       this.userServices
         .uploadUserAvatar(croppedImageBlob)
         .subscribe((userInfo: RegisteredUser) => {
+          this.props.updateUserInfo(userInfo);
           this.setState({
             croppedImage: userInfo.avatarUrl,
             isUploadingImage: false,
@@ -178,11 +179,11 @@ export class ImageUploader extends Component<any, any> {
   }
 }
 //
-// const mapDispatchToProps = (dispatch: any) => ({
-//   updateUserInfo: (userInfo: RegisteredUser) =>
-//     dispatch(updateUserInfo(userInfo)),
-// });
-//
-// export const ImageUploader = connect<any, any, any>(null, mapDispatchToProps)(
-//   ImageUploaderComponent,
-// );
+const mapDispatchToProps = (dispatch: any) => ({
+  updateUserInfo: (userInfo: RegisteredUser) =>
+    dispatch(updateUserInfo(userInfo)),
+});
+
+export const ImageUploader = connect<any, any, any>(null, mapDispatchToProps, null, {withRef: true})(
+  ImageUploaderComponent,
+);
