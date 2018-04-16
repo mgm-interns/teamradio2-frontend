@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-
 import { Button } from 'reactstrap';
-import '../LoginByThirdParty';
 import { FacebookLogin } from './FacebookLogin';
 
 export class FacebookLoginWithButton extends Component {
@@ -18,7 +16,9 @@ export class FacebookLoginWithButton extends Component {
   public render() {
     return (
       <FacebookLogin
-        render={(renderProps: any) => FacebookLoginWithButton.renderOwnButton(renderProps)}
+        render={(renderProps: any) =>
+          FacebookLoginWithButton.renderOwnButton(renderProps)
+        }
       />
     );
   }

@@ -1,6 +1,6 @@
+import { isMobileBrowser, objectToParams } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
-import getParamsFromObject from 'Utilities/objectToParams';
 
 const CLIENT_ID = process.env.REACT_APP_FACEBOOK_API_CLIENT_ID;
 
@@ -28,23 +28,9 @@ interface IFacebookLoginProps {
   authType?: string;
 }
 
-const getIsMobile = () => {
-  let isMobile = false;
-
-  try {
-    isMobile = !!(
-      navigator.userAgent.match('CriOS') || navigator.userAgent.match(/mobile/i)
-    );
-  } catch (e) {
-    console.log(e);
-  }
-
-  return isMobile;
-};
-
 export class FacebookLogin extends Component<IFacebookLoginProps, any> {
   public static defaultProps = {
-    isMobile: getIsMobile(),
+    isMobile: isMobileBrowser(),
     xfbml: false,
     cookie: false,
     version: '2.12',
@@ -124,12 +110,7 @@ export class FacebookLogin extends Component<IFacebookLoginProps, any> {
     }
     this.setState({ isProcessing: true });
 
-    const {
-      redirectUri,
-      returnScopes,
-      responseType,
-      authType,
-    } = this.props;
+    const { redirectUri, returnScopes, responseType, authType } = this.props;
 
     const params = {
       client_id: CLIENT_ID,
@@ -140,7 +121,7 @@ export class FacebookLogin extends Component<IFacebookLoginProps, any> {
     };
 
     if (this.props.isMobile) {
-      window.location.href = `//www.facebook.com/dialog/oauth${getParamsFromObject(
+      window.location.href = `//www.facebook.com/dialog/oauth${objectToParams(
         params,
       )}`;
     } else {
