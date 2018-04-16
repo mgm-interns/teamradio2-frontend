@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import * as React from 'react';
 import { Button, Col, Row } from 'reactstrap';
+import { FacebookLoginWithButton } from './FacebookLogin';
 import './LoginByThirdParty.scss';
 
 export class LoginByThirdParty extends Component {
@@ -9,9 +10,7 @@ export class LoginByThirdParty extends Component {
       <div className="social-login">
         <Row>
           <Col>
-            <Button className="btn-facebook" block>
-              <span>Login with Facebook</span>
-            </Button>
+            <FacebookLoginWithButton />
           </Col>
         </Row>
         <Row>
