@@ -15,7 +15,7 @@ export const userReducer: Reducer<IUser> = (
 ) => {
   switch (action.type) {
     case actionTypes.UPDATE_USER_PROFILE:
-      return { userInfo: action.payload };
+      return { ...state, userInfo: action.payload };
     default:
       return state;
   }

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Container, Row } from 'reactstrap';
 import { UserServices } from 'Services/Http';
 import './ProfileHeader.scss';
+import { localStorageManager } from 'Helpers/LocalStorageManager';
 
 interface IProps {
   userInfo: RegisteredUser;
@@ -45,23 +46,30 @@ export class ProfileHeaders extends Component<IProps, IStates> {
     this.setImageUploadUrl = this.setImageUploadUrl.bind(this);
   }
 
-  public async componentWillMount() {
+  public async componentDidMount() {
     this.setState({
       isLoadingUserInfo: true,
     });
+    const userInfo = JSON.parse(localStorageManager.getUserInfo());
+    this.setUserHeaderInfo(userInfo);
     await this.getUserProfile().then((userInfo: RegisteredUser) => {
-      this.setState({
-        name: userInfo.name || '',
-        username: userInfo.username || '',
-        avatarUrl: userInfo.avatarUrl || './img/female-01.png',
-        coverUrl: userInfo.coverUrl || './img/profile-cover.jpg',
-        isLoadingUserInfo: false,
-      });
+      this.setUserHeaderInfo(userInfo);
+    });
+  }
+
+  public setUserHeaderInfo(userInfo: RegisteredUser) {
+    const { name, username, avatarUrl, coverUrl } = userInfo;
+    this.setState({
+      name: name || '',
+      username: username || '',
+      avatarUrl: avatarUrl || './img/female-01.png',
+      coverUrl: coverUrl || './img/profile-cover.jpg',
+      isLoadingUserInfo: false,
     });
   }
 
   public componentWillReceiveProps(nextProps: any) {
-    const newUserInfo = nextProps.userInfo.userInfoUpdated;
+    const newUserInfo = nextProps.userInfo;
     this.setState({
       name: newUserInfo.name || '',
       username: newUserInfo.username || '',
@@ -112,12 +120,19 @@ export class ProfileHeaders extends Component<IProps, IStates> {
   }
 
   public render() {
-    if (!this.state.isLoadingUserInfo) {
+    const {
+      isLoadingUserInfo,
+      coverUrl,
+      avatarUrl,
+      name,
+      username,
+    } = this.state;
+    if (!isLoadingUserInfo) {
       return (
         <div className="profile-header-container">
           {/*Background image cover*/}
           <div className="background-wrapper">
-            <img src={this.state.coverUrl} />
+            <img src={coverUrl} />
             <div className="background-cover" />
           </div>
           {/*User information container*/}
@@ -130,7 +145,7 @@ export class ProfileHeaders extends Component<IProps, IStates> {
                     <div className="user-avatar">
                       <div className="avatar" onClick={this.uploadAvatar}>
                         <img
-                          src={this.state.avatarUrl}
+                          src={avatarUrl}
                           className="rounded-circle"
                           alt="User Avatar"
                         />
@@ -140,8 +155,8 @@ export class ProfileHeaders extends Component<IProps, IStates> {
                         </div>
                       </div>
                       <div className="name">
-                        <h3 className="display-name">{this.state.name}</h3>
-                        <span className="user-name">{this.state.username}</span>
+                        <h3 className="display-name">{name}</h3>
+                        <span className="user-name">{username}</span>
                       </div>
                     </div>
                   </div>
