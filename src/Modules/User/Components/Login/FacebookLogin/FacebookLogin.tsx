@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
+import getParamsFromObject from 'Utilities/objectToParams';
 
 const CLIENT_ID = process.env.REACT_APP_FACEBOOK_API_CLIENT_ID;
 
@@ -18,11 +19,13 @@ interface IFacebookLoginProps {
   cookie?: boolean;
   version?: string;
   state?: string;
-  responseType?: string;
   language?: string;
   fields?: string;
-  callback?: () => void;
   render: any;
+  redirectUri?: string;
+  returnScopes?: boolean;
+  responseType?: string;
+  authType?: string;
 }
 
 const getIsMobile = () => {
@@ -33,7 +36,6 @@ const getIsMobile = () => {
       navigator.userAgent.match('CriOS') || navigator.userAgent.match(/mobile/i)
     );
   } catch (e) {
-    // TODO: remove it
     console.log(e);
   }
 
@@ -46,10 +48,12 @@ export class FacebookLogin extends Component<IFacebookLoginProps, any> {
     xfbml: false,
     cookie: false,
     version: '2.12',
-    state: 'facebookdirect',
-    responseType: 'code',
     language: 'en_US',
     fields: 'name',
+    redirectUri: typeof window !== 'undefined' ? window.location.href : '/',
+    returnScopes: false,
+    responseType: 'code',
+    authType: '',
   };
 
   constructor(props: IFacebookLoginProps) {
@@ -109,8 +113,42 @@ export class FacebookLogin extends Component<IFacebookLoginProps, any> {
     })(document, 'script', 'facebook-jssdk');
   }
 
+  public checkLoginState = (response: any) => {
+    this.setState({ isProcessing: false });
+    console.log(response.authResponse);
+  };
+
   public click = (e: EventSource) => {
-    console.log('olala');
+    if (!this.state.isSdkLoaded) {
+      return;
+    }
+    this.setState({ isProcessing: true });
+
+    const {
+      redirectUri,
+      returnScopes,
+      responseType,
+      authType,
+    } = this.props;
+
+    const params = {
+      client_id: CLIENT_ID,
+      redirect_uri: redirectUri,
+      return_scopes: returnScopes,
+      response_type: responseType,
+      auth_type: authType,
+    };
+
+    if (this.props.isMobile) {
+      window.location.href = `//www.facebook.com/dialog/oauth${getParamsFromObject(
+        params,
+      )}`;
+    } else {
+      window.FB.login(this.checkLoginState, {
+        return_scopes: returnScopes,
+        auth_type: params.auth_type,
+      });
+    }
   };
 
   public render() {
