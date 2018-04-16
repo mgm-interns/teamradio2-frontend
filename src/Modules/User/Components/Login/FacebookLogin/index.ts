@@ -1,1 +1,1 @@
-export * from './FacebookLogin';
+export * from './FacebookLoginWithButton';

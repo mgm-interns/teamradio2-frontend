@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-import { Button } from 'reactstrap';
-import '../LoginByThirdParty';
-
 const CLIENT_ID = process.env.REACT_APP_FACEBOOK_API_CLIENT_ID;
 
 declare global {
+  // tslint:disable-next-line
   interface Window {
-    // tslint:disable-line
     fbAsyncInit: () => void;
     FB: any;
     src: string;
@@ -25,6 +22,7 @@ interface IFacebookLoginProps {
   language?: string;
   fields?: string;
   callback?: () => void;
+  render: any;
 }
 
 const getIsMobile = () => {
@@ -111,11 +109,16 @@ export class FacebookLogin extends Component<IFacebookLoginProps, any> {
     })(document, 'script', 'facebook-jssdk');
   }
 
+  public click = (e: EventSource) => {
+    console.log('olala');
+  };
+
   public render() {
-    return (
-      <Button className="btn-facebook" block>
-        <span>Login with Facebook</span>
-      </Button>
-    );
+    const propsForRender = {
+      onClick: this.click,
+      isProcessing: this.state.isProcessing,
+      isSdkLoaded: this.state.isSdkLoaded,
+    };
+    return this.props.render(propsForRender);
   }
 }
