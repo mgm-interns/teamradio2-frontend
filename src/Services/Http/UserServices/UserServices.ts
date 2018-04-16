@@ -35,13 +35,13 @@ export class UserServices {
 
   public uploadUserAvatar(userAvatar: Blob): Observable<any> {
     const formData = new FormData();
-    formData.append("file", userAvatar);
-    return this._httpServices.patch(`${this.serviceUrl}/me/avatar`, formData );
+    formData.append('file', userAvatar);
+    return this._httpServices.patch(`${this.serviceUrl}/me/avatar`, formData);
   }
 
   public uploadUserCover(userAvatar: Blob): Observable<any> {
     const formData = new FormData();
-    formData.append("file", userAvatar);
-    return this._httpServices.patch(`${this.serviceUrl}/me/cover`, formData );
+    formData.append('file', userAvatar);
+    return this._httpServices.patch(`${this.serviceUrl}/me/cover`, formData);
   }
 }

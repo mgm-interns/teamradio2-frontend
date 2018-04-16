@@ -1,4 +1,4 @@
-import { RegisteredUser } from "Models/User";
+import { RegisteredUser } from 'Models/User';
 
 export interface IUser {
   userInfo: RegisteredUser;

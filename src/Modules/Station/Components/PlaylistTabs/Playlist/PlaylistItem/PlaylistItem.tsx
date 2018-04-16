@@ -142,7 +142,7 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
   };
 
   public render() {
-    const {id, title, status} = this.props;
+    const { id, title, status } = this.props;
 
     const { isFavourite } = this.state;
 

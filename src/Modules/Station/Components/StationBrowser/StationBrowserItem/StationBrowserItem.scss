@@ -40,7 +40,7 @@
     left: 0;
     width: 100%;
     padding: 2px 12px;
-    background-color: rgba(0,0,0,.56);
+    background-color: rgba(0, 0, 0, 0.56);
     color: white;
     font-size: 10px;
 
@@ -67,7 +67,8 @@
     }
   }
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     .thumbnail {
       transform: scale(1.03, 1.03);
     }

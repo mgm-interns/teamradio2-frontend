@@ -74,7 +74,10 @@ export class AddSongComponent extends Component<IAddLinkProps, IAddLinkState> {
           <CardBody>
             <Row>
               <Col lg="4" xs="12">
-                <SearchSong ref={this.bindRef} setPreviewVideo={this.setPreviewVideo}/>
+                <SearchSong
+                  ref={this.bindRef}
+                  setPreviewVideo={this.setPreviewVideo}
+                />
               </Col>
               <Col lg="8" xs="12">
                 <PreviewVideo
@@ -91,7 +94,7 @@ export class AddSongComponent extends Component<IAddLinkProps, IAddLinkState> {
 
   private bindRef = (ref: SearchSong) => {
     this.searchSongRef = ref;
-  }
+  };
 }
 
 const mapDispatchToProps = (dispatch: any) => ({

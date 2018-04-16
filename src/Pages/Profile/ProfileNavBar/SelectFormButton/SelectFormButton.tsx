@@ -110,11 +110,11 @@ export class SelectFormButton extends Component<any, any> {
               <i className="fa fa-user" />Information
             </DropdownItem>
             {/*<DropdownItem*/}
-              {/*className="drop-item"*/}
-              {/*onClick={() => {*/}
-                {/*this.openPasswordForm();*/}
-              {/*}}>*/}
-              {/*<i className="fa fa-key" />Password*/}
+            {/*className="drop-item"*/}
+            {/*onClick={() => {*/}
+            {/*this.openPasswordForm();*/}
+            {/*}}>*/}
+            {/*<i className="fa fa-key" />Password*/}
             {/*</DropdownItem>*/}
           </DropdownMenu>
         </Dropdown>

@@ -126,7 +126,7 @@ class OriginStationHeader extends Component<
         this.props.history.replace('/');
       },
     );
-  }
+  };
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({

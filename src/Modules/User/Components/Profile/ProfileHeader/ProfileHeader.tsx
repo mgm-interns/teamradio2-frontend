@@ -23,10 +23,7 @@ interface IStates {
   isLoadingUserInfo: boolean;
 }
 
-export class ProfileHeaders extends Component<
-  IProps,
-  IStates
-> {
+export class ProfileHeaders extends Component<IProps, IStates> {
   private imageUploader: any;
   private readonly userServices: UserServices;
 
