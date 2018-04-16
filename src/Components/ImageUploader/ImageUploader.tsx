@@ -6,9 +6,20 @@ import Cropper from 'react-cropper';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { UserServices } from 'Services/Http';
 import './ImageUploader.scss';
+import { updateUserInfo } from 'Modules/User/Redux/Actions';
+import { connect } from 'react-redux';
 
+interface IProps {
+  aspectRatio?: number;
+  isUpdateAvatar?: boolean;
+  isUpdateCover?: boolean;
+  imageUploadUrl?: (croppedImage: any) => void;
+  updateUserInfo: (userInfo: RegisteredUser) => void;
+  ref: (instance: any) => void;
+}
 // TODO: solve this tslint problem in class property (public, private)
 export class ImageUploader extends Component<any, any> {
+// class ImageUploaderComponent extends Component<any, any> {
   private inputFileTag: any;
   private userServices: UserServices;
 
@@ -166,3 +177,12 @@ export class ImageUploader extends Component<any, any> {
     );
   }
 }
+//
+// const mapDispatchToProps = (dispatch: any) => ({
+//   updateUserInfo: (userInfo: RegisteredUser) =>
+//     dispatch(updateUserInfo(userInfo)),
+// });
+//
+// export const ImageUploader = connect<any, any, any>(null, mapDispatchToProps)(
+//   ImageUploaderComponent,
+// );

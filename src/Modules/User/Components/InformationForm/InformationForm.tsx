@@ -200,7 +200,7 @@ const FormWrapper = withFormik<IFormProps, IFormValues>({
 
 interface IInformationFormProps {
   onCloseModal: () => void;
-  updateUserInfoRequest?: (userInfoUpdated: RegisteredUser) => void;
+  updateUserInfo?: (user: RegisteredUser) => void;
 }
 
 interface IInformationFormStates {
@@ -224,15 +224,17 @@ export class InformationForms extends Component<
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  public async componentWillMount() {
+  public componentDidMount() {
     this.setState({
       isLoadingUserInfo: true,
     });
-    await this.getUserProfile().then((userInfo: RegisteredUser) => {
+    this.getUserProfile().then((userInfo: RegisteredUser) => {
       this.setState({
         userInfo,
         isLoadingUserInfo: false,
       });
+    }).catch((err: any) => {
+      console.log(err);
     });
   }
 
@@ -250,7 +252,7 @@ export class InformationForms extends Component<
   }
 
   public handleSubmit(userInfo: IFormProps) {
-    const { updateUserInfoRequest } = this.props;
+    const { updateUserInfo } = this.props;
     const newUserInfo = this.state.userInfo;
     newUserInfo.name = userInfo.name;
     newUserInfo.username = userInfo.username;
@@ -260,9 +262,10 @@ export class InformationForms extends Component<
     newUserInfo.bio = userInfo.bio;
     newUserInfo.city = userInfo.city;
     newUserInfo.country = userInfo.country;
+
     this.userServices.updateUserInfo(newUserInfo).subscribe(
       (userInfoUpdated: RegisteredUser) => {
-        updateUserInfoRequest(userInfoUpdated);
+        updateUserInfo(userInfoUpdated);
       },
       error => {
         // Notify error
@@ -287,8 +290,8 @@ export class InformationForms extends Component<
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  updateUserInfoRequest: (userInfoUpdated: RegisteredUser) =>
-    dispatch(updateUserInfo(userInfoUpdated)),
+  updateUserInfo: (userInfo: RegisteredUser) =>
+    dispatch(updateUserInfo(userInfo)),
 });
 
 export const InformationForm = connect<{}, {}, IInformationFormProps>(

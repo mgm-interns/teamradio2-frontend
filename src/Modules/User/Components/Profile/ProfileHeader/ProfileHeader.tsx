@@ -46,13 +46,13 @@ export class ProfileHeaders extends Component<IProps, IStates> {
     this.setImageUploadUrl = this.setImageUploadUrl.bind(this);
   }
 
-  public async componentDidMount() {
+  public componentDidMount() {
     this.setState({
       isLoadingUserInfo: true,
     });
     const userInfo = JSON.parse(localStorageManager.getUserInfo());
     this.setUserHeaderInfo(userInfo);
-    await this.getUserProfile().then((userInfo: RegisteredUser) => {
+    this.getUserProfile().then((userInfo: RegisteredUser) => {
       this.setUserHeaderInfo(userInfo);
     });
   }

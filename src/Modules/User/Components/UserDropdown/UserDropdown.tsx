@@ -10,8 +10,15 @@ import './UserDropdown.scss';
 import { localStorageManager } from 'Helpers/LocalStorageManager';
 import { RegisteredUser } from 'Models/User';
 import { UserServices } from "Services/Http/UserServices";
+import { IApplicationState } from "Configuration/Redux";
+import { connect } from "react-redux";
 
-export class UserDropdown extends Component<any, any> {
+interface IProps {
+  userInfo: RegisteredUser
+}
+
+
+class UserDropdownComponent extends Component<IProps, any> {
   private userServices: UserServices;
 
   constructor(props: any) {
@@ -32,6 +39,12 @@ export class UserDropdown extends Component<any, any> {
     const isOpen = this.state.dropdownOpen;
     this.setState({
       dropdownOpen: !isOpen,
+    });
+  }
+  public componentWillReceiveProps(nextProps: IProps) {
+    const userInfo = nextProps.userInfo;
+    this.setState({
+      userInfo: userInfo
     });
   }
 
@@ -126,3 +139,9 @@ export class UserDropdown extends Component<any, any> {
     );
   }
 }
+
+const mapStateToProps = (state: IApplicationState) => ({
+  userInfo: state.user.userInfo,
+});
+
+export const UserDropdown = connect(mapStateToProps, null)(UserDropdownComponent);
