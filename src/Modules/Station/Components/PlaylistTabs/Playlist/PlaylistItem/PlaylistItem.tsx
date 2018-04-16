@@ -1,11 +1,11 @@
 import * as classNames from 'classnames';
 import { YoutubeHelper } from 'Helpers';
+import { FavoriteSong } from 'Models/FavoriteSong';
 import * as React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
-import { FavoriteSong } from '../../../../../../Models/FavoriteSong';
-import { UserServices } from '../../../../../../Services/Http/UserServices';
+import { UserServices } from 'Services/Http/UserServices';
 import './PlaylistItem.scss';
 
 interface IPlayListItemProps {

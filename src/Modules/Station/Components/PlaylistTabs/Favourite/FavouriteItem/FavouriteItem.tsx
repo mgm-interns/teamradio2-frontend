@@ -1,8 +1,8 @@
 import * as classNames from 'classnames';
+import { Song } from 'Models/Song';
 import * as React from 'react';
 import { Component } from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
-import { Song } from '../../../../../../Models/Song';
 import '../../PlaylistTabs.scss';
 
 export interface IFavouriteItem {

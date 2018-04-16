@@ -5,9 +5,7 @@ import {
   UnregisteredUser,
 } from 'Models';
 import { Observable } from 'rxjs/Observable';
-import {FavoriteSong} from "../../../Models/FavoriteSong";
-import {Song} from "../../../Models/Song";
-import {Station} from "../../../Models/Station";
+import { FavoriteSong } from 'Models/FavoriteSong';
 import { HttpServices, OAuthService } from '../HttpServices';
 
 export class UserServices {
@@ -44,7 +42,7 @@ export class UserServices {
 
   public uploadUserCover(userAvatar: Blob): Observable<any> {
     const formData = new FormData();
-    formData.append("file", userAvatar);
+    formData.append('file', userAvatar);
     return this._httpServices.patch(`${this.serviceUrl}/me/cover`, formData);
   }
 
@@ -54,12 +52,14 @@ export class UserServices {
 
   public createFavorite(songId: string): Observable<FavoriteSong> {
     const params: any = {
-      songId
+      songId,
     };
     return this._httpServices.post(this.serviceUrl + '/me/favorites', params);
   }
 
   public deleteFavoriteById(favoriteId: string): Observable<FavoriteSong> {
-    return this._httpServices.get(this.serviceUrl + '/me/favorites' + {favoriteId});
+    return this._httpServices.get(
+      this.serviceUrl + '/me/favorites' + { favoriteId },
+    );
   }
 }

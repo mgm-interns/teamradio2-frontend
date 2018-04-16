@@ -1,12 +1,12 @@
 import { IApplicationState } from 'Configuration/Redux';
+import { FavoriteSong } from 'Models/FavoriteSong';
 import { Song } from 'Models/Song';
 import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import { UserServices } from 'Services/Http/UserServices';
 import { StationPlaylistSSE } from 'Services/SSE';
-import { FavoriteSong } from '../../../../Models/FavoriteSong';
-import { UserServices } from '../../../../Services/Http/UserServices';
 import { Favourite } from './Favourite';
 import { IFavouriteItem } from './Favourite/FavouriteItem';
 import { favouriteList, historyList } from './fixture';

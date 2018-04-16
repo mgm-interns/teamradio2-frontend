@@ -1,11 +1,10 @@
-import { element } from 'prop-types';
+import { Song } from 'Models/Song';
 import * as React from 'react';
 import { Component } from 'react';
 import FlipMoveList from 'react-flip-move';
 import { Card, CardBody } from 'reactstrap';
-import { Song } from '../../../../../Models/Song';
-import { UserServices } from '../../../../../Services/Http/UserServices';
-import { FavouriteItem, IFavouriteItem } from '../Favourite/FavouriteItem';
+import { UserServices } from 'Services/Http/UserServices';
+import { IFavouriteItem } from '../Favourite/FavouriteItem';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 
