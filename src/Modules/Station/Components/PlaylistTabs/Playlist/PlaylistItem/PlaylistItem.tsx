@@ -45,7 +45,7 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
   }
 
   public setFavoriteSong() {
-    if (!this.state.isFavourite) {
+    if (!this.state.isFavorite) {
       return this.userServices.createFavorite(this.props.id).subscribe(
         (res: FavoriteSong) => {
           this.setState({
