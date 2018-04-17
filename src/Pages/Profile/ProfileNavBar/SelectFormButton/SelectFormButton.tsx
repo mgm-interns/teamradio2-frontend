@@ -1,4 +1,4 @@
-import { InformationForm } from 'Modules/User/Components/InformationForm';
+import { InformationForm } from 'Modules/User';
 import { PasswordForm } from 'Modules/User/Components/PasswordForm';
 import * as React from 'react';
 import { Component } from 'react';

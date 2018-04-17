@@ -1,2 +1,3 @@
-export * from './sampleConstants';
-export * from './ProfileConstants';
+export const actionTypes = {
+  UPDATE_USER_PROFILE: 'UPDATE_USER_PROFILE',
+};

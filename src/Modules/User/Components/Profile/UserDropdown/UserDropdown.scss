@@ -2,15 +2,17 @@
   .img-avatar {
     margin-left: 10px;
     margin-right: 10px;
+    width: 50px;
+    height: 50px;
   }
   & > * {
     display: inline-block;
   }
   .drop-down {
     .button-dropdown-toggle {
-      padding-top: 0px;
-      padding-right: 0px;
-      padding-bottom: 0px;
+      padding-top: 0;
+      padding-right: 0;
+      padding-bottom: 0;
       font-family: Roboto Slab, serif;
       color: white;
       background-color: transparent;
@@ -20,15 +22,12 @@
         color: white;
         box-shadow: none;
         background-color: transparent;
-        border-color: transparent;
         outline: none;
-        border-color: transparent;
       }
       &:active {
         color: white;
         box-shadow: none;
         background-color: transparent;
-        border-color: transparent;
         outline: none;
       }
       &:focus:active {
@@ -45,15 +44,12 @@
       &:focus {
         box-shadow: none;
         outline: none;
-        border-color: transparent;
       }
       &:active {
         box-shadow: none;
         background-color: transparent;
-        border-color: transparent;
         color: white;
         outline: none;
-        border-color: transparent;
       }
     }
     .drop-item {
