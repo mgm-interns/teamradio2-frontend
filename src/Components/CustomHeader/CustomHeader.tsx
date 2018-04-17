@@ -1,7 +1,7 @@
+import { UserDropdown } from 'Modules/User';
 import * as React from 'react';
 import { Component } from 'react';
 import './CustomHeader.scss';
-import { UserDropdown } from "Modules/User/Components/UserDropdown";
 
 const HEADER_MARGIN: number = 200;
 

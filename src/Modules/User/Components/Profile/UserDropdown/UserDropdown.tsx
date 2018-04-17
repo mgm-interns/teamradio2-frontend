@@ -1,23 +1,29 @@
+import { IApplicationState } from 'Configuration/Redux';
+import { localStorageManager } from 'Helpers';
+import { RegisteredUser } from 'Models/User';
 import * as React from 'react';
 import { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
 } from 'reactstrap';
+import { UserServices } from 'Services/Http';
 import './UserDropdown.scss';
-import { localStorageManager } from 'Helpers/LocalStorageManager';
-import { RegisteredUser } from 'Models/User';
-import { UserServices } from 'Services/Http/UserServices';
-import { IApplicationState } from 'Configuration/Redux';
-import { connect } from 'react-redux';
 
 interface IProps {
   userInfo: RegisteredUser;
 }
 
-class UserDropdownComponent extends Component<IProps, any> {
+interface IState {
+  userInfo: RegisteredUser;
+  dropdownOpen: boolean;
+  isAuthenticated: boolean;
+}
+
+class UserDropdownComponent extends Component<IProps, IState> {
   private userServices: UserServices;
 
   constructor(props: any) {
@@ -25,7 +31,7 @@ class UserDropdownComponent extends Component<IProps, any> {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      userInfo: RegisteredUser,
+      userInfo: new RegisteredUser(),
       dropdownOpen: false,
       isAuthenticated: false,
     };
@@ -43,28 +49,36 @@ class UserDropdownComponent extends Component<IProps, any> {
   public componentWillReceiveProps(nextProps: IProps) {
     const userInfo = nextProps.userInfo;
     this.setState({
-      userInfo: userInfo,
+      userInfo,
     });
   }
 
   public componentDidMount() {
+    this.initStateByLocalStorage();
+    this.getCurrentUserInfo();
+  }
+
+  public initStateByLocalStorage() {
     const accessToken = localStorageManager.getAccessToken();
     if (accessToken) {
-      const userInfo = localStorageManager.getUserInfo();
+      const userInfo: RegisteredUser = localStorageManager.getUserInfo();
       this.setState({
+        userInfo,
         isAuthenticated: true,
-        userInfo: userInfo,
       });
     } else {
       this.setState({
         isAuthenticated: false,
       });
     }
+  }
+
+  public getCurrentUserInfo() {
     this.userServices.getCurrentUserProfile().subscribe(
       userInfo => {
         localStorageManager.setUserInfo(userInfo);
         this.setState({
-          userInfo: userInfo,
+          userInfo,
         });
       },
       err => {

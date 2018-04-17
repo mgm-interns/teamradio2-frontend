@@ -18,7 +18,7 @@ export const localStorageManager = {
   setUserInfo: (userInfo: RegisteredUser) => {
     localStorage.setItem(userInfoKey, JSON.stringify(userInfo));
   },
-  getUserInfo: () => {
+  getUserInfo: (): RegisteredUser => {
     return JSON.parse(localStorage.getItem(userInfoKey));
   },
 };

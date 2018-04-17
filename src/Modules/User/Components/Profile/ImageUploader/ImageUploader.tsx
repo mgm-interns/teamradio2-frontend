@@ -1,13 +1,13 @@
-import { fileContentToBase64 } from 'Helpers';
-import { RegisteredUser } from 'Models/User';
+import { fileContentToBase64 } from 'Helpers/index';
+import { RegisteredUser } from 'Models/User/index';
 import * as React from 'react';
 import { Component } from 'react';
 import Cropper from 'react-cropper';
+import { connect } from 'react-redux';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { UserServices } from 'Services/Http';
+import { updateUserInfo } from '../../../Redux/Actions';
 import './ImageUploader.scss';
-import { updateUserInfo } from 'Modules/User/Redux/Actions';
-import { connect } from 'react-redux';
 
 interface IProps {
   aspectRatio?: number;
@@ -17,13 +17,12 @@ interface IProps {
   updateUserInfo: (userInfo: RegisteredUser) => void;
   ref: (instance: any) => void;
 }
-// TODO: solve this tslint problem in class property (public, private)
-// export class ImageUploader extends Component<any, any> {
-class ImageUploaderComponent extends Component<any, any> {
+
+class ImageUploaderComponent extends Component<IProps, any> {
   private inputFileTag: any;
   private userServices: UserServices;
 
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       isUploadingImage: false,
@@ -184,6 +183,9 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(updateUserInfo(userInfo)),
 });
 
-export const ImageUploader = connect<any, any, any>(null, mapDispatchToProps, null, {withRef: true})(
-  ImageUploaderComponent,
-);
+export const ImageUploader = connect<any, any, any>(
+  null,
+  mapDispatchToProps,
+  null,
+  { withRef: true },
+)(ImageUploaderComponent);

@@ -1,12 +1,7 @@
 import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
-import { RegisteredUser } from 'Models/User';
-import { updateUserInfo } from 'Modules/User/Redux/Actions';
-import { Component } from 'react';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { Button, Col, FormFeedback, FormGroup, Label, Row } from 'reactstrap';
-import { UserServices } from 'Services/Http';
 import './InformationForm.scss';
 
 interface IFormValues {
@@ -36,7 +31,7 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
               placeholder="Enter your Display name"
             />
             {touched.name &&
-              errors.name && <FormFeedback>{errors.name}</FormFeedback>}
+            errors.name && <FormFeedback>{errors.name}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
@@ -51,7 +46,7 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
               placeholder="Enter your username"
             />
             {touched.username &&
-              errors.username && <FormFeedback>{errors.username}</FormFeedback>}
+            errors.username && <FormFeedback>{errors.username}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
@@ -147,8 +142,7 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
   );
 };
 
-// The type of props FormWrapper receives
-interface IFormProps {
+export interface IFormProps {
   name?: string;
   username?: string;
   email?: string;
@@ -161,7 +155,7 @@ interface IFormProps {
   handleSubmit: any;
 }
 
-const FormWrapper = withFormik<IFormProps, IFormValues>({
+export const FormWrapper = withFormik<IFormProps, IFormValues>({
   mapPropsToValues: props => {
     return {
       onCloseModal: props.onCloseModal,
@@ -197,104 +191,3 @@ const FormWrapper = withFormik<IFormProps, IFormValues>({
     userInfo.onCloseModal();
   },
 })(InnerForm);
-
-interface IInformationFormProps {
-  onCloseModal: () => void;
-  updateUserInfo?: (user: RegisteredUser) => void;
-}
-
-interface IInformationFormStates {
-  userInfo: RegisteredUser;
-  isLoadingUserInfo: boolean;
-}
-
-export class InformationForms extends Component<
-  IInformationFormProps,
-  IInformationFormStates
-> {
-  private readonly userServices: UserServices;
-
-  constructor(props: IInformationFormProps) {
-    super(props);
-    this.state = {
-      userInfo: null,
-      isLoadingUserInfo: false,
-    };
-    this.userServices = new UserServices();
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  public componentDidMount() {
-    this.setState({
-      isLoadingUserInfo: true,
-    });
-    this.getUserProfile().then((userInfo: RegisteredUser) => {
-      this.setState({
-        userInfo,
-        isLoadingUserInfo: false,
-      });
-    }).catch((err: any) => {
-      console.log(err);
-    });
-  }
-
-  public getUserProfile() {
-    return new Promise(async (resolve, reject) => {
-      this.userServices.getCurrentUserProfile().subscribe(
-        (userInfo: RegisteredUser) => {
-          resolve(userInfo);
-        },
-        (error: any) => {
-          reject(error);
-        },
-      );
-    });
-  }
-
-  public handleSubmit(userInfo: IFormProps) {
-    const { updateUserInfo } = this.props;
-    const newUserInfo = this.state.userInfo;
-    newUserInfo.name = userInfo.name;
-    newUserInfo.username = userInfo.username;
-    newUserInfo.email = userInfo.email;
-    newUserInfo.firstName = userInfo.firstName;
-    newUserInfo.lastName = userInfo.lastName;
-    newUserInfo.bio = userInfo.bio;
-    newUserInfo.city = userInfo.city;
-    newUserInfo.country = userInfo.country;
-
-    this.userServices.updateUserInfo(newUserInfo).subscribe(
-      (userInfoUpdated: RegisteredUser) => {
-        updateUserInfo(userInfoUpdated);
-      },
-      error => {
-        // Notify error
-      },
-    );
-  }
-
-  public render() {
-    const { onCloseModal } = this.props;
-    if (!this.state.isLoadingUserInfo) {
-      const { userInfo } = this.state;
-      return (
-        <FormWrapper
-          onCloseModal={onCloseModal}
-          {...userInfo}
-          handleSubmit={this.handleSubmit}
-        />
-      );
-    }
-    return <div />;
-  }
-}
-
-const mapDispatchToProps = (dispatch: any) => ({
-  updateUserInfo: (userInfo: RegisteredUser) =>
-    dispatch(updateUserInfo(userInfo)),
-});
-
-export const InformationForm = connect<{}, {}, IInformationFormProps>(
-  null,
-  mapDispatchToProps,
-)(InformationForms);

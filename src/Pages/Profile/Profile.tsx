@@ -1,7 +1,7 @@
 import 'cropperjs/dist/cropper.css';
+import { ProfileHeader } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
-import { ProfileHeader } from '../../Modules/User/Components/Profile/ProfileHeader';
 import { ProfileNavBar } from './ProfileNavBar';
 
 export class Profile extends Component<{}, {}> {

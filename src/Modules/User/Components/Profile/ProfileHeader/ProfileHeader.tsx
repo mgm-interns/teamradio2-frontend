@@ -1,13 +1,13 @@
-import { ImageUploader } from 'Components/index';
 import { IApplicationState } from 'Configuration/Redux';
+import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row } from 'reactstrap';
 import { UserServices } from 'Services/Http';
+import { ImageUploader } from '../ImageUploader';
 import './ProfileHeader.scss';
-import { localStorageManager } from 'Helpers/LocalStorageManager';
 
 interface IProps {
   userInfo: RegisteredUser;
@@ -52,9 +52,7 @@ export class ProfileHeaders extends Component<IProps, IStates> {
     });
     const userInfo = localStorageManager.getUserInfo();
     this.setUserHeaderInfo(userInfo);
-    this.getUserProfile().then((userInfo: RegisteredUser) => {
-      this.setUserHeaderInfo(userInfo);
-    });
+    this.getUserProfile();
   }
 
   public setUserHeaderInfo(userInfo: RegisteredUser) {
@@ -77,16 +75,14 @@ export class ProfileHeaders extends Component<IProps, IStates> {
   }
 
   public getUserProfile() {
-    return new Promise(async resolve => {
-      this.userServices.getCurrentUserProfile().subscribe(
-        (userInfo: RegisteredUser) => {
-          resolve(userInfo);
-        },
-        (err: any) => {
-          // Notify error
-        },
-      );
-    });
+    this.userServices.getCurrentUserProfile().subscribe(
+      (userInfo: RegisteredUser) => {
+        this.setUserHeaderInfo(userInfo);
+      },
+      (error: any) => {
+        // Notify error
+      },
+    );
   }
 
   public uploadAvatar() {
