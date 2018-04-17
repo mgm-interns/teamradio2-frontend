@@ -17,6 +17,7 @@
     "object-literal-sort-keys": false,
     "import-name": false,
     "jsx-closing-bracket-location": [1, "after-props"],
-    "no-console": ["warn"]
+    "no-console": ["warn"],
+    "member-ordering": false
   }
 }
