@@ -11,7 +11,7 @@ import { PlaylistItem } from './PlaylistItem';
 
 interface IPlaylistProps {
   playlist: PlaylistSong[];
-  stationId: String;
+  stationId: string;
 }
 
 interface IFavoriteListProps {
@@ -41,7 +41,7 @@ export class Playlist extends Component<Iprops, IStates> {
     };
   }
 
-  public upVote = (songId: String) => {
+  public upVote = (songId: string) => {
     const { stationId } = this.props;
 
     this.songServices.upVote(stationId, songId).subscribe(
@@ -52,7 +52,7 @@ export class Playlist extends Component<Iprops, IStates> {
     );
   };
 
-  public downVote = (songId: String) => {
+  public downVote = (songId: string) => {
     const { stationId } = this.props;
 
     this.songServices.downVote(stationId, songId).subscribe(

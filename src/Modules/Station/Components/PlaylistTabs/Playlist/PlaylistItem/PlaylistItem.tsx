@@ -45,7 +45,7 @@ export class PlaylistItem extends Component<IProps, IPlayListItemStates> {
     this.setUpVote = this.setUpVote.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: IProps) {
+  public componentWillReceiveProps(nextProps: IProps) {
     if (this.props.isFavorite !== nextProps.isFavorite) {
       this.setState({ isFavorite: nextProps.isFavorite });
     }
