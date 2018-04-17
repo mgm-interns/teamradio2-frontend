@@ -31,7 +31,7 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
               placeholder="Enter your Display name"
             />
             {touched.name &&
-            errors.name && <FormFeedback>{errors.name}</FormFeedback>}
+              errors.name && <FormFeedback>{errors.name}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
@@ -46,7 +46,7 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
               placeholder="Enter your username"
             />
             {touched.username &&
-            errors.username && <FormFeedback>{errors.username}</FormFeedback>}
+              errors.username && <FormFeedback>{errors.username}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
