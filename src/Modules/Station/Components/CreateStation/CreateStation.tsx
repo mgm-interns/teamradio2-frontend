@@ -94,7 +94,7 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
         if (err) {
           this.setState({ error: err });
         } else {
-          this.showError('Something went wrong!' );
+          this.showError('Something went wrong!');
         }
       },
     );

@@ -1,4 +1,4 @@
-import { object } from "prop-types";
+import { object } from 'prop-types';
 import * as React from 'react';
 import { Component } from 'react';
 
