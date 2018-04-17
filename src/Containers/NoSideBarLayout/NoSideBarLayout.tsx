@@ -11,17 +11,16 @@ import {
   ResetPassword,
   Station,
 } from 'Pages';
+import { object } from "prop-types";
 import * as React from 'react';
 import * as NotificationSystem from 'react-notification-system';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './NoSideBarLayout.scss';
 
-interface IContextTypes {
-  notifcations: object;
-}
-
 export class NoSideBarLayout extends BaseComponent<any, any> {
-  public static childContextTypes: IContextTypes;
+  public static childContextTypes = {
+    notifications: object,
+  };
   public notificationInstance: NotificationInstance;
   private notificationRef: any;
 
