@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import ReactPlayer from 'react-player';
 import { Progress } from 'reactstrap';
 import './StationPlayer.scss';
@@ -11,6 +11,9 @@ interface IProps {
   progress?: number;
   muted: boolean;
   playerRef?: (node: ReactPlayer) => void;
+  onProgress?: (playerState: IReactPlayerPropsOnProgressState) => void;
+  onStart?: () => void;
+  onEnded?: () => void;
 }
 
 interface IState {
@@ -18,7 +21,7 @@ interface IState {
   loaded: number;
 }
 
-interface IReactPlayerPropsOnProgressState {
+export interface IReactPlayerPropsOnProgressState {
   played: number;
   playedSeconds: number;
   loaded: number;
@@ -38,45 +41,69 @@ export class StationPlayer extends Component<IProps, IState> {
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
-    const { progress: oldProgress } = this.props;
-    const { progress: nextProgress } = nextProps;
-    if (oldProgress !== nextProgress) {
+    if (this.needToUpdateProgress(nextProps)) {
       this.setState({
-        played: nextProgress,
+        played: nextProps.progress,
       });
     }
   }
 
   public render() {
     const { url, playing, showProgressbar, muted } = this.props;
-    const { played } = this.state;
-    return [
-      <div className="player" key={1}>
-        <ReactPlayer
-          url={url}
-          ref={this.ref}
-          controls={false}
-          playing={playing}
-          onProgress={this.onProgress}
-          youtubeConfig={{ playerVars: { disablekb: 1 } }}
-          style={{ pointerEvents: 'none' }}
-          volume={1}
-          muted={muted}
-          width="100%"
-          height="100%"
-        />
-      </div>,
-      showProgressbar &&
-        url && (
-          <Progress
-            key={2}
-            className="progress"
-            animated
-            value={played * 100 || 0}
+    const { played, loaded } = this.state;
+
+    return (
+      <Fragment>
+        <div className="player">
+          <ReactPlayer
+            url={url}
+            ref={this.ref}
+            controls={false}
+            playing={playing}
+            onProgress={this.onProgress}
+            onStart={this.onStart}
+            onEnded={this.onEnded}
+            youtubeConfig={{ playerVars: { disablekb: 1 } }}
+            style={{ pointerEvents: 'none' }}
+            volume={1}
+            muted={muted}
+            width="100%"
+            height="100%"
           />
-        ),
-    ];
+        </div>
+        {showProgressbar &&
+          url && (
+            <Progress multi className="progress">
+              <Progress
+                bar
+                className="progress-bar"
+                animated
+                value={this.parseProgressValue(played)}
+              />
+              <Progress
+                bar
+                className="progress-buffer"
+                animated
+                value={this.parseProgressValue(loaded - played)}
+              />
+            </Progress>
+          )}
+      </Fragment>
+    );
   }
+
+  private needToUpdateProgress(nextProps: IProps) {
+    const { progress: oldProgress } = this.props;
+    const { progress: nextProgress } = nextProps;
+    return oldProgress !== nextProgress;
+  }
+
+  private parseProgressValue = (value: number) => {
+    if (value) {
+      return value * 100;
+    }
+    return 0;
+  };
 
   private ref = (input: ReactPlayer) => {
     this.playerRef = input;
@@ -87,13 +114,25 @@ export class StationPlayer extends Component<IProps, IState> {
     }
   };
 
-  private onProgress = ({
-    played,
-    loaded,
-  }: IReactPlayerPropsOnProgressState) => {
+  private onProgress = (playerState: IReactPlayerPropsOnProgressState) => {
     this.setState({
-      played,
-      loaded,
+      loaded: playerState.loaded,
     });
+
+    if (this.props.onProgress) {
+      this.props.onProgress(playerState);
+    }
+  };
+
+  private onStart = () => {
+    if (this.props.onStart) {
+      this.props.onStart();
+    }
+  };
+
+  private onEnded = () => {
+    if (this.props.onEnded) {
+      this.props.onEnded();
+    }
   };
 }
