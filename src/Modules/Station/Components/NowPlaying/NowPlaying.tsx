@@ -30,6 +30,11 @@ interface IState {
   progress: number;
 }
 
+interface IPlayedTime {
+  playedTime: number;
+  playedTimeInFraction: number;
+}
+
 const MAXIMUM_DELAY = 2; // seconds
 
 export class NowPlayingComponent extends Component<IProps, IState> {
@@ -73,80 +78,52 @@ export class NowPlayingComponent extends Component<IProps, IState> {
     );
   }
 
-  /**
-   * Bind React player to component
-   */
-  private bindPlayerRef = (ref: ReactPlayer): ReactPlayer => {
+  private bindPlayerRef = (ref: ReactPlayer) => {
     this.playerRef = ref;
-    return ref;
   };
 
-  /**
-   * Handle the delay between client and server
-   * Call every time React player triggers onProgress
-   */
   private onProgress = (playerState: IReactPlayerPropsOnProgressState) => {
     const { nowPlaying } = this.props;
     const {
       playedTime,
       playedTimeInFraction: serverPlayedTime,
-    } = this.parsePlayedTime(nowPlaying);
+    } = this.getPlayedTime(nowPlaying);
     const { played: playerPlayedTime } = playerState;
 
-    const roundedServerPlayedTime = this.roundPlayerTime(serverPlayedTime);
-    const roundedPlayerPlayedTime = this.roundPlayerTime(playerPlayedTime);
-
-    const deviation = roundedPlayerPlayedTime - roundedServerPlayedTime;
-
-    if (Math.abs(deviation) > MAXIMUM_DELAY) {
-      // Update both React player and progress bar
-      this.updateReactPlayerProgress({
+    if (
+      this.needToSeekTimeOnPlayerProgress(serverPlayedTime, playerPlayedTime)
+    ) {
+      this.updateProgressAndSeekTime({
         playedTime,
         playedTimeInFraction: serverPlayedTime,
       });
     } else {
-      // Only update progress bar
-      this.setState({
-        progress: serverPlayedTime,
-      });
+      this.updateProgress(serverPlayedTime);
     }
   };
 
   private onStart = () => {
     const { nowPlaying } = this.props;
-    this.updateReactPlayerProgress(this.parsePlayedTime(nowPlaying));
+    this.updateProgressAndSeekTime(this.getPlayedTime(nowPlaying));
   };
 
   private onEnded = () => {
-    this.setState({
-      progress: 1,
-    });
+    this.updateProgress(1);
   };
 
-  /**
-   * Round playing time from fraction value to second value
-   */
   private roundPlayerTime = (fractionTime: number) => {
     const { nowPlaying: { duration } } = this.props;
-    // Round the time to 2 decimals
     return convertToEpochTimeInSeconds(Math.round(duration * fractionTime));
   };
 
-  /**
-   * Update React Player progress bar
-   * or re-track player based on NowPlaying
-   */
   private updateSeekTime = (nowPlaying: NowPlayingSong): void => {
     if (!nowPlaying) {
       return;
     }
-    this.updateReactPlayerProgress(this.parsePlayedTime(nowPlaying));
+    this.updateProgressAndSeekTime(this.getPlayedTime(nowPlaying));
   };
 
-  /**
-   * Update React Player progress bar then seek to the correct time
-   */
-  private updateReactPlayerProgress = ({
+  private updateProgressAndSeekTime = ({
     playedTime,
     playedTimeInFraction,
   }: IPlayerProgress) => {
@@ -160,10 +137,21 @@ export class NowPlayingComponent extends Component<IProps, IState> {
     );
   };
 
-  /**
-   * Parse playedTime into fraction or second value
-   */
-  private parsePlayedTime = (nowPlaying: NowPlayingSong) => {
+  private updateProgress(progress: number) {
+    this.setState({ progress });
+  }
+
+  private needToSeekTimeOnPlayerProgress(
+    serverPlayedTime: number,
+    playerPlayedTime: number,
+  ): boolean {
+    const roundedServerPlayedTime = this.roundPlayerTime(serverPlayedTime);
+    const roundedPlayerPlayedTime = this.roundPlayerTime(playerPlayedTime);
+    const deviation = roundedPlayerPlayedTime - roundedServerPlayedTime;
+    return Math.abs(deviation) > MAXIMUM_DELAY;
+  }
+
+  private getPlayedTime = (nowPlaying: NowPlayingSong): IPlayedTime => {
     const duration = convertToEpochTimeInSeconds(nowPlaying.duration);
     const startingTime = nowPlaying.startingTime;
     const now = convertToEpochTimeInSeconds(Date.now().valueOf());
@@ -176,9 +164,6 @@ export class NowPlayingComponent extends Component<IProps, IState> {
     };
   };
 
-  /**
-   * Check if Now Playing has changed or not
-   */
   private isNowPlayingChanged(nextProps: IProps) {
     const { nowPlaying: oldNowPlaying } = this.props;
     const { nowPlaying: nextNowPlaying } = nextProps;

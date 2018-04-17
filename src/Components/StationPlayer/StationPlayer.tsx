@@ -41,11 +41,9 @@ export class StationPlayer extends Component<IProps, IState> {
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
-    const { progress: oldProgress } = this.props;
-    const { progress: nextProgress } = nextProps;
-    if (oldProgress !== nextProgress) {
+    if (this.needToUpdateProgress(nextProps)) {
       this.setState({
-        played: nextProgress,
+        played: nextProps.progress,
       });
     }
   }
@@ -92,6 +90,12 @@ export class StationPlayer extends Component<IProps, IState> {
           )}
       </Fragment>
     );
+  }
+
+  private needToUpdateProgress(nextProps: IProps) {
+    const { progress: oldProgress } = this.props;
+    const { progress: nextProgress } = nextProps;
+    return oldProgress !== nextProgress;
   }
 
   private parseProgressValue = (value: number) => {
