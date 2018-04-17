@@ -12,6 +12,7 @@ interface IProps {
   muted: boolean;
   playerRef?: (node: ReactPlayer) => void;
   onProgress?: (playerState: IReactPlayerPropsOnProgressState) => void;
+  onStart?: () => void;
 }
 
 interface IState {
@@ -59,6 +60,7 @@ export class StationPlayer extends Component<IProps, IState> {
           controls={false}
           playing={playing}
           onProgress={this.onProgress}
+          onStart={this.onStart}
           youtubeConfig={{ playerVars: { disablekb: 1 } }}
           style={{ pointerEvents: 'none' }}
           volume={1}
@@ -89,17 +91,14 @@ export class StationPlayer extends Component<IProps, IState> {
   };
 
   private onProgress = (playerState: IReactPlayerPropsOnProgressState) => {
-    const { played, loaded } = playerState;
-    this.setState(
-      {
-        played,
-        loaded,
-      },
-      () => {
-        if (this.props.onProgress) {
-          this.props.onProgress(playerState);
-        }
-      },
-    );
+    if (this.props.onProgress) {
+      this.props.onProgress(playerState);
+    }
+  };
+
+  private onStart = () => {
+    if (this.props.onStart) {
+      this.props.onStart();
+    }
   };
 }

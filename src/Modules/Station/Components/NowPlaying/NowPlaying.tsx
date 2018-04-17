@@ -11,6 +11,11 @@ import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 import './NowPlaying.scss';
 
+interface IPlayerProgress {
+  playedTime: number;
+  playedTimeInFraction: number;
+}
+
 interface IStateProps {
   nowPlaying: NowPlayingSong;
 }
@@ -62,6 +67,7 @@ export class NowPlayingComponent extends Component<IProps, IState> {
         playerRef={this.bindPlayerRef}
         progress={progress}
         onProgress={this.onProgress}
+        onStart={this.onStart}
       />
     );
   }
@@ -80,9 +86,10 @@ export class NowPlayingComponent extends Component<IProps, IState> {
    */
   private onProgress = (playerState: IReactPlayerPropsOnProgressState) => {
     const { nowPlaying } = this.props;
-    const { playedTimeInFraction: serverPlayedTime } = this.parsePlayedTime(
-      nowPlaying,
-    );
+    const {
+      playedTime,
+      playedTimeInFraction: serverPlayedTime,
+    } = this.parsePlayedTime(nowPlaying);
     const { played: playerPlayedTime } = playerState;
 
     const roundedServerPlayedTime = this.roundPlayerTime(serverPlayedTime);
@@ -91,8 +98,22 @@ export class NowPlayingComponent extends Component<IProps, IState> {
     const deviation = roundedPlayerPlayedTime - roundedServerPlayedTime;
 
     if (Math.abs(deviation) > MAXIMUM_DELAY) {
-      this.playerRef.seekTo(serverPlayedTime);
+      // Update both React player and progress bar
+      this.updateReactPlayerProgress({
+        playedTime,
+        playedTimeInFraction: serverPlayedTime,
+      });
+    } else {
+      // Only update progress bar
+      this.setState({
+        progress: serverPlayedTime,
+      });
     }
+  };
+
+  private onStart = () => {
+    const { nowPlaying } = this.props;
+    this.updateReactPlayerProgress(this.parsePlayedTime(nowPlaying));
   };
 
   /**
@@ -114,10 +135,16 @@ export class NowPlayingComponent extends Component<IProps, IState> {
     if (!nowPlaying) {
       return;
     }
-    const { playedTime, playedTimeInFraction } = this.parsePlayedTime(
-      nowPlaying,
-    );
+    this.updateReactPlayerProgress(this.parsePlayedTime(nowPlaying));
+  };
 
+  /**
+   * Update React Player progress bar then seek to the correct time
+   */
+  private updateReactPlayerProgress = ({
+    playedTime,
+    playedTimeInFraction,
+  }: IPlayerProgress) => {
     this.setState(
       {
         progress: playedTimeInFraction,
@@ -152,7 +179,6 @@ export class NowPlayingComponent extends Component<IProps, IState> {
     const { nowPlaying: nextNowPlaying } = nextProps;
     return JSON.stringify(oldNowPlaying) !== JSON.stringify(nextNowPlaying);
   }
-
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
