@@ -68,6 +68,7 @@ export class NowPlayingComponent extends Component<IProps, IState> {
         progress={progress}
         onProgress={this.onProgress}
         onStart={this.onStart}
+        onEnded={this.onEnded}
       />
     );
   }
@@ -114,6 +115,12 @@ export class NowPlayingComponent extends Component<IProps, IState> {
   private onStart = () => {
     const { nowPlaying } = this.props;
     this.updateReactPlayerProgress(this.parsePlayedTime(nowPlaying));
+  };
+
+  private onEnded = () => {
+    this.setState({
+      progress: 1,
+    });
   };
 
   /**
