@@ -1,8 +1,9 @@
+import { BaseComponent } from 'BaseComponent';
 import { Field, Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { Station } from 'Models/Station';
 import * as React from 'react';
-import { Component, FormEvent } from 'react';
+import { FormEvent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
 import { StationServices } from 'Services/Http';
@@ -48,7 +49,7 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
   );
 };
 
-class CreateStationForm extends Component<RouteComponentProps<any>, any> {
+class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
   private stationServices: StationServices;
   private initialValues: any;
 
@@ -90,7 +91,11 @@ class CreateStationForm extends Component<RouteComponentProps<any>, any> {
         this.props.history.push(`/station/${res.id}`);
       },
       (err: any) => {
-        this.setState({ error: err || 'Something went wrong!' });
+        if (err) {
+          this.setState({ error: err });
+        } else {
+          this.showError('Something went wrong!');
+        }
       },
     );
   };
