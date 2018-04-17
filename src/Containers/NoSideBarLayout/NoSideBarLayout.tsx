@@ -1,3 +1,4 @@
+import { BaseComponent, NotificationInstance } from 'BaseComponent';
 import { CustomHeader, Footer } from 'Components';
 import {
   ForgotPassword,
@@ -9,33 +10,38 @@ import {
   ResetPassword,
   Station,
 } from 'Pages';
+import { object } from 'prop-types';
 import * as React from 'react';
-import { Component } from 'react';
+import * as NotificationSystem from 'react-notification-system';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './NoSideBarLayout.scss';
 
-import { IApplicationState } from 'Configuration/Redux';
-import { Notification } from 'Models/Notification';
-import { object } from 'prop-types';
-import * as Notifications from 'react-notification-system-redux';
-import { connect } from 'react-redux';
-
-interface IProps {
-  notifications: Notification[];
-}
-
-class NoSideBarLayoutComponent extends Component<IProps> {
-  public static contextTypes = {
-    store: object,
+export class NoSideBarLayout extends BaseComponent<any, any> {
+  public static childContextTypes = {
+    notifications: object,
   };
 
-  constructor(props: IProps) {
+  public notificationInstance: NotificationInstance;
+  private notificationRef: any;
+
+  constructor(props: any) {
     super(props);
+
+    this.notificationInstance = new NotificationInstance();
   }
 
-  public render() {
-    const { notifications } = this.props;
+  public getChildContext() {
+    return {
+      notifications: this.notificationInstance,
+    };
+  }
 
+  public ref = (nodeRef: any) => {
+    this.notificationRef = nodeRef;
+    this.notificationInstance.notification = nodeRef;
+  };
+
+  public render() {
     return (
       <div className="app no-side-bar">
         <CustomHeader />
@@ -68,12 +74,8 @@ class NoSideBarLayoutComponent extends Component<IProps> {
           </main>
         </div>
         <Footer />
-        <Notifications notifications={notifications} />
+        <NotificationSystem ref={this.ref} />
       </div>
     );
   }
 }
-
-export const NoSideBarLayout = connect((state: IApplicationState) => ({
-  notifications: state.notifications,
-}))(NoSideBarLayoutComponent);
