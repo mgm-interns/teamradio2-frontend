@@ -63,7 +63,6 @@ export class PlaylistItem extends Component<
     }
     if (nextProps.votingError !== '') {
       this.setState({ updateVote: false });
-      alert(nextProps.votingError);
     }
     if (this.props.upVoteCount !== nextProps.upVoteCount) {
       this.setState({
