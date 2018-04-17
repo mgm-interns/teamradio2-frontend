@@ -14,9 +14,9 @@ export class SongServices {
     youTubeVideoId: string,
     message: string,
   ): Observable<Song> {
-    const body: any = {
-      message: message || null,
-    };
+
+    const body: any = message || null;
+
     const url = `station/${stationId}/${youTubeVideoId}`;
     return this._httpServices.post(url, body);
   }
