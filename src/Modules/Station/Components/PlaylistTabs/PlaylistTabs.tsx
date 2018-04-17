@@ -36,7 +36,7 @@ type IProps = IStateProps & IOwnProps;
 export class PlaylistTabsComponent extends Component<IProps, IStates> {
   private stationPlaylistSSE: StationPlaylistSSE;
   private userServices: UserServices;
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
     this.userServices = new UserServices();
     this.state = {

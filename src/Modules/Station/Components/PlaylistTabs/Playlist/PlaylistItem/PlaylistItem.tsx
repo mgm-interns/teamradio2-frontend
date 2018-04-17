@@ -22,7 +22,15 @@ interface IPlayListItemProps {
   isFavorite: boolean;
 }
 
-export class PlaylistItem extends Component<IPlayListItemProps, any> {
+interface IPlayListItemStates {
+  isUpVote: boolean,
+  isDownVote: boolean,
+  isFavorite: boolean,
+  upVotes: number,
+  downVotes: number,
+}
+
+export class PlaylistItem extends Component<IPlayListItemProps, IPlayListItemStates> {
   private userServices: UserServices;
   constructor(props: any) {
     super(props);

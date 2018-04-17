@@ -8,6 +8,10 @@ import { IFavouriteItem } from '../Favourite/FavouriteItem';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 
+interface IPlayListStates {
+  playlist: any[];
+}
+
 interface IPlaylistProps {
   playlist: any[];
 }
@@ -18,7 +22,7 @@ interface IFavoriteListProps {
 
 type Iprops = IPlaylistProps & IFavoriteListProps;
 
-export class Playlist extends Component<Iprops, IPlaylistProps> {
+export class Playlist extends Component<Iprops, IPlayListStates> {
   private userServices: UserServices;
   constructor(props: any) {
     super(props);
