@@ -1,11 +1,14 @@
 import { IApplicationState } from 'Configuration/Redux';
+import { FavoriteSong } from 'Models/FavoriteSong';
 import { Song } from 'Models/Song';
 import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
+import { UserServices } from 'Services/Http/UserServices';
 import { StationPlaylistSSE } from 'Services/SSE';
 import { Favourite } from './Favourite';
+import { IFavouriteItem } from './Favourite/FavouriteItem';
 import { favouriteList, historyList } from './fixture';
 import { History } from './History';
 import { Playlist } from './Playlist';
@@ -23,19 +26,21 @@ interface IOwnProps {
   stationId: string;
 }
 
-type IProps = IStateProps & IOwnProps;
-
-interface IState {
+interface IStates {
   activeTab: string;
+  favoriteList: IFavouriteItem[];
 }
 
-export class PlaylistTabsComponent extends Component<IProps, IState> {
+type IProps = IStateProps & IOwnProps;
+
+export class PlaylistTabsComponent extends Component<IProps, IStates> {
   private stationPlaylistSSE: StationPlaylistSSE;
-
-  constructor(props: any) {
+  private userServices: UserServices;
+  constructor(props: IProps) {
     super(props);
-
+    this.userServices = new UserServices();
     this.state = {
+      favoriteList: [],
       activeTab: PLAYLIST_TAB_ID,
     };
   }
@@ -48,6 +53,35 @@ export class PlaylistTabsComponent extends Component<IProps, IState> {
     this.setState({
       activeTab: tabId,
     });
+  }
+
+  public convertFavortieToIFavoriteItem(item: FavoriteSong): IFavouriteItem {
+    return {
+      id: item.id,
+      userId: item.userId,
+      songId: item.songId,
+      song: item.song,
+    };
+  }
+
+  public getListFavorite() {
+    this.userServices.getListFavorite().subscribe(
+      (res: FavoriteSong[]) => {
+        const favoriteList: IFavouriteItem[] = res.map(
+          this.convertFavortieToIFavoriteItem,
+        );
+        this.setState({
+          favoriteList,
+        });
+      },
+      (err: any) => {
+        console.log(err);
+      },
+    );
+  }
+
+  public componentWillMount() {
+    this.getListFavorite();
   }
 
   public componentDidMount() {
@@ -106,7 +140,10 @@ export class PlaylistTabsComponent extends Component<IProps, IState> {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId={PLAYLIST_TAB_ID}>
-            <Playlist playlist={playlist} />
+            <Playlist
+              playlist={playlist}
+              favoriteList={this.state.favoriteList}
+            />
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
             <History historyList={historyList} />

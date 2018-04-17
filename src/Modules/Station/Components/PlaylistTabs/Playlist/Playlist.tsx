@@ -1,18 +1,32 @@
+import { Song } from 'Models/Song';
 import * as React from 'react';
 import { Component } from 'react';
 import FlipMoveList from 'react-flip-move';
 import { Card, CardBody } from 'reactstrap';
+import { UserServices } from 'Services/Http/UserServices';
+import { IFavouriteItem } from '../Favourite/FavouriteItem';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
+
+interface IPlayListStates {
+  playlist: any[];
+}
 
 interface IPlaylistProps {
   playlist: any[];
 }
 
-export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
+interface IFavoriteListProps {
+  favoriteList: IFavouriteItem[];
+}
+
+type Iprops = IPlaylistProps & IFavoriteListProps;
+
+export class Playlist extends Component<Iprops, IPlayListStates> {
+  private userServices: UserServices;
   constructor(props: any) {
     super(props);
-
+    this.userServices = new UserServices();
     this.state = {
       playlist: props.playlist,
     };
@@ -45,6 +59,10 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
     });
   }
 
+  public isFavorited(playlistItem: Song, favoriteList: IFavouriteItem[]) {
+    return favoriteList.some(item => item.songId === playlistItem.id);
+  }
+
   public render() {
     const nowPlaying = true;
     if (!nowPlaying) {
@@ -70,6 +88,7 @@ export class Playlist extends Component<IPlaylistProps, IPlaylistProps> {
                 {...song}
                 upVote={() => this.upVote()}
                 downVote={() => this.downVote()}
+                isFavorite={this.isFavorited(song, this.props.favoriteList)}
               />
             );
           })}

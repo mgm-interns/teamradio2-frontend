@@ -1,9 +1,11 @@
 import * as classNames from 'classnames';
 import { YoutubeHelper } from 'Helpers';
+import { FavoriteSong } from 'Models/FavoriteSong';
 import * as React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
+import { UserServices } from 'Services/Http/UserServices';
 import './PlaylistItem.scss';
 
 interface IPlayListItemProps {
@@ -17,26 +19,52 @@ interface IPlayListItemProps {
   willBeSkipped: boolean;
   message: string;
   status: string;
+  isFavorite: boolean;
 }
 
-export class PlaylistItem extends Component<IPlayListItemProps, any> {
+interface IPlayListItemStates {
+  isUpVote: boolean,
+  isDownVote: boolean,
+  isFavorite: boolean,
+  upVotes: number,
+  downVotes: number,
+}
+
+export class PlaylistItem extends Component<IPlayListItemProps, IPlayListItemStates> {
+  private userServices: UserServices;
   constructor(props: any) {
     super(props);
+    this.userServices = new UserServices();
     this.state = {
       isUpVote: false,
       isDownVote: false,
-      isFavourite: false,
+      isFavorite: this.props.isFavorite,
       upVotes: this.props.upVotes,
       downVotes: this.props.downVotes,
     };
-    this.setFavouriteSong = this.setFavouriteSong.bind(this);
+    this.setFavoriteSong = this.setFavoriteSong.bind(this);
     this.setUpVote = this.setUpVote.bind(this);
   }
 
-  public setFavouriteSong() {
-    this.setState({
-      isFavourite: !this.state.isFavourite,
-    });
+  public componentWillReceiveProps(nextProps: IPlayListItemProps) {
+    if (this.props.isFavorite !== nextProps.isFavorite) {
+      this.setState({ isFavorite: nextProps.isFavorite });
+    }
+  }
+
+  public setFavoriteSong() {
+    if (!this.state.isFavorite) {
+      return this.userServices.createFavorite(this.props.id).subscribe(
+        (res: FavoriteSong) => {
+          this.setState({
+            isFavorite: !this.state.isFavorite,
+          });
+        },
+        (err: any) => {
+          console.log(`Error when create: ${err}`);
+        },
+      );
+    }
   }
 
   public setUpVote() {
@@ -58,7 +86,6 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
 
   public _renderThumbnail = () => {
     const { id, thumbnail, duration, willBeSkipped } = this.props;
-
     return (
       <Col xs={3} className="p-0 thumbnail-container">
         <img className="video-img" src={thumbnail} />
@@ -144,8 +171,7 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
   public render() {
     const { id, title, status } = this.props;
 
-    const { isFavourite } = this.state;
-
+    const { isFavorite } = this.state;
     return (
       <Row
         className={classNames('m-0', 'item-container', {
@@ -165,13 +191,13 @@ export class PlaylistItem extends Component<IPlayListItemProps, any> {
             <Col xs={2} className="pr-0">
               <div
                 className="action-icon"
-                onClick={() => this.setFavouriteSong()}>
+                onClick={() => this.setFavoriteSong()}>
                 <i
                   className={classNames(
                     'fa',
-                    { 'fa-star-o': !isFavourite },
-                    { 'fa-star': isFavourite },
-                    { isActive: isFavourite },
+                    { 'fa-star-o': !isFavorite },
+                    { 'fa-star': isFavorite },
+                    { isActive: isFavorite },
                   )}
                 />
               </div>

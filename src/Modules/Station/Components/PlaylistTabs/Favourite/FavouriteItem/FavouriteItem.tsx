@@ -1,8 +1,16 @@
 import * as classNames from 'classnames';
+import { Song } from 'Models/Song';
 import * as React from 'react';
 import { Component } from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
+
+export interface IFavouriteItem {
+  id: string;
+  userId: string;
+  songId: string;
+  song: Song;
+}
 
 export class FavouriteItem extends Component<any, any> {
   constructor(props: any) {
