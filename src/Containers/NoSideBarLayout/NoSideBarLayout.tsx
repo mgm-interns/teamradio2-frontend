@@ -1,4 +1,5 @@
-import { BaseComponent, NotificationInstance } from 'BaseComponent';
+import { BaseComponent } from 'BaseComponent/BaseComponent';
+import { NotificationInstance } from 'BaseComponent/NotificationInstance';
 import { CustomHeader, Footer } from 'Components';
 import {
   ForgotPassword,
@@ -10,17 +11,17 @@ import {
   ResetPassword,
   Station,
 } from 'Pages';
-import { object } from 'prop-types';
 import * as React from 'react';
 import * as NotificationSystem from 'react-notification-system';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './NoSideBarLayout.scss';
 
-export class NoSideBarLayout extends BaseComponent<any, any> {
-  public static childContextTypes = {
-    notifications: object,
-  };
+interface IContextTypes {
+  notifcations: object;
+}
 
+export class NoSideBarLayout extends BaseComponent<any, any> {
+  public static childContextTypes: IContextTypes;
   public notificationInstance: NotificationInstance;
   private notificationRef: any;
 
