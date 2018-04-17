@@ -12,7 +12,7 @@ export interface IFavouriteItem {
   song: Song;
 }
 
-export class FavouriteItem extends Component<any, {}> {
+export class FavouriteItem extends Component<any, any> {
   constructor(props: any) {
     super(props);
   }
