@@ -1,6 +1,6 @@
 import { IApplicationState } from 'Configuration/Redux';
 import { FavoriteSong } from 'Models/FavoriteSong';
-import { Song } from 'Models/Song';
+import { PlaylistSong } from 'Models/Song';
 import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -19,7 +19,7 @@ const HISTORY_TAB_ID = '2';
 const FAVOURITE_TAB_ID = '3';
 
 interface IStateProps {
-  playlist: Song[];
+  playlist: PlaylistSong[];
 }
 
 interface IOwnProps {
@@ -45,7 +45,7 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
     };
   }
 
-  public openTab(tabId: any) {
+  private openTab = (tabId: any) => {
     if (this.state.activeTab === tabId) {
       return;
     }
@@ -53,18 +53,20 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
     this.setState({
       activeTab: tabId,
     });
-  }
+  };
 
-  public convertFavortieToIFavoriteItem(item: FavoriteSong): IFavouriteItem {
+  private convertFavortieToIFavoriteItem = (
+    item: FavoriteSong,
+  ): IFavouriteItem => {
     return {
       id: item.id,
       userId: item.userId,
       songId: item.songId,
       song: item.song,
     };
-  }
+  };
 
-  public getListFavorite() {
+  private getListFavorite = () => {
     this.userServices.getListFavorite().subscribe(
       (res: FavoriteSong[]) => {
         const favoriteList: IFavouriteItem[] = res.map(
@@ -78,7 +80,7 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
         console.log(err);
       },
     );
-  }
+  };
 
   public componentWillMount() {
     this.getListFavorite();
@@ -140,7 +142,11 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId={PLAYLIST_TAB_ID}>
-            <Playlist playlist={playlist} stationId={stationId} favoriteList={this.state.favoriteList}/>
+            <Playlist
+              playlist={playlist}
+              stationId={stationId}
+              favoriteList={this.state.favoriteList}
+            />
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
             <History historyList={historyList} />

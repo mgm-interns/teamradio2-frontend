@@ -1,4 +1,4 @@
-import { Song } from 'Models/Song';
+import { PlaylistSong } from 'Models/Song';
 import * as React from 'react';
 import { Component } from 'react';
 import FlipMoveList from 'react-flip-move';
@@ -10,7 +10,7 @@ import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 
 interface IPlaylistProps {
-  playlist: any[];
+  playlist: PlaylistSong[];
   stationId: String;
 }
 
@@ -19,7 +19,7 @@ interface IFavoriteListProps {
 }
 
 interface IStates {
-  playlist: any[];
+  playlist: PlaylistSong[];
   votingError: string;
 }
 
@@ -76,7 +76,7 @@ export class Playlist extends Component<Iprops, IStates> {
     });
   }
 
-  public isFavorited(playlistItem: Song, favoriteList: IFavouriteItem[]) {
+  public isFavorited(playlistItem: PlaylistSong, favoriteList: IFavouriteItem[]) {
     return favoriteList.some(item => item.songId === playlistItem.id);
   }
 
@@ -103,8 +103,12 @@ export class Playlist extends Component<Iprops, IStates> {
               <PlaylistItem
                 key={song.id || index}
                 {...song}
-                upVote={(songId: String) => this.upVote(songId)}
-                downVote={(songId: String) => this.downVote(songId)}
+                upVote={(songId: string) => {
+                  this.upVote(songId)
+                }}
+                downVote={(songId: string) => {
+                  this.downVote(songId)
+                }}
                 votingError={this.state.votingError}
                 isFavorite={this.isFavorited(song, this.props.favoriteList)}
               />

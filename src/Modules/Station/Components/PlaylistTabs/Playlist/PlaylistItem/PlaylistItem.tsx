@@ -8,25 +8,16 @@ import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import './PlaylistItem.scss';
 import { localStorageManager } from 'Helpers/LocalStorageManager';
+import { PlaylistSong } from 'Models/Song';
 
 interface IPlayListItemProps {
-  id: string;
-  title: string;
-  thumbnail: string;
-  creator: any;
-  duration: number;
-  willBeSkipped: boolean;
-  message: string;
-  status: string;
-  upVoteCount: number;
-  downVoteCount: number;
   upVote: (songId: string) => void;
   downVote: (songId: string) => void;
-  upvoteUserList: any[];
-  downvoteUserList: any[];
   votingError: string;
   isFavorite: boolean;
 }
+
+type IProps = IPlayListItemProps & PlaylistSong;
 
 interface IPlayListItemStates {
   isUpVote: boolean;
@@ -37,12 +28,9 @@ interface IPlayListItemStates {
   isFavorite: boolean;
 }
 
-export class PlaylistItem extends Component<
-  IPlayListItemProps,
-  IPlayListItemStates
-> {
+export class PlaylistItem extends Component<IProps, IPlayListItemStates> {
   private userServices: UserServices;
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
     this.userServices = new UserServices();
     this.state = {
@@ -57,7 +45,7 @@ export class PlaylistItem extends Component<
     this.setUpVote = this.setUpVote.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: IPlayListItemProps) {
+  componentWillReceiveProps(nextProps: IProps) {
     if (this.props.isFavorite !== nextProps.isFavorite) {
       this.setState({ isFavorite: nextProps.isFavorite });
     }
