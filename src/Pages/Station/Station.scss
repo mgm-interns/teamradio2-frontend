@@ -37,14 +37,6 @@ $mq-xlarge: "(min-width: #{$bp-xlarge})";
     @include media-breakpoint-down(lg){
       min-height: 30vh;
     }
-
-    .progress {
-      height: 0.2rem;
-    }
-
-    .progress-bar {
-      background: rgb(224, 106, 78) !important;
-    }
   }
 
   .playlist-tabs-container {
