@@ -27,6 +27,8 @@ type Iprops = IPlaylistProps & IFavoriteListProps;
 
 export class Playlist extends Component<Iprops, IStates> {
   private userServices: UserServices;
+  private songServices: SongServices;
+
   constructor(props: Iprops) {
     super(props);
 

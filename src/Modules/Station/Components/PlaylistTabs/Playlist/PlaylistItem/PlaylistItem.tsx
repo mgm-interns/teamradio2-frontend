@@ -29,12 +29,12 @@ interface IPlayListItemProps {
 }
 
 interface IPlayListItemStates {
-  isUpVote: boolean,
-  isDownVote: boolean,
-  upVoteCount: number,
-  downVoteCount: number,
-  upDateVote: boolean,
-  isFavorite: boolean,
+  isUpVote: boolean;
+  isDownVote: boolean;
+  upVoteCount: number;
+  downVoteCount: number;
+  updateVote: boolean;
+  isFavorite: boolean;
 }
 
 export class PlaylistItem extends Component<
@@ -50,7 +50,7 @@ export class PlaylistItem extends Component<
       isDownVote: false,
       upVoteCount: this.props.upVoteCount,
       downVoteCount: this.props.downVoteCount,
-      upDateVote: false,
+      updateVote: false,
       isFavorite: this.props.isFavorite,
     };
     this.setFavoriteSong = this.setFavoriteSong.bind(this);
@@ -139,8 +139,8 @@ export class PlaylistItem extends Component<
 
   public _renderVotingSection = () => {
     const {
-      isUpvote,
-      isDownvote,
+      isUpVote,
+      isDownVote,
       upVoteCount,
       downVoteCount,
       updateVote,
@@ -158,7 +158,7 @@ export class PlaylistItem extends Component<
               <span
                 onClick={() => this.setUpVote()}
                 className={classNames('like-icon', {
-                  isActive: isUpvote,
+                  isActive: isUpVote,
                 })}>
                 <i className="fa fa-thumbs-up thumbs-icon" />
                 {upVoteCount}
@@ -166,7 +166,7 @@ export class PlaylistItem extends Component<
               <span
                 onClick={() => this.setDownVote()}
                 className={classNames('dislike-icon', {
-                  isActive: isDownvote,
+                  isActive: isDownVote,
                 })}>
                 <i className="fa fa-thumbs-down thumbs-icon" />
                 {downVoteCount}
