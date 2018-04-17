@@ -1,4 +1,7 @@
-import { StationPlayer } from 'Components/StationPlayer';
+import {
+  IReactPlayerPropsOnProgressState,
+  StationPlayer,
+} from 'Components/StationPlayer';
 import { IApplicationState } from 'Configuration/Redux';
 import { convertToEpochTimeInSeconds } from 'Helpers/DateTimeHelper';
 import { NowPlayingSong } from 'Models/Song';
@@ -7,6 +10,11 @@ import * as React from 'react';
 import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 import './NowPlaying.scss';
+
+interface IPlayerProgress {
+  playedTime: number;
+  playedTimeInFraction: number;
+}
 
 interface IStateProps {
   nowPlaying: NowPlayingSong;
@@ -22,6 +30,13 @@ interface IState {
   progress: number;
 }
 
+interface IPlayedTime {
+  playedTime: number;
+  playedTimeInFraction: number;
+}
+
+const MAXIMUM_DELAY = 2; // seconds
+
 export class NowPlayingComponent extends Component<IProps, IState> {
   private playerRef: ReactPlayer;
 
@@ -34,41 +49,14 @@ export class NowPlayingComponent extends Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    this.seekTime(this.props.nowPlaying);
+    this.updateSeekTime(this.props.nowPlaying);
   }
 
   public async componentWillReceiveProps(nextProps: IProps) {
     if (this.isNowPlayingChanged(nextProps)) {
-      this.seekTime(nextProps.nowPlaying);
+      this.updateSeekTime(nextProps.nowPlaying);
     }
   }
-
-  public isNowPlayingChanged(nextProps: IProps) {
-    const { nowPlaying: oldNowPlaying } = this.props;
-    const { nowPlaying: nextNowPlaying } = nextProps;
-    return JSON.stringify(oldNowPlaying) !== JSON.stringify(nextNowPlaying);
-  }
-
-  public seekTime = (nowPlaying: NowPlayingSong): void => {
-    if (!nowPlaying) {
-      return;
-    }
-    const duration = convertToEpochTimeInSeconds(nowPlaying.duration);
-    const startingTime = nowPlaying.startingTime;
-    const now = convertToEpochTimeInSeconds(Date.now().valueOf());
-
-    const playedTime = now - startingTime;
-    const playedTimeInFraction = playedTime / duration;
-
-    this.setState(
-      {
-        progress: playedTimeInFraction,
-      },
-      () => {
-        this.playerRef.seekTo(playedTime);
-      },
-    );
-  };
 
   public render() {
     const { progress } = this.state;
@@ -83,14 +71,104 @@ export class NowPlayingComponent extends Component<IProps, IState> {
         muted={muted}
         playerRef={this.bindPlayerRef}
         progress={progress}
+        onProgress={this.onProgress}
+        onStart={this.onStart}
+        onEnded={this.onEnded}
       />
     );
   }
 
-  private bindPlayerRef = (ref: ReactPlayer): ReactPlayer => {
+  private bindPlayerRef = (ref: ReactPlayer) => {
     this.playerRef = ref;
-    return ref;
   };
+
+  private onProgress = (playerState: IReactPlayerPropsOnProgressState) => {
+    const { nowPlaying } = this.props;
+    const {
+      playedTime,
+      playedTimeInFraction: serverPlayedTime,
+    } = this.getPlayedTime(nowPlaying);
+    const { played: playerPlayedTime } = playerState;
+
+    if (
+      this.needToSeekTimeOnPlayerProgress(serverPlayedTime, playerPlayedTime)
+    ) {
+      this.updateProgressAndSeekTime({
+        playedTime,
+        playedTimeInFraction: serverPlayedTime,
+      });
+    } else {
+      this.updateProgress(serverPlayedTime);
+    }
+  };
+
+  private onStart = () => {
+    const { nowPlaying } = this.props;
+    this.updateProgressAndSeekTime(this.getPlayedTime(nowPlaying));
+  };
+
+  private onEnded = () => {
+    this.updateProgress(1);
+  };
+
+  private roundPlayerTime = (fractionTime: number) => {
+    const { nowPlaying: { duration } } = this.props;
+    return convertToEpochTimeInSeconds(Math.round(duration * fractionTime));
+  };
+
+  private updateSeekTime = (nowPlaying: NowPlayingSong): void => {
+    if (!nowPlaying) {
+      return;
+    }
+    this.updateProgressAndSeekTime(this.getPlayedTime(nowPlaying));
+  };
+
+  private updateProgressAndSeekTime = ({
+    playedTime,
+    playedTimeInFraction,
+  }: IPlayerProgress) => {
+    this.setState(
+      {
+        progress: playedTimeInFraction,
+      },
+      () => {
+        this.playerRef.seekTo(playedTime);
+      },
+    );
+  };
+
+  private updateProgress(progress: number) {
+    this.setState({ progress });
+  }
+
+  private needToSeekTimeOnPlayerProgress(
+    serverPlayedTime: number,
+    playerPlayedTime: number,
+  ): boolean {
+    const roundedServerPlayedTime = this.roundPlayerTime(serverPlayedTime);
+    const roundedPlayerPlayedTime = this.roundPlayerTime(playerPlayedTime);
+    const deviation = roundedPlayerPlayedTime - roundedServerPlayedTime;
+    return Math.abs(deviation) > MAXIMUM_DELAY;
+  }
+
+  private getPlayedTime = (nowPlaying: NowPlayingSong): IPlayedTime => {
+    const duration = convertToEpochTimeInSeconds(nowPlaying.duration);
+    const startingTime = nowPlaying.startingTime;
+    const now = convertToEpochTimeInSeconds(Date.now().valueOf());
+
+    const playedTime = now - startingTime;
+    const playedTimeInFraction = playedTime / duration;
+    return {
+      playedTime,
+      playedTimeInFraction,
+    };
+  };
+
+  private isNowPlayingChanged(nextProps: IProps) {
+    const { nowPlaying: oldNowPlaying } = this.props;
+    const { nowPlaying: nextNowPlaying } = nextProps;
+    return JSON.stringify(oldNowPlaying) !== JSON.stringify(nextNowPlaying);
+  }
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
