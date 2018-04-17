@@ -106,7 +106,7 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
   }
 
   public render() {
-    const { playlist } = this.props;
+    const { playlist, stationId } = this.props;
     return (
       <div className="tabs-container">
         <Nav tabs>
@@ -140,10 +140,7 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId={PLAYLIST_TAB_ID}>
-            <Playlist
-              playlist={playlist}
-              favoriteList={this.state.favoriteList}
-            />
+            <Playlist playlist={playlist} stationId={stationId} favoriteList={this.state.favoriteList}/>
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
             <History historyList={historyList} />

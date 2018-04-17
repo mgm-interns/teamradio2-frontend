@@ -7,27 +7,34 @@ import { Link } from 'react-router-dom';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import './PlaylistItem.scss';
+import { localStorageManager } from 'Helpers/LocalStorageManager';
 
 interface IPlayListItemProps {
-  upVotes: number;
-  downVotes: number;
-  id: any;
+  id: string;
   title: string;
-  thumbnail: any;
+  thumbnail: string;
   creator: any;
   duration: number;
   willBeSkipped: boolean;
   message: string;
   status: string;
+  upVoteCount: number;
+  downVoteCount: number;
+  upVote: (songId: string) => void;
+  downVote: (songId: string) => void;
+  upvoteUserList: any[];
+  downvoteUserList: any[];
+  votingError: string;
   isFavorite: boolean;
 }
 
 interface IPlayListItemStates {
-  isUpVote: boolean;
-  isDownVote: boolean;
-  isFavorite: boolean;
-  upVotes: number;
-  downVotes: number;
+  isUpVote: boolean,
+  isDownVote: boolean,
+  upVoteCount: number,
+  downVoteCount: number,
+  upDateVote: boolean,
+  isFavorite: boolean,
 }
 
 export class PlaylistItem extends Component<
@@ -41,17 +48,34 @@ export class PlaylistItem extends Component<
     this.state = {
       isUpVote: false,
       isDownVote: false,
+      upVoteCount: this.props.upVoteCount,
+      downVoteCount: this.props.downVoteCount,
+      upDateVote: false,
       isFavorite: this.props.isFavorite,
-      upVotes: this.props.upVotes,
-      downVotes: this.props.downVotes,
     };
     this.setFavoriteSong = this.setFavoriteSong.bind(this);
     this.setUpVote = this.setUpVote.bind(this);
   }
 
-  public componentWillReceiveProps(nextProps: IPlayListItemProps) {
+  componentWillReceiveProps(nextProps: IPlayListItemProps) {
     if (this.props.isFavorite !== nextProps.isFavorite) {
       this.setState({ isFavorite: nextProps.isFavorite });
+    }
+    if (nextProps.votingError !== '') {
+      this.setState({ updateVote: false });
+      alert(nextProps.votingError);
+    }
+    if (this.props.upVoteCount !== nextProps.upVoteCount) {
+      this.setState({
+        upVoteCount: nextProps.upVoteCount,
+        updateVote: false,
+      });
+    }
+    if (this.props.downVoteCount !== nextProps.downVoteCount) {
+      this.setState({
+        downVoteCount: nextProps.downVoteCount,
+        updateVote: false,
+      });
     }
   }
 
@@ -71,21 +95,100 @@ export class PlaylistItem extends Component<
   }
 
   public setUpVote() {
-    const { isUpVote, upVotes } = this.state;
+    const { upVote, id } = this.props;
 
     this.setState({
-      isUpVote: !isUpVote,
-      upVotes: !isUpVote ? upVotes + 1 : upVotes - 1,
+      updateVote: true,
     });
+
+    upVote(id);
   }
 
   public setDownVote() {
-    const { isDownVote, downVotes } = this.state;
+    const { downVote, id } = this.props;
+
     this.setState({
-      isDownVote: !isDownVote,
-      downVotes: !downVotes ? downVotes + 1 : downVotes - 1,
+      updateVote: true,
     });
+
+    downVote(id);
   }
+
+  public isUpVote = (upvoteUserList: any[]) => {
+    // const currentUser = JSON.parse(localStorageManager.getUserInfo());
+    //
+    // for (let i = 0; i < upvoteUserList.length; i++) {
+    //   console.log('item: ', upvoteUserList[i]);
+    // }
+    // TODO: update style for current user if they already up vote song
+  };
+
+  public isDownVote = (downvoteUserList: any[]) => {
+    // TODO: update style for current user if they already up vote song
+  };
+
+  public _calculateVotingPercentage = (votes: number) => {
+    const { upVoteCount, downVoteCount } = this.state;
+
+    if (upVoteCount === 0 && downVoteCount === 0) {
+      return 50;
+    }
+
+    return votes / (upVoteCount + downVoteCount) * 100;
+  };
+
+  public _renderVotingSection = () => {
+    const {
+      isUpvote,
+      isDownvote,
+      upVoteCount,
+      downVoteCount,
+      updateVote,
+    } = this.state;
+
+    return (
+      <Col xs={5} className="d-flex align-items-end pr-0">
+        {updateVote ? (
+          <div className="buttonload">
+            <i className="fa fa-spinner fa-spin" />
+          </div>
+        ) : (
+          <div className="w-100 vote-container">
+            <div className="d-flex vote-icons">
+              <span
+                onClick={() => this.setUpVote()}
+                className={classNames('like-icon', {
+                  isActive: isUpvote,
+                })}>
+                <i className="fa fa-thumbs-up thumbs-icon" />
+                {upVoteCount}
+              </span>
+              <span
+                onClick={() => this.setDownVote()}
+                className={classNames('dislike-icon', {
+                  isActive: isDownvote,
+                })}>
+                <i className="fa fa-thumbs-down thumbs-icon" />
+                {downVoteCount}
+              </span>
+            </div>
+            <Progress multi>
+              <Progress
+                bar
+                value={this._calculateVotingPercentage(upVoteCount)}
+                barClassName="like-progress"
+              />
+              <Progress
+                bar
+                value={this._calculateVotingPercentage(downVoteCount)}
+                barClassName="dislike-progress"
+              />
+            </Progress>
+          </div>
+        )}
+      </Col>
+    );
+  };
 
   public _renderThumbnail = () => {
     const { id, thumbnail, duration, willBeSkipped } = this.props;
@@ -146,26 +249,6 @@ export class PlaylistItem extends Component<
               </span>
             ) : null}
           </Link>
-        </div>
-      </Col>
-    );
-  };
-
-  public _renderVotingSection = () => {
-    return (
-      <Col xs={5} className="d-flex align-items-end pr-0">
-        <div className="w-100 vote-container">
-          <div className="d-flex vote-icons">
-            <span onClick={() => this.setUpVote()} className="like-icon">
-              <i className="fa fa-thumbs-up thumbs-icon" />
-              {this.state.upVotes}
-            </span>
-            <span onClick={() => this.setDownVote()} className="dislike-icon">
-              <i className="fa fa-thumbs-down thumbs-icon" />
-              {this.state.downVotes}
-            </span>
-          </div>
-          <Progress value={50} />
         </div>
       </Col>
     );

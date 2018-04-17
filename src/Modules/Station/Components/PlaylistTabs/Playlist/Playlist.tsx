@@ -4,46 +4,61 @@ import { Component } from 'react';
 import FlipMoveList from 'react-flip-move';
 import { Card, CardBody } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
+import { SongServices } from 'Services/Http';
 import { IFavouriteItem } from '../Favourite/FavouriteItem';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 
-interface IPlayListStates {
-  playlist: any[];
-}
-
 interface IPlaylistProps {
   playlist: any[];
+  stationId: String;
 }
 
 interface IFavoriteListProps {
   favoriteList: IFavouriteItem[];
 }
 
+interface IStates {
+  playlist: any[];
+  votingError: string;
+}
+
 type Iprops = IPlaylistProps & IFavoriteListProps;
 
-export class Playlist extends Component<Iprops, IPlayListStates> {
+export class Playlist extends Component<Iprops, IStates> {
   private userServices: UserServices;
-  constructor(props: any) {
+  constructor(props: Iprops) {
     super(props);
+
     this.userServices = new UserServices();
+    this.songServices = new SongServices();
+
     this.state = {
       playlist: props.playlist,
+      votingError: '',
     };
-
-    this.upVote = this.upVote.bind(this);
-    this.downVote = this.downVote.bind(this);
-    this.addFavouriteSong = this.addFavouriteSong.bind(this);
   }
 
-  public upVote = () => {
-    alert('Up vote clicked!');
-    // TODO: Implemented upVote function
+  public upVote = (songId: String) => {
+    const { stationId } = this.props;
+
+    this.songServices.upVote(stationId, songId).subscribe(
+      response => {},
+      err => {
+        this.setState({ votingError: err });
+      },
+    );
   };
 
-  public downVote = () => {
-    alert('Down vote clicked!');
-    // TODO: Implemented downVote function
+  public downVote = (songId: String) => {
+    const { stationId } = this.props;
+
+    this.songServices.downVote(stationId, songId).subscribe(
+      response => {},
+      err => {
+        this.setState({ votingError: err });
+      },
+    );
   };
 
   public addFavouriteSong = () => {
@@ -86,8 +101,9 @@ export class Playlist extends Component<Iprops, IPlayListStates> {
               <PlaylistItem
                 key={song.id || index}
                 {...song}
-                upVote={() => this.upVote()}
-                downVote={() => this.downVote()}
+                upVote={(songId: String) => this.upVote(songId)}
+                downVote={(songId: String) => this.downVote(songId)}
+                votingError={this.state.votingError}
                 isFavorite={this.isFavorited(song, this.props.favoriteList)}
               />
             );

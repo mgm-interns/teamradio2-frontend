@@ -20,4 +20,14 @@ export class SongServices {
     const url = `station/${stationId}/${youTubeVideoId}`;
     return this._httpServices.post(url, body);
   }
+
+  public upVote(stationId: String, songId: String): Observable<Song> {
+    const url = `station/${stationId}/${songId}/upVote`;
+    return this._httpServices.patch(url, null);
+  }
+
+  public downVote(stationId: String, songId: String): Observable<Song> {
+    const url = `station/${stationId}/${songId}/downVote`;
+    return this._httpServices.patch(url, null);
+  }
 }
