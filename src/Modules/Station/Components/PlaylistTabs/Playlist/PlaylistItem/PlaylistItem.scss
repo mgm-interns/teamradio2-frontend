@@ -41,11 +41,20 @@
 
   .progress {
     height: 0.1rem;
-    background: rgba(224, 106, 78, 0.2);
   }
 
-  .progress-bar {
+  .like-progress {
     background: rgb(224, 106, 78);
+  }
+
+  .dislike-progress {
+    background: rgba(224, 106, 78, 0.4);
+  }
+
+  .buttonload {
+    width: 100%;
+    text-align: center;
+    color: rgb(224, 106, 78);
   }
 }
 
