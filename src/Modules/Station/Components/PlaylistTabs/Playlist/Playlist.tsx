@@ -60,7 +60,7 @@ export class Playlist extends Component<Iprops, IPlayListStates> {
   }
 
   public isFavorited(playlistItem: Song, favoriteList: IFavouriteItem[]) {
-    return favoriteList.some(item => item.songId === playlistItem.id);
+    return favoriteList.some(item => item.songId === playlistItem.songId);
   }
 
   public render() {

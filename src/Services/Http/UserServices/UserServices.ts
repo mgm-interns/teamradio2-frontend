@@ -4,8 +4,8 @@ import {
   UnauthorizedUser,
   UnregisteredUser,
 } from 'Models';
-import { Observable } from 'rxjs/Observable';
 import { FavoriteSong } from 'Models/FavoriteSong';
+import { Observable } from 'rxjs/Observable';
 import { HttpServices, OAuthService } from '../HttpServices';
 
 export class UserServices {
@@ -50,14 +50,14 @@ export class UserServices {
     return this._httpServices.get(this.serviceUrl + '/me/favorites');
   }
 
-  public createFavorite(songId: string): Observable<FavoriteSong> {
+  public addSongToFavorite(songId: string): Observable<FavoriteSong> {
     const params: any = {
       songId,
     };
     return this._httpServices.post(this.serviceUrl + '/me/favorites', params);
   }
 
-  public deleteFavoriteById(favoriteId: string): Observable<FavoriteSong> {
+  public removeSongFromFavorite(favoriteId: string): Observable<FavoriteSong> {
     return this._httpServices.get(
       this.serviceUrl + '/me/favorites' + { favoriteId },
     );

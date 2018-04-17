@@ -12,6 +12,7 @@ interface IPlayListItemProps {
   upVotes: number;
   downVotes: number;
   id: any;
+  songId: string;
   title: string;
   thumbnail: any;
   creator: any;
@@ -57,7 +58,7 @@ export class PlaylistItem extends Component<
 
   public setFavoriteSong() {
     if (!this.state.isFavorite) {
-      return this.userServices.createFavorite(this.props.id).subscribe(
+      return this.userServices.addSongToFavorite(this.props.songId).subscribe(
         (res: FavoriteSong) => {
           this.setState({
             isFavorite: !this.state.isFavorite,
