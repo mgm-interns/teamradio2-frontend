@@ -12,7 +12,7 @@ interface IFavoriteStates {
 }
 
 export class Favorite extends Component<IFavoriteProps, IFavoriteStates> {
-  constructor(props: any) {
+  constructor(props: IFavoriteProps) {
     super(props);
 
     this.state = {
