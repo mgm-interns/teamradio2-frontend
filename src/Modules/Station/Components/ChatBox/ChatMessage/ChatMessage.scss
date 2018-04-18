@@ -2,7 +2,7 @@
   .message-left {
     display: flex;
     justify-content: flex-start;
-    margin: 10px 20px 10px 0px;
+    margin: 10px 20px 10px 0;
 
     .message-container {
       margin-left: 8px;
@@ -24,7 +24,7 @@
   .message-right {
     display: flex;
     justify-content: flex-end;
-    margin: 10px 0px 10px 20px;
+    margin: 10px 0 10px 20px;
   }
 
   .message-content {
@@ -32,7 +32,7 @@
     border: 1px solid #eee;
     border-radius: 8px;
     padding: 8px 16px;
-    fontsize: 14px;
+    font-size: 14px;
     word-break: keep-all;
   }
 

@@ -3,9 +3,9 @@
   color: rgba(0, 0, 0, 0.54);
   .button-dropdown-setting {
     font-size: 25px;
-    padding-top: 0px;
-    padding-right: 0px;
-    padding-bottom: 0px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
     font-family: Roboto Slab, serif;
     color: rgba(0, 0, 0, 0.54);
     background-color: transparent;
@@ -17,7 +17,6 @@
       background-color: transparent;
       border-color: transparent;
       outline: none;
-      border-color: transparent;
     }
     &:active {
       color: rgba(0, 0, 0, 0.54);
@@ -46,7 +45,6 @@
       border-color: transparent;
       color: rgba(0, 0, 0, 0.54);
       outline: none;
-      border-color: transparent;
     }
   }
   .drop-item {
