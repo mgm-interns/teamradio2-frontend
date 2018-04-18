@@ -1,4 +1,4 @@
-import { getFormatedTime } from 'Helpers/DateTimeHelper';
+import { YoutubeHelper } from 'Helpers/YoutubeHelper';
 import { Song } from 'Models/Song';
 import { Component } from 'react';
 import * as React from 'react';
@@ -55,7 +55,9 @@ class FSPItem extends Component<
           </div>
         )}
         <div className="img-transition" />
-        <div className="duration">{getFormatedTime(song.duration)}</div>
+        <div className="duration">
+          {YoutubeHelper.convertDuration(song.duration)}
+        </div>
         <div className="favorite-song-thumbnail">
           <img src={song.thumbnail} />
         </div>
