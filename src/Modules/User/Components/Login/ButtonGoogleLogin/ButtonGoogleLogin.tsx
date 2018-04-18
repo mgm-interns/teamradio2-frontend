@@ -4,7 +4,7 @@ import { GoogleLogin } from 'react-google-login';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_API_CLIENT_ID;
 
-export class GoogleSignIn extends Component<any, any> {
+export class ButtonGoogleLogin extends Component<any, any> {
   constructor(props: any) {
     super(props);
   }
