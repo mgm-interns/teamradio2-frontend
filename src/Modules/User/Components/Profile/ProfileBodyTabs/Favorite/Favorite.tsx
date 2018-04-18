@@ -21,7 +21,6 @@ export class Favorite extends Component<IFavoriteProps, IFavoriteStates> {
   }
 
   public render() {
-    console.log(this.props.favoriteList);
     return (
       <div>
         <h2 className="title-header">Hear the tracks you've saved</h2>
