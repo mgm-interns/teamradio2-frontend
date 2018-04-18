@@ -38,10 +38,10 @@ export class History extends Component<IHistoryProps, IHistoryState> {
 
   public updateHistory() {
     const { stationId } = this.props;
-    this.songServices.getHistory(stationId).subscribe(
+    this.songServices.getListPlayedSong(stationId).subscribe(
       (history: Song[]) => {
         this.setState({
-          history
+          history,
         });
       },
       (err: any) => {
