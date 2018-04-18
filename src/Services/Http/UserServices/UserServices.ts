@@ -3,7 +3,7 @@ import {
   FavoriteSong,
   RegisteredUser,
   UnauthorizedUser,
-  UnregisteredUser
+  UnregisteredUser,
 } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices, OAuthService } from '../HttpServices';

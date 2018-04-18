@@ -90,7 +90,9 @@ export class HistoryItem extends Component<IHistoryItemProps, any> {
       <Row className={classNames('m-0', 'item-container')}>
         <Col xs={3} className="p-0 thumbnail-container">
           <img className="video-img" src={thumbnail} />
-          <div className="duration">{YoutubeHelper.convertDuration(duration)}</div>
+          <div className="duration">
+            {YoutubeHelper.convertDuration(duration)}
+          </div>
         </Col>
         <Col xs={9} className="pr-0">
           {this._renderItemRight()}

@@ -75,7 +75,10 @@ export class Playlist extends Component<Iprops, IStates> {
     });
   }
 
-  public isFavorited(playlistItem: PlaylistSong, favoriteList: IFavouriteItem[]) {
+  public isFavorited(
+    playlistItem: PlaylistSong,
+    favoriteList: IFavouriteItem[],
+  ) {
     return favoriteList.some(item => item.songId === playlistItem.songId);
   }
 
@@ -103,10 +106,10 @@ export class Playlist extends Component<Iprops, IStates> {
                 key={song.id || index}
                 {...song}
                 upVote={(songId: string) => {
-                  this.upVote(songId)
+                  this.upVote(songId);
                 }}
                 downVote={(songId: string) => {
-                  this.downVote(songId)
+                  this.downVote(songId);
                 }}
                 votingError={this.state.votingError}
                 isFavorite={this.isFavorited(song, this.props.favoriteList)}
