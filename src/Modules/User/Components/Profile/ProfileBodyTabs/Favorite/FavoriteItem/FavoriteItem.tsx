@@ -38,7 +38,7 @@ class FSPItem extends Component<
   }
 
   public render() {
-    const { userId, songId, song } = this.props;
+    const { song } = this.props;
     return (
       <div
         className="favorite-song-item my-flex-item"

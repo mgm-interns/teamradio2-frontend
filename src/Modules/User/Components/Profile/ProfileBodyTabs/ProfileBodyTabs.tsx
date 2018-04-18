@@ -67,6 +67,7 @@ export class ProfileBodyTabs extends Component<{}, IProfileBodyTabsStates> {
     );
   }
   public render() {
+    const { activeTab, favoriteList } = this.state;
     return (
       <Container>
         <Row>
@@ -74,18 +75,14 @@ export class ProfileBodyTabs extends Component<{}, IProfileBodyTabsStates> {
             <Nav tabs>
               <NavItem>
                 <NavLink
-                  className={
-                    this.state.activeTab === STATION_TAB_ID ? 'active' : ''
-                  }
+                  className={activeTab === STATION_TAB_ID ? 'active' : ''}
                   onClick={() => this.openTab(STATION_TAB_ID)}>
                   Stations
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={
-                    this.state.activeTab === FAVORITE_TAB_ID ? 'active' : ''
-                  }
+                  className={activeTab === FAVORITE_TAB_ID ? 'active' : ''}
                   onClick={() => this.openTab(FAVORITE_TAB_ID)}>
                   Favorite Songs
                 </NavLink>
@@ -97,14 +94,12 @@ export class ProfileBodyTabs extends Component<{}, IProfileBodyTabsStates> {
           </div>
         </Row>
         <Row>
-          <TabContent
-            className={'profile-tab-content'}
-            activeTab={this.state.activeTab}>
+          <TabContent className={'profile-tab-content'} activeTab={activeTab}>
             <TabPane tabId={STATION_TAB_ID}>
               {/*<Favorite favouriteList={this.state.favoriteList}/>*/}
             </TabPane>
             <TabPane tabId={FAVORITE_TAB_ID}>
-              <Favorite favoriteList={this.state.favoriteList} />
+              <Favorite favoriteList={favoriteList} />
             </TabPane>
           </TabContent>
         </Row>
