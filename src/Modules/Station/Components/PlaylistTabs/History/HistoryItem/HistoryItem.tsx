@@ -8,11 +8,19 @@ import '../../PlaylistTabs.scss';
 
 interface IHistoryItemProps {
   song: Song;
+  replaySong: (youtubeVideoId: string, message: string) => void;
 }
 
 export class HistoryItem extends Component<IHistoryItemProps, any> {
   constructor(props: any) {
     super(props);
+    this.handleOnReplayClicked = this.handleOnReplayClicked.bind(this);
+  }
+
+  public handleOnReplayClicked() {
+    const { songId } = this.props.song;
+    const message = ''; // To add message when replay the song in the future
+    this.props.replaySong(songId, message);
   }
 
   public _renderCreator = () => {
@@ -55,11 +63,7 @@ export class HistoryItem extends Component<IHistoryItemProps, any> {
           </UncontrolledTooltip>
         </Col>
         <Col xs={2} className="pr-0">
-          <div
-            className="action-icon"
-            onClick={() => {
-              alert('Clicked!');
-            }}>
+          <div className="action-icon" onClick={this.handleOnReplayClicked}>
             <i
               className="fa fa-reply action-button"
               id={songId + '-replay-history'}

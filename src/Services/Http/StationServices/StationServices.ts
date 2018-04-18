@@ -1,6 +1,6 @@
-import { Station } from 'Models/Station';
+import { Station } from 'Models';
 import { Observable } from 'rxjs/Observable';
-import { HttpServices } from './HttpServices';
+import { HttpServices } from '../HttpServices';
 
 export class StationServices {
   private _httpServices: HttpServices;
@@ -21,7 +21,7 @@ export class StationServices {
   public createStation(name: string, privacy?: string): Observable<Station> {
     const body: any = {
       name,
-      privacy: privacy || 'station_public'
+      privacy: privacy || 'station_public',
     };
     return this._httpServices.post(this.serviceUrl, body);
   }

@@ -9,7 +9,7 @@ import { UserServices } from 'Services/Http/UserServices';
 import { StationPlaylistSSE } from 'Services/SSE';
 import { Favourite } from './Favourite';
 import { IFavouriteItem } from './Favourite/FavouriteItem';
-import { favouriteList, historyList } from './fixture';
+import { favouriteList } from './fixture';
 import { History } from './History';
 import { Playlist } from './Playlist';
 import './PlaylistTabs.scss';
@@ -149,7 +149,7 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
             />
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
-            <History historyList={historyList} />
+            <History stationId={stationId} />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
             <Favourite favouriteList={favouriteList} />
