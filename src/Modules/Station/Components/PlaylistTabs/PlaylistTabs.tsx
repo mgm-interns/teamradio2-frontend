@@ -1,14 +1,12 @@
 import { IApplicationState } from 'Configuration/Redux';
-import { FavoriteSong } from 'Models/FavoriteSong';
-import { PlaylistSong } from 'Models/Song';
+import { FavoriteSong, PlaylistSong } from 'Models';
 import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import { StationPlaylistSSE } from 'Services/SSE';
-import { Favourite } from './Favourite';
-import { IFavouriteItem } from './Favourite/FavouriteItem';
+import { Favourite, IFavouriteItem } from './Favourite';
 import { favouriteList } from './fixture';
 import { History } from './History';
 import { Playlist } from './Playlist';
@@ -44,43 +42,6 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
       activeTab: PLAYLIST_TAB_ID,
     };
   }
-
-  private openTab = (tabId: any) => {
-    if (this.state.activeTab === tabId) {
-      return;
-    }
-
-    this.setState({
-      activeTab: tabId,
-    });
-  };
-
-  private convertFavortieToIFavoriteItem = (
-    item: FavoriteSong,
-  ): IFavouriteItem => {
-    return {
-      id: item.id,
-      userId: item.userId,
-      songId: item.songId,
-      song: item.song,
-    };
-  };
-
-  private getListFavorite = () => {
-    this.userServices.getListFavorite().subscribe(
-      (res: FavoriteSong[]) => {
-        const favoriteList: IFavouriteItem[] = res.map(
-          this.convertFavortieToIFavoriteItem,
-        );
-        this.setState({
-          favoriteList,
-        });
-      },
-      (err: any) => {
-        console.log(err);
-      },
-    );
-  };
 
   public componentWillMount() {
     this.getListFavorite();
@@ -163,6 +124,43 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
     this.stationPlaylistSSE = new StationPlaylistSSE(stationId);
     this.stationPlaylistSSE.start();
   }
+
+  private openTab = (tabId: any) => {
+    if (this.state.activeTab === tabId) {
+      return;
+    }
+
+    this.setState({
+      activeTab: tabId,
+    });
+  };
+
+  private convertFavortieToIFavoriteItem = (
+    item: FavoriteSong,
+  ): IFavouriteItem => {
+    return {
+      id: item.id,
+      userId: item.userId,
+      songId: item.songId,
+      song: item.song,
+    };
+  };
+
+  private getListFavorite = () => {
+    this.userServices.getListFavorite().subscribe(
+      (res: FavoriteSong[]) => {
+        const favoriteList: IFavouriteItem[] = res.map(
+          this.convertFavortieToIFavoriteItem,
+        );
+        this.setState({
+          favoriteList,
+        });
+      },
+      (err: any) => {
+        console.log(err);
+      },
+    );
+  };
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({

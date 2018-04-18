@@ -1,6 +1,6 @@
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
-import { RegisteredUser } from 'Models/User';
+import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';

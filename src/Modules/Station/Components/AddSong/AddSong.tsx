@@ -1,10 +1,9 @@
-import { Song } from 'Models/Song';
+import { Song } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardBody, Col, Row } from 'reactstrap';
-import { StationServices } from 'Services/Http';
-import { SongServices } from 'Services/Http';
+import { SongServices, StationServices } from 'Services/Http';
 import { addSong, ISong } from '../../Redux';
 import { PreviewVideo } from './PreviewVideo';
 import { SearchSong } from './SearchSong';

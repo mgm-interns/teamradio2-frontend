@@ -1,8 +1,6 @@
 import { IApplicationState } from 'Configuration/Redux';
-import { NowPlayingSong } from 'Models/Song';
-import { Station as StationModel } from 'Models/Station';
-import { AddSong, StationBrowser } from 'Modules/Station';
-import { NowPlaying, PlaylistTabs, StationHeader } from 'Modules/Station';
+import { NowPlayingSong, Station as StationModel } from 'Models';
+import { AddSong, NowPlaying, PlaylistTabs, StationBrowser, StationHeader } from 'Modules/Station';
 import * as React from 'react';
 import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';

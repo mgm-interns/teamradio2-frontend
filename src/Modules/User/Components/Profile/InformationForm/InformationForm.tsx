@@ -1,8 +1,8 @@
-import { RegisteredUser } from 'Models/User';
+import { RegisteredUser } from 'Models';
 import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { UserServices } from 'Services/Http/index';
+import { UserServices } from 'Services/Http';
 import { updateUserInfo } from '../../../Redux/Actions';
 import { FormWrapper, IFormProps } from './FormWrapper';
 import './InformationForm.scss';

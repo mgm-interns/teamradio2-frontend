@@ -4,3 +4,4 @@ export * from './LocalStorageManager';
 export * from './FileHelper';
 export * from './BrowserHelper';
 export * from './ObjectHelper';
+export * from './DateTimeHelper';

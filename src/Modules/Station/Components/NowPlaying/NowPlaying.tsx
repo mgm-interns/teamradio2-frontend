@@ -3,8 +3,8 @@ import {
   StationPlayer,
 } from 'Components/StationPlayer';
 import { IApplicationState } from 'Configuration/Redux';
-import { convertToEpochTimeInSeconds } from 'Helpers/DateTimeHelper';
-import { NowPlayingSong } from 'Models/Song';
+import { convertToEpochTimeInSeconds } from 'Helpers';
+import { NowPlayingSong } from 'Models';
 import { Component } from 'react';
 import * as React from 'react';
 import ReactPlayer from 'react-player';

@@ -1,5 +1,5 @@
-import { actionTypes } from 'Modules/User/Redux/Constants';
 import { Reducer } from 'redux';
+import { actionTypes } from '../Constants';
 import { IUser } from '../Types';
 
 const userInitialState: IUser = {

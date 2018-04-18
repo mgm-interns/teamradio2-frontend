@@ -1,5 +1,5 @@
 import { Field, Form, FormikProps } from 'formik';
-import { UnregisteredUser } from 'Models/index';
+import { UnregisteredUser } from 'Models';
 import * as React from 'react';
 import {
   Alert,

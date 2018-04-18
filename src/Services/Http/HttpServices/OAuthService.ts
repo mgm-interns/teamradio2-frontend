@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { localStorageManager } from 'Helpers/LocalStorageManager';
-import { AccessToken, UnauthorizedUser } from 'Models/User';
+import { localStorageManager } from 'Helpers';
+import { AccessToken, UnauthorizedUser } from 'Models';
 import { HttpServices } from './HttpServices';
 import { RequestMethod } from './RequestMethod';
 

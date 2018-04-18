@@ -4,7 +4,7 @@ import { Component } from 'react';
 import FlipMoveList from 'react-flip-move';
 import { Card, CardBody } from 'reactstrap';
 import { SongServices, UserServices } from 'Services/Http';
-import { IFavouriteItem } from '../Favourite/FavouriteItem';
+import { IFavouriteItem } from '../Favourite';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 

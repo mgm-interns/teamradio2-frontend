@@ -1,5 +1,5 @@
 import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
-import { Rules, Validator } from 'Helpers/index';
+import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
 import { Button, Col, FormFeedback, FormGroup, Label, Row } from 'reactstrap';

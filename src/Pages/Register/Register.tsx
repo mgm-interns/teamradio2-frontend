@@ -2,8 +2,8 @@ import { RegisterForm } from 'Modules/User';
 import * as React from 'react';
 import { Component } from 'react';
 import { CardLink, Col, Container, Row } from 'reactstrap';
-import '../Register/Register.scss';
 import { ExtraInformationForm } from './ExtraInformationForm';
+import './Register.scss';
 
 export class Register extends Component {
   public render() {

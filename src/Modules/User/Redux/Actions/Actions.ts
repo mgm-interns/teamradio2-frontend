@@ -1,4 +1,4 @@
-import { RegisteredUser } from 'Models/User';
+import { RegisteredUser } from 'Models';
 import { ActionCreator } from 'redux';
 import { actionTypes } from '../Constants';
 

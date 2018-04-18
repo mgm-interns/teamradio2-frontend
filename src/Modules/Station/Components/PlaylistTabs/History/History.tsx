@@ -1,4 +1,4 @@
-import { Song } from 'Models/Song';
+import { Song } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { SongServices } from 'Services/Http';

@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 import { localStorageManager } from 'Helpers';
+import { AccessToken } from 'Models';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
-import { AccessToken } from '../../../Models/User';
 import { IServerError } from './IServerError';
 import { RequestMethod } from './RequestMethod';
 

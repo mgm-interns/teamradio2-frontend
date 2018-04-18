@@ -1,7 +1,6 @@
 import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
-import { Song } from 'Models/Song';
-import { Station } from 'Models/Station';
+import { Song, Station } from 'Models';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
 import * as React from 'react';
 import { Component } from 'react';

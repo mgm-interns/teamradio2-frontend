@@ -1,14 +1,13 @@
 import * as classNames from 'classnames';
 import { YoutubeHelper } from 'Helpers';
 import { FavoriteSong } from 'Models/FavoriteSong';
-import * as React from 'react';
+import { PlaylistSong } from 'Models/Song';
 import { Component } from 'react';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import './PlaylistItem.scss';
-import { localStorageManager } from 'Helpers/LocalStorageManager';
-import { PlaylistSong } from 'Models/Song';
 
 interface IPlayListItemProps {
   upVote: (songId: string) => void;

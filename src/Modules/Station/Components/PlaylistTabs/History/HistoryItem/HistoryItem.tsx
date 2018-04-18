@@ -1,5 +1,5 @@
 import * as classNames from 'classnames';
-import { Song } from 'Models/Song';
+import { Song } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';

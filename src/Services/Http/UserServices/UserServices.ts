@@ -1,10 +1,10 @@
 import {
   AccessToken,
+  FavoriteSong,
   RegisteredUser,
   UnauthorizedUser,
-  UnregisteredUser,
+  UnregisteredUser
 } from 'Models';
-import { FavoriteSong } from 'Models/FavoriteSong';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices, OAuthService } from '../HttpServices';
 

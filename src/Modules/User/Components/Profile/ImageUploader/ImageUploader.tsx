@@ -1,5 +1,5 @@
-import { fileContentToBase64 } from 'Helpers/index';
-import { RegisteredUser } from 'Models/User/index';
+import { fileContentToBase64 } from 'Helpers';
+import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import Cropper from 'react-cropper';

@@ -1,15 +1,6 @@
 import { Component } from 'react';
 import * as React from 'react';
-import {
-  Button,
-  Col,
-  Container,
-  Input,
-  Popover,
-  PopoverBody,
-  PopoverHeader,
-  Row,
-} from 'reactstrap';
+import { Input, Popover, PopoverBody, PopoverHeader } from 'reactstrap';
 import './StationSharing.scss';
 
 const FACEBOOK_SHARING = 'https://www.facebook.com/sharer/sharer.php?u=';

@@ -1,5 +1,5 @@
-import { StationBrowserSlider } from 'Components/StationBrowserSlider';
-import { Station } from 'Models/Station';
+import { StationBrowserSlider } from 'Components';
+import { Station } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { Row } from 'reactstrap';

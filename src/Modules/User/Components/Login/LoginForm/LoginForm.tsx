@@ -1,7 +1,6 @@
 import { Formik, FormikActions, FormikErrors } from 'formik';
-import { Rules, Validator } from 'Helpers';
-import { localStorageManager } from 'Helpers/LocalStorageManager';
-import { AccessToken, UnauthorizedUser } from 'Models/User';
+import { localStorageManager, Rules, Validator } from 'Helpers';
+import { AccessToken, UnauthorizedUser } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { withRouter } from 'react-router';

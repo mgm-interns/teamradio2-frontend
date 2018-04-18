@@ -5,5 +5,5 @@ export {
   UnauthorizedUser,
 } from './User';
 export { Station } from './Station';
-export { Song } from './Song';
+export { Song, PlaylistSong, NowPlayingSong } from './Song';
 export { FavoriteSong } from './FavoriteSong';

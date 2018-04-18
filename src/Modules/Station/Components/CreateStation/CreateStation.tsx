@@ -1,7 +1,7 @@
 import { BaseComponent } from 'BaseComponent';
 import { Field, Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
-import { Station } from 'Models/Station';
+import { Station } from 'Models';
 import * as React from 'react';
 import { FormEvent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
