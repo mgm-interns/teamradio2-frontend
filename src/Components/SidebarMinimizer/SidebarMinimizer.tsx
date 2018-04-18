@@ -16,7 +16,6 @@ export class SidebarMinimizer extends Component {
         className="sidebar-minimizer"
         type="button"
         onClick={event => {
-          // tslint:disable-line
           this.sidebarMinimize();
           this.brandMinimize();
         }}

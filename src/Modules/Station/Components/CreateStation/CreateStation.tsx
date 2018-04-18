@@ -51,7 +51,7 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
 
 class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
   private stationServices: StationServices;
-  private initialValues: any;
+  private readonly initialValues: any;
 
   constructor(props: RouteComponentProps<any>) {
     super(props);

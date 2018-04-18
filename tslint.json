@@ -6,7 +6,6 @@
     "tslint-config-prettier"
   ],
   "rules": {
-    // override tslint-react rules here
     "jsx-wrap-multiline": false,
     "no-duplicate-imports": false,
     "no-submodule-imports": false,
@@ -17,6 +16,8 @@
     "object-literal-sort-keys": false,
     "import-name": false,
     "jsx-closing-bracket-location": [1, "after-props"],
-    "no-console": ["warn"]
+    "no-console": ["warn"],
+    "no-empty": false,
+    "no-empty-interface": false
   }
 }

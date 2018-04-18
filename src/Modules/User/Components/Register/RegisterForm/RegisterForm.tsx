@@ -8,16 +8,16 @@ import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http/index';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
-interface IState extends IFormProps {} // tslint:disable-line
+interface IState extends IFormProps {}
 
-interface IProps {} // tslint:disable-line
+interface IProps {}
 
 export class RegisterFormComponent extends Component<
   IProps & RouteComponentProps<any>,
   IState
 > {
   private userServices: UserServices;
-  private initialValues: FormValues;
+  private readonly initialValues: FormValues;
 
   constructor(props: IProps & RouteComponentProps<any>) {
     super(props);

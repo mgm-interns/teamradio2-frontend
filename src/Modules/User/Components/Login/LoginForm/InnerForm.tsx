@@ -2,12 +2,12 @@ import { Field, Form, FormikProps } from 'formik';
 import { UnauthorizedUser } from 'Models';
 import * as React from 'react';
 import {
+  Alert,
   Button,
   FormFeedback,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Alert,
 } from 'reactstrap';
 
 export class FormValues extends UnauthorizedUser {}

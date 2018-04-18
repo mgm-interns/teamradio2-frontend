@@ -15,7 +15,7 @@ interface IStateProps {
   nowPlaying: NowPlayingSong;
 }
 
-interface IOwnProps {} // tslint:disable-line
+interface IOwnProps {}
 
 type IProps = IOwnProps & IStateProps;
 

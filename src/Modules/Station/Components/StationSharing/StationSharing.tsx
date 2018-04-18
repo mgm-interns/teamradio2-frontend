@@ -16,7 +16,7 @@ const FACEBOOK_SHARING = 'https://www.facebook.com/sharer/sharer.php?u=';
 const GOOGLE_PLUS_SHARING = 'https://plus.google.com/share?url=';
 const TWITTER_SHARING = 'http://twitter.com/share?url=';
 
-interface IProps {} // tslint:disable-line
+interface IProps {}
 
 interface IState {
   popoverOpen: any;

@@ -9,15 +9,15 @@ import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
-interface IState extends IFormProps {} // tslint:disable-line
+interface IState extends IFormProps {}
 
-interface IProps {} // tslint:disable-line
+interface IProps {}
 
 export class LoginFormComponent extends Component<
   IProps & RouteComponentProps<any>,
   IState
 > {
-  private initialValues: FormValues;
+  private readonly initialValues: FormValues;
   private userServices: UserServices;
 
   constructor(props: IProps & RouteComponentProps<any>) {
