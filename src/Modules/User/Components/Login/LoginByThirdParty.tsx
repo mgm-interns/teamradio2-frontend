@@ -1,7 +1,8 @@
 import { Component } from 'react';
 import * as React from 'react';
-import { Button, Col, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { FacebookLoginWithButton } from './FacebookLogin';
+import { GoogleSignIn } from './GoogleSignIn';
 import './LoginByThirdParty.scss';
 
 export class LoginByThirdParty extends Component {
@@ -15,9 +16,7 @@ export class LoginByThirdParty extends Component {
         </Row>
         <Row>
           <Col>
-            <Button className="btn-google-plus" block>
-              <span>Login with Google</span>
-            </Button>
+            <GoogleSignIn />
           </Col>
         </Row>
       </div>
