@@ -18,9 +18,9 @@ export class HistoryItem extends Component<IHistoryItemProps, any> {
   }
 
   public handleOnReplayClicked() {
-    const { url } = this.props.song;
+    const { songId } = this.props.song;
     const message = ''; // To add message when replay the song in the future
-    this.props.replaySong(url, message);
+    this.props.replaySong(songId, message);
   }
 
   public _renderCreator = () => {
