@@ -1,58 +1,34 @@
 import { YoutubeHelper } from 'Helpers/YoutubeHelper';
 import { Song } from 'Models/Song';
-import { Component } from 'react';
+import { BaseComponent } from 'BaseComponent';
 import * as React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './FavoriteItem.scss';
 
 export interface IFavoriteItem {
-  userId: string;
-  songId: string;
   song: Song;
 }
 
-interface IFavoriteItemStates {
-  isShowTrash: boolean;
-}
+interface IFavoriteItemStates {}
 
-class FSPItem extends Component<
-  IFavoriteItem & RouteComponentProps<any>,
+export class FavoriteItem extends BaseComponent<
+  IFavoriteItem,
   IFavoriteItemStates
 > {
-  constructor(props: IFavoriteItem & RouteComponentProps<any>) {
+  constructor(props: IFavoriteItem) {
     super(props);
-    this.handleMouseHover = this.handleMouseHover.bind(this);
-    this.state = {
-      isShowTrash: false,
-    };
-  }
-
-  public handleMouseHover() {
-    this.setState(this.toggleHoverState);
-  }
-
-  public toggleHoverState() {
-    return {
-      isShowTrash: !this.state.isShowTrash,
-    };
   }
 
   public render() {
     const { song } = this.props;
     return (
-      <div
-        className="favorite-song-item my-flex-item"
-        onMouseEnter={this.handleMouseHover}
-        onMouseLeave={this.handleMouseHover}>
-        {this.state.isShowTrash && (
-          <div className="trash-favorite-song">
-            <a href="#">
-              <span className="w3-jumbo w3-teal ">
-                <i className="fa fa-trash trash-size" />
-              </span>
-            </a>
-          </div>
-        )}
+      <div className="favorite-song-item my-flex-item">
+        <div className="trash-favorite-song">
+          <a href="#">
+            <span className="w3-jumbo w3-teal ">
+              <i className="fa fa-trash trash-size" />
+            </span>
+          </a>
+        </div>
         <div className="img-transition" />
         <div className="duration">
           {YoutubeHelper.convertDuration(song.duration)}
@@ -65,5 +41,3 @@ class FSPItem extends Component<
     );
   }
 }
-
-export const FavoriteItem = withRouter(FSPItem);

@@ -45,8 +45,6 @@ export class ProfileBodyTabs extends Component<{}, IProfileBodyTabsStates> {
 
   public convertFavouriteToIFavoriteItem(item: FavoriteSong): IFavoriteItem {
     return {
-      userId: item.userId,
-      songId: item.songId,
       song: item.song,
     };
   }

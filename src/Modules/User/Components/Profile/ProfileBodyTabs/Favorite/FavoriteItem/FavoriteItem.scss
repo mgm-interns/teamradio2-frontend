@@ -6,13 +6,18 @@
   position: relative;
 
   .trash-favorite-song {
+    display: none;
     position: absolute;
     top: 35%;
     left: 45%;
-    .trash-size{
+    .trash-size {
       font-size: 250%;
       color: white;
     }
+  }
+
+  &:hover > .trash-favorite-song {
+    display: block;
   }
 
   .duration {
