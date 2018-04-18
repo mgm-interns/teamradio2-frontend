@@ -1,0 +1,15 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.tab-content {
+  background: initial;
+  border: initial;
+  .tab-pane {
+    padding: 0px !important;
+  }
+}
+
+.pd-0 {
+  padding: 0;
+}
