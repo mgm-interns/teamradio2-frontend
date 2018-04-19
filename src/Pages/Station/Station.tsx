@@ -12,7 +12,7 @@ import * as React from 'react';
 import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Col, Modal, ModalBody, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { compose } from 'redux';
 import './Station.scss';
 
