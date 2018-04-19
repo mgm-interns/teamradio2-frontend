@@ -91,11 +91,8 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
         this.props.history.push(`/station/${res.id}`);
       },
       (err: any) => {
-        if (err) {
-          this.setState({ error: err });
-        } else {
-          this.showError('Something went wrong!');
-        }
+        this.setState({ error: err });
+        this.showError(err);
       },
     );
   };

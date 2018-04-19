@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { BaseComponent } from 'BaseComponent';
 import * as React from 'react';
 import './ChatBox.scss';
 import { ChatMessage, IChatMessageProps } from './ChatMessage';
@@ -7,7 +7,7 @@ interface IChatBoxStates {
   listMessages: IChatMessageProps[];
 }
 
-export class ChatBox extends Component<{}, IChatBoxStates> {
+export class ChatBox extends BaseComponent<{}, IChatBoxStates> {
   private messageBox: any;
   constructor(props: {}) {
     super(props);

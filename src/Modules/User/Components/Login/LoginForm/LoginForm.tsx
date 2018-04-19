@@ -1,8 +1,8 @@
+import { BaseComponent } from 'BaseComponent';
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { localStorageManager, Rules, Validator } from 'Helpers';
 import { AccessToken, RegisteredUser, UnauthorizedUser } from 'Models';
 import * as React from 'react';
-import { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
@@ -16,7 +16,7 @@ interface IProps {
   updateUserInfo?: (user: RegisteredUser) => void;
 }
 
-export class LoginFormComponent extends Component<
+export class LoginFormComponent extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {
@@ -79,21 +79,25 @@ export class LoginFormComponent extends Component<
         this.showFormAlerSuccess();
         setSubmitting(false);
         resetForm();
-        this.userServices.getCurrentUserProfile().subscribe(
-          userInfo => {
-            localStorageManager.setUserInfo(userInfo);
-            this.props.updateUserInfo(userInfo);
-            this.goBack();
-          },
-          err => {
-            console.log(err);
-          },
-        );
+        this.getUserInfo();
       },
-      (err: any) => {
-        console.log(err);
+      (err: string) => {
+        this.showError(err);
         this.showFormAlertError(err);
         setSubmitting(false);
+      },
+    );
+  }
+
+  public getUserInfo() {
+    this.userServices.getCurrentUserProfile().subscribe(
+      (userInfo: RegisteredUser) => {
+        localStorageManager.setUserInfo(userInfo);
+        this.props.updateUserInfo(userInfo);
+        this.goBack();
+      },
+      (err: string) => {
+        this.showError(err);
       },
     );
   }

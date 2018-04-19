@@ -1,9 +1,10 @@
+import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
 import { Song, Station } from 'Models';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
 import * as React from 'react';
-import { Component, Fragment } from 'react';
+import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
@@ -41,7 +42,7 @@ interface IState {
   station: Station;
 }
 
-class OriginStationHeader extends Component<
+class OriginStationHeader extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {

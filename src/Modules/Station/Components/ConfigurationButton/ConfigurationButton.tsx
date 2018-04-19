@@ -1,5 +1,5 @@
+import { BaseComponent } from 'BaseComponent';
 import * as React from 'react';
-import { Component } from 'react';
 import {
   FormGroup,
   Input,
@@ -32,7 +32,7 @@ const RULES: IRule[] = [
   },
 ];
 
-export class ConfigurationButton extends Component<any, any> {
+export class ConfigurationButton extends BaseComponent<any, any> {
   constructor(props: any) {
     super(props);
 

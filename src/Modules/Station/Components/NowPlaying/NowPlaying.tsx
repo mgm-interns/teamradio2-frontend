@@ -1,3 +1,4 @@
+import { BaseComponent } from 'BaseComponent';
 import {
   IReactPlayerPropsOnProgressState,
   StationPlayer,
@@ -5,7 +6,6 @@ import {
 import { IApplicationState } from 'Configuration/Redux';
 import { convertToEpochTimeInSeconds } from 'Helpers';
 import { NowPlayingSong } from 'Models';
-import { Component } from 'react';
 import * as React from 'react';
 import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
@@ -37,7 +37,7 @@ interface IPlayedTime {
 
 const MAXIMUM_DELAY = 2; // seconds
 
-export class NowPlayingComponent extends Component<IProps, IState> {
+export class NowPlayingComponent extends BaseComponent<IProps, IState> {
   private playerRef: ReactPlayer;
 
   constructor(props: IProps) {

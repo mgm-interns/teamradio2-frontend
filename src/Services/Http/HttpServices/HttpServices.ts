@@ -118,8 +118,12 @@ export class HttpServices {
     return headerParams;
   }
 
+  private isUnhandledServerError(err: any) {
+    return typeof err.response.data === 'string';
+  }
+
   private getServerErrorMessage(err: IServerError): string {
-    if (!err.response || !err.response.data) {
+    if (this.isUnhandledServerError(err)) {
       return 'Something went wrong. Please try again later';
     }
     const errResponseData = err.response.data;

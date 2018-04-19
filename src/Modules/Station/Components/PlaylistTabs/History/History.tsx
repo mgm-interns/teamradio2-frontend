@@ -1,6 +1,6 @@
+import { BaseComponent } from 'BaseComponent';
 import { Song } from 'Models';
 import * as React from 'react';
-import { Component } from 'react';
 import { SongServices } from 'Services/Http';
 import '../PlaylistTabs.scss';
 import { HistoryItem } from './HistoryItem';
@@ -13,7 +13,7 @@ interface IHistoryState {
   history: Song[];
 }
 
-export class History extends Component<IHistoryProps, IHistoryState> {
+export class History extends BaseComponent<IHistoryProps, IHistoryState> {
   private songServices: SongServices;
 
   constructor(props: any) {
@@ -30,8 +30,8 @@ export class History extends Component<IHistoryProps, IHistoryState> {
     const { stationId } = this.props;
     this.songServices.addSong(stationId, youtubeVideoId, message).subscribe(
       (songResponse: Song) => {},
-      (err: any) => {
-        console.log(`Replay song error: ${err}`);
+      (err: string) => {
+        this.showError(`Replay song error: ${err}`);
       },
     );
   }
@@ -44,8 +44,8 @@ export class History extends Component<IHistoryProps, IHistoryState> {
           history,
         });
       },
-      (err: any) => {
-        console.log(`Get history error: ${err}`);
+      (err: string) => {
+        this.showError(`Get history error: ${err}`);
       },
     );
   }

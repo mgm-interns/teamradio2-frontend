@@ -1,7 +1,7 @@
+import { BaseComponent } from 'BaseComponent';
 import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
-import { Component } from 'react';
 import { Button, Col, FormFeedback, FormGroup, Label, Row } from 'reactstrap';
 import './PasswordForm.scss';
 
@@ -135,7 +135,7 @@ const FormWrapper = withFormik<IFormProps, IFormValues>({
   },
 })(InnerForm);
 
-export class PasswordForm extends Component<any, any> {
+export class PasswordForm extends BaseComponent<any, any> {
   constructor(props: any) {
     super(props);
   }

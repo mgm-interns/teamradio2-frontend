@@ -1,5 +1,5 @@
+import { BaseComponent } from 'BaseComponent';
 import * as React from 'react';
-import { Component } from 'react';
 import '../PlaylistTabs.scss';
 import { FavouriteItem } from './FavouriteItem';
 
@@ -7,7 +7,7 @@ interface IFavouriteProps {
   favouriteList: any[];
 }
 
-export class Favourite extends Component<IFavouriteProps, IFavouriteProps> {
+export class Favourite extends BaseComponent<IFavouriteProps, IFavouriteProps> {
   constructor(props: any) {
     super(props);
 

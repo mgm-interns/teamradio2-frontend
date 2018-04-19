@@ -1,5 +1,5 @@
+import { BaseComponent } from 'BaseComponent';
 import { RegisteredUser } from 'Models';
-import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { UserServices } from 'Services/Http';
@@ -17,7 +17,7 @@ interface IInformationFormStates {
   isLoadingUserInfo: boolean;
 }
 
-export class InformationForms extends Component<
+export class InformationForms extends BaseComponent<
   IInformationFormProps,
   IInformationFormStates
 > {
@@ -37,29 +37,21 @@ export class InformationForms extends Component<
     this.setState({
       isLoadingUserInfo: true,
     });
-    this.getUserProfile()
-      .then((userInfo: RegisteredUser) => {
+    this.getUserProfile();
+  }
+
+  public getUserProfile() {
+    this.userServices.getCurrentUserProfile().subscribe(
+      (userInfo: RegisteredUser) => {
         this.setState({
           userInfo,
           isLoadingUserInfo: false,
         });
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-  }
-
-  public getUserProfile() {
-    return new Promise(async (resolve, reject) => {
-      this.userServices.getCurrentUserProfile().subscribe(
-        (userInfo: RegisteredUser) => {
-          resolve(userInfo);
-        },
-        (error: any) => {
-          reject(error);
-        },
-      );
-    });
+      },
+      (err: string) => {
+        this.showError(err);
+      },
+    );
   }
 
   public handleSubmit(userInfo: IFormProps) {
@@ -77,8 +69,8 @@ export class InformationForms extends Component<
       (userInfoUpdated: RegisteredUser) => {
         this.props.updateUserInfo(userInfoUpdated);
       },
-      error => {
-        // Notify error
+      (err: string) => {
+        this.showError(err);
       },
     );
   }
@@ -86,6 +78,7 @@ export class InformationForms extends Component<
   public render() {
     const { onCloseModal } = this.props;
     if (!this.state.isLoadingUserInfo) {
+      this.showSuccess('Your profile has been successfully updated!');
       const { userInfo } = this.state;
       return (
         <FormWrapper

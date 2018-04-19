@@ -1,8 +1,8 @@
+import { BaseComponent } from 'BaseComponent';
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
-import { Component } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http';
@@ -12,7 +12,7 @@ interface IState extends IFormProps {}
 
 interface IProps {}
 
-export class RegisterFormComponent extends Component<
+export class RegisterFormComponent extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {
@@ -72,12 +72,14 @@ export class RegisterFormComponent extends Component<
     const { setSubmitting, resetForm } = formikActions;
     this.userServices.register(values).subscribe(
       (res: RegisteredUser) => {
+        this.showSuccess('You have successfully registered!');
         this.showFormAlerSuccess();
         setSubmitting(false);
         resetForm();
         this.props.history.push('/login');
       },
       (err: string) => {
+        this.showError(err);
         this.showFormAlertError(err);
         setSubmitting(false);
       },

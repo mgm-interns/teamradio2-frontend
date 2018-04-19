@@ -1,6 +1,6 @@
+import { BaseComponent } from 'BaseComponent';
 import { Song } from 'Models';
 import * as React from 'react';
-import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import { SongServices, StationServices } from 'Services/Http';
@@ -18,7 +18,10 @@ interface IAddLinkProps {
   addSong: () => void;
 }
 
-export class AddSongComponent extends Component<IAddLinkProps, IAddLinkState> {
+export class AddSongComponent extends BaseComponent<
+  IAddLinkProps,
+  IAddLinkState
+> {
   private stationServices: StationServices;
   private songServices: SongServices;
   private searchSongRef: SearchSong;
@@ -60,8 +63,8 @@ export class AddSongComponent extends Component<IAddLinkProps, IAddLinkState> {
         this.setPreviewVideo(null);
         this.searchSongRef.clearInput();
       },
-      (err: any) => {
-        console.log(`Add song error: ${err}`);
+      (err: string) => {
+        this.showError(err);
       },
     );
   }

@@ -1,7 +1,7 @@
+import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
 import { Station } from 'Models';
 import * as React from 'react';
-import { Component } from 'react';
 import { Row } from 'reactstrap';
 import { StationServices } from 'Services/Http';
 import './StationBrowser.scss';
@@ -13,7 +13,7 @@ interface IStationBrowserStates {
   stationItemContainer: string;
 }
 
-export class StationBrowser extends Component<{}, IStationBrowserStates> {
+export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
   private stationServices: StationServices;
   constructor(props: {}) {
     super(props);
@@ -50,8 +50,8 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
           listStation,
         });
       },
-      (err: any) => {
-        console.log(err);
+      (err: string) => {
+        this.showError(err);
       },
     );
   }

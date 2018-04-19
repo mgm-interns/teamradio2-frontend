@@ -1,7 +1,7 @@
+import { BaseComponent } from 'BaseComponent';
 import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
-import { Component } from 'react';
 import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
 
 interface IFormValues {
@@ -60,7 +60,7 @@ const FormWrapper = withFormik<IFormProps, IFormValues>({
   },
 })(InnerForm);
 
-export class ForgotPasswordForm extends Component<any, any> {
+export class ForgotPasswordForm extends BaseComponent<any, any> {
   constructor(props: any) {
     super(props);
   }

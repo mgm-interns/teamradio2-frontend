@@ -1,6 +1,6 @@
+import { BaseComponent } from 'BaseComponent';
 import { PlaylistSong } from 'Models/Song';
 import * as React from 'react';
-import { Component } from 'react';
 import FlipMoveList from 'react-flip-move';
 import { Card, CardBody } from 'reactstrap';
 import { SongServices, UserServices } from 'Services/Http';
@@ -24,7 +24,7 @@ interface IStates {
 
 type Iprops = IPlaylistProps & IFavoriteListProps;
 
-export class Playlist extends Component<Iprops, IStates> {
+export class Playlist extends BaseComponent<Iprops, IStates> {
   private userServices: UserServices;
   private songServices: SongServices;
 
@@ -47,6 +47,7 @@ export class Playlist extends Component<Iprops, IStates> {
       response => {},
       err => {
         this.setState({ votingError: err });
+        this.showError(err);
       },
     );
   };
@@ -58,6 +59,7 @@ export class Playlist extends Component<Iprops, IStates> {
       response => {},
       err => {
         this.setState({ votingError: err });
+        this.showError(err);
       },
     );
   };

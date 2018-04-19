@@ -1,6 +1,6 @@
+import { BaseComponent } from 'BaseComponent';
 import { IApplicationState } from 'Configuration/Redux';
 import { FavoriteSong, PlaylistSong } from 'Models';
-import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
@@ -31,7 +31,7 @@ interface IStates {
 
 type IProps = IStateProps & IOwnProps;
 
-export class PlaylistTabsComponent extends Component<IProps, IStates> {
+export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   private stationPlaylistSSE: StationPlaylistSSE;
   private userServices: UserServices;
   constructor(props: IProps) {
@@ -156,8 +156,8 @@ export class PlaylistTabsComponent extends Component<IProps, IStates> {
           favoriteList,
         });
       },
-      (err: any) => {
-        console.log(err);
+      (err: string) => {
+        this.showError(err);
       },
     );
   };

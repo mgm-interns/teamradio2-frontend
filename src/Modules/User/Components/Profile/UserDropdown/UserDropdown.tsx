@@ -1,8 +1,9 @@
+import { BaseComponent } from 'BaseComponent';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
-import { Component, Fragment } from 'react';
+import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import {
   Dropdown,
@@ -24,7 +25,7 @@ interface IState {
   isAuthenticated: boolean;
 }
 
-class UserDropdownComponent extends Component<IProps, IState> {
+class UserDropdownComponent extends BaseComponent<IProps, IState> {
   private userServices: UserServices;
 
   constructor(props: any) {
@@ -57,17 +58,16 @@ class UserDropdownComponent extends Component<IProps, IState> {
 
   public componentDidMount() {
     this.initStateByLocalStorage();
+    this.getCurrentUserInfo();
   }
 
   public initStateByLocalStorage() {
-    const accessToken = localStorageManager.getAccessToken();
-    if (accessToken) {
+    if (this.isLoggedIn()) {
       const userInfo: RegisteredUser = localStorageManager.getUserInfo();
       this.setState({
         userInfo,
         isAuthenticated: true,
       });
-      this.getCurrentUserInfo();
     } else {
       this.setState({
         isAuthenticated: false,
@@ -76,15 +76,18 @@ class UserDropdownComponent extends Component<IProps, IState> {
   }
 
   public getCurrentUserInfo() {
+    if (!this.isLoggedIn()) {
+      return;
+    }
     this.userServices.getCurrentUserProfile().subscribe(
-      userInfo => {
+      (userInfo: RegisteredUser) => {
         localStorageManager.setUserInfo(userInfo);
         this.setState({
           userInfo,
         });
       },
-      err => {
-        console.log(err);
+      (err: string) => {
+        this.showError(err);
       },
     );
   }

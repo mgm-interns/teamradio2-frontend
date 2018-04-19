@@ -1,12 +1,15 @@
+import { BaseComponent } from 'BaseComponent';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
-import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row } from 'reactstrap';
 import { UserServices } from 'Services/Http';
-import { DEFAULT_USER_AVATAR, DEFAULT_USER_COVER_PHOTO } from '../../../Constants';
+import {
+  DEFAULT_USER_AVATAR,
+  DEFAULT_USER_COVER_PHOTO,
+} from '../../../Constants';
 import { ImageUploader } from '../ImageUploader';
 import './ProfileHeader.scss';
 
@@ -25,7 +28,7 @@ interface IStates {
   isLoadingUserInfo: boolean;
 }
 
-export class ProfileHeaders extends Component<IProps, IStates> {
+export class ProfileHeaders extends BaseComponent<IProps, IStates> {
   private imageUploader: any;
   private readonly userServices: UserServices;
 
@@ -80,8 +83,8 @@ export class ProfileHeaders extends Component<IProps, IStates> {
       (userInfo: RegisteredUser) => {
         this.setUserHeaderInfo(userInfo);
       },
-      (error: any) => {
-        // Notify error
+      (err: string) => {
+        this.showError(err);
       },
     );
   }
