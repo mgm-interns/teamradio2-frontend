@@ -1,14 +1,14 @@
 import { StationBrowserSlider } from 'Components';
-import { Station } from 'Models';
+import { StationItem } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { Row } from 'reactstrap';
 import { StationServices } from 'Services/Http';
 import './StationBrowser.scss';
-import { IStationBrowserItem, StationBrowserItem } from './StationBrowserItem';
+import {  StationBrowserItem } from './StationBrowserItem';
 
 interface IStationBrowserStates {
-  listStation: IStationBrowserItem[];
+  listStation: StationItem[];
   stationBrowser: string;
   stationItemContainer: string;
 }
@@ -29,23 +29,9 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
     this.getListStation();
   }
 
-  public convertStationToIStationBrowserItem(
-    item: Station,
-  ): IStationBrowserItem {
-    return {
-      stationId: item.id,
-      friendlyId: item.id,
-      stationName: item.name,
-      numberOfOnlineUsers: 0,
-      picture: '',
-    };
-  }
   public getListStation() {
     this.stationServices.getListStation().subscribe(
-      (res: Station[]) => {
-        const listStation: IStationBrowserItem[] = res.map(
-          this.convertStationToIStationBrowserItem,
-        );
+      (listStation: StationItem[]) => {
         this.setState({
           listStation,
         });
@@ -75,7 +61,7 @@ export class StationBrowser extends Component<{}, IStationBrowserStates> {
                 className="station-item-container"
                 id={this.state.stationItemContainer}>
                 {this.state.listStation.map(
-                  (item: IStationBrowserItem, index: number) => {
+                  (item: StationItem, index: number) => {
                     return <StationBrowserItem key={index} {...item} />;
                   },
                 )}

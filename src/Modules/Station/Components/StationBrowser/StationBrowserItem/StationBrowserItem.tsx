@@ -1,38 +1,21 @@
 import * as classNames from 'classnames';
+import { StationItem } from 'Models';
 import { Component } from 'react';
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
 import './StationBrowserItem.scss';
 
-export interface IStationBrowserItem {
-  stationId: string;
-  friendlyId: string;
-  stationName: string;
-  numberOfOnlineUsers: number;
-  picture: string;
-}
+type IProps = StationItem & RouteComponentProps<any>;
 
-class SBItem extends Component<
-  IStationBrowserItem & RouteComponentProps<any>,
-  {}
-> {
-  constructor(props: IStationBrowserItem & RouteComponentProps<any>) {
-    super(props);
-  }
-
+class SBItem extends Component<IProps, {}> {
   public joinStation = () => {
     const { friendlyId } = this.props;
     this.props.history.push(`/station/${friendlyId}`);
   };
 
   public render() {
-    const {
-      stationName,
-      numberOfOnlineUsers,
-      picture,
-      friendlyId,
-    } = this.props;
+    const { name, numberOfOnlineUsers = 0, picture, id } = this.props;
     return (
       <div className="station-item d-flex" onClick={this.joinStation}>
         <div className="thumbnail">
@@ -48,9 +31,9 @@ class SBItem extends Component<
           </div>
         </div>
         <div className="station-name">
-          <span id={`Station-` + friendlyId}>{stationName}</span>
-          <UncontrolledTooltip placement="top" target={`Station-` + friendlyId}>
-            {stationName}
+          <span id={`station-` + id}>{name}</span>
+          <UncontrolledTooltip placement="top" target={`station-` + id}>
+            {name}
           </UncontrolledTooltip>
         </div>
       </div>
