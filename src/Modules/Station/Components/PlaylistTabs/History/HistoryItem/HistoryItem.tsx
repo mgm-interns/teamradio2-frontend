@@ -67,11 +67,11 @@ export class HistoryItem extends Component<IHistoryItemProps, any> {
           <div className="action-icon" onClick={this.handleOnReplayClicked}>
             <i
               className="fa fa-reply action-button"
-              id={songId + '-replay-history'}
+              id={'replay-history-' + songId}
             />
             <UncontrolledTooltip
               placement="left"
-              target={songId + '-replay-history'}>
+              target={'replay-history-' + songId}>
               Replay this song
             </UncontrolledTooltip>
           </div>
