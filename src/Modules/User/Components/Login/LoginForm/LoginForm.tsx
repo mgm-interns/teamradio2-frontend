@@ -34,6 +34,7 @@ export class LoginFormComponent extends Component<
 
     this.userServices = new UserServices();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
   public showFormAlertError(err: string) {
@@ -53,6 +54,14 @@ export class LoginFormComponent extends Component<
     });
   }
 
+  public goBack() {
+    if (window.history.length > 2) {
+      this.props.history.go(-1);
+    } else {
+      this.props.history.replace('/');
+    }
+  }
+
   public handleSubmit(
     values: FormValues,
     { setSubmitting, resetForm }: FormikActions<any>,
@@ -69,11 +78,7 @@ export class LoginFormComponent extends Component<
         this.userServices.getCurrentUserProfile().subscribe(
           userInfo => {
             localStorageManager.setUserInfo(userInfo);
-            if (window.history.length > 2) {
-              this.props.history.go(-1);
-            } else {
-              this.props.history.replace('/');
-            }
+            this.goBack();
           },
           err => {
             console.log(err);
