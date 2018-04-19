@@ -1,5 +1,5 @@
+import { BaseComponent } from 'BaseComponent';
 import { RegisteredUser } from 'Models';
-import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { UserServices } from 'Services/Http';
@@ -17,7 +17,7 @@ interface IInformationFormStates {
   isLoadingUserInfo: boolean;
 }
 
-export class InformationForms extends Component<
+export class InformationForms extends BaseComponent<
   IInformationFormProps,
   IInformationFormStates
 > {
@@ -76,9 +76,11 @@ export class InformationForms extends Component<
     this.userServices.updateUserInfo(newUserInfo).subscribe(
       (userInfoUpdated: RegisteredUser) => {
         this.props.updateUserInfo(userInfoUpdated);
+        this.showSuccess('Successfully update profile information!');
       },
       error => {
-        // Notify error
+        console.error(error);
+        this.showError('Something went wrong!');
       },
     );
   }

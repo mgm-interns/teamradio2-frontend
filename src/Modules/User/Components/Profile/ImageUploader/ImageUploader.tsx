@@ -1,7 +1,7 @@
+import { BaseComponent } from 'BaseComponent';
 import { fileContentToBase64 } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
-import { Component } from 'react';
 import Cropper from 'react-cropper';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
@@ -18,7 +18,7 @@ interface IProps {
   ref: (instance: any) => void;
 }
 
-class ImageUploaderComponent extends Component<IProps, any> {
+class ImageUploaderComponent extends BaseComponent<IProps, any> {
   private inputFileTag: any;
   private userServices: UserServices;
 
@@ -65,9 +65,8 @@ class ImageUploaderComponent extends Component<IProps, any> {
 
   public uploadUserAvatar() {
     this.state.croppedImage.toBlob((croppedImageBlob: Blob) => {
-      this.userServices
-        .uploadUserAvatar(croppedImageBlob)
-        .subscribe((userInfo: RegisteredUser) => {
+      this.userServices.uploadUserAvatar(croppedImageBlob).subscribe(
+        (userInfo: RegisteredUser) => {
           this.props.updateUserInfo(userInfo);
           this.setState({
             croppedImage: userInfo.avatarUrl,
@@ -76,15 +75,20 @@ class ImageUploaderComponent extends Component<IProps, any> {
           });
           this.responseImageUrl();
           this.setAllValueToDefault();
-        });
+          this.showSuccess('Successfully upload avatar!');
+        },
+        err => {
+          console.error(err);
+          this.showError('Something went wrong!');
+        },
+      );
     });
   }
 
   public uploadUserCover() {
     this.state.croppedImage.toBlob((croppedImageBlob: Blob) => {
-      this.userServices
-        .uploadUserCover(croppedImageBlob)
-        .subscribe((userInfo: RegisteredUser) => {
+      this.userServices.uploadUserCover(croppedImageBlob).subscribe(
+        (userInfo: RegisteredUser) => {
           this.setState({
             croppedImage: userInfo.coverUrl,
             isUploadingImage: false,
@@ -92,7 +96,13 @@ class ImageUploaderComponent extends Component<IProps, any> {
           });
           this.responseImageUrl();
           this.setAllValueToDefault();
-        });
+          this.showSuccess('Successfully upload avatar!');
+        },
+        err => {
+          console.error(err);
+          this.showError('Something went wrong!');
+        },
+      );
     });
   }
 
