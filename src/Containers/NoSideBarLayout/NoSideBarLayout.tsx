@@ -15,7 +15,6 @@ import { object } from 'prop-types';
 import * as React from 'react';
 import * as NotificationSystem from 'react-notification-system';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { localStorageManager } from 'Helpers';
 import './NoSideBarLayout.scss';
 
 export class NoSideBarLayout extends BaseComponent<any, any> {
@@ -42,9 +41,6 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
     this.notificationInstance.notification = nodeRef;
   };
 
-  public isLoggedIn() {
-    return !!localStorageManager.getAccessToken();
-  }
   public render() {
     return (
       <div className="app no-side-bar">
@@ -55,25 +51,23 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
               <Route exact path="/" name="Home" component={Home} />
               <Route
                 path="/login"
-                render={() =>
-                  this.isLoggedIn() ? <Redirect to="/" /> : <Login />
-                }
+                name="Login"
+                render={() => this.authenticatedRender(<Login />)}
               />
               <Route
                 path="/register"
-                render={() =>
-                  this.isLoggedIn() ? <Redirect to="/" /> : <Register />
-                }
+                name="Register"
+                render={() => this.authenticatedRender(<Register />)}
               />
               <Route
                 path="/forgot-password"
                 name="ForgotPassword"
-                component={ForgotPassword}
+                render={() => this.authenticatedRender(<ForgotPassword />)}
               />
               <Route
                 path="/reset-password"
                 name="ResetPassword"
-                component={ResetPassword}
+                render={() => this.authenticatedRender(<ResetPassword />)}
               />
               <Route path="/help" name="Help" component={Help} />
               <Route path="/profile" name="Profile" component={Profile} />
@@ -91,5 +85,9 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
         <NotificationSystem ref={this.ref} />
       </div>
     );
+  }
+
+  private authenticatedRender(component: any) {
+    return this.isLoggedIn() ? <Redirect to="/" /> : component;
   }
 }
