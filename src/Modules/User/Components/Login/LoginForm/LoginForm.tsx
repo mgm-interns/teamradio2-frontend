@@ -3,12 +3,12 @@ import { localStorageManager, Rules, Validator } from 'Helpers';
 import { AccessToken, RegisteredUser, UnauthorizedUser } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http';
-import { FormValues, IFormProps, InnerForm } from './InnerForm';
 import { updateUserInfo } from '../../../Redux/Actions';
-import { connect } from 'react-redux';
+import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {}
 
