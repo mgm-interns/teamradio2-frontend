@@ -1,11 +1,18 @@
+import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
 import { NowPlayingSong, Station as StationModel } from 'Models';
-import { AddSong, NowPlaying, PlaylistTabs, StationBrowser, StationHeader } from 'Modules/Station';
+import {
+  AddSong,
+  NowPlaying,
+  PlaylistTabs,
+  StationBrowser,
+  StationHeader,
+} from 'Modules/Station';
 import * as React from 'react';
 import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Col, Modal, ModalBody, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { compose } from 'redux';
 import './Station.scss';
 
@@ -56,35 +63,13 @@ class StationComponent extends Component<
       },
       () => {
         if (this.state.isPassive) {
-          this._renderPassiveModal();
+          document
+            .getElementsByTagName('body')[0]
+            .setAttribute('style', 'overflow-y: hidden');
+        } else {
+          document.getElementsByTagName('body')[0].removeAttribute('style');
         }
       },
-    );
-  };
-
-  public _renderPassiveModal = () => {
-    const { muted, isPassive } = this.state;
-    const stationId = this.parseStationId();
-
-    return (
-      <Modal
-        isOpen={isPassive}
-        toggle={this.onLightClick}
-        modalClassName="passive-modal"
-        backdrop="static" // disable click event on backdrop
-        className="d-flex mt-0 mb-0 align-items-center" // add classNames for modal-dialog
-      >
-        <ModalBody className="d-flex flex-column">
-          <StationHeader
-            muted={muted}
-            isPassive={isPassive}
-            onVolumeClick={this.onVolumeClick}
-            onLightClick={this.onLightClick}
-            stationId={stationId}
-          />
-          <NowPlaying muted={muted} />
-        </ModalBody>
-      </Modal>
     );
   };
 
@@ -110,15 +95,25 @@ class StationComponent extends Component<
     const { isPassive } = this.state;
     const stationId = this.parseStationId();
 
-    return (
-      <Row className="m-0 station-container">
+    return [
+      isPassive && (
+        <div className="passive-container" key={0}>
+          <img src="/img/logo.png" alt="radio-logo" />
+        </div>
+      ),
+      <Row className="m-0 station-container" key={1}>
         <Col xs={12} className="station-browser-container">
           <StationBrowser />
         </Col>
         <Col className="p-0 m-auto extra-large-container">
           <Row className="m-0">
-            <Col xs={12} xl={8} className="mt-3 pr-xl-0 player-container">
-              {!isPassive ? this._renderPlayer() : this._renderPassiveModal()}
+            <Col
+              xs={12}
+              xl={8}
+              className={classNames('mt-3', 'pr-xl-0', 'player-container', {
+                'passive-mode': isPassive,
+              })}>
+              {this._renderPlayer()}
             </Col>
             <Col xs={12} xl={4} className="mt-3">
               <div className="playlist-tabs-container">
@@ -131,16 +126,10 @@ class StationComponent extends Component<
                 <AddSong stationId={stationId} />
               </div>
             </Col>
-            {/*<Col xs={12} >*/}
-            {/*<div className="chat-box-container">*/}
-            {/*<h1>Chat Box</h1>*/}
-            {/*<ChatBox />*/}
-            {/*</div>*/}
-            {/*</Col>*/}
           </Row>
         </Col>
-      </Row>
-    );
+      </Row>,
+    ];
   }
 
   private parseStationId() {
