@@ -1,8 +1,8 @@
+import { BaseComponent } from 'BaseComponent';
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { localStorageManager, Rules, Validator } from 'Helpers';
 import { AccessToken, UnauthorizedUser } from 'Models';
 import * as React from 'react';
-import { Component } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http';
@@ -12,7 +12,7 @@ interface IState extends IFormProps {}
 
 interface IProps {}
 
-export class LoginFormComponent extends Component<
+export class LoginFormComponent extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {
@@ -69,6 +69,8 @@ export class LoginFormComponent extends Component<
         this.userServices.getCurrentUserProfile().subscribe(
           userInfo => {
             localStorageManager.setUserInfo(userInfo);
+            // WARN: There is be no notification bubble if redirect by this way
+            this.showSuccess('Successfully login!');
             // this.props.history.push('/');
             // TODO: Update user info on header instead of redirecting
             window.location.href = '/';
@@ -79,9 +81,10 @@ export class LoginFormComponent extends Component<
         );
       },
       (err: any) => {
-        console.log(err);
+        console.error(err);
         this.showFormAlertError(err);
         setSubmitting(false);
+        this.showError('Something went wrong!');
       },
     );
   }

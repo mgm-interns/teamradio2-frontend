@@ -1,9 +1,11 @@
+import { BaseComponent } from 'BaseComponent';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
-import { Component, Fragment } from 'react';
+import { Fragment } from 'react';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom';
 import {
   Dropdown,
   DropdownItem,
@@ -23,7 +25,7 @@ interface IState {
   isAuthenticated: boolean;
 }
 
-class UserDropdownComponent extends Component<IProps, IState> {
+class UserDropdownComponent extends BaseComponent<IProps, IState> {
   private userServices: UserServices;
 
   constructor(props: any) {
@@ -92,6 +94,7 @@ class UserDropdownComponent extends Component<IProps, IState> {
     this.setState({
       isAuthenticated: false,
     });
+    this.showSuccess('Successfully logout!');
   }
 
   public render() {
@@ -143,12 +146,12 @@ class UserDropdownComponent extends Component<IProps, IState> {
           </Fragment>
         ) : (
           <Fragment>
-            <a href="/login" className="login-register-button">
+            <Link to="/login" className="login-register-button">
               Login
-            </a>
-            <a href="/register" className="login-register-button">
+            </Link>
+            <Link to="/register" className="login-register-button">
               Register
-            </a>
+            </Link>
           </Fragment>
         )}
       </Fragment>
