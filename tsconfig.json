@@ -4,18 +4,21 @@
     "paths": {
       "*": ["src/*"]
     },
+    /* Basic Options */
+    "target": "es6",
+    "module": "esnext",
+    "lib": ["dom", "es6"],
     "declaration": false,
     "sourceMap": true,
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "strictPropertyInitialization": false,
-    "skipLibCheck": true,
     "jsx": "react",
-    "moduleResolution": "node",
-    "target": "es6",
-    "lib": ["dom", "es6"],
-    "importHelpers": false
+    "removeComments": true,
+    "importHelpers": false,
+
+    /* Strict Type-Checking Options */
+    "noImplicitAny": true,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node"
   },
   "files": ["src/index.tsx"],
   "include": ["node_modules"]

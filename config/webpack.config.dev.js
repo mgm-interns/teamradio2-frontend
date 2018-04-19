@@ -5,9 +5,10 @@ const Dotenv = require('dotenv-webpack');
 const WebpackBar = require('webpackbar');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const history = require('connect-history-api-fallback');
 const convert = require('koa-connect');
+
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plugin');
 
@@ -29,11 +30,11 @@ module.exports = {
   stats: 'errors-only',
   serve: {
     dev: {
-      stats: 'minimal',
+      stats: 'none', // Silent webpack since it's not necessary.
       publicPath: '/',
     },
     port: 3000,
-    open: true,
+    logLevel: 'warn',
     add: (app, middleware, options) => {
       app.use(convert(history({})));
     },
@@ -122,7 +123,7 @@ module.exports = {
     new CopyWebpackPlugin([{ from: './public/img', to: 'img' }], {
       copyUnmodified: false,
     }),
-    new webpack.IgnorePlugin(/\.d\.ts$/), // Makes webpack ignore declaration files
+    new webpack.IgnorePlugin(/\.js$/, /\.d\.ts$/), // Makes webpack ignore declaration files
   ],
   node: {
     dgram: 'empty',
