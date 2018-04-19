@@ -11,6 +11,7 @@ import {
   DropdownToggle,
 } from 'reactstrap';
 import { UserServices } from 'Services/Http';
+import { DEFAULT_USER_AVATAR } from '../../../Constants';
 import './UserDropdown.scss';
 
 interface IProps {
@@ -114,7 +115,7 @@ class UserDropdownComponent extends Component<IProps, IState> {
                   <img
                     className="img-avatar"
                     alt="avatar"
-                    src={avatarUrl || '/img/avatars/1.jpg'}
+                    src={avatarUrl || DEFAULT_USER_AVATAR}
                   />
                   <span className="d-md-down-none">{name}</span>
                 </DropdownToggle>

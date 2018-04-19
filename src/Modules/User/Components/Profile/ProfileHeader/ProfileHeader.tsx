@@ -6,6 +6,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row } from 'reactstrap';
 import { UserServices } from 'Services/Http';
+import { DEFAULT_USER_AVATAR, DEFAULT_USER_COVER_PHOTO } from '../../../Constants';
 import { ImageUploader } from '../ImageUploader';
 import './ProfileHeader.scss';
 
@@ -60,8 +61,8 @@ export class ProfileHeaders extends Component<IProps, IStates> {
     this.setState({
       name: name || '',
       username: username || '',
-      avatarUrl: avatarUrl || './img/female-01.png',
-      coverUrl: coverUrl || './img/profile-cover.jpg',
+      avatarUrl: avatarUrl || DEFAULT_USER_AVATAR,
+      coverUrl: coverUrl || DEFAULT_USER_COVER_PHOTO,
       isLoadingUserInfo: false,
     });
   }
