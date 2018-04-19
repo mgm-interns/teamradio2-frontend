@@ -12,8 +12,10 @@
   },
   "scripts": {
     "start": "node ./server/bin/www",
-    "dev": "cross-env NODE_ENV=development webpack-serve --config ./config/webpack.config.dev.js",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.prod.js",
+    "dev":
+      "cross-env NODE_ENV=development webpack-serve --config ./config/webpack.config.dev.js",
+    "build":
+      "cross-env NODE_ENV=production webpack --config ./config/webpack.config.prod.js",
     "clean": "rimraf build .cache-loader node_modules server/node_modules",
     "format": "prettier --write src/**/*",
     "postinstall": "cd server && npm install && cd .. && npm run build"
@@ -62,7 +64,6 @@
     "@types/react-autosuggest": "^9.3.3",
     "@types/react-cropper": "0.10.2",
     "@types/react-dom": "16.0.4",
-    "@types/react-redux": "^5.0.15",
     "@types/react-router-dom": "4.2.4",
     "@types/react-transition-group": "2.0.7",
     "@types/reactstrap": "^5.0.19",

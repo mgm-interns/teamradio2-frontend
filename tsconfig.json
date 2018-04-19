@@ -12,7 +12,10 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "jsx": "react",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "target": "es6",
+    "lib": ["dom", "es6"],
+    "importHelpers": false
   },
   "files": ["src/index.tsx"],
   "include": ["node_modules"]

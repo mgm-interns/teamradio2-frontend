@@ -15,7 +15,6 @@ import '../scss/core/_dropdown-menu-right.scss';
 import '../scss/style.scss';
 
 // config redux
-import 'Configuration';
 import { configureStore } from 'Configuration/Redux';
 import { Provider } from 'react-redux';
 
@@ -35,3 +34,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 );
+
+if (module.hot) {
+  module.hot.accept();
+}
