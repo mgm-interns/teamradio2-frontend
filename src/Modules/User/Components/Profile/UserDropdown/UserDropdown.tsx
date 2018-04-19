@@ -65,6 +65,7 @@ class UserDropdownComponent extends Component<IProps, IState> {
         userInfo,
         isAuthenticated: true,
       });
+      this.getCurrentUserInfo();
     } else {
       this.setState({
         isAuthenticated: false,
