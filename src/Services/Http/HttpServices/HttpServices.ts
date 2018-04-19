@@ -97,11 +97,7 @@ export class HttpServices {
         })
         .catch((err: IServerError) => {
           this.afterSendRequest();
-          const errResponseData = err.response.data;
-          const message = errResponseData.error_description
-            ? errResponseData.error_description
-            : errResponseData.error;
-          observer.error(message);
+          observer.error(this.getServerErrorMessage(err));
           observer.complete();
         });
     });
@@ -120,5 +116,15 @@ export class HttpServices {
       headerParams.Authorization = `${token_type} ${access_token}`;
     }
     return headerParams;
+  }
+
+  private getServerErrorMessage(err: IServerError): string {
+    if (!err.response || !err.response.data) {
+      return 'Something went wrong. Please try again later';
+    }
+    const errResponseData = err.response.data;
+    return errResponseData.error_description
+      ? errResponseData.error_description
+      : errResponseData.error;
   }
 }
