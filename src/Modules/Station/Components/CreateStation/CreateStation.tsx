@@ -59,6 +59,7 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
     this.state = {
       error: '',
+      toggleSwitch: false,
     };
 
     this.initialValues = {
@@ -100,17 +101,32 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
     );
   };
 
+  public handleToggleSwitch = (e: any) => {
+    if (e.target.value) {
+      this.setState({ toggleSwitch: !this.state.toggleSwitch });
+    }
+  };
+
   public render() {
-    return (
+    console.log(this.state.toggleSwitch);
+    return [
       <Formik
+        key={1}
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
         render={formikProps => (
           <InnerForm {...formikProps} serverError={this.state.error} />
         )}
         validate={this.validate}
-      />
-    );
+      />,
+      <div key={2} className="toggle-display">
+        <label className="label toggle">
+          <input type="checkbox" onChange={this.handleToggleSwitch} />
+          <div className="toggle-control" />
+        </label>
+        <span className="station-privacy">Private station</span>
+      </div>,
+    ];
   }
 }
 
