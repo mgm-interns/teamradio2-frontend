@@ -14,6 +14,10 @@ import {
   Label,
 } from 'reactstrap';
 import { StationServices } from 'Services/Http';
+import {
+  STATION_PRIVACY_PRIVATE,
+  STATION_PRIVACY_PUBLIC,
+} from '../../Constants';
 import './CreateStation.scss';
 
 interface IStationFormValues {
@@ -94,7 +98,10 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
   public handleSubmit = (formValues: IStationFormValues) => {
     const name = formValues.name;
-    this.stationServices.createStation(name).subscribe(
+    const stationPrivacy = this.state.privacy
+      ? STATION_PRIVACY_PRIVATE
+      : STATION_PRIVACY_PUBLIC;
+    this.stationServices.createStation(name, stationPrivacy).subscribe(
       (res: Station) => {
         this.props.history.push(`/station/${res.id}`);
       },
