@@ -11,11 +11,12 @@ import {
   ResetPassword,
   Station,
 } from 'Pages';
-import { object } from "prop-types";
+import { object } from 'prop-types';
 import * as React from 'react';
 import * as NotificationSystem from 'react-notification-system';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './NoSideBarLayout.scss';
+import { localStorageManager } from 'Helpers';
 
 export class NoSideBarLayout extends BaseComponent<any, any> {
   public static childContextTypes = {
@@ -41,6 +42,9 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
     this.notificationInstance.notification = nodeRef;
   };
 
+  public isLoggedIn() {
+    return !!localStorageManager.getAccessToken();
+  }
   public render() {
     return (
       <div className="app no-side-bar">
@@ -49,8 +53,18 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
           <main className="main">
             <Switch>
               <Route exact path="/" name="Home" component={Home} />
-              <Route path="/login" name="Login" component={Login} />
-              <Route path="/register" name="Register" component={Register} />
+              <Route
+                path="/login"
+                render={() =>
+                  this.isLoggedIn() ? <Redirect to="/" /> : <Login />
+                }
+              />
+              <Route
+                path="/register"
+                render={() =>
+                  this.isLoggedIn() ? <Redirect to="/" /> : <Register />
+                }
+              />
               <Route
                 path="/forgot-password"
                 name="ForgotPassword"

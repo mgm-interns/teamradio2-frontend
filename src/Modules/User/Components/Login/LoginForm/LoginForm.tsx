@@ -39,7 +39,6 @@ export class LoginFormComponent extends Component<
     this.userServices = new UserServices();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
-    this.goHome = this.goHome.bind(this);
   }
 
   public showFormAlertError(err: string) {
@@ -63,12 +62,8 @@ export class LoginFormComponent extends Component<
     if (window.history.length > 2) {
       this.props.history.go(-1);
     } else {
-      this.goHome();
+      this.props.history.replace('/');
     }
-  }
-
-  public goHome() {
-    this.props.history.replace('/');
   }
 
   public handleSubmit(
@@ -116,13 +111,6 @@ export class LoginFormComponent extends Component<
     errors.password = passwordValidator.validate();
 
     return Validator.removeUndefinedError(errors);
-  }
-
-  public componentWillMount() {
-    const accessToken = localStorageManager.getAccessToken();
-    if (accessToken) {
-      this.goHome();
-    }
   }
 
   public render() {

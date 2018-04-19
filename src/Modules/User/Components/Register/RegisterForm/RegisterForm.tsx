@@ -127,13 +127,6 @@ export class RegisterFormComponent extends Component<
     return Validator.removeUndefinedError(errors);
   }
 
-  public componentWillMount() {
-    const accessToken = localStorageManager.getAccessToken();
-    if(accessToken) {
-      this.props.history.replace('/');
-    }
-  }
-
   public render() {
     const { success, serverError } = this.state;
     return (
