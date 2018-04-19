@@ -15,8 +15,8 @@ import { object } from 'prop-types';
 import * as React from 'react';
 import * as NotificationSystem from 'react-notification-system';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import './NoSideBarLayout.scss';
 import { localStorageManager } from 'Helpers';
+import './NoSideBarLayout.scss';
 
 export class NoSideBarLayout extends BaseComponent<any, any> {
   public static childContextTypes = {

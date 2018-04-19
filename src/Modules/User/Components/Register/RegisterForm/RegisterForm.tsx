@@ -1,5 +1,5 @@
 import { Formik, FormikActions, FormikErrors } from 'formik';
-import { localStorageManager, Rules, Validator } from 'Helpers';
+import { Rules, Validator } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
