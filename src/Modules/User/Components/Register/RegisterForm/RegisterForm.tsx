@@ -1,5 +1,5 @@
 import { Formik, FormikActions, FormikErrors } from 'formik';
-import { Rules, Validator } from 'Helpers';
+import { localStorageManager, Rules, Validator } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
@@ -125,6 +125,13 @@ export class RegisterFormComponent extends Component<
     errors.confirmPassword = confirmPasswordValidator.validate();
 
     return Validator.removeUndefinedError(errors);
+  }
+
+  public componentWillMount() {
+    const accessToken = localStorageManager.getAccessToken();
+    if(accessToken) {
+      this.props.history.replace('/');
+    }
   }
 
   public render() {

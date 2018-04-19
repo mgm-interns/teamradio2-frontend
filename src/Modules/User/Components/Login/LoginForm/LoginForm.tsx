@@ -1,16 +1,20 @@
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { localStorageManager, Rules, Validator } from 'Helpers';
-import { AccessToken, UnauthorizedUser } from 'Models';
+import { AccessToken, RegisteredUser, UnauthorizedUser } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
+import { updateUserInfo } from '../../../Redux/Actions';
+import { connect } from 'react-redux';
 
 interface IState extends IFormProps {}
 
-interface IProps {}
+interface IProps {
+  updateUserInfo?: (user: RegisteredUser) => void;
+}
 
 export class LoginFormComponent extends Component<
   IProps & RouteComponentProps<any>,
@@ -35,6 +39,7 @@ export class LoginFormComponent extends Component<
     this.userServices = new UserServices();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.goHome = this.goHome.bind(this);
   }
 
   public showFormAlertError(err: string) {
@@ -58,8 +63,12 @@ export class LoginFormComponent extends Component<
     if (window.history.length > 2) {
       this.props.history.go(-1);
     } else {
-      this.props.history.replace('/');
+      this.goHome();
     }
+  }
+
+  public goHome() {
+    this.props.history.replace('/');
   }
 
   public handleSubmit(
@@ -78,6 +87,7 @@ export class LoginFormComponent extends Component<
         this.userServices.getCurrentUserProfile().subscribe(
           userInfo => {
             localStorageManager.setUserInfo(userInfo);
+            this.props.updateUserInfo(userInfo);
             this.goBack();
           },
           err => {
@@ -108,6 +118,13 @@ export class LoginFormComponent extends Component<
     return Validator.removeUndefinedError(errors);
   }
 
+  public componentWillMount() {
+    const accessToken = localStorageManager.getAccessToken();
+    if (accessToken) {
+      this.goHome();
+    }
+  }
+
   public render() {
     const { success, serverError } = this.state;
     return (
@@ -127,4 +144,13 @@ export class LoginFormComponent extends Component<
   }
 }
 
-export const LoginForm = withRouter(LoginFormComponent);
+const LoginFormWithRouter = withRouter(LoginFormComponent);
+
+const mapDispatchToProps = (dispatch: any) => ({
+  updateUserInfo: (userInfo: RegisteredUser) =>
+    dispatch(updateUserInfo(userInfo)),
+});
+
+export const LoginForm = connect<{}, {}, IProps>(null, mapDispatchToProps)(
+  LoginFormWithRouter,
+);

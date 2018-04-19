@@ -50,6 +50,7 @@ class UserDropdownComponent extends Component<IProps, IState> {
     const userInfo = nextProps.userInfo;
     this.setState({
       userInfo,
+      isAuthenticated: !!userInfo.id,
     });
   }
 
