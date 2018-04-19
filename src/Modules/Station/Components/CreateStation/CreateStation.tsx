@@ -49,7 +49,15 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
   );
 };
 
-class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
+interface ICreateStationProps {
+  error: string;
+  name: string;
+}
+
+class CreateStationForm extends BaseComponent<
+  RouteComponentProps<any>,
+  ICreateStationProps
+> {
   private stationServices: StationServices;
   private readonly initialValues: any;
 
@@ -59,16 +67,13 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
     this.state = {
       error: '',
+      name: '',
     };
 
     this.initialValues = {
       name: '',
       error: '',
     };
-  }
-
-  public componentWillUnmount() {
-    this.setState({ error: '', name: '' });
   }
 
   public validate(values: any) {
@@ -89,13 +94,13 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
     this.stationServices.createStation(name).subscribe(
       (res: Station) => {
         this.props.history.push(`/station/${res.id}`);
+        this.showSuccess(`Station ${res.name} is successfully created!`);
       },
       (err: any) => {
         if (err) {
           this.setState({ error: err });
-        } else {
-          this.showError('Something went wrong!');
         }
+        this.showError('Something went wrong!');
       },
     );
   };
