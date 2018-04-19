@@ -5,7 +5,14 @@ import { Station } from 'Models';
 import * as React from 'react';
 import { FormEvent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
+import {
+  Button,
+  FormFeedback,
+  FormGroup,
+  Input,
+  InputGroup,
+  Label,
+} from 'reactstrap';
 import { StationServices } from 'Services/Http';
 import './CreateStation.scss';
 
@@ -59,7 +66,7 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
     this.state = {
       error: '',
-      toggleSwitch: false,
+      privacy: false,
     };
 
     this.initialValues = {
@@ -98,14 +105,12 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
     );
   };
 
-  public handleToggleSwitch = (e: any) => {
-    if (e.target.value) {
-      this.setState({ toggleSwitch: !this.state.toggleSwitch });
-    }
+  public handlePrivacy = () => {
+    this.setState({ privacy: !this.state.privacy });
   };
 
   public render() {
-    console.log(this.state.toggleSwitch);
+    console.log(this.state.privacy);
     return [
       <Formik
         key={1}
@@ -116,12 +121,18 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
         )}
         validate={this.validate}
       />,
-      <div key={2} className="toggle-display">
-        <label className="label toggle">
-          <input type="checkbox" onChange={this.handleToggleSwitch} />
-          <div className="toggle-control" />
-        </label>
-        <span className="station-privacy">Private station</span>
+      <div key={2} className="toggle-container">
+        <Label key={2} className="switch switch-3d switch-primary">
+          <Input
+            type="checkbox"
+            className="switch-input"
+            value={this.state.privacy}
+            onChange={this.handlePrivacy}
+          />
+          <span className="switch-label" />
+          <span className="switch-handle" />
+        </Label>
+        <span className="toggle-text">Private station</span>
       </div>,
     ];
   }
