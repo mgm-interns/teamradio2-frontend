@@ -11,7 +11,7 @@ import {
   ResetPassword,
   Station,
 } from 'Pages';
-import { object } from "prop-types";
+import { object } from 'prop-types';
 import * as React from 'react';
 import * as NotificationSystem from 'react-notification-system';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -49,17 +49,25 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
           <main className="main">
             <Switch>
               <Route exact path="/" name="Home" component={Home} />
-              <Route path="/login" name="Login" component={Login} />
-              <Route path="/register" name="Register" component={Register} />
+              <Route
+                path="/login"
+                name="Login"
+                render={() => this.authenticatedRender(<Login />)}
+              />
+              <Route
+                path="/register"
+                name="Register"
+                render={() => this.authenticatedRender(<Register />)}
+              />
               <Route
                 path="/forgot-password"
                 name="ForgotPassword"
-                component={ForgotPassword}
+                render={() => this.authenticatedRender(<ForgotPassword />)}
               />
               <Route
                 path="/reset-password"
                 name="ResetPassword"
-                component={ResetPassword}
+                render={() => this.authenticatedRender(<ResetPassword />)}
               />
               <Route path="/help" name="Help" component={Help} />
               <Route path="/profile" name="Profile" component={Profile} />
@@ -77,5 +85,9 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
         <NotificationSystem ref={this.ref} />
       </div>
     );
+  }
+
+  private authenticatedRender(component: any) {
+    return this.isLoggedIn() ? <Redirect to="/" /> : component;
   }
 }

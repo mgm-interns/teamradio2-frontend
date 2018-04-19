@@ -1,16 +1,20 @@
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { localStorageManager, Rules, Validator } from 'Helpers';
-import { AccessToken, UnauthorizedUser } from 'Models';
+import { AccessToken, RegisteredUser, UnauthorizedUser } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http';
+import { updateUserInfo } from '../../../Redux/Actions';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {}
 
-interface IProps {}
+interface IProps {
+  updateUserInfo?: (user: RegisteredUser) => void;
+}
 
 export class LoginFormComponent extends Component<
   IProps & RouteComponentProps<any>,
@@ -34,6 +38,7 @@ export class LoginFormComponent extends Component<
 
     this.userServices = new UserServices();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
   public showFormAlertError(err: string) {
@@ -53,6 +58,14 @@ export class LoginFormComponent extends Component<
     });
   }
 
+  public goBack() {
+    if (window.history.length > 2) {
+      this.props.history.go(-1);
+    } else {
+      this.props.history.replace('/');
+    }
+  }
+
   public handleSubmit(
     values: FormValues,
     { setSubmitting, resetForm }: FormikActions<any>,
@@ -69,11 +82,8 @@ export class LoginFormComponent extends Component<
         this.userServices.getCurrentUserProfile().subscribe(
           userInfo => {
             localStorageManager.setUserInfo(userInfo);
-            if (window.history.length > 2) {
-              this.props.history.go(-1);
-            } else {
-              this.props.history.replace('/');
-            }
+            this.props.updateUserInfo(userInfo);
+            this.goBack();
           },
           err => {
             console.log(err);
@@ -122,4 +132,13 @@ export class LoginFormComponent extends Component<
   }
 }
 
-export const LoginForm = withRouter(LoginFormComponent);
+const LoginFormWithRouter = withRouter(LoginFormComponent);
+
+const mapDispatchToProps = (dispatch: any) => ({
+  updateUserInfo: (userInfo: RegisteredUser) =>
+    dispatch(updateUserInfo(userInfo)),
+});
+
+export const LoginForm = connect<{}, {}, IProps>(null, mapDispatchToProps)(
+  LoginFormWithRouter,
+);

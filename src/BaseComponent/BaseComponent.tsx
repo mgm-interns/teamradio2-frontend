@@ -1,3 +1,4 @@
+import { localStorageManager } from 'Helpers';
 import { object } from 'prop-types';
 import * as React from 'react';
 import { Component } from 'react';
@@ -6,6 +7,10 @@ export class BaseComponent<P, S> extends Component<P, S> {
   public static contextTypes = {
     notifications: object,
   };
+
+  public isLoggedIn() {
+    return !!localStorageManager.getAccessToken();
+  }
 
   public showError(message: string, title?: string) {
     this.context.notifications._notification.addNotification({
