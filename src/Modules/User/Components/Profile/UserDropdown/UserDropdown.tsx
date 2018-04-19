@@ -55,7 +55,6 @@ class UserDropdownComponent extends Component<IProps, IState> {
 
   public componentDidMount() {
     this.initStateByLocalStorage();
-    this.getCurrentUserInfo();
   }
 
   public initStateByLocalStorage() {
