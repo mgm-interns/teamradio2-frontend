@@ -1,6 +1,6 @@
-import { YoutubeHelper } from 'Helpers/YoutubeHelper';
-import { Song } from 'Models/Song';
 import { BaseComponent } from 'BaseComponent';
+import { YoutubeHelper } from 'Helpers';
+import { Song } from 'Models';
 import * as React from 'react';
 import './FavoriteItem.scss';
 

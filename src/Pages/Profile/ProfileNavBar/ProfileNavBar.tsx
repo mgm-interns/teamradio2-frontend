@@ -1,68 +1,70 @@
-import * as React from 'react';
+import { Favorite } from 'Modules/User';
 import { Component } from 'react';
+import * as React from 'react';
 import { Container, Nav, NavItem, NavLink, Row } from 'reactstrap';
+import { TabContent, TabPane } from 'reactstrap';
+import './ProfileNavBar.scss';
 import { SelectFormButton } from './SelectFormButton';
 
+const STATION_TAB_ID = '1';
+const FAVORITE_TAB_ID = '2';
+
 interface IProfileNavBarStates {
-  isOpenStation: boolean;
-  isOpenFavouriteSong: boolean;
+  activeTab: string;
 }
 
 export class ProfileNavBar extends Component<{}, IProfileNavBarStates> {
   constructor(props: any) {
     super(props);
-
     this.state = {
-      isOpenStation: true,
-      isOpenFavouriteSong: false,
+      activeTab: STATION_TAB_ID,
     };
   }
 
-  public openStationTab() {
-    this.setState({
-      isOpenStation: true,
-      isOpenFavouriteSong: false,
-    });
-  }
+  public openTab(tabId: any) {
+    if (this.state.activeTab === tabId) {
+      return;
+    }
 
-  public openFavouriteSongTab() {
     this.setState({
-      isOpenStation: false,
-      isOpenFavouriteSong: true,
+      activeTab: tabId,
     });
   }
 
   public render() {
+    const { activeTab } = this.state;
     return (
       <Container>
         <Row>
-          <div className="col-sm-11">
+          <div className="col-10 pd-0">
             <Nav tabs>
               <NavItem>
                 <NavLink
-                  href="#"
-                  active={this.state.isOpenStation}
-                  onClick={() => {
-                    this.openStationTab();
-                  }}>
+                  className={activeTab === STATION_TAB_ID ? 'active' : ''}
+                  onClick={() => this.openTab(STATION_TAB_ID)}>
                   Stations
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  href="#"
-                  active={this.state.isOpenFavouriteSong}
-                  onClick={() => {
-                    this.openFavouriteSongTab();
-                  }}>
-                  Favourite Songs
+                  className={activeTab === FAVORITE_TAB_ID ? 'active' : ''}
+                  onClick={() => this.openTab(FAVORITE_TAB_ID)}>
+                  Favorite Songs
                 </NavLink>
               </NavItem>
             </Nav>
           </div>
-          <div className="col-sm-1">
+          <div className="col-2 pd-0">
             <SelectFormButton />
           </div>
+        </Row>
+        <Row>
+          <TabContent className={'profile-tab-content'} activeTab={activeTab}>
+            <TabPane tabId={STATION_TAB_ID} />
+            <TabPane tabId={FAVORITE_TAB_ID}>
+              <Favorite />
+            </TabPane>
+          </TabContent>
         </Row>
       </Container>
     );

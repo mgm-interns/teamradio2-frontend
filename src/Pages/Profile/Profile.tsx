@@ -1,8 +1,8 @@
 import 'cropperjs/dist/cropper.css';
 import { ProfileHeader } from 'Modules/User';
-import {ProfileBodyTabs} from "Modules/User/Components/Profile/ProfileBodyTabs/ProfileBodyTabs";
 import { Component } from 'react';
 import * as React from 'react';
+import { ProfileNavBar } from './ProfileNavBar';
 
 export class Profile extends Component<{}, {}> {
   constructor(props: any) {
@@ -16,7 +16,7 @@ export class Profile extends Component<{}, {}> {
           <ProfileHeader />
         </div>
         <div className="profile-body">
-          <ProfileBodyTabs />
+          <ProfileNavBar />
         </div>
       </div>
     );
