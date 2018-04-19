@@ -69,9 +69,11 @@ export class LoginFormComponent extends Component<
         this.userServices.getCurrentUserProfile().subscribe(
           userInfo => {
             localStorageManager.setUserInfo(userInfo);
-            // this.props.history.push('/');
-            // TODO: Update user info on header instead of redirecting
-            window.location.href = '/';
+            if (window.history.length > 2) {
+              this.props.history.go(-1);
+            } else {
+              this.props.history.replace('/');
+            }
           },
           err => {
             console.log(err);
