@@ -3,7 +3,7 @@ import { IApplicationState } from 'Configuration/Redux';
 import { Song, Station } from 'Models';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
 import * as React from 'react';
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
@@ -108,8 +108,12 @@ class OriginStationHeader extends Component<
           {this.renderButton(!muted, buttonActions.muted, onVolumeClick)}
           {nowPlaying &&
             this.renderButton(isPassive, buttonActions.passive, onLightClick)}
-          <StationSharing />
-          <ConfigurationButton />
+          {!isPassive && (
+            <Fragment>
+              <StationSharing />
+              <ConfigurationButton />
+            </Fragment>
+          )}
         </div>
       </Row>
     );
