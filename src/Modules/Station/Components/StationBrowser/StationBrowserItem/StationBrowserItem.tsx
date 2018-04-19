@@ -1,5 +1,5 @@
+import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
-import { Component } from 'react';
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
@@ -13,7 +13,7 @@ export interface IStationBrowserItem {
   picture: string;
 }
 
-class SBItem extends Component<
+class SBItem extends BaseComponent<
   IStationBrowserItem & RouteComponentProps<any>,
   {}
 > {
@@ -24,6 +24,7 @@ class SBItem extends Component<
   public joinStation = () => {
     const { friendlyId } = this.props;
     this.props.history.push(`/station/${friendlyId}`);
+    this.showSuccess(`Join station ${friendlyId} success!`);
   };
 
   public render() {

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { BaseComponent } from 'BaseComponent';
 import * as React from 'react';
 import { Input, Popover, PopoverBody, PopoverHeader } from 'reactstrap';
 import './StationSharing.scss';
@@ -15,7 +15,7 @@ interface IState {
   copied: boolean;
 }
 
-export class StationSharing extends Component<IProps, IState> {
+export class StationSharing extends BaseComponent<IProps, IState> {
   private inputRef: any;
 
   constructor(props: IProps) {
@@ -60,6 +60,7 @@ export class StationSharing extends Component<IProps, IState> {
       document.execCommand('Copy');
 
       this.setState({ copied: true });
+      this.showSuccess('Successfully copy to clipboard!');
     } catch (error) {
       console.error(error);
     }
