@@ -82,7 +82,7 @@ export class SearchSong extends Component<any, ISearchSongState> {
     return (
       <div className="search-input">
         <Autosuggest
-          suggestions={suggestions} // TODO: invalid type of suggestions
+          suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
           getSuggestionValue={this.getSuggestionValue}
