@@ -1,26 +1,33 @@
 const webpack = require('webpack');
-const os = require('os');
-
-const Dotenv = require('dotenv-webpack');
-const WebpackBar = require('webpackbar');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const history = require('connect-history-api-fallback');
 const convert = require('koa-connect');
-
+const Dotenv = require('dotenv-webpack');
+const WebpackBar = require('webpackbar');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plugin');
 
 const paths = require('./paths');
 
+// This is the development configuration.
+// It is focused on developer experience and fast rebuilds.
+// The production configuration is different and lives in a separate file.
 module.exports = {
+  // These are the "entry points" to our application.
+  // This means they will be the "root" imports that are included in JS bundle.
   entry: [paths.appIndexJs],
   mode: 'development',
   output: {
     path: paths.appBuild,
+    // This does not produce a real file. It's just the virtual path that is
+    // served by WebpackDevServer in development. This is the JS bundle
+    // containing code from all our entry points, and the Webpack runtime.
     filename: 'static/js/[name].bundle.js',
+    // There are also additional JS chunk files if you use code splitting.
     chunkFilename: 'static/js/[name].chunk.js',
+    // Webpack uses `publicPath` to determine where the app is being served from.
+    // In development, we always serve from the root. This makes config easier.
     publicPath: '/',
   },
   resolve: {

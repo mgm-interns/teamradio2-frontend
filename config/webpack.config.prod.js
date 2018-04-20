@@ -1,16 +1,21 @@
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 const WebpackBar = require('webpackbar');
-const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plugin');
 
 const paths = require('./paths');
 
+// This is the production configuration.
+// It compiles slowly and is focused on producing a fast and minimal bundle.
+// The development configuration is different and lives in a separate file.
 module.exports = {
+  // These are the "entry points" to our application.
+  // This means they will be the "root" imports that are included in JS bundle.
   entry: [paths.appIndexJs],
   mode: 'production',
   stats: 'errors-only', // Only output when errors happen
