@@ -57,9 +57,6 @@ module.exports = {
             exclude: /node_modules/,
             use: [
               {
-                loader: require.resolve('cache-loader'),
-              },
-              {
                 loader: require.resolve('thread-loader'),
                 options: {
                   workers: os.cpus().length - 2, // one for system, one for fork-ts-checker-webpack-plugin

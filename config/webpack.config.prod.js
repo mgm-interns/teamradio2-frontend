@@ -1,7 +1,4 @@
 const webpack = require('webpack');
-const os = require('os');
-
-// const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
@@ -49,15 +46,6 @@ module.exports = {
             include: paths.appSrc,
             exclude: /node_modules/,
             use: [
-              {
-                loader: require.resolve('cache-loader'),
-              },
-              {
-                loader: require.resolve('thread-loader'),
-                options: {
-                  workers: os.cpus().length - 2, // one for system, one for fork-ts-checker-webpack-plugin
-                },
-              },
               {
                 loader: require.resolve('babel-loader'),
                 options: {
