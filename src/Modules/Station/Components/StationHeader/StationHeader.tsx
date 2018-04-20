@@ -1,7 +1,8 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
-import { Song, Station } from 'Models';
+import { SkipRule, Song, Station } from 'Models';
+import { SkipRuleType } from 'Models/Station';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
 import * as React from 'react';
 import { Fragment } from 'react';
@@ -40,6 +41,7 @@ type IProps = IStateProps & IOwnProps;
 
 interface IState {
   station: Station;
+  currentSkipRule: SkipRule;
 }
 
 class OriginStationHeader extends BaseComponent<
@@ -52,6 +54,7 @@ class OriginStationHeader extends BaseComponent<
 
     this.state = {
       station: null,
+      currentSkipRule: null,
     };
 
     this.stationServices = new StationServices();
@@ -71,7 +74,18 @@ class OriginStationHeader extends BaseComponent<
     }
   }
 
-  public renderButton = (
+  public _onSkipRuleChange = (skipRuleTpe: SkipRuleType) => {
+    const { stationId } = this.props;
+    this.stationServices.updateSkipRuleConfig(stationId, skipRuleTpe).subscribe(
+      (response: any) => {
+        // Re-set current skip rule after user change Skip rule Configuration
+        this.setState({ currentSkipRule: response.skipRule });
+      },
+      err => console.log(err),
+    );
+  };
+
+  public _renderButton = (
     flag: boolean,
     { iconOn, iconOff }: any,
     handleClick: any,
@@ -79,7 +93,6 @@ class OriginStationHeader extends BaseComponent<
     const classes = {
       icon: classNames(flag ? iconOn : iconOff),
     };
-    // const activeButton = flag ? 'color: red' : null;
 
     return (
       <div className="icon-wrapper" onClick={handleClick}>
@@ -98,7 +111,7 @@ class OriginStationHeader extends BaseComponent<
       onLightClick,
       nowPlaying,
     } = this.props;
-    const { station } = this.state;
+    const { station, currentSkipRule } = this.state;
 
     return (
       <Row className="header-container">
@@ -106,13 +119,18 @@ class OriginStationHeader extends BaseComponent<
           <h1>{station && station.name}</h1>
         </div>
         <div className="buttons-wrapper">
-          {this.renderButton(!muted, buttonActions.muted, onVolumeClick)}
+          {this._renderButton(!muted, buttonActions.muted, onVolumeClick)}
           {nowPlaying &&
-            this.renderButton(isPassive, buttonActions.passive, onLightClick)}
+            this._renderButton(isPassive, buttonActions.passive, onLightClick)}
           {!isPassive && (
             <Fragment>
               <StationSharing />
-              <ConfigurationButton />
+              <ConfigurationButton
+                currentSkipRule={currentSkipRule}
+                onSkipRuleChange={(skipRuleType: SkipRuleType) =>
+                  this._onSkipRuleChange(skipRuleType)
+                }
+              />
             </Fragment>
           )}
         </div>
@@ -123,7 +141,12 @@ class OriginStationHeader extends BaseComponent<
   private updateStation = (stationId: string) => {
     this.stationServices.getStationById(stationId).subscribe(
       (station: any) => {
-        this.setState({ station });
+        this.setState({ station }, () => {
+          // Get current skip rule after join in a station
+          this.setState({
+            currentSkipRule: this.state.station.stationConfigurationDTO.skipRule,
+          });
+        });
       },
       err => {
         // If station not found, redirect user to home page

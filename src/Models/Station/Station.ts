@@ -8,4 +8,5 @@ export class Station {
   public startingTime: number;
   public deleted: boolean;
   public createAt: string;
+  public stationConfigurationDTO: any
 }
