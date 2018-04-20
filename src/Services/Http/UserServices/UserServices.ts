@@ -30,7 +30,11 @@ export class UserServices {
     return this._oAuthService.authorize(user);
   }
 
+<<<<<<< HEAD
   public loginWithFacebook(fbAccessToken: string): Observable<AccessToken> {
+=======
+  public loginWithFacebook(fbAccessToken: string) {
+>>>>>>> Implement Facebook login
     return this._oAuthService.loginWithFacebook(fbAccessToken);
   }
 

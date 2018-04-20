@@ -70,7 +70,7 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
           </Row>
           <Row>
             <Col>
-              <ButtonGoogleLogin />
+              <ButtonGoogleLogin getUserInfo={this.getUserInfo}/>
             </Col>
           </Row>
         </div>
@@ -91,4 +91,4 @@ export const LoginWrapper = connect<
   {},
   IDispatcherProps,
   ILoginWrapperComponentProps
->(null, mapDispatchToProps)(LoginWrapperComponentWithRouter);
+  >(null, mapDispatchToProps)(LoginWrapperComponentWithRouter);
