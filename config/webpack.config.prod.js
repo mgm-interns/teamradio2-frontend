@@ -13,7 +13,7 @@ const paths = require('./paths');
 module.exports = {
   entry: [paths.appIndexJs],
   mode: 'production',
-  stats: 'errors-only',
+  stats: 'errors-only', // Only output when errors happen
   output: {
     path: paths.appBuild,
     filename: 'static/js/[name].bundle.js',
@@ -32,7 +32,13 @@ module.exports = {
   module: {
     rules: [
       {
+        // "oneOf" will traverse all following loaders until one will
+        // match the requirements. When no loader matches it will fall
+        // back to the "file" loader at the end of the loader list.
         oneOf: [
+          // "url" loader works like "file" loader except that it embeds assets
+          // smaller than specified limit in bytes as data URLs to avoid requests.
+          // A missing `test` is equivalent to a match.
           {
             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
             loader: require.resolve('url-loader'),
@@ -41,6 +47,7 @@ module.exports = {
               name: 'static/media/[name].[hash:8].[ext]',
             },
           },
+          // Compile .tsx
           {
             test: /\.(ts|tsx)$/,
             include: paths.appSrc,
@@ -62,6 +69,9 @@ module.exports = {
               },
             ],
           },
+          // "css" loader resolves paths in CSS and adds assets as dependencies.
+          // "style" loader turns CSS into JS modules that inject <style> tags.
+          // "sass" loader loads a Sass/SCSS file and compiles it to CSS.
           {
             test: /\.(scss|css)$/,
             use: [
@@ -79,6 +89,11 @@ module.exports = {
               },
             ],
           },
+          // "file" loader makes sure those assets get served by WebpackDevServer.
+          // When you `import` an asset, you get its (virtual) filename.
+          // In production, they would get copied to the `build` folder.
+          // This loader doesn't use a "test" so it will catch all modules
+          // that fall through the other loaders.
           {
             exclude: [/\.(ts|tsx|js|jsx)$/, /\.html$/, /\.json$/],
             loader: require.resolve('file-loader'),
@@ -88,17 +103,23 @@ module.exports = {
           },
         ],
       },
+      // ** STOP ** Are you adding a new loader?
+      // Make sure to add the new loader(s) before the "file" loader.
     ],
   },
   plugins: [
+    // A webpack plugin to remove/clean your build folder(s) before building
     new CleanWebpackPlugin([paths.appBuild], {
       root: paths.appRoot,
       beforeEmit: true,
     }),
+    // Elegant ProgressBar and Profiler for Webpack
     new WebpackBar({
       profile: true,
     }),
+    // A secure webpack plugin that supports dotenv and other environment variables and only exposes what you choose and use.
     new Dotenv(),
+    // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
@@ -115,24 +136,28 @@ module.exports = {
         minifyURLs: true,
       },
     }),
+    //  It creates a CSS file per JS file which contains CSS. It supports On-Demand-Loading of CSS and SourceMaps.
     new MiniCssExtractPlugin({
       filename: 'static/css/[name].[chunkhash:8].css',
       chunkFilename: 'static/css/[name].[chunkhash:8].chunk.css',
     }),
+    // Friendly-errors-webpack-plugin recognizes certain classes of webpack errors and cleans,
+    // aggregates and prioritizes them to provide a better Developer Experience.
     new FriendlyErrorsWebpackPlugin(),
-    new webpack.IgnorePlugin(/\.d\.ts$/), // Makes webpack ignore declaration files
+    // Makes webpack ignore declaration files
+    new webpack.IgnorePlugin(/\.d\.ts$/),
+    // Copies individual files or entire directories to the build directory
     new CopyWebpackPlugin([{ from: './public/img', to: 'img' }], {
       copyUnmodified: false,
     }),
   ],
+  // Some libraries import Node modules but don't use them in the browser.
+  // Tell Webpack to provide empty mocks for them so importing them works.
   node: {
     dgram: 'empty',
     fs: 'empty',
     net: 'empty',
     tls: 'empty',
     child_process: 'empty',
-  },
-  performance: {
-    hints: false,
   },
 };
