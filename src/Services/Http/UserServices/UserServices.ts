@@ -38,6 +38,10 @@ export class UserServices {
     return this._oAuthService.loginWithFacebook(fbAccessToken);
   }
 
+  public loginWithGoogle(googleAccessToken: string) {
+    return this._oAuthService.loginWithGoogle(googleAccessToken);
+  }
+
   public updateUserInfo(user: RegisteredUser): Observable<any> {
     return this._httpServices.patch(`${this.serviceUrl}/me`, user);
   }
