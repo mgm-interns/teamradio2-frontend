@@ -5,6 +5,7 @@ import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   Dropdown,
   DropdownItem,
@@ -111,18 +112,18 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
         {isAuthenticated ? (
           <Fragment>
             <span className="reputation">Reputation: {20}</span>
-            <div className="user-info">
+            <div className="user-info ml-2">
               <Dropdown
                 className="drop-down"
                 isOpen={dropdownOpen}
                 toggle={this.toggle}>
-                <DropdownToggle className="nav-link dropdown-toggle button-dropdown-toggle">
+                <DropdownToggle className="nav-link dropdown-toggle button-dropdown-toggle p-0">
                   <img
                     className="img-avatar"
                     alt="avatar"
                     src={avatarUrl || DEFAULT_USER_AVATAR}
                   />
-                  <span className="d-md-down-none">{name}</span>
+                  <span className="d-md-down-none mr-2">{name}</span>
                 </DropdownToggle>
                 <DropdownMenu right className="drop-down-menu">
                   <DropdownItem header className="drop-item">
@@ -130,12 +131,16 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
                     <br />
                     {name}
                   </DropdownItem>
-                  <DropdownItem className="drop-item" href="/profile">
-                    <i className="fa fa-user" />Your profile
-                  </DropdownItem>
-                  <DropdownItem className="drop-item" href="/help">
-                    <i className="fa fa-question-circle" />Help
-                  </DropdownItem>
+                  <Link to="/profile">
+                    <DropdownItem className="drop-item">
+                      <i className="fa fa-user" />Your profile
+                    </DropdownItem>
+                  </Link>
+                  <Link to="/help">
+                    <DropdownItem className="drop-item">
+                      <i className="fa fa-question-circle" />Help
+                    </DropdownItem>
+                  </Link>
                   <DropdownItem className="drop-item">
                     <div onClick={this.signOut}>
                       <i className="fa fa-sign-out" />
