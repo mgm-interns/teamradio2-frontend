@@ -30,6 +30,10 @@ export class UserServices {
     return this._oAuthService.authorize(user);
   }
 
+  public loginWithFacebook(fbAccessToken: string) {
+    return this._oAuthService.loginWithFacebook(fbAccessToken);
+  }
+
   public updateUserInfo(user: RegisteredUser): Observable<any> {
     return this._httpServices.patch(`${this.serviceUrl}/me`, user);
   }
