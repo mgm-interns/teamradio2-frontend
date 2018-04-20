@@ -5,15 +5,11 @@
     width: 50px;
     height: 50px;
   }
-  & > * {
-    display: inline-block;
-  }
   .drop-down {
     .button-dropdown-toggle {
-      padding-top: 0;
-      padding-right: 0;
-      padding-bottom: 0;
-      font-family: Roboto Slab, serif;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       color: white;
       background-color: transparent;
       border-color: transparent;
@@ -52,17 +48,17 @@
         outline: none;
       }
     }
+    a {
+      color: rgba(0, 0, 0, 0.87);
+      &:hover {
+        text-decoration: none;
+      }
+    }
     .drop-item {
       font-size: 1.2em;
       color: rgba(0, 0, 0, 0.87);
       & > span {
         color: rgba(0, 0, 0, 0.54);
-      }
-      & > a {
-        color: rgba(0, 0, 0, 0.87);
-        &:hover {
-          text-decoration: none;
-        }
       }
     }
   }
