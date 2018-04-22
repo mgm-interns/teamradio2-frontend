@@ -22,6 +22,7 @@ import './CreateStation.scss';
 
 interface IStationFormValues {
   name: string;
+  privacy: boolean;
   serverError?: string;
 }
 
@@ -56,6 +57,22 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
           {errors.name || serverError}
         </FormFeedback>
       )}
+
+      <div className="toggle-container">
+        <Label className="switch switch-3d switch-primary">
+          <Input
+            name="privacy"
+            type="checkbox"
+            className="switch-input"
+            onChange={event => {
+              props.setFieldValue('privacy', event.target.checked)
+            }}
+          />
+          <span className="switch-label" />
+          <span className="switch-handle" />
+        </Label>
+        <span className="toggle-text">Private station</span>
+      </div>
     </Form>
   );
 };
@@ -70,11 +87,11 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
     this.state = {
       error: '',
-      privacy: false,
     };
 
     this.initialValues = {
       name: '',
+      privacy: false,
       error: '',
     };
   }
@@ -98,7 +115,7 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
   public handleSubmit = (formValues: IStationFormValues) => {
     const name = formValues.name;
-    const stationPrivacy = this.state.privacy
+    const stationPrivacy = formValues.privacy
       ? STATION_PRIVACY_PRIVATE
       : STATION_PRIVACY_PUBLIC;
     this.stationServices.createStation(name, stationPrivacy).subscribe(
@@ -112,36 +129,17 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
     );
   };
 
-  public handlePrivacy = () => {
-    this.setState({ privacy: !this.state.privacy });
-  };
-
   public render() {
-    console.log(this.state.privacy);
-    return [
+    return (
       <Formik
-        key={1}
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
         render={formikProps => (
           <InnerForm {...formikProps} serverError={this.state.error} />
         )}
         validate={this.validate}
-      />,
-      <div key={2} className="toggle-container">
-        <Label key={2} className="switch switch-3d switch-primary">
-          <Input
-            type="checkbox"
-            className="switch-input"
-            value={this.state.privacy}
-            onChange={this.handlePrivacy}
-          />
-          <span className="switch-label" />
-          <span className="switch-handle" />
-        </Label>
-        <span className="toggle-text">Private station</span>
-      </div>,
-    ];
+      />
+    );
   }
 }
 
