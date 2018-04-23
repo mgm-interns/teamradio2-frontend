@@ -54,6 +54,10 @@
       height: 120px;
     }
 
+    @include media-breakpoint-down(xs) {
+      height: 90px;
+    }
+
     .thumbnail-container {
       position: relative;
     }
