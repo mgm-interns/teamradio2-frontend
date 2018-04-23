@@ -13,4 +13,5 @@ export class Station {
   public starttingTime: number;
   public deleted: boolean;
   public createAt: string;
+  public stationConfigurationDTO: any
 }

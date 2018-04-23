@@ -1,4 +1,5 @@
 import { Station, StationPrivacy } from 'Models';
+import { SkipRuleType } from 'Models/Station';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';
 
@@ -27,5 +28,20 @@ export class StationServices {
       privacy: privacy || StationPrivacy.STATION_PUBLIC,
     };
     return this._httpServices.post(this.serviceUrl, body);
+  }
+
+  public updateSkipRuleConfig(
+    id: string,
+    skipRuleType: SkipRuleType,
+  ): Observable<Station> {
+    const body: any = {
+      skipRule: {
+        skipRuleType,
+      },
+    };
+    return this._httpServices.put(
+      `${this.serviceUrl}/update-config/${id}`,
+      body,
+    );
   }
 }
