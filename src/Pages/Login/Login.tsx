@@ -6,7 +6,6 @@ import {
   Card,
   CardBody,
   CardFooter,
-  CardLink,
   Col,
   Container,
   Row,
@@ -31,12 +30,12 @@ export class Login extends Component {
                   <Row className="other-actions">
                     <Col xs="12" lg="6">
                       <Link to="/forgot-password">
-                        <CardLink>Forgot your password?</CardLink>
+                        Forgot your password?
                       </Link>
                     </Col>
                     <Col xs="12" lg="6" className="login__register-callout">
                       <Link to="/register">
-                        <CardLink>Create an account</CardLink>
+                        Create an account
                       </Link>
                     </Col>
                   </Row>
