@@ -1,4 +1,4 @@
-import { Station } from 'Models';
+import { Station, StationPrivacy } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';
 
@@ -18,10 +18,13 @@ export class StationServices {
     return this._httpServices.get(`${this.serviceUrl}/${id}`);
   }
 
-  public createStation(name: string, privacy?: string): Observable<Station> {
+  public createStation(
+    name: string,
+    privacy?: StationPrivacy,
+  ): Observable<Station> {
     const body: any = {
       name,
-      privacy: privacy || 'station_public',
+      privacy: privacy || StationPrivacy.STATION_PUBLIC,
     };
     return this._httpServices.post(this.serviceUrl, body);
   }

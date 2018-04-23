@@ -1,9 +1,9 @@
 import { BaseComponent } from 'BaseComponent';
 import { Field, Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
-import { Station } from 'Models';
-import * as React from 'react';
+import { Station, StationPrivacy } from 'Models';
 import { FormEvent } from 'react';
+import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {
   Button,
@@ -14,15 +14,11 @@ import {
   Label,
 } from 'reactstrap';
 import { StationServices } from 'Services/Http';
-import {
-  STATION_PRIVACY_PRIVATE,
-  STATION_PRIVACY_PUBLIC,
-} from '../../Constants';
 import './CreateStation.scss';
 
 interface IStationFormValues {
   name: string;
-  privacy: boolean;
+  privacy: StationPrivacy;
   serverError?: string;
 }
 
@@ -121,8 +117,8 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
   public handleSubmit = (formValues: IStationFormValues) => {
     const name = formValues.name;
     const stationPrivacy = formValues.privacy
-      ? STATION_PRIVACY_PRIVATE
-      : STATION_PRIVACY_PUBLIC;
+      ? StationPrivacy.STATION_PRIVATE
+      : StationPrivacy.STATION_PUBLIC;
     this.stationServices.createStation(name, stationPrivacy).subscribe(
       (res: Station) => {
         this.props.history.push(`/station/${res.id}`);

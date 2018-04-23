@@ -1,11 +1,12 @@
+import { StationPrivacy } from './Privacy';
+
 export class Station {
   public id: string;
   public name: string;
-  public friendlyId: string;
   public ownerId: string;
   public playlist: any[];
-  public privacy: string;
-  public startingTime: number;
+  public privacy: StationPrivacy;
+  public starttingTime: number;
   public deleted: boolean;
   public createAt: string;
 }
