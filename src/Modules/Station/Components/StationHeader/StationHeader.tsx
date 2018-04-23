@@ -90,23 +90,15 @@ class OriginStationHeader extends BaseComponent<
     const { stationId } = this.props;
     const { station } = this.state;
 
-    const userInfo = localStorageManager.getUserInfo();
-
-    if (userInfo.id === station.ownerId) {
-      this.stationServices
-        .updateSkipRuleConfig(stationId, skipRuleTpe)
-        .subscribe(
-          (response: any) => {
-            // Re-set current skip rule after user change Skip rule Configuration
-            this.setState({ currentSkipRule: response.skipRule });
-          },
-          err => console.log(err),
-        );
-    } else {
-      this.showError(
-        "You aren't station owner so that you can't change skip rule configuration.",
+    this.stationServices
+      .updateSkipRuleConfig(stationId, skipRuleTpe)
+      .subscribe(
+        (response: any) => {
+          // Re-set current skip rule after user change Skip rule Configuration
+          this.setState({ currentSkipRule: response.skipRule });
+        },
+        err => console.log(err),
       );
-    }
   };
 
   public _onQRCodeToggle = () => {
@@ -152,6 +144,8 @@ class OriginStationHeader extends BaseComponent<
     } = this.props;
     const { station, currentSkipRule, isToggleQRCode } = this.state;
 
+    const userInfo = localStorageManager.getUserInfo();
+
     return (
       <Row className="station-header-container">
         <div>
@@ -169,13 +163,15 @@ class OriginStationHeader extends BaseComponent<
           {!isPassive && (
             <Fragment>
               <StationSharing />
-              <ConfigurationButton
-                stationId={stationId}
-                currentSkipRule={currentSkipRule}
-                onSkipRuleChange={(skipRuleType: SkipRuleType) =>
-                  this._onSkipRuleChange(skipRuleType)
-                }
-              />
+              {station && userInfo.id === station.ownerId && (
+                <ConfigurationButton
+                  stationId={stationId}
+                  currentSkipRule={currentSkipRule}
+                  onSkipRuleChange={(skipRuleType: SkipRuleType) =>
+                    this._onSkipRuleChange(skipRuleType)
+                  }
+                />
+              )}
               {this._renderButton(
                 isToggleQRCode,
                 buttonActions.qrcode,
