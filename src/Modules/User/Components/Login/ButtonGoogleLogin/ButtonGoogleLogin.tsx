@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
-import { UserServices } from "Services/Http";
+import { UserServices } from 'Services/Http';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_API_CLIENT_ID;
 
@@ -17,16 +17,17 @@ export class ButtonGoogleLogin extends Component<any, any> {
   public handleResponse(response: any) {
     const googleAccessToken = response.accessToken;
 
-    this.userServices.loginWithGoogle(googleAccessToken).subscribe((res: any) => {
-      this.props.getUserInfo();
-    }, (err: any) => {
-      console.log(err);
-    })
+    this.userServices.loginWithGoogle(googleAccessToken).subscribe(
+      (res: any) => {
+        this.props.getUserInfo();
+      },
+      (err: any) => {
+        console.log(err);
+      },
+    );
   }
 
-  public handleError() {
-
-  }
+  public handleError() {}
 
   public render() {
     return (
