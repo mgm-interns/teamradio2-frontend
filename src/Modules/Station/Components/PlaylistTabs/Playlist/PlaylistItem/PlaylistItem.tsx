@@ -1,5 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
+import { Dispatch } from 'Configuration/Redux';
 import { YoutubeHelper } from 'Helpers';
 import { FavoriteSong } from 'Models/FavoriteSong';
 import { PlaylistSong, Song } from 'Models/Song';
@@ -23,7 +24,7 @@ interface ISongProps {
   song: Song;
 }
 
-interface IReduxActionProps {
+interface IDispatcherProps {
   addFavorite: (favorite: IFavoriteItem) => void;
   removeFavorite: (songId: string) => void;
 }
@@ -34,7 +35,7 @@ type IProps = IPlayListItemProps &
   IPlayListItemMethodProps &
   PlaylistSong &
   ISongProps &
-  IReduxActionProps;
+  IDispatcherProps;
 
 interface IPlayListItemStates {
   isUpVote: boolean;
@@ -324,12 +325,12 @@ export class PlaylistItemComponent extends BaseComponent<
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   addFavorite: (favorite: IFavoriteItem) => dispatch(addFavorite(favorite)),
   removeFavorite: (songId: string) => dispatch(removeFavorite(songId)),
 });
 
-export const PlaylistItem = connect<{}, IReduxActionProps>(
+export const PlaylistItem = connect<{}, IDispatcherProps>(
   null,
   mapDispatchToProps,
 )(PlaylistItemComponent);

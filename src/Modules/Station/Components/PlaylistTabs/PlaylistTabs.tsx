@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Dispatch } from 'Configuration/Redux';
 import { IApplicationState } from 'Configuration/Redux';
 import { FavoriteSong, PlaylistSong } from 'Models';
 import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
@@ -24,7 +25,7 @@ interface IOwnProps {
   stationId: string;
 }
 
-interface IPlaylistProps {
+interface IDispatcherProps {
   updateNewestFavoriteList: (favoriteList: IFavoriteItem[]) => void;
 }
 
@@ -33,7 +34,7 @@ interface IStates {
   favoriteList: IFavoriteItem[];
 }
 
-type IProps = IOwnProps & IPlaylistProps & IStateProps;
+type IProps = IOwnProps & IDispatcherProps & IStateProps;
 
 export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   private stationPlaylistSSE: StationPlaylistSSE;
@@ -164,7 +165,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   };
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   updateNewestFavoriteList: (favoriteList: IFavoriteItem[]) =>
     dispatch(updateNewestFavoriteList(favoriteList)),
 });
@@ -173,7 +174,7 @@ const mapStateToProps = (state: IApplicationState): IStateProps => ({
   playlist: state.playlist.playlist,
 });
 
-export const PlaylistTabs = connect<IStateProps, IPlaylistProps>(
+export const PlaylistTabs = connect<IStateProps, IDispatcherProps>(
   mapStateToProps,
   mapDispatchToProps,
 )(PlaylistTabsComponent);
