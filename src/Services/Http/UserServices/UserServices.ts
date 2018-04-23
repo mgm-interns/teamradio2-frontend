@@ -30,11 +30,11 @@ export class UserServices {
     return this._oAuthService.authorize(user);
   }
 
-  public loginWithFacebook(fbAccessToken: string) {
+  public loginWithFacebook(fbAccessToken: string): Observable<AccessToken> {
     return this._oAuthService.loginWithFacebook(fbAccessToken);
   }
 
-  public loginWithGoogle(googleAccessToken: string) {
+  public loginWithGoogle(googleAccessToken: string): Observable<AccessToken> {
     return this._oAuthService.loginWithGoogle(googleAccessToken);
   }
 
