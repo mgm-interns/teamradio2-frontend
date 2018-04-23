@@ -5,10 +5,16 @@ import { UserServices } from 'Services/Http';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_API_CLIENT_ID;
 
-export class ButtonGoogleLogin extends Component<any, any> {
+interface IProps {
+  getUserInfo?: () => void;
+}
+
+interface IState {}
+
+export class ButtonGoogleLogin extends Component<IProps, IState> {
   private userServices: UserServices;
 
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
     this.userServices = new UserServices();
     this.handleResponse = this.handleResponse.bind(this);
