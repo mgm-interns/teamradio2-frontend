@@ -7,6 +7,7 @@ const WebpackBar = require('webpackbar');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const paths = require('./paths');
 
@@ -71,6 +72,9 @@ module.exports = {
             exclude: /node_modules/,
             use: [
               {
+                loader: require.resolve('thread-loader'),
+              },
+              {
                 loader: require.resolve('babel-loader'),
                 options: {
                   cacheDirectory: true,
@@ -82,6 +86,7 @@ module.exports = {
                 options: {
                   happyPackMode: true,
                   configFile: paths.appTsConfigJson,
+                  transpileOnly: true,
                 },
               },
             ],
@@ -105,7 +110,7 @@ module.exports = {
               },
               {
                 loader: require.resolve('sass-loader'),
-                options: { sourceMap: true, workParallelJobs: 2 },
+                options: { sourceMap: true },
               },
             ],
           },
@@ -146,6 +151,13 @@ module.exports = {
     }),
     // Makes webpack ignore declaration files
     new webpack.IgnorePlugin(/\.js$/, /\.d\.ts$/),
+    new ForkTsCheckerWebpackPlugin({
+      tsconfig: paths.appTsConfigJson,
+      tslint: paths.appTsLintJson,
+      watch: paths.appSrc,
+      async: false,
+      checkSyntacticErrors: true,
+    }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
