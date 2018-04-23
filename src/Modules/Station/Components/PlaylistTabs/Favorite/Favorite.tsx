@@ -1,6 +1,6 @@
+import { BaseComponent } from 'BaseComponent';
 import { IApplicationState } from 'Configuration/Redux';
 import * as React from 'react';
-import { Component } from 'react';
 import { connect } from 'react-redux';
 import '../PlaylistTabs.scss';
 import { FavoriteItem, IFavoriteItem } from './FavoriteItem';
@@ -13,7 +13,7 @@ interface IFavoriteStates {
   favoriteList: IFavoriteItem[];
 }
 
-export class FavoriteComponent extends Component<
+export class FavoriteComponent extends BaseComponent<
   IFavoriteProps,
   IFavoriteStates
 > {

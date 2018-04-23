@@ -1,8 +1,8 @@
+import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { YoutubeHelper } from 'Helpers';
 import { Song } from 'Models/Song';
 import * as React from 'react';
-import { Component } from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
 
@@ -13,7 +13,7 @@ export interface IFavoriteItem {
   song: Song;
 }
 
-export class FavoriteItem extends Component<IFavoriteItem, IFavoriteItem> {
+export class FavoriteItem extends BaseComponent<IFavoriteItem, IFavoriteItem> {
   constructor(props: IFavoriteItem) {
     super(props);
     this.state = {

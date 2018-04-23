@@ -1,9 +1,9 @@
+import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { YoutubeHelper } from 'Helpers';
 import { FavoriteSong } from 'Models/FavoriteSong';
 import { PlaylistSong, Song } from 'Models/Song';
 import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
-import { Component } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -15,8 +15,6 @@ import './PlaylistItem.scss';
 interface IPlayListItemProps {
   upVote: (songId: string) => void;
   downVote: (songId: string) => void;
-  // addFavorite: (favorite: IFavoriteItem) => void;
-  // removeFavorite: (songId: string) => void;
   votingError: string;
   isFavorite: boolean;
 }
@@ -47,7 +45,7 @@ interface IPlayListItemStates {
   isFavorite: boolean;
 }
 
-export class PlaylistItemComponent extends Component<
+export class PlaylistItemComponent extends BaseComponent<
   IProps,
   IPlayListItemStates
 > {
