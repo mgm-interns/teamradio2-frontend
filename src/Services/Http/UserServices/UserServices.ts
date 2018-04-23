@@ -30,6 +30,10 @@ export class UserServices {
     return this._oAuthService.authorize(user);
   }
 
+  public loginWithFacebook(fbAccessToken: string): Observable<AccessToken> {
+    return this._oAuthService.loginWithFacebook(fbAccessToken);
+  }
+
   public updateUserInfo(user: RegisteredUser): Observable<any> {
     return this._httpServices.patch(`${this.serviceUrl}/me`, user);
   }
@@ -57,9 +61,9 @@ export class UserServices {
     return this._httpServices.post(this.serviceUrl + '/me/favorites', params);
   }
 
-  public removeSongFromFavorite(favoriteId: string): Observable<FavoriteSong> {
-    return this._httpServices.get(
-      this.serviceUrl + '/me/favorites' + { favoriteId },
+  public removeFavorite(songId: string): Observable<{}> {
+    return this._httpServices.delete(
+      `${this.serviceUrl}/me/favorites/${songId}`
     );
   }
 }

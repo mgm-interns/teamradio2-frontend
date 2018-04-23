@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Dispatch } from 'Configuration/Redux';
 import { fileContentToBase64 } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
@@ -9,14 +10,19 @@ import { UserServices } from 'Services/Http';
 import { updateUserInfo } from '../../../Redux/Actions';
 import './ImageUploader.scss';
 
-interface IProps {
+interface IImageUploaderComponentProps {
   aspectRatio?: number;
   isUpdateAvatar?: boolean;
   isUpdateCover?: boolean;
   imageUploadUrl?: (croppedImage: any) => void;
-  updateUserInfo: (userInfo: RegisteredUser) => void;
   ref: (instance: any) => void;
 }
+
+interface IDispatcherProps {
+  updateUserInfo: (userInfo: RegisteredUser) => void;
+}
+
+type IProps = IImageUploaderComponentProps & IDispatcherProps;
 
 class ImageUploaderComponent extends BaseComponent<IProps, any> {
   private inputFileTag: any;
@@ -186,14 +192,13 @@ class ImageUploaderComponent extends BaseComponent<IProps, any> {
   }
 }
 //
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch): IDispatcherProps => ({
   updateUserInfo: (userInfo: RegisteredUser) =>
     dispatch(updateUserInfo(userInfo)),
 });
 
-export const ImageUploader = connect<any, any, any>(
-  null,
-  mapDispatchToProps,
-  null,
-  { withRef: true },
-)(ImageUploaderComponent);
+export const ImageUploader = connect<
+  {},
+  IDispatcherProps,
+  IImageUploaderComponentProps
+>(null, mapDispatchToProps, null, { withRef: true })(ImageUploaderComponent);

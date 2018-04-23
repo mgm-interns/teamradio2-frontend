@@ -51,7 +51,9 @@ export class HistoryItem extends Component<IHistoryItemProps, any> {
   };
 
   public _renderItemRight = () => {
-    const { songId, title } = this.props.song;
+    const song = this.props.song;
+    const songId = song.id;
+    const title = song.title;
 
     return (
       <Row className="m-0 h-100">

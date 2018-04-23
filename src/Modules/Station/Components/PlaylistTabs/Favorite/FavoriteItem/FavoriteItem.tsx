@@ -1,35 +1,68 @@
+import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
+import { YoutubeHelper } from 'Helpers';
 import { Song } from 'Models/Song';
 import * as React from 'react';
-import { Component } from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
 
-export interface IFavouriteItem {
+export interface IFavoriteItem {
   id: string;
   userId: string;
   songId: string;
   song: Song;
 }
 
-export class FavouriteItem extends Component<any, any> {
-  constructor(props: any) {
+export class FavoriteItem extends BaseComponent<IFavoriteItem, IFavoriteItem> {
+  constructor(props: IFavoriteItem) {
     super(props);
+    this.state = {
+      id: this.props.id,
+      userId: this.props.userId,
+      songId: this.props.songId,
+      song: this.props.song,
+    };
+  }
+
+  public componentWillReceiveProps(nextProps: IFavoriteItem) {
+    if (this.props.song !== nextProps.song) {
+      this.setState({
+        song: nextProps.song,
+      });
+    }
+
+    if (this.props.id !== nextProps.id) {
+      this.setState({
+        id: nextProps.id,
+      });
+    }
+    if (this.props.userId !== nextProps.userId) {
+      this.setState({
+        userId: nextProps.userId,
+      });
+    }
+    if (this.props.songId !== nextProps.songId) {
+      this.setState({
+        songId: nextProps.songId,
+      });
+    }
   }
 
   public render() {
-    const song = this.props.song;
+    const song = this.state.song;
 
-    const songId = song.id;
     const thumbnail = song.thumbnail;
     const title = song.title;
     const duration = song.duration;
+    const songId = song.id;
 
     return (
       <Row className={classNames('m-0', 'item-container')}>
         <Col xs={3} className="p-0 thumbnail-container">
           <img className="video-img" src={thumbnail} />
-          <div className="duration">{duration}</div>
+          <div className="duration">
+            {YoutubeHelper.convertDuration(duration)}
+          </div>
         </Col>
         <Col xs={9} className="pr-0">
           <Row className="m-0 h-100">
@@ -49,11 +82,11 @@ export class FavouriteItem extends Component<any, any> {
                 }}>
                 <i
                   className="fa fa-reply action-button"
-                  id={songId + '-add-favourite'}
+                  id={'add-favourite-' + songId}
                 />
                 <UncontrolledTooltip
                   placement="left"
-                  target={songId + '-add-favourite'}>
+                  target={'add-favourite-' + songId}>
                   Add this song to playlist
                 </UncontrolledTooltip>
               </div>

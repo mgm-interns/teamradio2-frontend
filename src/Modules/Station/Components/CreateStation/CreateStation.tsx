@@ -14,6 +14,10 @@ import {
   Label,
 } from 'reactstrap';
 import { StationServices } from 'Services/Http';
+import {
+  STATION_PRIVACY_PRIVATE,
+  STATION_PRIVACY_PUBLIC,
+} from '../../Constants';
 import './CreateStation.scss';
 
 interface IStationFormValues {

@@ -1,6 +1,8 @@
 import { isMobileBrowser, objectToParams } from 'Helpers';
+import { AccessToken } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
+import { UserServices } from 'Services/Http';
 
 const CLIENT_ID = process.env.REACT_APP_FACEBOOK_API_CLIENT_ID;
 
@@ -13,7 +15,7 @@ declare global {
   }
 }
 
-interface IFacebookLoginProps {
+interface IProps {
   isMobile?: boolean;
   xfbml?: boolean;
   cookie?: boolean;
@@ -26,9 +28,15 @@ interface IFacebookLoginProps {
   returnScopes?: boolean;
   responseType?: string;
   authType?: string;
+  getUserInfo?: () => void;
 }
 
-export class FacebookLogin extends Component<IFacebookLoginProps, any> {
+interface IState {
+  isSdkLoaded: boolean;
+  isProcessing: boolean;
+}
+
+export class FacebookLogin extends Component<IProps, IState> {
   public static defaultProps = {
     isMobile: isMobileBrowser(),
     xfbml: false,
@@ -42,13 +50,17 @@ export class FacebookLogin extends Component<IFacebookLoginProps, any> {
     authType: '',
   };
 
-  constructor(props: IFacebookLoginProps) {
+  private userServices: UserServices;
+
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
       isSdkLoaded: false,
       isProcessing: false,
     };
+
+    this.userServices = new UserServices();
   }
 
   public componentDidMount() {
@@ -101,7 +113,15 @@ export class FacebookLogin extends Component<IFacebookLoginProps, any> {
 
   public checkLoginState = (response: any) => {
     this.setState({ isProcessing: false });
-    console.log(response.authResponse);
+    const fbAccessToken = response.authResponse.accessToken;
+    this.userServices.loginWithFacebook(fbAccessToken).subscribe(
+      (res: AccessToken) => {
+        this.props.getUserInfo();
+      },
+      (err: any) => {
+        console.log(err);
+      },
+    );
   };
 
   public click = (e: EventSource) => {

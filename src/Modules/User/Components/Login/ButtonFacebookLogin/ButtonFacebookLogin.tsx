@@ -3,7 +3,11 @@ import { Component } from 'react';
 import { Button } from 'reactstrap';
 import { FacebookLogin } from './FacebookLogin';
 
-export class ButtonFacebookLogin extends Component {
+interface IProps {
+  getUserInfo?: () => void;
+}
+
+export class ButtonFacebookLogin extends Component<IProps, any> {
   public static renderOwnButton(renderProps: any) {
     const { onClick } = renderProps;
     return (
@@ -16,6 +20,7 @@ export class ButtonFacebookLogin extends Component {
   public render() {
     return (
       <FacebookLogin
+        getUserInfo={this.props.getUserInfo}
         render={(renderProps: any) =>
           ButtonFacebookLogin.renderOwnButton(renderProps)
         }

@@ -1,29 +1,23 @@
 import { BaseComponent } from 'BaseComponent';
 import { Formik, FormikActions, FormikErrors } from 'formik';
-import { localStorageManager, Rules, Validator } from 'Helpers';
-import { AccessToken, RegisteredUser, UnauthorizedUser } from 'Models';
+import { Rules, Validator } from 'Helpers';
+import { RegisteredUser, UnauthorizedUser } from 'Models';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http';
-import { updateUserInfo } from '../../../Redux/Actions';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {}
 
 interface IProps {
   updateUserInfo?: (user: RegisteredUser) => void;
+  getUserInfo?: () => void;
 }
 
-export class LoginFormComponent extends BaseComponent<
-  IProps & RouteComponentProps<any>,
-  IState
-> {
+export class LoginForm extends BaseComponent<IProps, IState> {
   private readonly initialValues: FormValues;
   private userServices: UserServices;
 
-  constructor(props: IProps & RouteComponentProps<any>) {
+  constructor(props: IProps) {
     super(props);
 
     this.initialValues = {
@@ -38,7 +32,6 @@ export class LoginFormComponent extends BaseComponent<
 
     this.userServices = new UserServices();
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.goBack = this.goBack.bind(this);
   }
 
   public showFormAlertError(err: string) {
@@ -58,14 +51,6 @@ export class LoginFormComponent extends BaseComponent<
     });
   }
 
-  public goBack() {
-    if (window.history.length > 2) {
-      this.props.history.go(-1);
-    } else {
-      this.props.history.replace('/');
-    }
-  }
-
   public handleSubmit(
     values: FormValues,
     { setSubmitting, resetForm }: FormikActions<any>,
@@ -75,29 +60,16 @@ export class LoginFormComponent extends BaseComponent<
     const user = new UnauthorizedUser(username, password);
 
     this.userServices.login(user).subscribe(
-      (accessToken: AccessToken) => {
+      () => {
         this.showFormAlerSuccess();
         setSubmitting(false);
         resetForm();
-        this.getUserInfo();
+        this.props.getUserInfo();
       },
       (err: string) => {
         this.showError(err);
         this.showFormAlertError(err);
         setSubmitting(false);
-      },
-    );
-  }
-
-  public getUserInfo() {
-    this.userServices.getCurrentUserProfile().subscribe(
-      (userInfo: RegisteredUser) => {
-        localStorageManager.setUserInfo(userInfo);
-        this.props.updateUserInfo(userInfo);
-        this.goBack();
-      },
-      (err: string) => {
-        this.showError(err);
       },
     );
   }
@@ -135,14 +107,3 @@ export class LoginFormComponent extends BaseComponent<
     );
   }
 }
-
-const LoginFormWithRouter = withRouter(LoginFormComponent);
-
-const mapDispatchToProps = (dispatch: any) => ({
-  updateUserInfo: (userInfo: RegisteredUser) =>
-    dispatch(updateUserInfo(userInfo)),
-});
-
-export const LoginForm = connect<{}, {}, IProps>(null, mapDispatchToProps)(
-  LoginFormWithRouter,
-);
