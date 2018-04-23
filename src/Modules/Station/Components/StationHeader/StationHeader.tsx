@@ -123,11 +123,9 @@ class OriginStationHeader extends BaseComponent<
       onVolumeClick,
       onLightClick,
       nowPlaying,
-      stationId
+      stationId,
     } = this.props;
     const { station, currentSkipRule } = this.state;
-
-    console.log('station: ', station);
 
     return (
       <Row className="header-container">
