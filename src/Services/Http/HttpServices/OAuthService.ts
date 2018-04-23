@@ -2,6 +2,7 @@ import axios from 'axios';
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { localStorageManager } from 'Helpers';
 import { AccessToken, UnauthorizedUser } from 'Models';
+import { Observable } from 'rxjs/Observable';
 import { HttpServices } from './HttpServices';
 import { RequestMethod } from './RequestMethod';
 
@@ -25,7 +26,7 @@ export class OAuthService extends HttpServices {
     return this.post('oauth/token', this.encode(user)).map(this.saveToken);
   }
 
-  public loginWithFacebook(fbAccessToken: string) {
+  public loginWithFacebook(fbAccessToken: string): Observable<AccessToken> {
     this.setAuthorization(fbAccessToken);
     return this.post('login/facebook', {}).map(this.saveToken);
   }

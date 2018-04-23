@@ -1,8 +1,9 @@
 import { BaseComponent } from 'BaseComponent';
+import { Dispatch } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
-import * as React from 'react';
 import { Fragment } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
@@ -14,19 +15,22 @@ import { ButtonGoogleLogin } from './ButtonGoogleLogin';
 import { LoginForm } from './LoginForm';
 import './LoginWrapper.scss';
 
-interface IState {}
+interface ILoginWrapperComponentProps {}
 
-interface IProps {
-  updateUserInfo?: (user: RegisteredUser) => void;
+interface IDispatcherProps {
+  updateUserInfo: (user: RegisteredUser) => void;
 }
 
-export class LoginWrapperComponent extends BaseComponent<
-  IProps & RouteComponentProps<any>,
-  IState
-> {
+type IProps = ILoginWrapperComponentProps &
+  IDispatcherProps &
+  RouteComponentProps<any>;
+
+interface IState {}
+
+export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
   private userServices: UserServices;
 
-  constructor(props: IProps & RouteComponentProps<any>) {
+  constructor(props: IProps) {
     super(props);
 
     this.userServices = new UserServices();
@@ -78,11 +82,13 @@ export class LoginWrapperComponent extends BaseComponent<
 
 const LoginWrapperComponentWithRouter = withRouter(LoginWrapperComponent);
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch): IDispatcherProps => ({
   updateUserInfo: (userInfo: RegisteredUser) =>
     dispatch(updateUserInfo(userInfo)),
 });
 
-export const LoginWrapper = connect<{}, {}, IProps>(null, mapDispatchToProps)(
-  LoginWrapperComponentWithRouter,
-);
+export const LoginWrapper = connect<
+  {},
+  IDispatcherProps,
+  ILoginWrapperComponentProps
+>(null, mapDispatchToProps)(LoginWrapperComponentWithRouter);
