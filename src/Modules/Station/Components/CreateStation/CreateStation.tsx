@@ -5,12 +5,24 @@ import { Station } from 'Models';
 import * as React from 'react';
 import { FormEvent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
+import {
+  Button,
+  FormFeedback,
+  FormGroup,
+  Input,
+  InputGroup,
+  Label,
+} from 'reactstrap';
 import { StationServices } from 'Services/Http';
+import {
+  STATION_PRIVACY_PRIVATE,
+  STATION_PRIVACY_PUBLIC,
+} from '../../Constants';
 import './CreateStation.scss';
 
 interface IStationFormValues {
   name: string;
+  privacy: boolean;
   serverError?: string;
 }
 
@@ -45,6 +57,27 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
           {errors.name || serverError}
         </FormFeedback>
       )}
+
+      <div
+        className={
+          touched.name && errors.name
+            ? 'toggle-container-with-error'
+            : 'toggle-container-without-error'
+        }>
+        <Label className="switch switch-3d switch-primary">
+          <Input
+            name="privacy"
+            type="checkbox"
+            className="switch-input"
+            onChange={event => {
+              props.setFieldValue('privacy', event.target.checked);
+            }}
+          />
+          <span className="switch-label" />
+          <span className="switch-handle" />
+        </Label>
+        <span className="toggle-text">Private station</span>
+      </div>
     </Form>
   );
 };
@@ -63,6 +96,7 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
     this.initialValues = {
       name: '',
+      privacy: false,
       error: '',
     };
   }
@@ -86,7 +120,10 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
   public handleSubmit = (formValues: IStationFormValues) => {
     const name = formValues.name;
-    this.stationServices.createStation(name).subscribe(
+    const stationPrivacy = formValues.privacy
+      ? STATION_PRIVACY_PRIVATE
+      : STATION_PRIVACY_PUBLIC;
+    this.stationServices.createStation(name, stationPrivacy).subscribe(
       (res: Station) => {
         this.props.history.push(`/station/${res.id}`);
       },

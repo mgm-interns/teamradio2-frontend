@@ -23,6 +23,21 @@
   .text-error {
     text-align: left;
     position: absolute;
-    margin-top: 0;
+    margin-top: 0.25rem;
   }
+}
+
+.toggle-container-with-error {
+  position: absolute;
+  margin-top: 3.25rem;
+}
+
+.toggle-container-without-error {
+  position: absolute;
+  margin-top: 0.25rem;
+}
+
+.toggle-text {
+  color: #fff;
+  margin-left: 1.2rem;
 }
