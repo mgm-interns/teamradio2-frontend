@@ -1,6 +1,7 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
+import { localStorageManager } from 'Helpers';
 import { SkipRule, Song, Station } from 'Models';
 import { SkipRuleType } from 'Models/Station';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
@@ -76,13 +77,25 @@ class OriginStationHeader extends BaseComponent<
 
   public _onSkipRuleChange = (skipRuleTpe: SkipRuleType) => {
     const { stationId } = this.props;
-    this.stationServices.updateSkipRuleConfig(stationId, skipRuleTpe).subscribe(
-      (response: any) => {
-        // Re-set current skip rule after user change Skip rule Configuration
-        this.setState({ currentSkipRule: response.skipRule });
-      },
-      err => console.log(err),
-    );
+    const { station } = this.state;
+
+    const userInfo = localStorageManager.getUserInfo();
+
+    if (userInfo.id === station.ownerId) {
+      this.stationServices
+        .updateSkipRuleConfig(stationId, skipRuleTpe)
+        .subscribe(
+          (response: any) => {
+            // Re-set current skip rule after user change Skip rule Configuration
+            this.setState({ currentSkipRule: response.skipRule });
+          },
+          err => console.log(err),
+        );
+    } else {
+      this.showError(
+        "You aren't station owner so that you can't change skip rule configuration.",
+      );
+    }
   };
 
   public _renderButton = (
@@ -110,8 +123,11 @@ class OriginStationHeader extends BaseComponent<
       onVolumeClick,
       onLightClick,
       nowPlaying,
+      stationId
     } = this.props;
     const { station, currentSkipRule } = this.state;
+
+    console.log('station: ', station);
 
     return (
       <Row className="header-container">
@@ -126,6 +142,7 @@ class OriginStationHeader extends BaseComponent<
             <Fragment>
               <StationSharing />
               <ConfigurationButton
+                stationId={stationId}
                 currentSkipRule={currentSkipRule}
                 onSkipRuleChange={(skipRuleType: SkipRuleType) =>
                   this._onSkipRuleChange(skipRuleType)
@@ -144,7 +161,8 @@ class OriginStationHeader extends BaseComponent<
         this.setState({ station }, () => {
           // Get current skip rule after join in a station
           this.setState({
-            currentSkipRule: this.state.station.stationConfigurationDTO.skipRule,
+            currentSkipRule: this.state.station.stationConfigurationDTO
+              .skipRule,
           });
         });
       },
