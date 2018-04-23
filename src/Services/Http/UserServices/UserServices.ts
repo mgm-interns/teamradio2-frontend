@@ -34,6 +34,10 @@ export class UserServices {
     return this._oAuthService.loginWithFacebook(fbAccessToken);
   }
 
+  public loginWithGoogle(googleAccessToken: string): Observable<AccessToken> {
+    return this._oAuthService.loginWithGoogle(googleAccessToken);
+  }
+
   public updateUserInfo(user: RegisteredUser): Observable<any> {
     return this._httpServices.patch(`${this.serviceUrl}/me`, user);
   }
@@ -63,7 +67,7 @@ export class UserServices {
 
   public removeFavorite(songId: string): Observable<{}> {
     return this._httpServices.delete(
-      `${this.serviceUrl}/me/favorites/${songId}`
+      `${this.serviceUrl}/me/favorites/${songId}`,
     );
   }
 }

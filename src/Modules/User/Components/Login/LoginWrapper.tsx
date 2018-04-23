@@ -70,7 +70,7 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
           </Row>
           <Row>
             <Col>
-              <ButtonGoogleLogin />
+              <ButtonGoogleLogin getUserInfo={this.getUserInfo} />
             </Col>
           </Row>
         </div>

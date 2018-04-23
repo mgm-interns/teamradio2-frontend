@@ -31,9 +31,15 @@ export class OAuthService extends HttpServices {
     return this.post('login/facebook', {}).map(this.saveToken);
   }
 
-  public setAuthorization(fbAccessToken: string) {
-    this.authorization = fbAccessToken;
+  public loginWithGoogle(googleAccessToken: string) {
+    this.setAuthorization(googleAccessToken);
+    return this.post('login/google', {}).map(this.saveToken);
   }
+
+  public setAuthorization(authorization: string) {
+    this.authorization = authorization;
+  }
+
   protected createAxiosInstance(): AxiosInstance {
     const authorization = this.authorization
       ? this.authorization
