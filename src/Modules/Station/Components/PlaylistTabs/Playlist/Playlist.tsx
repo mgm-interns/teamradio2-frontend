@@ -2,9 +2,11 @@ import { BaseComponent } from 'BaseComponent';
 import { PlaylistSong } from 'Models/Song';
 import * as React from 'react';
 import FlipMoveList from 'react-flip-move';
+import {connect} from "react-redux";
 import { Card, CardBody } from 'reactstrap';
 import { SongServices, UserServices } from 'Services/Http';
-import { IFavouriteItem } from '../Favourite';
+import {IApplicationState} from "../../../../../Configuration/Redux";
+import { IFavoriteItem } from '../Favorite';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 
@@ -14,17 +16,18 @@ interface IPlaylistProps {
 }
 
 interface IFavoriteListProps {
-  favoriteList: IFavouriteItem[];
+  favoriteList: IFavoriteItem[];
 }
 
 interface IStates {
   playlist: PlaylistSong[];
   votingError: string;
+  favoriteList: IFavoriteItem[];
 }
 
 type Iprops = IPlaylistProps & IFavoriteListProps;
 
-export class Playlist extends BaseComponent<Iprops, IStates> {
+export class PlaylistComponent extends BaseComponent<Iprops, IStates> {
   private userServices: UserServices;
   private songServices: SongServices;
 
@@ -37,6 +40,7 @@ export class Playlist extends BaseComponent<Iprops, IStates> {
     this.state = {
       playlist: props.playlist,
       votingError: '',
+      favoriteList: this.props.favoriteList,
     };
   }
 
@@ -79,9 +83,18 @@ export class Playlist extends BaseComponent<Iprops, IStates> {
 
   public isFavorited(
     playlistItem: PlaylistSong,
-    favoriteList: IFavouriteItem[],
+    favoriteList: IFavoriteItem[],
   ) {
     return favoriteList.some(item => item.songId === playlistItem.songId);
+  }
+
+  public componentWillReceiveProps(nextProps: Iprops) {
+    if(this.props.favoriteList !== nextProps.favoriteList) {
+      const favoriteList = nextProps.favoriteList;
+      this.setState({
+        favoriteList,
+      });
+    }
   }
 
   public render() {
@@ -107,14 +120,15 @@ export class Playlist extends BaseComponent<Iprops, IStates> {
               <PlaylistItem
                 key={song.id || index}
                 {...song}
+                song={song}
                 upVote={(songId: string) => {
                   this.upVote(songId);
                 }}
                 downVote={(songId: string) => {
-                  this.downVote(songId);
+
                 }}
                 votingError={this.state.votingError}
-                isFavorite={this.isFavorited(song, this.props.favoriteList)}
+                isFavorite={this.isFavorited(song, this.state.favoriteList)}
               />
             );
           })}
@@ -123,3 +137,11 @@ export class Playlist extends BaseComponent<Iprops, IStates> {
     );
   }
 }
+
+const mapStateToProps = (state: IApplicationState): IFavoriteListProps => ({
+  favoriteList: state.favoriteList.favoriteList,
+});
+
+export const Playlist = connect<any, any, any>(
+  mapStateToProps
+)(PlaylistComponent);

@@ -57,9 +57,9 @@ export class UserServices {
     return this._httpServices.post(this.serviceUrl + '/me/favorites', params);
   }
 
-  public removeSongFromFavorite(favoriteId: string): Observable<FavoriteSong> {
-    return this._httpServices.get(
-      this.serviceUrl + '/me/favorites' + { favoriteId },
+  public removeFavorite(songId: string): Observable<{}> {
+    return this._httpServices.delete(
+      `${this.serviceUrl}/me/favorites/${songId}`
     );
   }
 }

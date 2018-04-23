@@ -1,12 +1,13 @@
 import { BaseComponent } from 'BaseComponent';
 import { IApplicationState } from 'Configuration/Redux';
 import { FavoriteSong, PlaylistSong } from 'Models';
+import { getNewestFavoriteList } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import { StationPlaylistSSE } from 'Services/SSE';
-import { Favourite, IFavouriteItem } from './Favourite';
+import { Favorite, IFavoriteItem } from './Favorite';
 import { favouriteList } from './fixture';
 import { History } from './History';
 import { Playlist } from './Playlist';
@@ -24,12 +25,16 @@ interface IOwnProps {
   stationId: string;
 }
 
-interface IStates {
-  activeTab: string;
-  favoriteList: IFavouriteItem[];
+interface IPlaylistProps {
+  getNewestFavoriteList: (favoriteList: IFavoriteItem[]) => void;
 }
 
-type IProps = IStateProps & IOwnProps;
+interface IStates {
+  activeTab: string;
+  favoriteList: IFavoriteItem[];
+}
+
+type IProps = IOwnProps & IPlaylistProps & IStateProps;
 
 export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   private stationPlaylistSSE: StationPlaylistSSE;
@@ -103,17 +108,13 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId={PLAYLIST_TAB_ID}>
-            <Playlist
-              playlist={playlist}
-              stationId={stationId}
-              favoriteList={this.state.favoriteList}
-            />
+            <Playlist playlist={playlist} stationId={stationId} />
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
             <History stationId={stationId} />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
-            <Favourite favouriteList={favouriteList} />
+            <Favorite favouriteList={favouriteList} />
           </TabPane>
         </TabContent>
       </div>
@@ -137,7 +138,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
 
   private convertFavortieToIFavoriteItem = (
     item: FavoriteSong,
-  ): IFavouriteItem => {
+  ): IFavoriteItem => {
     return {
       id: item.id,
       userId: item.userId,
@@ -149,9 +150,10 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   private getListFavorite = () => {
     this.userServices.getListFavorite().subscribe(
       (res: FavoriteSong[]) => {
-        const favoriteList: IFavouriteItem[] = res.map(
+        const favoriteList: IFavoriteItem[] = res.map(
           this.convertFavortieToIFavoriteItem,
         );
+        this.props.getNewestFavoriteList(favoriteList);
         this.setState({
           favoriteList,
         });
@@ -163,11 +165,16 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   };
 }
 
+const mapDispatchToProps = (dispatch: any) => ({
+  getNewestFavoriteList: (favoriteList: IFavoriteItem[]) =>
+    dispatch(getNewestFavoriteList(favoriteList)),
+});
+
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
   playlist: state.playlist.playlist,
 });
 
-export const PlaylistTabs = connect<IStateProps, {}, IOwnProps>(
+export const PlaylistTabs = connect<any, any, any>(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(PlaylistTabsComponent);
