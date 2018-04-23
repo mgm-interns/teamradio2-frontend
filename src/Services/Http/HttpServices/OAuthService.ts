@@ -26,8 +26,8 @@ export class OAuthService extends HttpServices {
     return this.post('oauth/token', this.encode(user)).map(this.saveToken);
   }
 
-  public loginWithFacebook(authorization: string): Observable<AccessToken> {
-    this.setAuthorization(authorization);
+  public loginWithFacebook(fbAccessToken: string): Observable<AccessToken> {
+    this.setAuthorization(fbAccessToken);
     return this.post('login/facebook', {}).map(this.saveToken);
   }
 

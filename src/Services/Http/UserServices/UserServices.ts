@@ -30,11 +30,7 @@ export class UserServices {
     return this._oAuthService.authorize(user);
   }
 
-<<<<<<< HEAD
-  public loginWithFacebook(fbAccessToken: string): Observable<AccessToken> {
-=======
   public loginWithFacebook(fbAccessToken: string) {
->>>>>>> Implement Facebook login
     return this._oAuthService.loginWithFacebook(fbAccessToken);
   }
 
@@ -71,7 +67,7 @@ export class UserServices {
 
   public removeFavorite(songId: string): Observable<{}> {
     return this._httpServices.delete(
-      `${this.serviceUrl}/me/favorites/${songId}`
+      `${this.serviceUrl}/me/favorites/${songId}`,
     );
   }
 }
