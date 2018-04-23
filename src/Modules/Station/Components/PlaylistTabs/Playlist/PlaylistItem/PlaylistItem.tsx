@@ -1,12 +1,16 @@
+import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
+import { Dispatch } from 'Configuration/Redux';
 import { YoutubeHelper } from 'Helpers';
 import { FavoriteSong } from 'Models/FavoriteSong';
-import { PlaylistSong } from 'Models/Song';
-import { Component } from 'react';
+import { PlaylistSong, Song } from 'Models/Song';
+import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
+import { IFavoriteItem } from '../../Favorite';
 import './PlaylistItem.scss';
 
 interface IPlayListItemProps {
@@ -16,7 +20,22 @@ interface IPlayListItemProps {
   isFavorite: boolean;
 }
 
-type IProps = IPlayListItemProps & PlaylistSong;
+interface ISongProps {
+  song: Song;
+}
+
+interface IDispatcherProps {
+  addFavorite: (favorite: IFavoriteItem) => void;
+  removeFavorite: (songId: string) => void;
+}
+
+interface IPlayListItemMethodProps {}
+
+type IProps = IPlayListItemProps &
+  IPlayListItemMethodProps &
+  PlaylistSong &
+  ISongProps &
+  IDispatcherProps;
 
 interface IPlayListItemStates {
   isUpVote: boolean;
@@ -27,7 +46,10 @@ interface IPlayListItemStates {
   isFavorite: boolean;
 }
 
-export class PlaylistItem extends Component<IProps, IPlayListItemStates> {
+export class PlaylistItemComponent extends BaseComponent<
+  IProps,
+  IPlayListItemStates
+> {
   private userServices: UserServices;
   constructor(props: IProps) {
     super(props);
@@ -69,15 +91,24 @@ export class PlaylistItem extends Component<IProps, IPlayListItemStates> {
     if (!this.state.isFavorite) {
       return this.userServices.addSongToFavorite(this.props.songId).subscribe(
         (res: FavoriteSong) => {
-          this.setState({
-            isFavorite: !this.state.isFavorite,
-          });
+          const favorite = this.convertFavortieToIFavoriteItem(res);
+          favorite.song = this.props.song;
+          this.props.addFavorite(favorite);
         },
         (err: any) => {
           console.log(`Error when create: ${err}`);
         },
       );
     }
+
+    return this.userServices.removeFavorite(this.props.songId).subscribe(
+      (res: {}) => {
+        this.props.removeFavorite(this.props.songId);
+      },
+      (err: any) => {
+        console.log(`Error when create: ${err}`);
+      },
+    );
   }
 
   public setUpVote() {
@@ -121,6 +152,17 @@ export class PlaylistItem extends Component<IProps, IPlayListItemStates> {
     }
 
     return votes / (upVoteCount + downVoteCount) * 100;
+  };
+
+  public convertFavortieToIFavoriteItem = (
+    item: FavoriteSong,
+  ): IFavoriteItem => {
+    return {
+      id: item.id,
+      userId: item.userId,
+      songId: item.songId,
+      song: item.song,
+    };
   };
 
   public _renderVotingSection = () => {
@@ -282,3 +324,13 @@ export class PlaylistItem extends Component<IProps, IPlayListItemStates> {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  addFavorite: (favorite: IFavoriteItem) => dispatch(addFavorite(favorite)),
+  removeFavorite: (songId: string) => dispatch(removeFavorite(songId)),
+});
+
+export const PlaylistItem = connect<{}, IDispatcherProps>(
+  null,
+  mapDispatchToProps,
+)(PlaylistItemComponent);
