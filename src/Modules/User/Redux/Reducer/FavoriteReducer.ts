@@ -12,11 +12,19 @@ export const favoriteReducer: Reducer<IFavorite> = (
 ) => {
   switch (action.type) {
     case actionTypes.ADD_FAVORITE:
-      return { ...state, favoriteList: state.favoriteList.concat(action.payload) };
-    case actionTypes.GET_NEWEST_FAVORITE_LIST:
+      return {
+        ...state,
+        favoriteList: state.favoriteList.concat(action.payload),
+      };
+    case actionTypes.UPDATE_NEWEST_FAVORITE_LIST:
       return { ...state, favoriteList: action.payload };
     case actionTypes.REMOVE_FAVORITE:
-      return { ...state, favoriteList: state.favoriteList.filter(item => item.songId !== action.payload) };
+      return {
+        ...state,
+        favoriteList: state.favoriteList.filter(
+          item => item.songId !== action.payload,
+        ),
+      };
     default:
       return state;
   }

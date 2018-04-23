@@ -14,7 +14,7 @@ export interface IFavoriteItem {
 }
 
 export class FavoriteItem extends Component<IFavoriteItem, IFavoriteItem> {
-  constructor(props: any) {
+  constructor(props: IFavoriteItem) {
     super(props);
     this.state = {
       id: this.props.id,

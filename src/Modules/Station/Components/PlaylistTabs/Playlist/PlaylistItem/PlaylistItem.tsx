@@ -15,8 +15,8 @@ import './PlaylistItem.scss';
 interface IPlayListItemProps {
   upVote: (songId: string) => void;
   downVote: (songId: string) => void;
-  addFavorite: (favorite: IFavoriteItem) => void;
-  removeFavorite: (songId: string) => void;
+  // addFavorite: (favorite: IFavoriteItem) => void;
+  // removeFavorite: (songId: string) => void;
   votingError: string;
   isFavorite: boolean;
 }
@@ -25,12 +25,18 @@ interface ISongProps {
   song: Song;
 }
 
+interface IReduxActionProps {
+  addFavorite: (favorite: IFavoriteItem) => void;
+  removeFavorite: (songId: string) => void;
+}
+
 interface IPlayListItemMethodProps {}
 
 type IProps = IPlayListItemProps &
   IPlayListItemMethodProps &
   PlaylistSong &
-  ISongProps;
+  ISongProps &
+  IReduxActionProps;
 
 interface IPlayListItemStates {
   isUpVote: boolean;
@@ -325,6 +331,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   removeFavorite: (songId: string) => dispatch(removeFavorite(songId)),
 });
 
-export const PlaylistItem = connect<any, any, any>(null, mapDispatchToProps)(
-  PlaylistItemComponent,
-);
+export const PlaylistItem = connect<{}, IReduxActionProps>(
+  null,
+  mapDispatchToProps,
+)(PlaylistItemComponent);

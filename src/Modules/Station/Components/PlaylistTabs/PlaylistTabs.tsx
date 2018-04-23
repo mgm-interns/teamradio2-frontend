@@ -1,14 +1,13 @@
 import { BaseComponent } from 'BaseComponent';
 import { IApplicationState } from 'Configuration/Redux';
 import { FavoriteSong, PlaylistSong } from 'Models';
-import { getNewestFavoriteList } from 'Modules/User/Redux/Actions';
+import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import { StationPlaylistSSE } from 'Services/SSE';
 import { Favorite, IFavoriteItem } from './Favorite';
-import { favouriteList } from './fixture';
 import { History } from './History';
 import { Playlist } from './Playlist';
 import './PlaylistTabs.scss';
@@ -26,7 +25,7 @@ interface IOwnProps {
 }
 
 interface IPlaylistProps {
-  getNewestFavoriteList: (favoriteList: IFavoriteItem[]) => void;
+  updateNewestFavoriteList: (favoriteList: IFavoriteItem[]) => void;
 }
 
 interface IStates {
@@ -114,7 +113,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
             <History stationId={stationId} />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
-            <Favorite favouriteList={favouriteList} />
+            <Favorite />
           </TabPane>
         </TabContent>
       </div>
@@ -153,7 +152,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
         const favoriteList: IFavoriteItem[] = res.map(
           this.convertFavortieToIFavoriteItem,
         );
-        this.props.getNewestFavoriteList(favoriteList);
+        this.props.updateNewestFavoriteList(favoriteList);
         this.setState({
           favoriteList,
         });
@@ -166,15 +165,15 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  getNewestFavoriteList: (favoriteList: IFavoriteItem[]) =>
-    dispatch(getNewestFavoriteList(favoriteList)),
+  updateNewestFavoriteList: (favoriteList: IFavoriteItem[]) =>
+    dispatch(updateNewestFavoriteList(favoriteList)),
 });
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
   playlist: state.playlist.playlist,
 });
 
-export const PlaylistTabs = connect<any, any, any>(
+export const PlaylistTabs = connect<IStateProps, IPlaylistProps>(
   mapStateToProps,
   mapDispatchToProps,
 )(PlaylistTabsComponent);

@@ -24,9 +24,9 @@ export const removeFavorite: ActionCreator<any> = (
   payload: songId,
 });
 
-export const getNewestFavoriteList: ActionCreator<any> = (
+export const updateNewestFavoriteList: ActionCreator<any> = (
   favoriteList: IFavoriteItem[],
 ) => ({
-  type: actionTypes.GET_NEWEST_FAVORITE_LIST,
+  type: actionTypes.UPDATE_NEWEST_FAVORITE_LIST,
   payload: favoriteList,
 });

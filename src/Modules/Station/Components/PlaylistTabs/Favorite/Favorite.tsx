@@ -17,7 +17,7 @@ export class FavoriteComponent extends Component<
   IFavoriteProps,
   IFavoriteStates
 > {
-  constructor(props: any) {
+  constructor(props: IFavoriteProps) {
     super(props);
 
     this.state = {
@@ -37,9 +37,11 @@ export class FavoriteComponent extends Component<
   public render() {
     return (
       <div className="list-container">
-        {this.state.favoriteList.map((favorite: IFavoriteItem, index: number) => {
-          return <FavoriteItem key={index} {...favorite} />;
-        })}
+        {this.state.favoriteList.map(
+          (favorite: IFavoriteItem, index: number) => {
+            return <FavoriteItem key={index} {...favorite} />;
+          },
+        )}
       </div>
     );
   }
@@ -56,6 +58,6 @@ const mapStateToProps = (state: IApplicationState): IFavoriteProps => ({
   favoriteList: state.favoriteList.favoriteList,
 });
 
-export const Favorite = connect<any, any, any>(mapStateToProps)(
+export const Favorite = connect<IFavoriteProps>(mapStateToProps)(
   FavoriteComponent,
 );

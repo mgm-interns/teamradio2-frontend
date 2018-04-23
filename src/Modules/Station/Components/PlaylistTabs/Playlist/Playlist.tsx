@@ -1,11 +1,11 @@
-import { BaseComponent } from 'BaseComponent';
+import { BaseComponent } from 'BaseComponent';;
+import { IApplicationState } from 'Configuration/Redux';
 import { PlaylistSong } from 'Models/Song';
 import * as React from 'react';
 import FlipMoveList from 'react-flip-move';
-import {connect} from "react-redux";
+import { connect } from 'react-redux';
 import { Card, CardBody } from 'reactstrap';
 import { SongServices, UserServices } from 'Services/Http';
-import {IApplicationState} from "../../../../../Configuration/Redux";
 import { IFavoriteItem } from '../Favorite';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
@@ -89,7 +89,7 @@ export class PlaylistComponent extends BaseComponent<Iprops, IStates> {
   }
 
   public componentWillReceiveProps(nextProps: Iprops) {
-    if(this.props.favoriteList !== nextProps.favoriteList) {
+    if (this.props.favoriteList !== nextProps.favoriteList) {
       const favoriteList = nextProps.favoriteList;
       this.setState({
         favoriteList,
@@ -125,7 +125,7 @@ export class PlaylistComponent extends BaseComponent<Iprops, IStates> {
                   this.upVote(songId);
                 }}
                 downVote={(songId: string) => {
-
+                  this.downVote(songId);
                 }}
                 votingError={this.state.votingError}
                 isFavorite={this.isFavorited(song, this.state.favoriteList)}
@@ -142,6 +142,6 @@ const mapStateToProps = (state: IApplicationState): IFavoriteListProps => ({
   favoriteList: state.favoriteList.favoriteList,
 });
 
-export const Playlist = connect<any, any, any>(
-  mapStateToProps
-)(PlaylistComponent);
+export const Playlist = connect<IFavoriteListProps>(mapStateToProps)(
+  PlaylistComponent,
+);
