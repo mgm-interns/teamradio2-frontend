@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Row } from 'reactstrap';
 import { StationServices } from 'Services/Http';
 import './StationBrowser.scss';
-import {  StationBrowserItem } from './StationBrowserItem';
+import { StationBrowserItem } from './StationBrowserItem';
 
 interface IStationBrowserStates {
   listStation: StationItem[];
@@ -14,7 +14,7 @@ interface IStationBrowserStates {
 }
 
 export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
-  private stationServices: StationServices;
+  public stationServices: StationServices;
   constructor(props: {}) {
     super(props);
     this.stationServices = new StationServices();
@@ -29,12 +29,14 @@ export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
     this.getListStation();
   }
 
+  public setListStation(listStationUpdated: StationItem[]) {
+    this.setState({ listStation: listStationUpdated });
+  }
+
   public getListStation() {
     this.stationServices.getListStation().subscribe(
       (listStation: StationItem[]) => {
-        this.setState({
-          listStation,
-        });
+        this.setListStation(listStation);
       },
       (err: string) => {
         this.showError(err);

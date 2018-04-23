@@ -1,4 +1,4 @@
-import { Favorite } from 'Modules/User';
+import { Favorite, MyStationsBrowser } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
 import { Container, Nav, NavItem, NavLink, Row } from 'reactstrap';
@@ -60,7 +60,9 @@ export class ProfileNavBar extends Component<{}, IProfileNavBarStates> {
         </Row>
         <Row>
           <TabContent className={'profile-tab-content'} activeTab={activeTab}>
-            <TabPane tabId={STATION_TAB_ID} />
+            <TabPane tabId={STATION_TAB_ID}>
+              <MyStationsBrowser />
+            </TabPane>
             <TabPane tabId={FAVORITE_TAB_ID}>
               <Favorite />
             </TabPane>

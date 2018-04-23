@@ -2,6 +2,7 @@ import {
   AccessToken,
   FavoriteSong,
   RegisteredUser,
+  Station,
   UnauthorizedUser,
   UnregisteredUser,
 } from 'Models';
@@ -20,6 +21,10 @@ export class UserServices {
 
   public getCurrentUserProfile(): Observable<RegisteredUser> {
     return this._httpServices.get(`${this.serviceUrl}/me`);
+  }
+
+  public getListMyStation(): Observable<Station[]> {
+    return this._httpServices.get('users/me/stations');
   }
 
   public register(user: UnregisteredUser): Observable<RegisteredUser> {
