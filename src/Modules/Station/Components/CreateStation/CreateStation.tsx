@@ -52,20 +52,24 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
         </Button>
       </FormGroup>
 
-      {((touched.name && errors.name) || serverError) && (
+      {(touched.name || errors.name || serverError) && (
         <FormFeedback className="text-error">
           {errors.name || serverError}
         </FormFeedback>
       )}
 
-      <div className="toggle-container">
+      <div
+        className={
+          errors.name
+            ? 'toggle-container-with-error'
+            : 'toggle-container-without-error'
+        }>
         <Label className="switch switch-3d switch-primary">
           <Input
             name="privacy"
             type="checkbox"
-            className="switch-input"
             onChange={event => {
-              props.setFieldValue('privacy', event.target.checked)
+              props.setFieldValue('privacy', event.target.checked);
             }}
           />
           <span className="switch-label" />
