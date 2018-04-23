@@ -6,6 +6,7 @@ export enum StationPrivacy {
 export class Station {
   public id: string;
   public name: string;
+  public friendlyId: string;
   public ownerId: string;
   public playlist: any[];
   public privacy: StationPrivacy;

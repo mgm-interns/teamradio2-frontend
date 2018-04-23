@@ -14,10 +14,6 @@ import {
   Label,
 } from 'reactstrap';
 import { StationServices } from 'Services/Http';
-import {
-  STATION_PRIVACY_PRIVATE,
-  STATION_PRIVACY_PUBLIC,
-} from '../../Constants';
 import './CreateStation.scss';
 
 interface IStationFormValues {
@@ -29,11 +25,10 @@ interface IStationFormValues {
 interface IFormProps {
   initialStationName?: string;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  serverError?: string;
 }
 
 const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
-  const { touched, errors, handleSubmit, serverError } = props;
+  const { touched, errors, handleSubmit } = props;
 
   return (
     <Form onSubmit={handleSubmit} className="form-wrapper">
@@ -82,6 +77,19 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
 };
 
 class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
+  public static validate(values: any) {
+    const errors: FormikErrors<any> = {};
+    const { required, validStationName } = Rules;
+    const stationNameValidator = new Validator('Station name', values.name, [
+      required,
+      validStationName,
+    ]);
+
+    errors.name = stationNameValidator.validate();
+
+    return Validator.removeUndefinedError(errors);
+  }
+
   private stationServices: StationServices;
   private readonly initialValues: any;
 
@@ -102,19 +110,6 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
   public componentWillUnmount() {
     this.setState({ error: '', name: '' });
-  }
-
-  public validate(values: any) {
-    const errors: FormikErrors<any> = {};
-    const { required, validStationName } = Rules;
-    const stationNameValidator = new Validator('Station name', values.name, [
-      required,
-      validStationName,
-    ]);
-
-    errors.name = stationNameValidator.validate();
-
-    return Validator.removeUndefinedError(errors);
   }
 
   public handleSubmit = (formValues: IStationFormValues) => {
@@ -138,10 +133,8 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
       <Formik
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
-        render={formikProps => (
-          <InnerForm {...formikProps} serverError={this.state.error} />
-        )}
-        validate={this.validate}
+        render={formikProps => <InnerForm {...formikProps} />}
+        validate={CreateStationForm.validate}
       />
     );
   }
