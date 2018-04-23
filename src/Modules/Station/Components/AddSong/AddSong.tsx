@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Dispatch } from 'Configuration/Redux';
 import { Song } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -99,7 +100,7 @@ export class AddSongComponent extends BaseComponent<
   };
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   addSong: (song: ISong) => dispatch(addSong(song)),
 });
 

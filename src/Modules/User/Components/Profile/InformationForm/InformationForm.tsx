@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Dispatch } from 'Configuration/Redux';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -9,21 +10,23 @@ import './InformationForm.scss';
 
 interface IInformationFormProps {
   onCloseModal: () => void;
+}
+
+interface IDispatcherProps {
   updateUserInfo?: (user: RegisteredUser) => void;
 }
 
-interface IInformationFormStates {
+type IProps = IInformationFormProps & IDispatcherProps;
+
+interface IStates {
   userInfo: RegisteredUser;
   isLoadingUserInfo: boolean;
 }
 
-export class InformationForms extends BaseComponent<
-  IInformationFormProps,
-  IInformationFormStates
-> {
+export class InformationForms extends BaseComponent<IProps, IStates> {
   private readonly userServices: UserServices;
 
-  constructor(props: IInformationFormProps) {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       userInfo: null,
@@ -92,12 +95,13 @@ export class InformationForms extends BaseComponent<
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch): IDispatcherProps => ({
   updateUserInfo: (userInfo: RegisteredUser) =>
     dispatch(updateUserInfo(userInfo)),
 });
 
-export const InformationForm = connect<{}, {}, IInformationFormProps>(
-  null,
-  mapDispatchToProps,
-)(InformationForms);
+export const InformationForm = connect<
+  {},
+  IDispatcherProps,
+  IInformationFormProps
+>(null, mapDispatchToProps)(InformationForms);
