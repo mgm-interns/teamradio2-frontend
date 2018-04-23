@@ -8,8 +8,9 @@ import {
   StationBrowser,
   StationHeader,
 } from 'Modules/Station';
-import * as React from 'react';
+import * as QRCode from 'qrcode.react';
 import { Component, Fragment } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
@@ -18,6 +19,7 @@ import './Station.scss';
 
 interface IStateProps {
   nowPlaying: NowPlayingSong;
+  isToggleQRCode: boolean;
 }
 
 interface IOwnProps {}
@@ -28,6 +30,7 @@ interface IState {
   muted: boolean;
   isPassive: boolean;
   station: StationModel;
+  openQRCode: boolean;
 }
 
 class StationComponent extends Component<
@@ -41,6 +44,7 @@ class StationComponent extends Component<
       muted: false,
       isPassive: false,
       station: null,
+      openQRCode: false,
     };
   }
 
@@ -92,6 +96,7 @@ class StationComponent extends Component<
 
   public render() {
     const { isPassive } = this.state;
+    const { isToggleQRCode } = this.props;
     const stationId = this.parseStationId();
 
     return [
@@ -104,6 +109,11 @@ class StationComponent extends Component<
         <Col xs={12} className="station-browser-container">
           <StationBrowser />
         </Col>
+        {isToggleQRCode && (
+          <Col className="col-12 qrcode-container">
+            <QRCode value={window.location.href} />
+          </Col>
+        )}
         <Col className="p-0 m-auto extra-large-container">
           <Row className="m-0">
             <Col
@@ -144,6 +154,7 @@ class StationComponent extends Component<
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
   nowPlaying: state.playlist.nowPlaying,
+  isToggleQRCode: state.playlist.isToggleQRCode,
 });
 
 export const Station = compose(

@@ -1,8 +1,9 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
-import { IApplicationState } from 'Configuration/Redux';
+import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { Song, Station } from 'Models';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
+import { toggleQRCode } from 'Modules/Station/Redux/Actions';
 import * as React from 'react';
 import { Fragment } from 'react';
 import { connect } from 'react-redux';
@@ -22,10 +23,18 @@ const buttonActions = {
     iconOn: 'fa fa-lightbulb-o',
     iconOff: 'fa fa-lightbulb-o',
   },
+  qrcode: {
+    iconOn: 'fa fa-qrcode',
+    iconOff: 'fa fa-qrcode',
+  },
 };
 
 interface IStateProps {
   nowPlaying?: Song;
+}
+
+interface IDispatchProps {
+  toggleQRCode: (isToggleQRCode: boolean) => void;
 }
 
 interface IOwnProps {
@@ -36,10 +45,11 @@ interface IOwnProps {
   stationId: string;
 }
 
-type IProps = IStateProps & IOwnProps;
+type IProps = IStateProps & IDispatchProps & IOwnProps;
 
 interface IState {
   station: Station;
+  isToggleQRCode: boolean;
 }
 
 class OriginStationHeader extends BaseComponent<
@@ -52,6 +62,7 @@ class OriginStationHeader extends BaseComponent<
 
     this.state = {
       station: null,
+      isToggleQRCode: false,
     };
 
     this.stationServices = new StationServices();
@@ -71,7 +82,18 @@ class OriginStationHeader extends BaseComponent<
     }
   }
 
-  public renderButton = (
+  public _onQRCodeToggle = () => {
+    this.setState(
+      {
+        isToggleQRCode: !this.state.isToggleQRCode,
+      },
+      () => {
+        this.props.toggleQRCode(this.state.isToggleQRCode);
+      },
+    );
+  };
+
+  public _renderButton = (
     flag: boolean,
     { iconOn, iconOff }: any,
     handleClick: any,
@@ -100,26 +122,31 @@ class OriginStationHeader extends BaseComponent<
       onLightClick,
       nowPlaying,
     } = this.props;
-    const { station } = this.state;
+    const { station, isToggleQRCode } = this.state;
 
     return (
-      <Row className="header-container">
+      <Row className="station-header-container">
         <div>
           <h1>{station && station.name}</h1>
         </div>
         <div className="buttons-wrapper">
-          {this.renderButton(
+          {this._renderButton(
             !muted,
             buttonActions.muted,
             onVolumeClick,
             'station-mute-button',
           )}
           {nowPlaying &&
-            this.renderButton(isPassive, buttonActions.passive, onLightClick)}
+            this._renderButton(isPassive, buttonActions.passive, onLightClick)}
           {!isPassive && (
             <Fragment>
               <StationSharing />
               <ConfigurationButton />
+              {this._renderButton(
+                isToggleQRCode,
+                buttonActions.qrcode,
+                this._onQRCodeToggle,
+              )}
             </Fragment>
           )}
         </div>
@@ -144,7 +171,15 @@ const mapStateToProps = (state: IApplicationState): IStateProps => ({
   nowPlaying: state.playlist.nowPlaying,
 });
 
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
+  toggleQRCode: (isToggleQRCode: boolean) =>
+    dispatch(toggleQRCode(isToggleQRCode)),
+});
+
 export const StationHeader = compose(
-  connect<IStateProps, any, any>(mapStateToProps),
+  connect<IStateProps, IDispatchProps, IOwnProps>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
   withRouter,
 )(OriginStationHeader);

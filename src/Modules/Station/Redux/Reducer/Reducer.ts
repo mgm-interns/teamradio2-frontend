@@ -8,6 +8,7 @@ export const initialState: IPlaylistState = {
   playlist: [],
   error: '',
   loading: false,
+  isToggleQRCode: false,
 };
 
 export const playlistReducer: Reducer<IPlaylistState> = (
@@ -39,6 +40,9 @@ export const playlistReducer: Reducer<IPlaylistState> = (
         playlist: action.payload.listSong,
       };
     }
+    case actionTypes.TOGGLE_QR_CODE:
+      return { ...state, isToggleQRCode: action.payload };
+
     default:
       return state;
   }
