@@ -61,9 +61,7 @@ export class ProfileNavBar extends Component<{}, IProfileNavBarStates> {
         <Row>
           <TabContent className={'profile-tab-content'} activeTab={activeTab}>
             <TabPane tabId={STATION_TAB_ID}>
-              <h2 className="title-header pd-left-15">
-                My stations
-              </h2>
+              <h2 className="title-header pd-left-15">My stations</h2>
               <MyStationsBrowser />
             </TabPane>
             <TabPane tabId={FAVORITE_TAB_ID}>
