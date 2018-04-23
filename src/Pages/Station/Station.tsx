@@ -76,7 +76,6 @@ class StationComponent extends Component<
   public _renderPlayer = () => {
     const { muted, isPassive } = this.state;
     const stationId = this.parseStationId();
-
     return (
       <Fragment>
         <StationHeader
@@ -110,17 +109,21 @@ class StationComponent extends Component<
             <Col
               xs={12}
               xl={8}
-              className={classNames('mt-3', 'pr-xl-0', 'player-container', {
-                'passive-mode': isPassive,
-              })}>
+              className={classNames(
+                'p-1 p-sm-3 mt-2 pr-xl-0',
+                'player-container',
+                {
+                  'passive-mode': isPassive,
+                },
+              )}>
               {this._renderPlayer()}
             </Col>
-            <Col xs={12} xl={4} className="mt-3">
+            <Col xs={12} xl={4} className="p-1 p-sm-3 mt-2">
               <div className="playlist-tabs-container">
                 <PlaylistTabs stationId={stationId} />
               </div>
             </Col>
-            <Col xs={12}>
+            <Col xs={12} className="p-1 p-sm-3 mt-2 mt-sm-0">
               <div className="add-song-container">
                 <h1>Add Song</h1>
                 <AddSong stationId={stationId} />

@@ -75,14 +75,16 @@ class OriginStationHeader extends BaseComponent<
     flag: boolean,
     { iconOn, iconOff }: any,
     handleClick: any,
+    className: string = undefined,
   ) => {
     const classes = {
       icon: classNames(flag ? iconOn : iconOff),
     };
-    // const activeButton = flag ? 'color: red' : null;
 
     return (
-      <div className="icon-wrapper" onClick={handleClick}>
+      <div
+        className={classNames('icon-wrapper', className)}
+        onClick={handleClick}>
         <i
           className={classNames([classes.icon, { activeButton: flag }, 'icon'])}
         />
@@ -106,7 +108,12 @@ class OriginStationHeader extends BaseComponent<
           <h1>{station && station.name}</h1>
         </div>
         <div className="buttons-wrapper">
-          {this.renderButton(!muted, buttonActions.muted, onVolumeClick)}
+          {this.renderButton(
+            !muted,
+            buttonActions.muted,
+            onVolumeClick,
+            'station-mute-button',
+          )}
           {nowPlaying &&
             this.renderButton(isPassive, buttonActions.passive, onLightClick)}
           {!isPassive && (

@@ -4,7 +4,7 @@ import {
   StationPlayer,
 } from 'Components/StationPlayer';
 import { IApplicationState } from 'Configuration/Redux';
-import { convertToEpochTimeInSeconds } from 'Helpers';
+import { convertToEpochTimeInSeconds, isMobileBrowser } from 'Helpers';
 import { NowPlayingSong } from 'Models';
 import * as React from 'react';
 import ReactPlayer from 'react-player';
@@ -63,6 +63,9 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     const { muted, nowPlaying } = this.props;
     const url = nowPlaying ? nowPlaying.url : null;
 
+    if (isMobileBrowser()) {
+      return null;
+    }
     return (
       <StationPlayer
         url={url}
@@ -112,7 +115,9 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
   };
 
   private roundPlayerTime = (fractionTime: number) => {
-    const { nowPlaying: { duration } } = this.props;
+    const {
+      nowPlaying: { duration },
+    } = this.props;
     return convertToEpochTimeInSeconds(Math.round(duration * fractionTime));
   };
 
@@ -132,7 +137,9 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
         progress: playedTimeInFraction,
       },
       () => {
-        this.playerRef.seekTo(playedTime);
+        if (this.playerRef) {
+          this.playerRef.seekTo(playedTime);
+        }
       },
     );
   };

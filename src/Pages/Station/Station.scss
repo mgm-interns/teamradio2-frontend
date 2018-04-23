@@ -53,6 +53,10 @@ $mq-xlarge: '(min-width: #{$bp-xlarge})';
     @include media-breakpoint-down(lg) {
       min-height: 30vh;
     }
+
+    @include media-breakpoint-down(xs) {
+      min-height: 0;
+    }
   }
 
   .passive-mode {
@@ -68,7 +72,11 @@ $mq-xlarge: '(min-width: #{$bp-xlarge})';
   }
 
   .playlist-tabs-container {
-    height: 100%;
+    height: 360px;
+
+    @include media-breakpoint-up(sm) {
+      height: 100%;
+    }
   }
 
   .u-margin-top-medium {
