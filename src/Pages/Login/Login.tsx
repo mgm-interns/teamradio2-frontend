@@ -1,11 +1,11 @@
 import { LoginWrapper } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardFooter,
-  CardLink,
   Col,
   Container,
   Row,
@@ -29,12 +29,14 @@ export class Login extends Component {
                 <CardFooter className="p-3 pr-4 pl-4">
                   <Row className="other-actions">
                     <Col xs="12" lg="6">
-                      <CardLink href="/forgot-password">
+                      <Link to="/forgot-password">
                         Forgot your password?
-                      </CardLink>
+                      </Link>
                     </Col>
                     <Col xs="12" lg="6" className="login__register-callout">
-                      <CardLink href="/register">Create an account</CardLink>
+                      <Link to="/register">
+                        Create an account
+                      </Link>
                     </Col>
                   </Row>
                 </CardFooter>

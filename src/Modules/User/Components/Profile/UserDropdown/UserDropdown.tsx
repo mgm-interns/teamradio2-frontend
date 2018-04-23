@@ -153,12 +153,12 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
           </Fragment>
         ) : (
           <Fragment>
-            <a href="/login" className="login-register-button">
+            <Link to="/login" className="login-register-button">
               Login
-            </a>
-            <a href="/register" className="login-register-button">
+            </Link>
+            <Link to="/register" className="login-register-button">
               Register
-            </a>
+            </Link>
           </Fragment>
         )}
       </Fragment>
