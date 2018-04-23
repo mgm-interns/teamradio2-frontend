@@ -1,9 +1,9 @@
 import { BaseComponent } from 'BaseComponent';
 import { Field, Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
-import { Station } from 'Models';
-import * as React from 'react';
+import { Station, StationPrivacy } from 'Models';
 import { FormEvent } from 'react';
+import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {
   Button,
@@ -14,26 +14,21 @@ import {
   Label,
 } from 'reactstrap';
 import { StationServices } from 'Services/Http';
-import {
-  STATION_PRIVACY_PRIVATE,
-  STATION_PRIVACY_PUBLIC,
-} from '../../Constants';
 import './CreateStation.scss';
 
 interface IStationFormValues {
   name: string;
-  privacy: boolean;
+  privacy: StationPrivacy;
   serverError?: string;
 }
 
 interface IFormProps {
   initialStationName?: string;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  serverError?: string;
 }
 
 const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
-  const { touched, errors, handleSubmit, serverError } = props;
+  const { touched, errors, handleSubmit } = props;
 
   return (
     <Form onSubmit={handleSubmit} className="form-wrapper">
@@ -52,11 +47,10 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
         </Button>
       </FormGroup>
 
-      {((touched.name && errors.name) || serverError) && (
-        <FormFeedback className="text-error">
-          {errors.name || serverError}
-        </FormFeedback>
-      )}
+      {touched.name &&
+        errors.name && (
+          <FormFeedback className="text-error">{errors.name}</FormFeedback>
+        )}
 
       <div
         className={
@@ -83,6 +77,19 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
 };
 
 class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
+  public static validate(values: any) {
+    const errors: FormikErrors<any> = {};
+    const { required, validStationName } = Rules;
+    const stationNameValidator = new Validator('Station name', values.name, [
+      required,
+      validStationName,
+    ]);
+
+    errors.name = stationNameValidator.validate();
+
+    return Validator.removeUndefinedError(errors);
+  }
+
   private stationServices: StationServices;
   private readonly initialValues: any;
 
@@ -105,27 +112,14 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
     this.setState({ error: '', name: '' });
   }
 
-  public validate(values: any) {
-    const errors: FormikErrors<any> = {};
-    const { required, validStationName } = Rules;
-    const stationNameValidator = new Validator('Station name', values.name, [
-      required,
-      validStationName,
-    ]);
-
-    errors.name = stationNameValidator.validate();
-
-    return Validator.removeUndefinedError(errors);
-  }
-
   public handleSubmit = (formValues: IStationFormValues) => {
     const name = formValues.name;
     const stationPrivacy = formValues.privacy
-      ? STATION_PRIVACY_PRIVATE
-      : STATION_PRIVACY_PUBLIC;
+      ? StationPrivacy.STATION_PRIVATE
+      : StationPrivacy.STATION_PUBLIC;
     this.stationServices.createStation(name, stationPrivacy).subscribe(
-      (station: Station) => {
-        this.props.history.push(`/station/${station.friendlyId}`);
+      (res: Station) => {
+        this.props.history.push(`/station/${res.id}`);
       },
       (err: any) => {
         this.setState({ error: err });
@@ -139,10 +133,8 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
       <Formik
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
-        render={formikProps => (
-          <InnerForm {...formikProps} serverError={this.state.error} />
-        )}
-        validate={this.validate}
+        render={formikProps => <InnerForm {...formikProps} />}
+        validate={CreateStationForm.validate}
       />
     );
   }
