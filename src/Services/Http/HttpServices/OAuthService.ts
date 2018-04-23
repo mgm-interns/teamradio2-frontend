@@ -39,7 +39,7 @@ export class OAuthService extends HttpServices {
   public setAuthorization(authorization: string) {
     this.authorization = authorization;
   }
-  
+
   protected createAxiosInstance(): AxiosInstance {
     const authorization = this.authorization
       ? this.authorization
