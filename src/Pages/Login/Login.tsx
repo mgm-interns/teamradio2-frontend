@@ -1,4 +1,4 @@
-import { LoginByThirdParty, LoginForm } from 'Modules/User';
+import { LoginWrapper } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
 import {
@@ -24,8 +24,7 @@ export class Login extends Component {
                 <CardBody className="p-4">
                   <h1>Login</h1>
                   <p className="text-muted">For listening and sharing music</p>
-                  <LoginByThirdParty />
-                  <LoginForm />
+                  <LoginWrapper />
                 </CardBody>
                 <CardFooter className="p-3 pr-4 pl-4">
                   <Row className="other-actions">
