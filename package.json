@@ -42,6 +42,7 @@
   "dependencies": {
     "@types/classnames": "2.2.3",
     "@types/prop-types": "15.5.2",
+    "@types/qrcode.react": "^0.6.3",
     "@types/react": "16.0.40",
     "@types/react-autosuggest": "^9.3.3",
     "@types/react-cropper": "0.10.2",
@@ -59,6 +60,7 @@
     "formik": "^0.11.11",
     "history": "4.7.2",
     "moment": "^2.21.0",
+    "qrcode.react": "^0.8.0",
     "react": "16.2.0",
     "react-autosuggest": "^9.3.4",
     "react-chartjs-2": "2.7.0",

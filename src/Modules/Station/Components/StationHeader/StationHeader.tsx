@@ -1,10 +1,11 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
-import { IApplicationState } from 'Configuration/Redux';
+import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { SkipRule, Song, Station } from 'Models';
 import { SkipRuleType } from 'Models/Station';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
+import { toggleQRCode } from 'Modules/Station/Redux/Actions';
 import * as React from 'react';
 import { Fragment } from 'react';
 import { connect } from 'react-redux';
@@ -24,10 +25,18 @@ const buttonActions = {
     iconOn: 'fa fa-lightbulb-o',
     iconOff: 'fa fa-lightbulb-o',
   },
+  qrcode: {
+    iconOn: 'fa fa-qrcode',
+    iconOff: 'fa fa-qrcode',
+  },
 };
 
 interface IStateProps {
   nowPlaying?: Song;
+}
+
+interface IDispatchProps {
+  toggleQRCode: (isToggleQRCode: boolean) => void;
 }
 
 interface IOwnProps {
@@ -38,11 +47,12 @@ interface IOwnProps {
   stationId: string;
 }
 
-type IProps = IStateProps & IOwnProps;
+type IProps = IStateProps & IDispatchProps & IOwnProps;
 
 interface IState {
   station: Station;
   currentSkipRule: SkipRule;
+  isToggleQRCode: boolean;
 }
 
 class OriginStationHeader extends BaseComponent<
@@ -56,6 +66,7 @@ class OriginStationHeader extends BaseComponent<
     this.state = {
       station: null,
       currentSkipRule: null,
+      isToggleQRCode: false,
     };
 
     this.stationServices = new StationServices();
@@ -98,6 +109,17 @@ class OriginStationHeader extends BaseComponent<
     }
   };
 
+  public _onQRCodeToggle = () => {
+    this.setState(
+      {
+        isToggleQRCode: !this.state.isToggleQRCode,
+      },
+      () => {
+        this.props.toggleQRCode(this.state.isToggleQRCode);
+      },
+    );
+  };
+
   public _renderButton = (
     flag: boolean,
     { iconOn, iconOff }: any,
@@ -126,14 +148,12 @@ class OriginStationHeader extends BaseComponent<
       onVolumeClick,
       onLightClick,
       nowPlaying,
-      stationId
+      stationId,
     } = this.props;
-    const { station, currentSkipRule } = this.state;
-
-    console.log('station: ', station);
+    const { station, currentSkipRule, isToggleQRCode } = this.state;
 
     return (
-      <Row className="header-container">
+      <Row className="station-header-container">
         <div>
           <h1>{station && station.name}</h1>
         </div>
@@ -156,6 +176,11 @@ class OriginStationHeader extends BaseComponent<
                   this._onSkipRuleChange(skipRuleType)
                 }
               />
+              {this._renderButton(
+                isToggleQRCode,
+                buttonActions.qrcode,
+                this._onQRCodeToggle,
+              )}
             </Fragment>
           )}
         </div>
@@ -186,7 +211,15 @@ const mapStateToProps = (state: IApplicationState): IStateProps => ({
   nowPlaying: state.playlist.nowPlaying,
 });
 
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
+  toggleQRCode: (isToggleQRCode: boolean) =>
+    dispatch(toggleQRCode(isToggleQRCode)),
+});
+
 export const StationHeader = compose(
-  connect<IStateProps, any, any>(mapStateToProps),
+  connect<IStateProps, IDispatchProps, IOwnProps>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
   withRouter,
 )(OriginStationHeader);
