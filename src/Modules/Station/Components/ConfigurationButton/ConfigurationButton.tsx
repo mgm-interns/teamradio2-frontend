@@ -10,11 +10,13 @@ import {
   ModalBody,
   ModalHeader,
 } from 'reactstrap';
+import { StationServices } from 'Services/Http';
 import './ConfigurationButton.scss';
 
 interface IProps {
   onSkipRuleChange: (skipRuleType: SkipRuleType) => void;
   currentSkipRule: SkipRule;
+  stationId: string;
 }
 
 interface IStates {
@@ -37,6 +39,8 @@ const RULES: SkipRule[] = [
 ];
 
 export class ConfigurationButton extends BaseComponent<IProps, IStates> {
+  private stationServices: StationServices;
+
   constructor(props: any) {
     super(props);
 
@@ -45,22 +49,23 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
       rules: RULES,
       selectedRule: null,
     };
-  }
 
-  public componentWillReceiveProps(nextProps: IProps) {
-    const { currentSkipRule } = this.props;
-
-    if (
-      currentSkipRule &&
-      currentSkipRule.skipRuleType !== nextProps.currentSkipRule.skipRuleType
-    ) {
-      const { rules } = this.state;
-      this._getNewSkipRules(rules, nextProps.currentSkipRule.skipRuleType);
-    }
+    this.stationServices = new StationServices();
   }
 
   public _onModalToggle = () => {
-    this.setState({ modal: !this.state.modal });
+    const { stationId } = this.props;
+    this.setState({ modal: !this.state.modal }, () => {
+      if (this.state.modal) {
+        this.stationServices
+          .getStationById(stationId)
+          .subscribe((response: any) => {
+            this.setState({
+              selectedRule: response.stationConfigurationDTO.skipRule,
+            });
+          });
+      }
+    });
   };
 
   public _onOptionChange = (changeEvent: any) => {
