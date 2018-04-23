@@ -1,4 +1,7 @@
-import { StationPrivacy } from './Privacy';
+export enum StationPrivacy {
+  STATION_PUBLIC = 'station_public',
+  STATION_PRIVATE = 'station_private',
+}
 
 export class Station {
   public id: string;

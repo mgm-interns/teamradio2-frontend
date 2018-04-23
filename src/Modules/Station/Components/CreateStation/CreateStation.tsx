@@ -48,11 +48,10 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
         </Button>
       </FormGroup>
 
-      {((touched.name && errors.name) || serverError) && (
-        <FormFeedback className="text-error">
-          {errors.name || serverError}
-        </FormFeedback>
-      )}
+      {touched.name &&
+        errors.name && (
+          <FormFeedback className="text-error">{errors.name}</FormFeedback>
+        )}
 
       <div
         className={
