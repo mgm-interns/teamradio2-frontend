@@ -1,6 +1,7 @@
 import { RegisterForm } from 'Modules/User';
 import * as React from 'react';
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { CardLink, Col, Container, Row } from 'reactstrap';
 import { ExtraInformationForm } from './ExtraInformationForm';
 import './Register.scss';
@@ -26,7 +27,9 @@ export class Register extends Component {
                   <Col className="login-callout" xs="12" sm="12">
                     <span>
                       Already have an account?{' '}
-                      <CardLink href="/login">Login</CardLink>
+                      <Link to="/login">
+                        <CardLink>Login</CardLink>
+                      </Link>
                     </span>
                   </Col>
                 </Row>
