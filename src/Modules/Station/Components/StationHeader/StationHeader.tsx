@@ -77,7 +77,6 @@ class OriginStationHeader extends BaseComponent<
 
   public _onSkipRuleChange = (skipRuleTpe: SkipRuleType) => {
     const { stationId } = this.props;
-    const { station } = this.state;
 
     this.stationServices
       .updateSkipRuleConfig(stationId, skipRuleTpe)
@@ -121,8 +120,6 @@ class OriginStationHeader extends BaseComponent<
       stationId
     } = this.props;
     const { station, currentSkipRule } = this.state;
-
-    console.log('station: ', station);
 
     const userInfo = localStorageManager.getUserInfo();
 
