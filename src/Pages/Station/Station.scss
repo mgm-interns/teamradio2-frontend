@@ -86,4 +86,10 @@ $mq-xlarge: '(min-width: #{$bp-xlarge})';
   .add-song-container {
     margin-top: 20px;
   }
+
+  .qrcode-container {
+    text-align: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
 }

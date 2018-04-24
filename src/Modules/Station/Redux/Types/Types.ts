@@ -5,6 +5,7 @@ export interface IPlaylistState {
   playlist: PlaylistSong[];
   error?: string | null;
   loading?: boolean;
+  isToggleQRCode: boolean
 }
 
 export interface ISong {
