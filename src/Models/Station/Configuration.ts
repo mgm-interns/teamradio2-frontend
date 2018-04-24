@@ -1,6 +1,6 @@
 export enum SkipRuleType {
-  BASIC,
-  ADVANCE,
+  BASIC='BASIC',
+  ADVANCE='ADVANCE',
 }
 
 export interface ISkipRule {

@@ -3,15 +3,16 @@ import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
-import { ConfigurationButton, StationSharing } from 'Modules/Station';
-import * as React from 'react';
+import { StationSharing } from 'Modules/Station';
 import { Fragment } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row } from 'reactstrap';
 import { compose } from 'redux';
 import { StationServices } from 'Services/Http';
+import { ConfigurationButton } from '../ConfigurationButton';
 import './StationHeader.scss';
 
 const buttonActions = {
@@ -24,6 +25,10 @@ const buttonActions = {
     iconOff: 'fa fa-lightbulb-o',
   },
 };
+
+export interface ISkipRuleRadio extends ISkipRule {
+  checked: boolean;
+}
 
 interface IStateProps {
   nowPlaying?: Song;
@@ -41,7 +46,7 @@ type IProps = IStateProps & IOwnProps;
 
 interface IState {
   station: Station;
-  currentSkipRule: ISkipRule;
+  currentSkipRule: ISkipRuleRadio;
 }
 
 class OriginStationHeader extends BaseComponent<
@@ -79,11 +84,13 @@ class OriginStationHeader extends BaseComponent<
 
     this.stationServices.updateSkipRuleConfig(stationId, skipRuleTpe).subscribe(
       (response: any) => {
-        this.setState({ currentSkipRule: response.skipRule });
+        this.setState({
+          currentSkipRule: { ...response.skipRule, checked: true },
+        });
       },
       (err: string) => {
         this.showError(err);
-      }
+      },
     );
   };
 
@@ -158,14 +165,7 @@ class OriginStationHeader extends BaseComponent<
   private updateStation = (stationId: string) => {
     this.stationServices.getStationById(stationId).subscribe(
       (station: any) => {
-        this.setState({ station }, () => {
-          const stationConfiguration = this.state.station.stationConfiguration;
-          this.setState({
-            currentSkipRule: stationConfiguration
-              ? stationConfiguration.skipRule
-              : null,
-          });
-        });
+        this.setState({ station });
       },
       (err: string) => {
         this.props.history.replace('/');

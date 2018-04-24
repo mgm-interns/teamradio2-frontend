@@ -18,7 +18,7 @@ export interface ISkipRuleRadio extends ISkipRule {
 
 interface IProps {
   onSkipRuleChange: (skipRuleType: SkipRuleType) => void;
-  currentSkipRule: ISkipRule;
+  currentSkipRule: ISkipRuleRadio;
   stationId: string;
 }
 
@@ -60,12 +60,17 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
     const { stationId } = this.props;
     this.setState({ modal: !this.state.modal }, () => {
       if (this.state.modal) {
+        // Update configuration when opening configuration modal
         this.stationServices
           .getStationById(stationId)
           .subscribe((response: any) => {
-            this.setState({
-              selectedRule: response.stationConfiguration.skipRule,
-            });
+            this.setState(
+              {
+                rules: this._getNewSkipRules(
+                  this.state.rules,
+                  response.stationConfiguration.skipRule.skipRuleType,
+                ),
+              });
           });
       }
     });
@@ -109,7 +114,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
                     checked={rule.checked}
                     onChange={this._onOptionChange}
                   />
-                  {SkipRuleType[rule.skipRuleType]}
+                  {rule.skipRuleType}
                   {rule.checked ? (
                     <p>
                       <i>{rule.description}</i>
@@ -131,7 +136,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
     ruleType: SkipRuleType,
   ) => {
     return rules.map((rule: ISkipRuleRadio) => {
-      if (rule.skipRuleType === Number(ruleType)) {
+      if (rule.skipRuleType === ruleType) {
         this.setState({
           selectedRule: rule,
         });
