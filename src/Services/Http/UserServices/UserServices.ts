@@ -1,6 +1,7 @@
 import {
   AccessToken,
   FavoriteSong,
+  PasswordForm,
   RegisteredUser,
   Station,
   UnauthorizedUser,
@@ -73,6 +74,13 @@ export class UserServices {
   public removeFavorite(songId: string): Observable<{}> {
     return this._httpServices.delete(
       `${this.serviceUrl}/me/favorites/${songId}`,
+    );
+  }
+
+  public changePassword(passwordForm: PasswordForm): Observable<any> {
+    return this._httpServices.patch(
+      `${this.serviceUrl}/me/password`,
+      passwordForm,
     );
   }
 }
