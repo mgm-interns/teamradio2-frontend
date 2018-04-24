@@ -6,18 +6,30 @@ import * as React from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
 
+interface IOwnProps {
+  replaySong: (youtubeVideoId: string, message: string) => void;
+}
+
+type IProps = IOwnProps & FavoriteSongItem
 export class FavoriteItem extends BaseComponent<
-  FavoriteSongItem,
+  IProps,
   FavoriteSongItem
 > {
-  constructor(props: FavoriteSongItem) {
+  constructor(props: IProps) {
     super(props);
+    this.handleOnReplayClicked = this.handleOnReplayClicked.bind(this);
     this.state = {
       id: this.props.id,
       userId: this.props.userId,
       songId: this.props.songId,
       song: this.props.song,
     };
+  }
+
+  public handleOnReplayClicked() {
+    const { songId } = this.props.song;
+    const message = ''; // To add message when replay the song in the future
+    this.props.replaySong(songId, message);
   }
 
   public componentWillReceiveProps(nextProps: FavoriteSongItem) {
@@ -73,9 +85,7 @@ export class FavoriteItem extends BaseComponent<
             <Col xs={2} className="pr-0">
               <div
                 className="action-icon"
-                onClick={() => {
-                  alert('Clicked!');
-                }}>
+                onClick={this.handleOnReplayClicked}>
                 <i
                   className="fa fa-reply action-button"
                   id={'add-favourite-' + songId}
