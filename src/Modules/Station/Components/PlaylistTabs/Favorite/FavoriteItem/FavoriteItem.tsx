@@ -10,11 +10,9 @@ interface IOwnProps {
   replaySong: (youtubeVideoId: string, message: string) => void;
 }
 
-type IProps = IOwnProps & FavoriteSongItem
-export class FavoriteItem extends BaseComponent<
-  IProps,
-  FavoriteSongItem
-> {
+type IProps = IOwnProps & FavoriteSongItem;
+
+export class FavoriteItem extends BaseComponent<IProps, FavoriteSongItem> {
   constructor(props: IProps) {
     super(props);
     this.handleOnReplayClicked = this.handleOnReplayClicked.bind(this);
@@ -83,9 +81,7 @@ export class FavoriteItem extends BaseComponent<
               </UncontrolledTooltip>
             </Col>
             <Col xs={2} className="pr-0">
-              <div
-                className="action-icon"
-                onClick={this.handleOnReplayClicked}>
+              <div className="action-icon" onClick={this.handleOnReplayClicked}>
                 <i
                   className="fa fa-reply action-button"
                   id={'add-favourite-' + songId}

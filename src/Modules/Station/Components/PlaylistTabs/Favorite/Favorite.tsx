@@ -4,7 +4,7 @@ import { Song } from 'Models';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import {SongServices} from "../../../../../Services/Http";
+import { SongServices } from 'Services/Http';
 import '../PlaylistTabs.scss';
 import { FavoriteItem } from './FavoriteItem';
 
@@ -15,6 +15,7 @@ interface IReduxProps {
 interface IOwnProps {
   stationId: string;
 }
+
 type IProps = IReduxProps & IOwnProps;
 
 interface IFavoriteStates {
@@ -56,7 +57,13 @@ export class FavoriteComponent extends BaseComponent<IProps, IFavoriteStates> {
       <div className="list-container">
         {this.state.favoriteList.map(
           (favorite: FavoriteSongItem, index: number) => {
-            return <FavoriteItem key={index} {...favorite} replaySong={this.replaySong} />;
+            return (
+              <FavoriteItem
+                key={index}
+                {...favorite}
+                replaySong={this.replaySong}
+              />
+            );
           },
         )}
       </div>
