@@ -1,16 +1,18 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
-import { Song, Station } from 'Models';
-import { ConfigurationButton, StationSharing } from 'Modules/Station';
-import * as React from 'react';
+import { localStorageManager } from 'Helpers';
+import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
+import { StationSharing } from 'Modules/Station';
 import { Fragment } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row } from 'reactstrap';
 import { compose } from 'redux';
 import { StationServices } from 'Services/Http';
+import { ConfigurationButton } from '../ConfigurationButton';
 import './StationHeader.scss';
 
 const buttonActions = {
@@ -23,6 +25,10 @@ const buttonActions = {
     iconOff: 'fa fa-lightbulb-o',
   },
 };
+
+export interface ISkipRuleRadio extends ISkipRule {
+  checked: boolean;
+}
 
 interface IStateProps {
   nowPlaying?: Song;
@@ -40,6 +46,7 @@ type IProps = IStateProps & IOwnProps;
 
 interface IState {
   station: Station;
+  currentSkipRule: ISkipRuleRadio;
 }
 
 class OriginStationHeader extends BaseComponent<
@@ -52,6 +59,7 @@ class OriginStationHeader extends BaseComponent<
 
     this.state = {
       station: null,
+      currentSkipRule: null,
     };
 
     this.stationServices = new StationServices();
@@ -71,7 +79,24 @@ class OriginStationHeader extends BaseComponent<
     }
   }
 
-  public renderButton = (
+  public _onSkipRuleChange = (skipRuleType: SkipRuleType) => {
+    const { stationId } = this.props;
+
+    this.stationServices
+      .updateSkipRuleConfig(stationId, skipRuleType)
+      .subscribe(
+        (response: any) => {
+          this.setState({
+            currentSkipRule: { ...response.skipRule, checked: true },
+          });
+        },
+        (err: string) => {
+          this.showError(err);
+        },
+      );
+  };
+
+  public _renderButton = (
     flag: boolean,
     { iconOn, iconOff }: any,
     handleClick: any,
@@ -99,8 +124,11 @@ class OriginStationHeader extends BaseComponent<
       onVolumeClick,
       onLightClick,
       nowPlaying,
+      stationId,
     } = this.props;
-    const { station } = this.state;
+    const { station, currentSkipRule } = this.state;
+
+    const userInfo = localStorageManager.getUserInfo();
 
     return (
       <Row className="header-container">
@@ -108,18 +136,27 @@ class OriginStationHeader extends BaseComponent<
           <h1>{station && station.name}</h1>
         </div>
         <div className="buttons-wrapper">
-          {this.renderButton(
+          {this._renderButton(
             !muted,
             buttonActions.muted,
             onVolumeClick,
             'station-mute-button',
           )}
           {nowPlaying &&
-            this.renderButton(isPassive, buttonActions.passive, onLightClick)}
+            this._renderButton(isPassive, buttonActions.passive, onLightClick)}
           {!isPassive && (
             <Fragment>
               <StationSharing />
-              <ConfigurationButton />
+              {station &&
+                userInfo.id === station.ownerId && (
+                  <ConfigurationButton
+                    stationId={stationId}
+                    currentSkipRule={currentSkipRule}
+                    onSkipRuleChange={(skipRuleType: SkipRuleType) =>
+                      this._onSkipRuleChange(skipRuleType)
+                    }
+                  />
+                )}
             </Fragment>
           )}
         </div>
@@ -132,8 +169,7 @@ class OriginStationHeader extends BaseComponent<
       (station: any) => {
         this.setState({ station });
       },
-      err => {
-        // If station not found, redirect user to home page
+      (err: string) => {
         this.props.history.replace('/');
       },
     );

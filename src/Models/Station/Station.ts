@@ -1,3 +1,5 @@
+import { StationConfiguration } from './Configuration';
+
 export enum StationPrivacy {
   STATION_PUBLIC = 'station_public',
   STATION_PRIVATE = 'station_private',
@@ -13,4 +15,5 @@ export class Station {
   public starttingTime: number;
   public deleted: boolean;
   public createAt: string;
+  public stationConfiguration: StationConfiguration;
 }

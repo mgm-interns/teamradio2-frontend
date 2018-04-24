@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { ISkipRule, SkipRuleType } from 'Models';
 import * as React from 'react';
 import {
   FormGroup,
@@ -8,59 +9,81 @@ import {
   ModalBody,
   ModalHeader,
 } from 'reactstrap';
+import { StationServices } from 'Services/Http';
 import './ConfigurationButton.scss';
 
-interface IRule {
-  type: number;
-  title: string;
-  description: string;
+export interface ISkipRuleRadio extends ISkipRule {
   checked: boolean;
 }
 
-const RULES: IRule[] = [
+interface IProps {
+  onSkipRuleChange: (skipRuleType: SkipRuleType) => void;
+  currentSkipRule: ISkipRuleRadio;
+  stationId: string;
+}
+
+interface IStates {
+  modal: boolean;
+  rules: ISkipRuleRadio[];
+  selectedRule: ISkipRuleRadio;
+}
+
+const RULES: ISkipRuleRadio[] = [
   {
-    type: 1,
-    title: 'Basic',
-    description: 'More than 50% downvotes can skip the song',
+    skipRuleType: SkipRuleType.BASIC,
+    description: 'Rule: More than 50% down votes can skip the song',
     checked: true,
   },
   {
-    type: 2,
-    title: 'Advanced',
-    description: 'Only you can skip the song',
+    skipRuleType: SkipRuleType.ADVANCE,
+    description: 'Rule: Only you can skip the song',
     checked: false,
   },
 ];
 
-export class ConfigurationButton extends BaseComponent<any, any> {
+export class ConfigurationButton extends BaseComponent<IProps, IStates> {
+  private stationServices: StationServices;
+
   constructor(props: any) {
     super(props);
 
     this.state = {
       modal: false,
       rules: RULES,
+      selectedRule: null,
     };
 
-    this._onModalToggle = this._onModalToggle.bind(this);
-    this._onOptionChange = this._onOptionChange.bind(this);
+    this.stationServices = new StationServices();
   }
 
   public _onModalToggle = () => {
-    this.setState({ modal: !this.state.modal });
+    const { stationId } = this.props;
+    this.setState({ modal: !this.state.modal }, () => {
+      if (this.state.modal) {
+        this.stationServices
+          .getStationById(stationId)
+          .subscribe((response: any) => {
+            this.setState({
+              rules: this._getNewSkipRules(
+                this.state.rules,
+                response.stationConfiguration.skipRule.skipRuleType,
+              ),
+            });
+          });
+      }
+    });
   };
 
   public _onOptionChange = (changeEvent: any) => {
     const value = changeEvent.target.value;
+    const { onSkipRuleChange } = this.props;
     const { rules } = this.state;
 
-    const updatedRules = rules.map((rule: IRule) => {
-      if (rule.type === Number(value)) {
-        return { ...rule, checked: true };
-      }
-      return { ...rule, checked: false };
-    });
+    const updatedRules = this._getNewSkipRules(rules, value);
 
-    this.setState({ rules: [...updatedRules] });
+    this.setState({ rules: [...updatedRules] }, () => {
+      onSkipRuleChange(this.state.selectedRule.skipRuleType);
+    });
   };
 
   public render() {
@@ -76,23 +99,23 @@ export class ConfigurationButton extends BaseComponent<any, any> {
           toggle={this._onModalToggle}
           className="d-flex mt-0 mb-0 align-items-center config-modal disable-outline-modal">
           <ModalHeader toggle={this._onModalToggle}>
-            Configuration skip rule
+            Skip rule configuration
           </ModalHeader>
           <ModalBody>
-            {rules.map((rule: IRule) => (
-              <FormGroup check key={rule.type}>
+            {rules.map((rule: ISkipRuleRadio) => (
+              <FormGroup check key={rule.skipRuleType}>
                 <Label check>
                   <Input
                     type="radio"
                     name="ruleOption"
-                    value={rule.type}
+                    value={rule.skipRuleType}
                     checked={rule.checked}
                     onChange={this._onOptionChange}
                   />
-                  {rule.title}
+                  {rule.skipRuleType}
                   {rule.checked ? (
                     <p>
-                      <i>Rule: {rule.description}</i>
+                      <i>{rule.description}</i>
                     </p>
                   ) : (
                     <p />
@@ -105,4 +128,19 @@ export class ConfigurationButton extends BaseComponent<any, any> {
       </div>
     );
   }
+
+  private _getNewSkipRules = (
+    rules: ISkipRuleRadio[],
+    ruleType: SkipRuleType,
+  ) => {
+    return rules.map((rule: ISkipRuleRadio) => {
+      if (rule.skipRuleType === ruleType) {
+        this.setState({
+          selectedRule: rule,
+        });
+        return { ...rule, checked: true };
+      }
+      return { ...rule, checked: false };
+    });
+  };
 }
