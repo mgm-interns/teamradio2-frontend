@@ -111,7 +111,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
             <Playlist playlist={playlist} stationId={stationId} />
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
-            <History stationId={stationId} />
+            <History stationId={stationId} isActive={this.state.activeTab === HISTORY_TAB_ID} />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
             <Favorite />
