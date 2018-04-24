@@ -1,9 +1,9 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
-import { Dispatch } from 'Configuration/Redux';
+import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { YoutubeHelper } from 'Helpers';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
-import { PlaylistSong, Song } from 'Models/Song';
+import {NowPlayingSong, PlaylistSong, Song } from 'Models/Song';
 import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -23,14 +23,23 @@ interface ISongProps {
   song: Song;
 }
 
-type IOwnProps = PlaylistSong & IPlayListItemProps & ISongProps;
+interface IStateProps {
+  nowPlaying: NowPlayingSong;
+}
 
 interface IDispatcherProps {
   addFavorite: (favorite: FavoriteSongItem) => void;
   removeFavorite: (songId: string) => void;
 }
 
-type IProps = IOwnProps & IDispatcherProps;
+interface IPlayListItemMethodProps {}
+
+type IProps = IPlayListItemProps &
+  IPlayListItemMethodProps &
+  PlaylistSong &
+  ISongProps &
+  IDispatcherProps &
+  IStateProps;
 
 interface IPlayListItemStates {
   isUpVote: boolean;
@@ -266,13 +275,13 @@ export class PlaylistItemComponent extends BaseComponent<
   };
 
   public render() {
-    const { id, title, status } = this.props;
+    const { id, title, nowPlaying } = this.props;
 
     const { isFavorite } = this.state;
     return (
       <Row
         className={classNames('m-0', 'item-container', {
-          'playing-item': status !== null,
+          'playing-item': nowPlaying.songId === id,
         })}>
         {this._renderThumbnail()}
         <Col xs={9} className="pr-0">
@@ -310,12 +319,16 @@ export class PlaylistItemComponent extends BaseComponent<
   }
 }
 
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
+  nowPlaying: state.playlist.nowPlaying,
+});
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addFavorite: (favorite: FavoriteSongItem) => dispatch(addFavorite(favorite)),
   removeFavorite: (songId: string) => dispatch(removeFavorite(songId)),
 });
 
-export const PlaylistItem = connect<{}, IDispatcherProps, IOwnProps>(
-  null,
+export const PlaylistItem = connect<IStateProps, IDispatcherProps>(
+  mapStateToProps,
   mapDispatchToProps,
 )(PlaylistItemComponent);
