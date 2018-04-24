@@ -19,13 +19,10 @@ export class HttpServices {
 
   public beforeSendRequest(showSpinner: boolean = true) {
     if (showSpinner) {
-      console.log('show Spinner here');
     }
   }
 
-  public afterSendRequest() {
-    console.log('hide Spinner here');
-  }
+  public afterSendRequest() {}
 
   public get<T>(url: string, queryParams?: object) {
     return this.makeRequest<T>(RequestMethod.Get, url, queryParams);

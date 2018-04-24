@@ -64,7 +64,8 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
 
   public initStateByLocalStorage() {
     if (this.isLoggedIn()) {
-      const userInfo: RegisteredUser = localStorageManager.getUserInfo();
+      const userInfo: RegisteredUser =
+        localStorageManager.getUserInfo() || new RegisteredUser();
       this.setState({
         userInfo,
         isAuthenticated: true,
