@@ -43,7 +43,7 @@ module.exports = {
       publicPath: '/',
     },
     open: true,
-    port: 3000,
+    port: 8080,
     logLevel: 'warn',
     add: (app, middleware, options) => {
       app.use(convert(history({})));
