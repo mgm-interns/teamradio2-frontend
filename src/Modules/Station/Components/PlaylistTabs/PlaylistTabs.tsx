@@ -1,14 +1,14 @@
 import { BaseComponent } from 'BaseComponent';
-import { IApplicationState } from 'Configuration/Redux';
 import { Dispatch } from 'Configuration/Redux';
+import { IApplicationState } from 'Configuration/Redux';
 import { FavoriteSong, PlaylistSong } from 'Models';
+import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import { StationPlaylistSSE } from 'Services/SSE';
-import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { Favorite } from './Favorite';
 import { History } from './History';
 import { Playlist } from './Playlist';
@@ -118,7 +118,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
             />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
-            <Favorite />
+            <Favorite stationId={stationId} />
           </TabPane>
         </TabContent>
       </div>
