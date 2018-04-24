@@ -1,0 +1,89 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+// Custom Breakpoints
+//$bp-small: 48em; // 768px
+//$bp-medium: 64em; // 1024px
+//$bp-large: 85.375em; // 1366px
+$bp-xlarge: 120em; // 1920px
+//$bp-xxlarge: 160em; // 2560px
+
+// Custom Media Queries
+//$mq-small: "(min-width: #{$bp-small})";
+//$mq-medium: "(min-width: #{$bp-medium})";
+//$mq-large: "(min-width: #{$bp-large})";
+$mq-xlarge: '(min-width: #{$bp-xlarge})';
+//$mq-xxlarge: "(min-width: #{$bp-xxlarge})";
+
+.passive-container {
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.99);
+  z-index: 99999;
+  position: fixed;
+  color: white;
+  top: 0;
+  left: 0;
+
+  img {
+    width: 40px;
+    margin: 8px 16px;
+  }
+}
+
+.station-container {
+  background: white;
+
+  @media #{$mq-xlarge} {
+    .extra-large-container {
+      flex: 0 0 58.33333%;
+      max-width: 58.33333%;
+    }
+  }
+
+  .station-browser-container {
+    background: #e8e0d5;
+  }
+
+  .player-container {
+    display: flex;
+    flex-direction: column;
+
+    @include media-breakpoint-down(lg) {
+      min-height: 30vh;
+    }
+
+    @include media-breakpoint-down(xs) {
+      min-height: 0;
+    }
+  }
+
+  .passive-mode {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    height: 60%;
+    margin: 0 !important;
+    color: white;
+    transition: all 0.3s linear;
+  }
+
+  .playlist-tabs-container {
+    height: 360px;
+
+    @include media-breakpoint-up(sm) {
+      height: 100%;
+    }
+  }
+
+  .u-margin-top-medium {
+    margin-top: 100px;
+  }
+
+  .add-song-container {
+    margin-top: 20px;
+  }
+}

@@ -108,3 +108,14 @@ import { default as AMeaningName } from './AClass'
 import { SidebarFooter } from '../SidebarFooter';
 import { Aside, Header, Sidebar, Breadcrumb, Footer } from '../../Components/'; //recommended
 ```
+
+# How to use template?
+- Find example codes [here](https://github.com/mrholek/CoreUI-React/tree/master/React_Full_Project)
+- Find all components on [reactstrap documentation](http://reactstrap.github.io/components/)
+
+# How to add new Environment Variables
+- In .env file define new variable with prefix REACT_APP
+```
+REACT_APP_HTTP_END_POINT=https://www.teamrad.io/api
+```
+- Remember to update env for dev and prod

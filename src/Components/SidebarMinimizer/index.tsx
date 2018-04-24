@@ -1,1 +1,1 @@
-export * from "./SidebarMinimizer";
+export * from './SidebarMinimizer';

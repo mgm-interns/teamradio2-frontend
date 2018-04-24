@@ -1,0 +1,55 @@
+.register {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .card-extra-information {
+    border: none;
+    background-color: transparent;
+  }
+
+  .login-callout {
+    text-align: center;
+    padding-top: 30px;
+  }
+
+  .card-container {
+    display: flex;
+    align-items: center;
+
+    .card-container-header {
+      padding-top: 0;
+    }
+  }
+  ul {
+    list-style: none;
+    text-align: left;
+    margin: auto;
+    padding-left: 0;
+
+    li {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    span {
+      margin-left: 10px;
+    }
+  }
+
+  .background-image {
+    background-image: linear-gradient(
+        to right bottom,
+        rgba(#0a373a, 0.6),
+        rgba(#0a373a, 0.6)
+      ),
+      url('../../../public/img/register-background.jpg');
+  }
+
+  .card-content {
+    h2 {
+      text-align: initial;
+    }
+  }
+}

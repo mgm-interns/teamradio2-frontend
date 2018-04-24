@@ -1,0 +1,17 @@
+.player {
+  flex: 1;
+}
+
+.player-container {
+  .progress {
+    height: 4px;
+  }
+
+  .progress-bar {
+    background: #D86B52;
+  }
+
+  .progress-buffer {
+    background: #F3D2CB;
+  }
+}

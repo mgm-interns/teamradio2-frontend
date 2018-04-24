@@ -1,0 +1,76 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.station-item {
+  flex-direction: column;
+  padding: 3px 6px;
+  cursor: pointer;
+
+  @include media-breakpoint-up(sm) {
+    padding: 8px;
+  }
+
+  .thumbnail {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    transition: all 0.3s;
+
+    @include media-breakpoint-up(sm) {
+      width: 120px;
+      height: 120px;
+    }
+
+    @include media-breakpoint-up(md) {
+      width: 160px;
+      height: 160px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  .online-users {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2px 12px;
+    background-color: rgba(0, 0, 0, 0.56);
+    color: white;
+    font-size: 10px;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 12px;
+    }
+  }
+
+  .station-name {
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100px;
+
+      @include media-breakpoint-up(sm) {
+        width: 120px;
+      }
+
+      @include media-breakpoint-up(md) {
+        width: 160px;
+      }
+    }
+  }
+
+  &:hover,
+  &:active {
+    .thumbnail {
+      transform: scale(1.03, 1.03);
+    }
+  }
+}

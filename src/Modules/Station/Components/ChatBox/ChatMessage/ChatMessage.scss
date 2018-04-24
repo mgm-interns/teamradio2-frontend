@@ -1,0 +1,42 @@
+.chat-item-container {
+  .message-left {
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px 20px 10px 0;
+
+    .message-container {
+      margin-left: 8px;
+
+      .username {
+        margin-left: 8px;
+        font-size: 12px;
+        font-weight: bold;
+        opacity: 0.4;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+
+  .message-right {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 0 10px 20px;
+  }
+
+  .message-content {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    word-break: keep-all;
+  }
+
+  .display-none {
+    display: none;
+  }
+}

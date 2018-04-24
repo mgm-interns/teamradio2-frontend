@@ -1,0 +1,145 @@
+// COLORS & BACKGROUND
+$background-image: '../../../../public/img/home/backdrop.jpg';
+$color-primary-light: #0b3e41;
+$color-primary-dark: #07292c;
+$color-primary: #e06a4e;
+$color-white: #fff;
+// FONTS
+$font-title: 'Pacifico', sans-serif;
+.header {
+  height: 100vh;
+  min-height: 700px;
+  background: linear-gradient(
+      to right bottom,
+      rgba($color-primary-light, 0.4),
+      rgba($color-primary-dark, 0.6)
+    ),
+    url($background-image) top;
+  background-size: cover;
+  position: relative;
+  &__text-box {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    margin-top: 5rem;
+  }
+  &__create-box {
+    position: absolute;
+    transform: translate(-50%, -50%); // top: 50%;
+    left: 50%;
+    font-size: 18px;
+    width: 100%;
+  }
+}
+
+.heading-primary {
+  color: #ffffff;
+  margin-bottom: 3rem;
+  backface-visibility: hidden; // fix animation a little move on top
+  &--main {
+    display: block;
+    font-size: 7rem;
+    font-family: $font-title;
+    animation: moveInLeft 1s ease-out;
+  }
+  &--sub {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 200;
+    font-family: 'Roboto Slab', serif;
+    animation: moveInRight 1s ease-out;
+    margin-top: 1.5rem;
+  }
+}
+
+.input--main {
+  padding: 12px 24px;
+  font-size: 18px;
+  background: 0 0;
+  border: 1px solid #fff;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+.transparent-form-control {
+  padding: 12px 24px;
+  font-size: 18px;
+  background: transparent;
+  border: 1.2px solid #fff;
+  border-radius: 0.25rem;
+  color: #fff;
+  transition: all 0.3s;
+  width: 100%;
+  @include placeholder {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  &:focus {
+    background: #fff;
+    color: #000;
+    box-shadow: none;
+    & + .fa {
+      color: #95a5a6;
+    }
+    @include placeholder {
+      color: #95a5a6;
+    }
+  }
+}
+
+/* transition property */
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem);
+  }
+  80% {
+    transform: translateX(1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
+  }
+  80% {
+    transform: translateX(-1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "baseUrl": "./src/",
     "declaration": false,
     "sourceMap": true,
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "module": "commonjs",
-    "target": "es5",
+    "target": "es2017",
     "jsx": "react"
   },
   "include": [

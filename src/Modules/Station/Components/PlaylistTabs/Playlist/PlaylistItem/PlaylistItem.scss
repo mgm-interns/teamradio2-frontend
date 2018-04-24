@@ -1,0 +1,63 @@
+.item-container {
+  .skip-bg {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .isActive {
+    color: rgb(224, 106, 78);
+  }
+
+  .message-icon {
+    color: #e06a4e;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+  }
+
+  .vote-icons {
+    .fa {
+      margin-right: 4px;
+      font-size: 16px;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .like-icon,
+    .dislike-icon {
+      width: 50%;
+      text-align: center;
+    }
+  }
+
+  .progress {
+    height: 0.1rem;
+  }
+
+  .like-progress {
+    background: rgb(224, 106, 78);
+  }
+
+  .dislike-progress {
+    background: rgba(224, 106, 78, 0.4);
+  }
+
+  .buttonload {
+    width: 100%;
+    text-align: center;
+    color: rgb(224, 106, 78);
+  }
+}
+
+.playing-item {
+  background: #e8e0d5;
+}

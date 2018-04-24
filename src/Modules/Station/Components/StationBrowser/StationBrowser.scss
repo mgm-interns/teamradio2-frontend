@@ -1,0 +1,32 @@
+@mixin scroll-bar {
+}
+
+.browser {
+  .cover-div {
+    position: relative;
+    overflow: hidden;
+
+    .list-station {
+      position: relative;
+      overflow: hidden;
+
+      .station-item-container {
+        display: flex;
+        align-content: center;
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+        margin: 2px auto 5px auto;
+        white-space: nowrap;
+        position: relative;
+
+        // Hide the scrollbar
+        -ms-overflow-style: none; // IE 10+
+        overflow: -moz-scrollbars-none; // Firefox
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+  }
+}

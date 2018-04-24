@@ -1,0 +1,47 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.u-margin-top-medium {
+  margin-top: 100px;
+}
+
+.header-container {
+  flex-direction: row;
+  padding: 0 16px 3px 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buttons-wrapper {
+  display: flex;
+}
+
+.btn-no-shadow {
+  &:focus {
+    box-shadow: none;
+  }
+  min-width: 39px;
+}
+
+.icon-wrapper {
+  font-size: 25px;
+  padding: 0 10px;
+}
+
+.icon {
+  min-width: 25px;
+  text-align: center;
+}
+
+.activeButton {
+  color: red;
+}
+
+.station-mute-button {
+  display: none;
+
+  @include media-breakpoint-up(sm) {
+    display: block;
+  }
+}

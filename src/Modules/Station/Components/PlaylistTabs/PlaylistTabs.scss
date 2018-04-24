@@ -1,0 +1,118 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.tabs-container {
+  //height: 100%;
+  height: 50vh;
+
+  @include media-breakpoint-down(lg) {
+    max-height: 30vh;
+  }
+
+  .nav-tabs {
+    justify-content: space-around;
+
+    .nav-item {
+      margin: 0;
+      width: 33.33333333%;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .nav-link {
+      border: none;
+    }
+
+    .nav-link.active {
+      border-bottom: 2px solid rgb(224, 106, 78);
+    }
+  }
+
+  .tab-content {
+    height: calc(100% - 49px);
+    border: none;
+    padding-top: 10px;
+  }
+
+  .tab-pane {
+    padding: 0;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  // Styles for item
+  .item-container {
+    padding: 8px;
+    height: 90px;
+
+    @include media-breakpoint-down(lg) {
+      height: 150px;
+    }
+
+    @include media-breakpoint-down(md) {
+      height: 120px;
+    }
+
+    @include media-breakpoint-down(xs) {
+      height: 90px;
+    }
+
+    .thumbnail-container {
+      position: relative;
+    }
+
+    .duration {
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: 2px 4px;
+      font-size: 12px;
+    }
+
+    .video-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .item-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .creator-container {
+      position: relative;
+    }
+
+    .action-icon {
+      font-size: 16px;
+      text-align: center;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .avatar {
+      width: 1.6em;
+      height: 1.6em;
+      cursor: pointer;
+      object-fit: cover;
+      margin-left: 8px;
+      border-radius: 50%;
+    }
+
+    .item-addedBy {
+      display: flex;
+      align-items: flex-end;
+
+      .title {
+        color: #7f8c8d;
+      }
+    }
+  }
+}

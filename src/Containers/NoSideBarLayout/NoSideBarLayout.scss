@@ -1,0 +1,30 @@
+.app.no-side-bar {
+  .main,
+  .app-footer {
+    margin-left: 0;
+  }
+}
+
+.app.login,
+.app.register,
+.app.forgot-password {
+  min-height: calc(100vh - 105px);
+  .background-image {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+    top: 0;
+    left: 0;
+  }
+
+  .card-group {
+    padding: 20px 0;
+  }
+}
+
+.capitalize-first-letter:first-letter {
+  text-transform: capitalize;
+}

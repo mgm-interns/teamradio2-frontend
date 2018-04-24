@@ -1,0 +1,63 @@
+$suggestion_height: 48px;
+
+.search-input {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.react-autosuggest {
+  &__container {
+    height: 40px;
+
+    .form-control:focus {
+      border-color: #ffcfc4;
+      box-shadow: 0 0 0 0.2rem rgba(224, 106, 78, 0.1);
+    }
+  }
+  &__suggestions-list {
+    list-style: none;
+    padding: 0;
+  }
+  &__suggestion {
+    display: flex;
+    align-items: center;
+    height: $suggestion_height;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 16px;
+    img {
+      height: calc(#{$suggestion_height}/ 2);
+      margin-right: 8px;
+    }
+
+    &--highlighted {
+      background-color: rgba(0, 0, 0, 0.07);
+    }
+  }
+
+  &__suggestions-container--open {
+    display: block;
+    position: absolute;
+    top: 40px;
+    max-width: 100%;
+    background-color: #fff;
+    z-index: 2;
+  }
+}
+
+$input_height: 35px;
+$icon_height: 14px;
+
+.reset-icon {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  padding: ($input_height - $icon_height)/2 - 1px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.54);
+
+  &:hover {
+    cursor: pointer;
+    filter: opacity(0.8);
+  }
+}
