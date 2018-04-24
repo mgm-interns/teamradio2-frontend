@@ -1,2 +1,2 @@
 export * from './Reducer';
-export * from './FavoriteReducer'
+export * from './FavoriteReducer';

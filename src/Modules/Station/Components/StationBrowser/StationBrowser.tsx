@@ -16,7 +16,10 @@ interface IStationBrowserStates {
   stationItemContainerRef: HTMLElement;
 }
 
-export class StationBrowser extends BaseComponent<IStationBrowserProps, IStationBrowserStates> {
+export class StationBrowser extends BaseComponent<
+  IStationBrowserProps,
+  IStationBrowserStates
+> {
   public stationServices: StationServices;
 
   constructor(props: IStationBrowserProps) {
@@ -51,7 +54,10 @@ export class StationBrowser extends BaseComponent<IStationBrowserProps, IStation
     if (this.state.listStation.length === 0) {
       return null;
     }
-    const listStationFiltered = this.filterListStation(this.state.listStation, this.props.stationId);
+    const listStationFiltered = this.filterListStation(
+      this.state.listStation,
+      this.props.stationId,
+    );
     return (
       <Row className="m-0 justify-content-center justify-content-center">
         <div className="col-xl-12 browser">
@@ -63,11 +69,9 @@ export class StationBrowser extends BaseComponent<IStationBrowserProps, IStation
               <div
                 className="station-item-container"
                 ref={this.bindStationItemContainerRef}>
-                {listStationFiltered.map(
-                  (item: StationItem, index: number) => {
-                    return <StationBrowserItem key={index} {...item} />;
-                  },
-                )}
+                {listStationFiltered.map((item: StationItem, index: number) => {
+                  return <StationBrowserItem key={index} {...item} />;
+                })}
               </div>
             </div>
           </div>
@@ -82,7 +86,10 @@ export class StationBrowser extends BaseComponent<IStationBrowserProps, IStation
     });
   };
 
-  private filterListStation(listStation: StationItem[], stationIdToFilter: string) {
+  private filterListStation(
+    listStation: StationItem[],
+    stationIdToFilter: string,
+  ) {
     return listStation.filter((station: Station) => {
       return station.friendlyId !== stationIdToFilter;
     });

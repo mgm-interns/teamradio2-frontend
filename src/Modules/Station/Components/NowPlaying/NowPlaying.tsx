@@ -115,9 +115,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
   };
 
   private roundPlayerTime = (fractionTime: number) => {
-    const {
-      nowPlaying: { duration },
-    } = this.props;
+    const { nowPlaying: { duration } } = this.props;
     return convertToEpochTimeInSeconds(Math.round(duration * fractionTime));
   };
 

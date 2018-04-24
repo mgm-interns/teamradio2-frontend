@@ -15,7 +15,7 @@ interface IDispatcherProps {
 
 type IOwnProps = FavoriteSongItem;
 
-type IProps = IOwnProps & IDispatcherProps
+type IProps = IOwnProps & IDispatcherProps;
 
 interface IFavoriteItemStates {
   song: Song;
