@@ -77,7 +77,10 @@ export class UserServices {
     );
   }
 
-  public changePassword(passwordForm: PasswordForm) {
-    return this._httpServices.patch(`${this.serviceUrl}/me/password`, passwordForm);
+  public changePassword(passwordForm: PasswordForm): Observable<any> {
+    return this._httpServices.patch(
+      `${this.serviceUrl}/me/password`,
+      passwordForm,
+    );
   }
 }
