@@ -18,7 +18,6 @@ interface IStationBrowserStates {
 
 export class StationBrowser extends BaseComponent<IStationBrowserProps, IStationBrowserStates> {
   public stationServices: StationServices;
-  private listStationStore: StationItem[];
 
   constructor(props: IStationBrowserProps) {
     super(props);
@@ -33,28 +32,14 @@ export class StationBrowser extends BaseComponent<IStationBrowserProps, IStation
     this.getListStation();
   }
 
-  public componentWillReceiveProps(nextProps: IStationBrowserProps) {
-    if(nextProps.stationId !== this.props.stationId) {
-      this.updateListStation(this.listStationStore, nextProps.stationId);
-    }
-  }
-
-  public storeStationList(listStation: StationItem[]) {
-    this.listStationStore = listStation;
-  }
-
-  public updateListStation(listStationToUpdate: StationItem[], stationIdNeedFilter?: string) {
-    const listStationFiltered = listStationToUpdate.filter((station: Station) => {
-      return station.friendlyId !== stationIdNeedFilter;
-    });
-    this.setState({ listStation: listStationFiltered });
+  public updateListStation(listStationToUpdate: StationItem[]) {
+    this.setState({ listStation: listStationToUpdate });
   }
 
   public getListStation() {
     this.stationServices.getListStation().subscribe(
       (listStation: StationItem[]) => {
-        this.storeStationList(listStation);
-        this.updateListStation(this.listStationStore, this.props.stationId);
+        this.updateListStation(listStation);
       },
       (err: string) => {
         this.showError(err);
@@ -66,6 +51,7 @@ export class StationBrowser extends BaseComponent<IStationBrowserProps, IStation
     if (this.state.listStation.length === 0) {
       return null;
     }
+    const listStationFiltered = this.filterListStation(this.state.listStation, this.props.stationId);
     return (
       <Row className="m-0 justify-content-center justify-content-center">
         <div className="col-xl-12 browser">
@@ -77,7 +63,7 @@ export class StationBrowser extends BaseComponent<IStationBrowserProps, IStation
               <div
                 className="station-item-container"
                 ref={this.bindStationItemContainerRef}>
-                {this.state.listStation.map(
+                {listStationFiltered.map(
                   (item: StationItem, index: number) => {
                     return <StationBrowserItem key={index} {...item} />;
                   },
@@ -95,4 +81,10 @@ export class StationBrowser extends BaseComponent<IStationBrowserProps, IStation
       stationItemContainerRef: node,
     });
   };
+
+  private filterListStation(listStation: StationItem[], stationIdToFilter: string) {
+    return listStation.filter((station: Station) => {
+      return station.friendlyId !== stationIdToFilter;
+    });
+  }
 }
