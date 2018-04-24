@@ -63,7 +63,11 @@ export class StationPlayer extends Component<IProps, IState> {
             onProgress={this.onProgress}
             onStart={this.onStart}
             onEnded={this.onEnded}
-            youtubeConfig={{ playerVars: { disablekb: 1 } }}
+            config={{
+              youtube: {
+                playerVars: { disablekb: 1 },
+              },
+            }}
             style={{ pointerEvents: 'none' }}
             volume={1}
             muted={muted}
