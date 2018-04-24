@@ -60,17 +60,15 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
     const { stationId } = this.props;
     this.setState({ modal: !this.state.modal }, () => {
       if (this.state.modal) {
-        // Update configuration when opening configuration modal
         this.stationServices
           .getStationById(stationId)
           .subscribe((response: any) => {
-            this.setState(
-              {
-                rules: this._getNewSkipRules(
-                  this.state.rules,
-                  response.stationConfiguration.skipRule.skipRuleType,
-                ),
-              });
+            this.setState({
+              rules: this._getNewSkipRules(
+                this.state.rules,
+                response.stationConfiguration.skipRule.skipRuleType,
+              ),
+            });
           });
       }
     });
