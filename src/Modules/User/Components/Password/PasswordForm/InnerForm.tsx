@@ -1,6 +1,14 @@
 import { Field, Form, FormikProps } from 'formik';
 import * as React from 'react';
-import { Alert, Button, Col, FormFeedback, FormGroup, Label, Row } from 'reactstrap';
+import {
+  Alert,
+  Button,
+  Col,
+  FormFeedback,
+  FormGroup,
+  Label,
+  Row,
+} from 'reactstrap';
 import './PasswordForm.scss';
 
 export interface IFormValues {
@@ -17,7 +25,15 @@ export interface IFormProps {
 }
 
 export const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
-  const { touched, errors, isSubmitting, hadPass, onCloseModal, serverError, success } = props;
+  const {
+    touched,
+    errors,
+    isSubmitting,
+    hadPass,
+    onCloseModal,
+    serverError,
+    success,
+  } = props;
   return (
     <Form className="password-form">
       {hadPass ? (
@@ -32,9 +48,9 @@ export const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
                 placeholder="Enter your Current password"
               />
               {touched.currentPassword &&
-              errors.currentPassword && (
-                <FormFeedback>{errors.currentPassword}</FormFeedback>
-              )}
+                errors.currentPassword && (
+                  <FormFeedback>{errors.currentPassword}</FormFeedback>
+                )}
             </FormGroup>
           </Col>
         </Row>
@@ -50,9 +66,9 @@ export const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
               placeholder="Enter your New password"
             />
             {touched.newPassword &&
-            errors.newPassword && (
-              <FormFeedback>{errors.newPassword}</FormFeedback>
-            )}
+              errors.newPassword && (
+                <FormFeedback>{errors.newPassword}</FormFeedback>
+              )}
           </FormGroup>
         </Col>
       </Row>
@@ -67,9 +83,9 @@ export const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
               placeholder="Enter your Confirm password"
             />
             {touched.confirmPassword &&
-            errors.confirmPassword && (
-              <FormFeedback>{errors.confirmPassword}</FormFeedback>
-            )}
+              errors.confirmPassword && (
+                <FormFeedback>{errors.confirmPassword}</FormFeedback>
+              )}
           </FormGroup>
         </Col>
       </Row>
@@ -97,4 +113,3 @@ export const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
     </Form>
   );
 };
-
