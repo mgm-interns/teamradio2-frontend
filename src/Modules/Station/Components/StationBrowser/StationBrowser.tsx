@@ -9,19 +9,18 @@ import { StationBrowserItem } from './StationBrowserItem';
 
 interface IStationBrowserStates {
   listStation: StationItem[];
-  stationBrowser: string;
-  stationItemContainer: string;
+  stationItemContainerRef: HTMLElement;
 }
 
 export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
   public stationServices: StationServices;
+
   constructor(props: {}) {
     super(props);
     this.stationServices = new StationServices();
     this.state = {
-      stationBrowser: 'station-browser',
-      stationItemContainer: 'station-item-container',
       listStation: [],
+      stationItemContainerRef: null,
     };
   }
 
@@ -53,15 +52,12 @@ export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
         <div className="col-xl-12 browser">
           <div className="cover-div">
             <StationBrowserSlider
-              stationBrowser={this.state.stationBrowser}
-              stationItemContainer={this.state.stationItemContainer}
+              stationItemContainer={this.state.stationItemContainerRef}
             />
-            <div
-              className="m-auto extra-large-container list-station"
-              id={this.state.stationBrowser}>
+            <div className="m-auto extra-large-container list-station">
               <div
                 className="station-item-container"
-                id={this.state.stationItemContainer}>
+                ref={this.bindStationItemContainerRef}>
                 {this.state.listStation.map(
                   (item: StationItem, index: number) => {
                     return <StationBrowserItem key={index} {...item} />;
@@ -74,4 +70,10 @@ export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
       </Row>
     );
   }
+
+  private bindStationItemContainerRef = (node: HTMLElement) => {
+    this.setState({
+      stationItemContainerRef: node,
+    });
+  };
 }

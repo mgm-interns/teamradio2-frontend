@@ -1,3 +1,6 @@
+@mixin scroll-bar {
+}
+
 .browser {
   .cover-div {
     position: relative;
@@ -10,16 +13,19 @@
       .station-item-container {
         display: flex;
         align-content: center;
-        width: fit-content;
-        width: -moz-fit-content; /* Firefox/Gecko */
+        overflow-x: scroll;
+        scroll-behavior: smooth;
         margin: 2px auto 5px auto;
         white-space: nowrap;
         position: relative;
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none;
+
+        // Hide the scrollbar
+        -ms-overflow-style: none; // IE 10+
+        overflow: -moz-scrollbars-none; // Firefox
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
       }
     }
   }
