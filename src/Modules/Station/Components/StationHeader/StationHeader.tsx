@@ -79,10 +79,10 @@ class OriginStationHeader extends BaseComponent<
     }
   }
 
-  public _onSkipRuleChange = (skipRuleTpe: SkipRuleType) => {
+  public _onSkipRuleChange = (skipRuleType: SkipRuleType) => {
     const { stationId } = this.props;
 
-    this.stationServices.updateSkipRuleConfig(stationId, skipRuleTpe).subscribe(
+    this.stationServices.updateSkipRuleConfig(stationId, skipRuleType).subscribe(
       (response: any) => {
         this.setState({
           currentSkipRule: { ...response.skipRule, checked: true },
