@@ -102,7 +102,7 @@ class StationComponent extends Component<
       ),
       <Row className="m-0 station-container" key={1}>
         <Col xs={12} className="station-browser-container">
-          <StationBrowser />
+          <StationBrowser stationId={stationId} />
         </Col>
         <Col className="p-0 m-auto extra-large-container">
           <Row className="m-0">

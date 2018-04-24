@@ -14,7 +14,7 @@ export class MyStationsBrowser extends StationBrowser {
   public getListStation() {
     this.userServices.getListMyStation().subscribe(
       (listStation: StationItem[]) => {
-        this.setListStation(listStation);
+        this.updateListStation(listStation);
       },
       (err: string) => {
         this.showError(err);

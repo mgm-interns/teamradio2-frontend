@@ -1,21 +1,26 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
-import { StationItem } from 'Models';
+import { Station, StationItem } from 'Models';
 import * as React from 'react';
 import { Row } from 'reactstrap';
 import { StationServices } from 'Services/Http';
 import './StationBrowser.scss';
 import { StationBrowserItem } from './StationBrowserItem';
 
+export interface IStationBrowserProps {
+  stationId?: string;
+}
+
 interface IStationBrowserStates {
   listStation: StationItem[];
   stationItemContainerRef: HTMLElement;
 }
 
-export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
+export class StationBrowser extends BaseComponent<IStationBrowserProps, IStationBrowserStates> {
   public stationServices: StationServices;
+  private listStationStore: StationItem[];
 
-  constructor(props: {}) {
+  constructor(props: IStationBrowserProps) {
     super(props);
     this.stationServices = new StationServices();
     this.state = {
@@ -28,14 +33,28 @@ export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
     this.getListStation();
   }
 
-  public setListStation(listStationUpdated: StationItem[]) {
-    this.setState({ listStation: listStationUpdated });
+  public componentWillReceiveProps(nextProps: IStationBrowserProps) {
+    if(nextProps.stationId !== this.props.stationId) {
+      this.updateListStation(this.listStationStore, nextProps.stationId);
+    }
+  }
+
+  public storeStationList(listStation: StationItem[]) {
+    this.listStationStore = listStation;
+  }
+
+  public updateListStation(listStationToUpdate: StationItem[], stationIdNeedFilter?: string) {
+    const listStationFiltered = listStationToUpdate.filter((station: Station) => {
+      return station.friendlyId !== stationIdNeedFilter;
+    });
+    this.setState({ listStation: listStationFiltered });
   }
 
   public getListStation() {
     this.stationServices.getListStation().subscribe(
       (listStation: StationItem[]) => {
-        this.setListStation(listStation);
+        this.storeStationList(listStation);
+        this.updateListStation(this.listStationStore, this.props.stationId);
       },
       (err: string) => {
         this.showError(err);
