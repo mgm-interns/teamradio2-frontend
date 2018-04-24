@@ -26,10 +26,7 @@ export class Register extends Component {
                 <Row>
                   <Col className="login-callout" xs="12" sm="12">
                     <span>
-                      Already have an account?{' '}
-                      <Link to="/login">
-                        Login
-                      </Link>
+                      Already have an account? <Link to="/login">Login</Link>
                     </span>
                   </Col>
                 </Row>
