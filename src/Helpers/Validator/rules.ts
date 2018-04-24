@@ -1,8 +1,4 @@
-import {
-  ALPHANUMERIC_REGEX,
-  EMAIL_REGEX,
-  USERNAME_REGEX,
-} from './regexRules';
+import { ALPHANUMERIC_REGEX, EMAIL_REGEX, USERNAME_REGEX } from './regexRules';
 
 const required = {
   test: (value: any) => value,

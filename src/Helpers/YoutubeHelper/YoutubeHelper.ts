@@ -19,37 +19,35 @@ export const YoutubeHelper = {
     return `${REACT_APP_YOUTUBE_URL + video.id}&t=0s`;
   },
   getVideoList: async (videoIds: string) => {
-    const { data: { items } } = await axios.get(
-      `${REACT_APP_YOUTUBE_API_URL}/videos`,
-      {
-        params: {
-          key: REACT_APP_YOUTUBE_API_KEY,
-          part: 'id,snippet,contentDetails,status',
-          id: videoIds,
-        },
+    const {
+      data: { items },
+    } = await axios.get(`${REACT_APP_YOUTUBE_API_URL}/videos`, {
+      params: {
+        key: REACT_APP_YOUTUBE_API_KEY,
+        part: 'id,snippet,contentDetails,status',
+        id: videoIds,
       },
-    );
+    });
     return items;
   },
   fetchVideo: async (value: string) => {
-    const { data: { items } } = await axios.get(
-      `${REACT_APP_YOUTUBE_API_URL}/search`,
-      {
-        params: {
-          key: REACT_APP_YOUTUBE_API_KEY,
-          q: value,
-          part: 'snippet',
-          safeSearch: 'strict',
-          // regionCode: 'VN', //	STAMEQ
-          type: 'video',
-          videoEmbeddable: 'true',
-          // videoSyndicated: 'true',
-          maxResults: 5,
-          videoDefinition: 'any',
-          relevanceLanguage: 'en',
-        },
+    const {
+      data: { items },
+    } = await axios.get(`${REACT_APP_YOUTUBE_API_URL}/search`, {
+      params: {
+        key: REACT_APP_YOUTUBE_API_KEY,
+        q: value,
+        part: 'snippet',
+        safeSearch: 'strict',
+        // regionCode: 'VN', //	STAMEQ
+        type: 'video',
+        videoEmbeddable: 'true',
+        // videoSyndicated: 'true',
+        maxResults: 5,
+        videoDefinition: 'any',
+        relevanceLanguage: 'en',
       },
-    );
+    });
 
     return items;
   },
@@ -69,5 +67,5 @@ export const YoutubeHelper = {
   getDuration(video: any) {
     const youTubeDuration = video.contentDetails.duration;
     return moment.duration(youTubeDuration).asMilliseconds();
-  }
+  },
 };
