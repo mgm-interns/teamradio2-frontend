@@ -15,6 +15,7 @@ interface IStates extends FavoriteSongItem {}
 export class FavoriteItem extends BaseComponent<IProps, IStates> {
   constructor(props: IProps) {
     super(props);
+
     this.state = {
       id: this.props.id,
       userId: this.props.userId,
