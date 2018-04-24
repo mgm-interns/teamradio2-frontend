@@ -27,12 +27,10 @@ export class FavoriteComponent extends BaseComponent<
   }
 
   public componentWillReceiveProps(nextProps: IReduxProps) {
-    if (this.props.favoriteList !== nextProps.favoriteList) {
-      const favoriteList = nextProps.favoriteList;
-      this.setState({
-        favoriteList,
-      });
-    }
+    const favoriteList = nextProps.favoriteList;
+    this.setState({
+      favoriteList,
+    });
   }
 
   public render() {

@@ -33,16 +33,16 @@ class FavoriteComponent extends BaseComponent<
     };
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     this.getListFavoriteSong();
   }
 
   public getListFavoriteSong() {
     this.userServices.getListFavorite().subscribe(
-      (res: FavoriteSongItem[]) => {
-        this.props.updateNewestFavoriteList(res);
+      (favoriteSongItem: FavoriteSongItem[]) => {
+        this.props.updateNewestFavoriteList(favoriteSongItem);
         this.setState({
-          favoriteList: res,
+          favoriteList: favoriteSongItem,
         });
       },
       (err: string) => {
@@ -52,12 +52,10 @@ class FavoriteComponent extends BaseComponent<
   }
 
   public componentWillReceiveProps(nextProps: IReduxProps) {
-    if (this.props.favoriteList !== nextProps.favoriteList) {
-      const favoriteList = nextProps.favoriteList;
-      this.setState({
-        favoriteList,
-      });
-    }
+    const favoriteList = nextProps.favoriteList;
+    this.setState({
+      favoriteList,
+    });
   }
 
   public render() {

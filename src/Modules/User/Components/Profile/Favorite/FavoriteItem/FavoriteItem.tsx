@@ -15,12 +15,14 @@ interface IDispatcherProps {
 
 type IOwnProps = FavoriteSongItem;
 
+type IProps = IOwnProps & IDispatcherProps
+
 interface IFavoriteItemStates {
   song: Song;
 }
 
 export class FavoriteItemComponent extends BaseComponent<
-  IOwnProps & IDispatcherProps,
+  IProps,
   IFavoriteItemStates
 > {
   private userServices: UserServices;
@@ -31,14 +33,6 @@ export class FavoriteItemComponent extends BaseComponent<
     this.state = {
       song: this.props.song,
     };
-  }
-
-  public componentWillReceiveProps(nextProps: FavoriteSongItem) {
-    if (this.props.song !== nextProps.song) {
-      this.setState({
-        song: nextProps.song,
-      });
-    }
   }
 
   public processDelete() {

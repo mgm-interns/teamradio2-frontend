@@ -21,11 +21,9 @@ export class FavoriteItem extends BaseComponent<
   }
 
   public componentWillReceiveProps(nextProps: FavoriteSongItem) {
-    if (this.props.song !== nextProps.song) {
-      this.setState({
-        song: nextProps.song,
-      });
-    }
+    this.setState({
+      song: nextProps.song,
+    });
 
     if (this.props.id !== nextProps.id) {
       this.setState({

@@ -27,13 +27,13 @@ interface IStates {
   favoriteList: FavoriteSongItem[];
 }
 
-type Iprops = IPlaylistProps & IReduxProps;
+type IProps = IPlaylistProps & IReduxProps;
 
-export class PlaylistComponent extends BaseComponent<Iprops, IStates> {
+export class PlaylistComponent extends BaseComponent<IProps, IStates> {
   private userServices: UserServices;
   private songServices: SongServices;
 
-  constructor(props: Iprops) {
+  constructor(props: IProps) {
     super(props);
 
     this.userServices = new UserServices();
@@ -90,7 +90,7 @@ export class PlaylistComponent extends BaseComponent<Iprops, IStates> {
     return favoriteList.some(item => item.songId === playlistItem.songId);
   }
 
-  public componentWillReceiveProps(nextProps: Iprops) {
+  public componentWillReceiveProps(nextProps: IProps) {
     if (this.props.favoriteList !== nextProps.favoriteList) {
       const favoriteList = nextProps.favoriteList;
       this.setState({
