@@ -1,110 +1,93 @@
 import { BaseComponent } from 'BaseComponent';
-import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
+import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
-import { Button, Col, FormFeedback, FormGroup, Label, Row } from 'reactstrap';
+import { UserServices } from 'Services/Http';
+import { IFormProps, IFormValues, InnerForm } from './InnerForm';
 import './PasswordForm.scss';
 
-interface IFormValues {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-  onCloseModal: any;
-  hadPass: boolean;
-}
+interface IState extends IFormProps {}
 
-const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
-  const { touched, errors, isSubmitting } = props;
-  return (
-    <Form className="password-form">
-      {props.initialValues.hadPass ? (
-        <Row>
-          <Col xs="12">
-            <FormGroup>
-              <Label htmlFor="name">Current password</Label>
-              <Field
-                type="password"
-                name="currentPassword"
-                className="form-control"
-                placeholder="Enter your Current password"
-              />
-              {touched.currentPassword &&
-                errors.currentPassword && (
-                  <FormFeedback>{errors.currentPassword}</FormFeedback>
-                )}
-            </FormGroup>
-          </Col>
-        </Row>
-      ) : null}
-      <Row>
-        <Col xs="12">
-          <FormGroup>
-            <Label htmlFor="name">New password</Label>
-            <Field
-              type="password"
-              name="newPassword"
-              className="form-control"
-              placeholder="Enter your New password"
-            />
-            {touched.newPassword &&
-              errors.newPassword && (
-                <FormFeedback>{errors.newPassword}</FormFeedback>
-              )}
-          </FormGroup>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs="12">
-          <FormGroup>
-            <Label htmlFor="name">Confirm password</Label>
-            <Field
-              type="password"
-              name="confirmPassword"
-              className="form-control"
-              placeholder="Enter your Confirm password"
-            />
-            {touched.confirmPassword &&
-              errors.confirmPassword && (
-                <FormFeedback>{errors.confirmPassword}</FormFeedback>
-              )}
-          </FormGroup>
-        </Col>
-      </Row>
-      <div className="footer-form">
-        <Button color="secondary" onClick={() => props.onCloseModal()}>
-          CANCEL
-        </Button>
-        <Button type="submit" color="primary" disabled={isSubmitting}>
-          SAVE
-        </Button>
-      </div>
-    </Form>
-  );
-};
-
-// The type of props FormWrapper receives
-interface IFormProps {
+interface IProps {
   onCloseModal: any;
   hadPass?: boolean;
 }
 
-const FormWrapper = withFormik<IFormProps, IFormValues>({
-  mapPropsToValues: props => {
-    return {
-      onCloseModal: props.onCloseModal,
-      hadPass: props.hadPass || false,
+export class PasswordForm extends BaseComponent<IProps, IState> {
+  private userServices: UserServices;
+  private readonly initialValues: IFormValues;
+
+  constructor(props: IProps) {
+    super(props);
+
+    this.initialValues = {
       currentPassword: '',
       newPassword: '',
       confirmPassword: '',
     };
-  },
 
-  validate: (values: IFormValues) => {
+    this.userServices = new UserServices();
+    this.validate = this.validate.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.changePassword = this.changePassword.bind(this);
+
+    this.state = {
+      success: false,
+      serverError: '',
+    };
+  }
+
+  public handleSubmit(values: IFormValues, formikActions: FormikActions<any>) {
+    this.clearFormAlert();
+    const { currentPassword, newPassword } = values;
+    this.changePassword(currentPassword, newPassword, formikActions);
+  }
+
+  public changePassword(
+    currentPassword: string,
+    newPassword: string,
+    formikActions: FormikActions<any>,
+  ) {
+    const old_password = currentPassword;
+    const new_password = newPassword;
+    const { setSubmitting, resetForm } = formikActions;
+
+    this.userServices.changePassword({ old_password, new_password }).subscribe(
+      (res: any) => {
+        this.showFormAlerSuccess();
+        setSubmitting(false);
+        resetForm();
+      },
+      (err: any) => {
+        setSubmitting(false);
+        this.showFormAlertError(err);
+      },
+    );
+  }
+
+  public showFormAlertError(err: string) {
+    this.setState({
+      serverError: err,
+    });
+  }
+
+  public showFormAlerSuccess() {
+    this.setState({ success: true });
+  }
+
+  public clearFormAlert() {
+    this.setState({
+      serverError: '',
+      success: false,
+    });
+  }
+
+  public validate(values: IFormValues) {
     const errors: FormikErrors<any> = {};
     const { currentPassword, newPassword, confirmPassword } = values;
     const { required, minLength6, matchPassword } = Rules;
 
-    if (values.hadPass) {
+    if (this.props.hadPass) {
       const currentPasswordValidator = new Validator(
         'Current password',
         currentPassword,
@@ -127,24 +110,25 @@ const FormWrapper = withFormik<IFormProps, IFormValues>({
     errors.confirmPassword = confirmPasswordValidator.validate();
 
     return Validator.removeUndefinedError(errors);
-  },
-
-  handleSubmit: values => {
-    console.log(values);
-    values.onCloseModal();
-  },
-})(InnerForm);
-
-export class PasswordForm extends BaseComponent<any, any> {
-  constructor(props: any) {
-    super(props);
   }
 
   public render() {
+    const { onCloseModal, hadPass } = this.props;
+    const { serverError, success } = this.state;
     return (
-      <FormWrapper
-        onCloseModal={this.props.onCloseModal}
-        hadPass={this.props.hadPass}
+      <Formik
+        initialValues={this.initialValues}
+        onSubmit={this.handleSubmit}
+        validate={this.validate}
+        render={formikProps => (
+          <InnerForm
+            {...formikProps}
+            onCloseModal={onCloseModal}
+            hadPass={hadPass}
+            serverError={serverError}
+            success={success}
+          />
+        )}
       />
     );
   }
