@@ -90,7 +90,7 @@ export class PlaylistItemComponent extends BaseComponent<
           this.props.addFavorite(res);
         },
         (err: any) => {
-          console.log(`Error when create: ${err}`);
+          this.showError(err);
         },
       );
     }
@@ -100,7 +100,7 @@ export class PlaylistItemComponent extends BaseComponent<
         this.props.removeFavorite(this.props.songId);
       },
       (err: any) => {
-        console.log(`Error when create: ${err}`);
+        this.showError(err);
       },
     );
   }
@@ -285,20 +285,22 @@ export class PlaylistItemComponent extends BaseComponent<
                 {title}
               </UncontrolledTooltip>
             </Col>
-            <Col xs={2} className="pr-0">
-              <div
-                className="action-icon"
-                onClick={() => this.setFavoriteSong()}>
-                <i
-                  className={classNames(
-                    'fa',
-                    { 'fa-star-o': !isFavorite },
-                    { 'fa-star': isFavorite },
-                    { isActive: isFavorite },
-                  )}
-                />
-              </div>
-            </Col>
+            {this.isLoggedIn() && (
+              <Col xs={2} className="pr-0">
+                <div
+                  className="action-icon"
+                  onClick={() => this.setFavoriteSong()}>
+                  <i
+                    className={classNames(
+                      'fa',
+                      { 'fa-star-o': !isFavorite },
+                      { 'fa-star': isFavorite },
+                      { isActive: isFavorite },
+                    )}
+                  />
+                </div>
+              </Col>
+            )}
             {this._renderCreator()}
             {this._renderVotingSection()}
           </Row>

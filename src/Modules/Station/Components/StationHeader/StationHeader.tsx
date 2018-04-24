@@ -128,8 +128,6 @@ class OriginStationHeader extends BaseComponent<
     } = this.props;
     const { station, currentSkipRule } = this.state;
 
-    const userInfo = localStorageManager.getUserInfo();
-
     return (
       <Row className="header-container">
         <div>
@@ -148,7 +146,8 @@ class OriginStationHeader extends BaseComponent<
             <Fragment>
               <StationSharing />
               {station &&
-                userInfo.id === station.ownerId && (
+                this.isLoggedIn() &&
+                this.isOwner() && (
                   <ConfigurationButton
                     stationId={stationId}
                     currentSkipRule={currentSkipRule}
@@ -174,6 +173,11 @@ class OriginStationHeader extends BaseComponent<
       },
     );
   };
+
+  private isOwner() {
+    const userInfo = localStorageManager.getUserInfo();
+    return userInfo && userInfo.id === this.state.station.ownerId;
+  }
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
