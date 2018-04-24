@@ -41,6 +41,7 @@ module.exports = {
       stats: 'none', // Silent webpack since it's not necessary.
       publicPath: '/',
     },
+    open: true,
     port: 3000,
     logLevel: 'warn',
     add: (app, middleware, options) => {
