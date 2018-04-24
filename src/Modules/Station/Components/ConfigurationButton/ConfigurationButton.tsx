@@ -1,6 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { SkipRule } from 'Models';
-import { SkipRuleType } from 'Models/Station';
+import { ISkipRule, SkipRuleType } from 'Models';
 import * as React from 'react';
 import {
   FormGroup,
@@ -13,19 +12,23 @@ import {
 import { StationServices } from 'Services/Http';
 import './ConfigurationButton.scss';
 
+export interface ISkipRuleRadio extends ISkipRule {
+  checked: boolean;
+}
+
 interface IProps {
   onSkipRuleChange: (skipRuleType: SkipRuleType) => void;
-  currentSkipRule: SkipRule;
+  currentSkipRule: ISkipRule;
   stationId: string;
 }
 
 interface IStates {
   modal: boolean;
-  rules: SkipRule[];
-  selectedRule: SkipRule;
+  rules: ISkipRuleRadio[];
+  selectedRule: ISkipRuleRadio;
 }
 
-const RULES: SkipRule[] = [
+const RULES: ISkipRuleRadio[] = [
   {
     skipRuleType: SkipRuleType.BASIC,
     description: 'Rule: More than 50% down votes can skip the song',
@@ -61,7 +64,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
           .getStationById(stationId)
           .subscribe((response: any) => {
             this.setState({
-              selectedRule: response.stationConfigurationDTO.skipRule,
+              selectedRule: response.stationConfiguration.skipRule,
             });
           });
       }
@@ -96,7 +99,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
             Skip rule configuration
           </ModalHeader>
           <ModalBody>
-            {rules.map((rule: SkipRule) => (
+            {rules.map((rule: ISkipRuleRadio) => (
               <FormGroup check key={rule.skipRuleType}>
                 <Label check>
                   <Input
@@ -123,8 +126,11 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
     );
   }
 
-  private _getNewSkipRules = (rules: SkipRule[], ruleType: SkipRuleType) => {
-    return rules.map((rule: SkipRule) => {
+  private _getNewSkipRules = (
+    rules: ISkipRuleRadio[],
+    ruleType: SkipRuleType,
+  ) => {
+    return rules.map((rule: ISkipRuleRadio) => {
       if (rule.skipRuleType === Number(ruleType)) {
         this.setState({
           selectedRule: rule,

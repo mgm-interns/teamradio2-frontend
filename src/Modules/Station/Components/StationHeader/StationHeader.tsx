@@ -2,8 +2,7 @@ import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
-import { SkipRule, Song, Station } from 'Models';
-import { SkipRuleType } from 'Models/Station';
+import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
 import { ConfigurationButton, StationSharing } from 'Modules/Station';
 import * as React from 'react';
 import { Fragment } from 'react';
@@ -42,7 +41,7 @@ type IProps = IStateProps & IOwnProps;
 
 interface IState {
   station: Station;
-  currentSkipRule: SkipRule;
+  currentSkipRule: ISkipRule;
 }
 
 class OriginStationHeader extends BaseComponent<
@@ -78,15 +77,14 @@ class OriginStationHeader extends BaseComponent<
   public _onSkipRuleChange = (skipRuleTpe: SkipRuleType) => {
     const { stationId } = this.props;
 
-    this.stationServices
-      .updateSkipRuleConfig(stationId, skipRuleTpe)
-      .subscribe(
-        (response: any) => {
-          // Re-set current skip rule after user change Skip rule Configuration
-          this.setState({ currentSkipRule: response.skipRule });
-        },
-        err => console.log(err),
-      );
+    this.stationServices.updateSkipRuleConfig(stationId, skipRuleTpe).subscribe(
+      (response: any) => {
+        this.setState({ currentSkipRule: response.skipRule });
+      },
+      (err: string) => {
+        this.showError(err);
+      }
+    );
   };
 
   public _renderButton = (
@@ -117,7 +115,7 @@ class OriginStationHeader extends BaseComponent<
       onVolumeClick,
       onLightClick,
       nowPlaying,
-      stationId
+      stationId,
     } = this.props;
     const { station, currentSkipRule } = this.state;
 
@@ -140,15 +138,16 @@ class OriginStationHeader extends BaseComponent<
           {!isPassive && (
             <Fragment>
               <StationSharing />
-              {station && userInfo.id === station.ownerId && (
-                <ConfigurationButton
-                  stationId={stationId}
-                  currentSkipRule={currentSkipRule}
-                  onSkipRuleChange={(skipRuleType: SkipRuleType) =>
-                    this._onSkipRuleChange(skipRuleType)
-                  }
-                />
-              )}
+              {station &&
+                userInfo.id === station.ownerId && (
+                  <ConfigurationButton
+                    stationId={stationId}
+                    currentSkipRule={currentSkipRule}
+                    onSkipRuleChange={(skipRuleType: SkipRuleType) =>
+                      this._onSkipRuleChange(skipRuleType)
+                    }
+                  />
+                )}
             </Fragment>
           )}
         </div>
@@ -160,15 +159,15 @@ class OriginStationHeader extends BaseComponent<
     this.stationServices.getStationById(stationId).subscribe(
       (station: any) => {
         this.setState({ station }, () => {
-          // Get current skip rule after join in a station
+          const stationConfiguration = this.state.station.stationConfiguration;
           this.setState({
-            currentSkipRule: this.state.station.stationConfigurationDTO
-              .skipRule,
+            currentSkipRule: stationConfiguration
+              ? stationConfiguration.skipRule
+              : null,
           });
         });
       },
-      err => {
-        // If station not found, redirect user to home page
+      (err: string) => {
         this.props.history.replace('/');
       },
     );
