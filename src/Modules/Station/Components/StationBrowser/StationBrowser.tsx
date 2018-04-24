@@ -1,21 +1,25 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
-import { StationItem } from 'Models';
+import { Station, StationItem } from 'Models';
 import * as React from 'react';
 import { Row } from 'reactstrap';
 import { StationServices } from 'Services/Http';
 import './StationBrowser.scss';
 import { StationBrowserItem } from './StationBrowserItem';
 
+export interface IStationBrowserProps {
+  stationId?: string;
+}
+
 interface IStationBrowserStates {
   listStation: StationItem[];
   stationItemContainerRef: HTMLElement;
 }
 
-export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
+export class StationBrowser extends BaseComponent<IStationBrowserProps, IStationBrowserStates> {
   public stationServices: StationServices;
 
-  constructor(props: {}) {
+  constructor(props: IStationBrowserProps) {
     super(props);
     this.stationServices = new StationServices();
     this.state = {
@@ -28,14 +32,14 @@ export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
     this.getListStation();
   }
 
-  public setListStation(listStationUpdated: StationItem[]) {
-    this.setState({ listStation: listStationUpdated });
+  public updateListStation(listStationToUpdate: StationItem[]) {
+    this.setState({ listStation: listStationToUpdate });
   }
 
   public getListStation() {
     this.stationServices.getListStation().subscribe(
       (listStation: StationItem[]) => {
-        this.setListStation(listStation);
+        this.updateListStation(listStation);
       },
       (err: string) => {
         this.showError(err);
@@ -47,6 +51,7 @@ export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
     if (this.state.listStation.length === 0) {
       return null;
     }
+    const listStationFiltered = this.filterListStation(this.state.listStation, this.props.stationId);
     return (
       <Row className="m-0 justify-content-center justify-content-center">
         <div className="col-xl-12 browser">
@@ -58,7 +63,7 @@ export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
               <div
                 className="station-item-container"
                 ref={this.bindStationItemContainerRef}>
-                {this.state.listStation.map(
+                {listStationFiltered.map(
                   (item: StationItem, index: number) => {
                     return <StationBrowserItem key={index} {...item} />;
                   },
@@ -76,4 +81,10 @@ export class StationBrowser extends BaseComponent<{}, IStationBrowserStates> {
       stationItemContainerRef: node,
     });
   };
+
+  private filterListStation(listStation: StationItem[], stationIdToFilter: string) {
+    return listStation.filter((station: Station) => {
+      return station.friendlyId !== stationIdToFilter;
+    });
+  }
 }
