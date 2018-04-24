@@ -1,6 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
-import { Dispatch } from 'Configuration/Redux';
 import { IApplicationState } from 'Configuration/Redux';
+import { Dispatch } from 'Configuration/Redux';
 import { FavoriteSong, PlaylistSong } from 'Models';
 import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
@@ -8,7 +8,8 @@ import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import { StationPlaylistSSE } from 'Services/SSE';
-import { Favorite, IFavoriteItem } from './Favorite';
+import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
+import { Favorite } from './Favorite';
 import { History } from './History';
 import { Playlist } from './Playlist';
 import './PlaylistTabs.scss';
@@ -17,7 +18,7 @@ const PLAYLIST_TAB_ID = '1';
 const HISTORY_TAB_ID = '2';
 const FAVOURITE_TAB_ID = '3';
 
-interface IStateProps {
+interface IReduxProps {
   playlist: PlaylistSong[];
 }
 
@@ -26,15 +27,15 @@ interface IOwnProps {
 }
 
 interface IDispatcherProps {
-  updateNewestFavoriteList: (favoriteList: IFavoriteItem[]) => void;
+  updateNewestFavoriteList: (favoriteList: FavoriteSongItem[]) => void;
 }
 
 interface IStates {
   activeTab: string;
-  favoriteList: IFavoriteItem[];
+  favoriteList: FavoriteSongItem[];
 }
 
-type IProps = IOwnProps & IDispatcherProps & IStateProps;
+type IProps = IOwnProps & IDispatcherProps & IReduxProps;
 
 export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   private stationPlaylistSSE: StationPlaylistSSE;
@@ -84,7 +85,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
                 this.state.activeTab === PLAYLIST_TAB_ID ? 'active' : ''
               }
               onClick={() => this.openTab(PLAYLIST_TAB_ID)}>
-              Playlist
+              Playlist {playlist.length ? `(${playlist.length})` : null}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -111,7 +112,10 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
             <Playlist playlist={playlist} stationId={stationId} />
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
-            <History stationId={stationId} isActive={this.state.activeTab === HISTORY_TAB_ID} />
+            <History
+              stationId={stationId}
+              isActive={this.state.activeTab === HISTORY_TAB_ID}
+            />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
             <Favorite />
@@ -136,26 +140,12 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
     });
   };
 
-  private convertFavortieToIFavoriteItem = (
-    item: FavoriteSong,
-  ): IFavoriteItem => {
-    return {
-      id: item.id,
-      userId: item.userId,
-      songId: item.songId,
-      song: item.song,
-    };
-  };
-
   private getListFavorite = () => {
     this.userServices.getListFavorite().subscribe(
       (res: FavoriteSong[]) => {
-        const favoriteList: IFavoriteItem[] = res.map(
-          this.convertFavortieToIFavoriteItem,
-        );
-        this.props.updateNewestFavoriteList(favoriteList);
+        this.props.updateNewestFavoriteList(res);
         this.setState({
-          favoriteList,
+          favoriteList: res,
         });
       },
       (err: string) => {
@@ -166,15 +156,15 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  updateNewestFavoriteList: (favoriteList: IFavoriteItem[]) =>
+  updateNewestFavoriteList: (favoriteList: FavoriteSongItem[]) =>
     dispatch(updateNewestFavoriteList(favoriteList)),
 });
 
-const mapStateToProps = (state: IApplicationState): IStateProps => ({
+const mapStateToProps = (state: IApplicationState): IReduxProps => ({
   playlist: state.playlist.playlist,
 });
 
-export const PlaylistTabs = connect<IStateProps, IDispatcherProps>(
+export const PlaylistTabs = connect<IReduxProps, IDispatcherProps, IOwnProps>(
   mapStateToProps,
   mapDispatchToProps,
 )(PlaylistTabsComponent);
