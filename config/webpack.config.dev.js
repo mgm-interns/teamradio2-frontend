@@ -19,6 +19,7 @@ module.exports = {
   // This means they will be the "root" imports that are included in JS bundle.
   entry: [paths.appIndexJs],
   mode: 'development',
+  devtool: 'source-map',
   output: {
     path: paths.appBuild,
     // This does not produce a real file. It's just the virtual path that is
