@@ -5,5 +5,4 @@ export class FavoriteSong {
   public userId: string;
   public songId: string;
   public song: Song;
-  public createdAt: string;
 }

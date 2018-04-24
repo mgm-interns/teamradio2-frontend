@@ -1,6 +1,6 @@
 import { RegisteredUser } from 'Models';
+import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { ActionCreator } from 'redux';
-import { IFavoriteItem } from '../../../Station/Components/PlaylistTabs/Favorite/FavoriteItem';
 import { actionTypes } from '../Constants';
 
 export const updateUserInfo: ActionCreator<any> = (
@@ -10,7 +10,9 @@ export const updateUserInfo: ActionCreator<any> = (
   payload: userInfo,
 });
 
-export const addFavorite: ActionCreator<any> = (favorite: IFavoriteItem) => ({
+export const addFavorite: ActionCreator<any> = (
+  favorite: FavoriteSongItem,
+) => ({
   type: actionTypes.ADD_FAVORITE,
   payload: favorite,
 });
@@ -21,7 +23,7 @@ export const removeFavorite: ActionCreator<any> = (songId: string) => ({
 });
 
 export const updateNewestFavoriteList: ActionCreator<any> = (
-  favoriteList: IFavoriteItem[],
+  favoriteList: FavoriteSongItem[],
 ) => ({
   type: actionTypes.UPDATE_NEWEST_FAVORITE_LIST,
   payload: favoriteList,
