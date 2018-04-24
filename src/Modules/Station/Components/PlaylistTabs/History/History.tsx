@@ -7,6 +7,7 @@ import { HistoryItem } from './HistoryItem';
 
 interface IHistoryProps {
   stationId: string;
+  isActive: boolean;
 }
 
 interface IHistoryState {
@@ -50,8 +51,10 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     );
   }
 
-  public componentWillReceiveProps() {
-    this.updateHistory();
+  public componentWillReceiveProps(nextProps: IHistoryProps) {
+    if (nextProps.isActive) {
+      this.updateHistory();
+    }
   }
 
   public render() {
