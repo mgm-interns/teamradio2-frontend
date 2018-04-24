@@ -84,7 +84,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
                 this.state.activeTab === PLAYLIST_TAB_ID ? 'active' : ''
               }
               onClick={() => this.openTab(PLAYLIST_TAB_ID)}>
-              Playlist
+              Playlist {playlist.length ? `(${playlist.length})` : null}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -111,7 +111,10 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
             <Playlist playlist={playlist} stationId={stationId} />
           </TabPane>
           <TabPane tabId={HISTORY_TAB_ID}>
-            <History stationId={stationId} isActive={this.state.activeTab === HISTORY_TAB_ID} />
+            <History
+              stationId={stationId}
+              isActive={this.state.activeTab === HISTORY_TAB_ID}
+            />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
             <Favorite />
