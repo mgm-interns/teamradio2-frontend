@@ -55,8 +55,10 @@ export class PasswordForm extends BaseComponent<IProps, IState> {
     this.userServices.changePassword({ old_password, new_password }).subscribe(
       (res: any) => {
         this.showFormAlerSuccess();
+        this.showSuccess("Password is changed successfully.");
         setSubmitting(false);
         resetForm();
+        this.props.onCloseModal();
       },
       (err: any) => {
         setSubmitting(false);
