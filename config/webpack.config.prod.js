@@ -7,6 +7,7 @@ const WebpackBar = require('webpackbar');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const paths = require('./paths');
 
@@ -58,6 +59,9 @@ module.exports = {
             include: paths.appSrc,
             exclude: /node_modules/,
             use: [
+              {
+                loader: require.resolve('thread-loader'),
+              },
               {
                 loader: require.resolve('babel-loader'),
                 options: {
@@ -154,6 +158,13 @@ module.exports = {
     // Copies individual files or entire directories to the build directory
     new CopyWebpackPlugin([{ from: './public/img', to: 'img' }], {
       copyUnmodified: false,
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      tsconfig: paths.appTsConfigJson,
+      tslint: paths.appTsLintJson,
+      watch: paths.appSrc,
+      async: false,
+      checkSyntacticErrors: true,
     }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
