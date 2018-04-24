@@ -141,6 +141,9 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   };
 
   private getListFavorite = () => {
+    if (!this.isLoggedIn()) {
+      return;
+    }
     this.userServices.getListFavorite().subscribe(
       (res: FavoriteSong[]) => {
         this.props.updateNewestFavoriteList(res);

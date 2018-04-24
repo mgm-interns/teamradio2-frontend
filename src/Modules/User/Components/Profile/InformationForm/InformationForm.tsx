@@ -70,6 +70,7 @@ export class InformationForms extends BaseComponent<IProps, IStates> {
 
     this.userServices.updateUserInfo(newUserInfo).subscribe(
       (userInfoUpdated: RegisteredUser) => {
+        this.showSuccess('Your profile has been successfully updated!');
         this.props.updateUserInfo(userInfoUpdated);
       },
       (err: string) => {
@@ -81,7 +82,6 @@ export class InformationForms extends BaseComponent<IProps, IStates> {
   public render() {
     const { onCloseModal } = this.props;
     if (!this.state.isLoadingUserInfo) {
-      this.showSuccess('Your profile has been successfully updated!');
       const { userInfo } = this.state;
       return (
         <FormWrapper
