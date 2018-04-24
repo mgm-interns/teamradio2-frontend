@@ -1,4 +1,3 @@
-import {FavoriteSong} from "./FavoriteSong";
+import { FavoriteSong } from './FavoriteSong';
 
-export class FavoriteSongItem extends FavoriteSong {
-}
+export class FavoriteSongItem extends FavoriteSong {}

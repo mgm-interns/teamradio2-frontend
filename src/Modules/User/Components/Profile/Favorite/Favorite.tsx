@@ -67,9 +67,11 @@ class FavoriteComponent extends BaseComponent<
           Hear the tracks you've saved
         </h2>
         <div className="d-flex flex-row flex-wrap my-flex-container pd-left-15">
-          {this.state.favoriteList.map((item: FavoriteSongItem, index: number) => {
-            return <FavoriteItem key={index} {...item} />;
-          })}
+          {this.state.favoriteList.map(
+            (item: FavoriteSongItem, index: number) => {
+              return <FavoriteItem key={index} {...item} />;
+            },
+          )}
         </div>
       </div>
     );

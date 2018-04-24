@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import { StationPlaylistSSE } from 'Services/SSE';
-import {FavoriteSongItem} from "../../../../Models/FavoriteSong/FavoriteSongItem";
+import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { Favorite } from './Favorite';
 import { History } from './History';
 import { Playlist } from './Playlist';
