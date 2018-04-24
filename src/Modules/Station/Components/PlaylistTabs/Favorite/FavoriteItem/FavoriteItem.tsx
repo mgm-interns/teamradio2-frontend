@@ -6,11 +6,14 @@ import * as React from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
 
-export class FavoriteItem extends BaseComponent<
-  FavoriteSongItem,
-  FavoriteSongItem
-> {
-  constructor(props: FavoriteSongItem) {
+interface IProps extends FavoriteSongItem {
+  replaySong: (youtubeVideoId: string, message: string) => void;
+}
+
+interface IStates extends FavoriteSongItem {}
+
+export class FavoriteItem extends BaseComponent<IProps, IStates> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       id: this.props.id,
@@ -20,7 +23,7 @@ export class FavoriteItem extends BaseComponent<
     };
   }
 
-  public componentWillReceiveProps(nextProps: FavoriteSongItem) {
+  public componentWillReceiveProps(nextProps: IProps) {
     if (this.props.song !== nextProps.song) {
       this.setState({
         song: nextProps.song,
@@ -44,13 +47,14 @@ export class FavoriteItem extends BaseComponent<
     }
   }
 
-  public render() {
-    const song = this.state.song;
+  public replaySong = () => {
+    const { songId } = this.state.song;
+    const message = ''; // TODO: add message when replay the song in the future
+    this.props.replaySong(songId, message);
+  };
 
-    const thumbnail = song.thumbnail;
-    const title = song.title;
-    const duration = song.duration;
-    const songId = song.id;
+  public render() {
+    const { thumbnail, title, duration, songId } = this.state.song;
 
     return (
       <Row className={classNames('m-0', 'item-container')}>
@@ -71,11 +75,7 @@ export class FavoriteItem extends BaseComponent<
               </UncontrolledTooltip>
             </Col>
             <Col xs={2} className="pr-0">
-              <div
-                className="action-icon"
-                onClick={() => {
-                  alert('Clicked!');
-                }}>
+              <div className="action-icon" onClick={this.replaySong}>
                 <i
                   className="fa fa-reply action-button"
                   id={'add-favourite-' + songId}
