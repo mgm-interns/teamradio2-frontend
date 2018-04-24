@@ -1,12 +1,12 @@
-import { BaseComponent } from 'BaseComponent';;
+import { BaseComponent } from 'BaseComponent';
 import { IApplicationState } from 'Configuration/Redux';
+import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { PlaylistSong } from 'Models/Song';
 import * as React from 'react';
 import FlipMoveList from 'react-flip-move';
 import { connect } from 'react-redux';
 import { Card, CardBody } from 'reactstrap';
 import { SongServices, UserServices } from 'Services/Http';
-import { IFavoriteItem } from '../Favorite';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 
@@ -15,23 +15,25 @@ interface IPlaylistProps {
   stationId: string;
 }
 
-interface IFavoriteListProps {
-  favoriteList: IFavoriteItem[];
+interface IReduxProps {
+  favoriteList: FavoriteSongItem[];
 }
+
+type IOwnProps = IPlaylistProps;
 
 interface IStates {
   playlist: PlaylistSong[];
   votingError: string;
-  favoriteList: IFavoriteItem[];
+  favoriteList: FavoriteSongItem[];
 }
 
-type Iprops = IPlaylistProps & IFavoriteListProps;
+type IProps = IPlaylistProps & IReduxProps;
 
-export class PlaylistComponent extends BaseComponent<Iprops, IStates> {
+export class PlaylistComponent extends BaseComponent<IProps, IStates> {
   private userServices: UserServices;
   private songServices: SongServices;
 
-  constructor(props: Iprops) {
+  constructor(props: IProps) {
     super(props);
 
     this.userServices = new UserServices();
@@ -83,12 +85,12 @@ export class PlaylistComponent extends BaseComponent<Iprops, IStates> {
 
   public isFavorited(
     playlistItem: PlaylistSong,
-    favoriteList: IFavoriteItem[],
+    favoriteList: FavoriteSongItem[],
   ) {
     return favoriteList.some(item => item.songId === playlistItem.songId);
   }
 
-  public componentWillReceiveProps(nextProps: Iprops) {
+  public componentWillReceiveProps(nextProps: IProps) {
     if (this.props.favoriteList !== nextProps.favoriteList) {
       const favoriteList = nextProps.favoriteList;
       this.setState({
@@ -138,10 +140,10 @@ export class PlaylistComponent extends BaseComponent<Iprops, IStates> {
   }
 }
 
-const mapStateToProps = (state: IApplicationState): IFavoriteListProps => ({
+const mapStateToProps = (state: IApplicationState): IReduxProps => ({
   favoriteList: state.favoriteList.favoriteList,
 });
 
-export const Playlist = connect<IFavoriteListProps>(mapStateToProps)(
+export const Playlist = connect<IReduxProps, {}, IOwnProps>(mapStateToProps)(
   PlaylistComponent,
 );

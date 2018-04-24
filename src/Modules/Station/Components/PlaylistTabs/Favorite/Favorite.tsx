@@ -1,23 +1,24 @@
 import { BaseComponent } from 'BaseComponent';
 import { IApplicationState } from 'Configuration/Redux';
+import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import '../PlaylistTabs.scss';
-import { FavoriteItem, IFavoriteItem } from './FavoriteItem';
+import { FavoriteItem } from './FavoriteItem';
 
-interface IFavoriteProps {
-  favoriteList: IFavoriteItem[];
+interface IReduxProps {
+  favoriteList: FavoriteSongItem[];
 }
 
 interface IFavoriteStates {
-  favoriteList: IFavoriteItem[];
+  favoriteList: FavoriteSongItem[];
 }
 
 export class FavoriteComponent extends BaseComponent<
-  IFavoriteProps,
+  IReduxProps,
   IFavoriteStates
 > {
-  constructor(props: IFavoriteProps) {
+  constructor(props: IReduxProps) {
     super(props);
 
     this.state = {
@@ -25,7 +26,7 @@ export class FavoriteComponent extends BaseComponent<
     };
   }
 
-  public componentWillReceiveProps(nextProps: IFavoriteProps) {
+  public componentWillReceiveProps(nextProps: IReduxProps) {
     if (this.props.favoriteList !== nextProps.favoriteList) {
       const favoriteList = nextProps.favoriteList;
       this.setState({
@@ -38,7 +39,7 @@ export class FavoriteComponent extends BaseComponent<
     return (
       <div className="list-container">
         {this.state.favoriteList.map(
-          (favorite: IFavoriteItem, index: number) => {
+          (favorite: FavoriteSongItem, index: number) => {
             return <FavoriteItem key={index} {...favorite} />;
           },
         )}
@@ -54,10 +55,10 @@ export class FavoriteComponent extends BaseComponent<
   }
 }
 
-const mapStateToProps = (state: IApplicationState): IFavoriteProps => ({
+const mapStateToProps = (state: IApplicationState): IReduxProps => ({
   favoriteList: state.favoriteList.favoriteList,
 });
 
-export const Favorite = connect<IFavoriteProps>(mapStateToProps)(
+export const Favorite = connect<IReduxProps, {}, {}>(mapStateToProps)(
   FavoriteComponent,
 );

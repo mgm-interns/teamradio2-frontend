@@ -1,20 +1,16 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { YoutubeHelper } from 'Helpers';
-import { Song } from 'Models/Song';
+import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import * as React from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
 
-export interface IFavoriteItem {
-  id: string;
-  userId: string;
-  songId: string;
-  song: Song;
-}
-
-export class FavoriteItem extends BaseComponent<IFavoriteItem, IFavoriteItem> {
-  constructor(props: IFavoriteItem) {
+export class FavoriteItem extends BaseComponent<
+  FavoriteSongItem,
+  FavoriteSongItem
+> {
+  constructor(props: FavoriteSongItem) {
     super(props);
     this.state = {
       id: this.props.id,
@@ -24,7 +20,7 @@ export class FavoriteItem extends BaseComponent<IFavoriteItem, IFavoriteItem> {
     };
   }
 
-  public componentWillReceiveProps(nextProps: IFavoriteItem) {
+  public componentWillReceiveProps(nextProps: FavoriteSongItem) {
     if (this.props.song !== nextProps.song) {
       this.setState({
         song: nextProps.song,

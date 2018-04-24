@@ -1,5 +1,5 @@
 import { RegisteredUser } from 'Models';
-import { IFavoriteItem } from 'Modules/Station/Components/PlaylistTabs/Favorite';
+import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 
 export interface IUser {
   userInfo: RegisteredUser;
@@ -9,5 +9,5 @@ export interface IUser {
 }
 
 export interface IFavorite {
-  favoriteList: IFavoriteItem[];
+  favoriteList: FavoriteSongItem[];
 }
