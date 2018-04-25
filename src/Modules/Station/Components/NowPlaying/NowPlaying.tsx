@@ -62,22 +62,28 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     const { progress } = this.state;
     const { muted, nowPlaying } = this.props;
     const url = nowPlaying ? nowPlaying.url : null;
+    const message = nowPlaying ? nowPlaying.messages : null;
 
     if (isMobileBrowser()) {
       return null;
     }
     return (
-      <StationPlayer
-        url={url}
-        playing={true}
-        showProgressbar
-        muted={muted}
-        playerRef={this.bindPlayerRef}
-        progress={progress}
-        onProgress={this.onProgress}
-        onStart={this.onStart}
-        onEnded={this.onEnded}
-      />
+      <div className="player-container">
+        {message ? (
+          <p className="player-message">{message}</p>
+        ) : null}
+        <StationPlayer
+          url={url}
+          playing={true}
+          showProgressbar
+          muted={muted}
+          playerRef={this.bindPlayerRef}
+          progress={progress}
+          onProgress={this.onProgress}
+          onStart={this.onStart}
+          onEnded={this.onEnded}
+        />
+      </div>
     );
   }
 
