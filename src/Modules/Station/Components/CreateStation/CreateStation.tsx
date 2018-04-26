@@ -118,8 +118,8 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
       ? StationPrivacy.STATION_PRIVATE
       : StationPrivacy.STATION_PUBLIC;
     this.stationServices.createStation(name, stationPrivacy).subscribe(
-      (res: Station) => {
-        this.props.history.push(`/station/${res.id}`);
+      (station: Station) => {
+        this.props.history.push(`/station/${station.friendlyId}`);
       },
       (err: any) => {
         this.setState({ error: err });
