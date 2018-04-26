@@ -15,10 +15,6 @@ export class ForgotPassword extends Component {
             <Col md="6">
               <Card className="mx-4">
                 <CardBody className="p-4">
-                  <h1>Forgot password?</h1>
-                  <p className="text-muted">
-                    Please enter the email address registered on your account.
-                  </p>
                   <ForgotPasswordForm />
                 </CardBody>
               </Card>

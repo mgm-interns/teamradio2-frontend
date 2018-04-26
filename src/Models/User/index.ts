@@ -3,3 +3,4 @@ export { UnregisteredUser } from './UnregisteredUser';
 export { UnauthorizedUser } from './UnauthorizedUser';
 export { AccessToken } from './AccessToken';
 export { PasswordForm } from './PasswordForm';
+export { EmailForm } from './EmailForm';

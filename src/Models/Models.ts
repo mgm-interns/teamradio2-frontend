@@ -4,6 +4,7 @@ export {
   UnregisteredUser,
   UnauthorizedUser,
   PasswordForm,
+  EmailForm,
 } from './User';
 export {
   ISkipRule,
