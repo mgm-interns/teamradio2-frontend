@@ -1,9 +1,9 @@
+import { LoadingIndicator } from 'Components/LoadingIndicator';
 import { Field, Form, FormikProps } from 'formik';
 import * as React from 'react';
-import { Button, FormFeedback, FormGroup, InputGroup, Alert } from 'reactstrap';
-import { LoadingIndicator } from 'Components/LoadingIndicator';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { Alert, Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
 
 export interface IFormValues {
   password: string;
