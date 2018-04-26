@@ -4,11 +4,16 @@ import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
 import { IFormProps, IFormValues, InnerForm } from './InnerForm';
+import { RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 interface IState extends IFormProps {}
 interface IProps {}
 
-export class ResetPasswordForm extends BaseComponent<IProps, IState> {
+export class ResetPasswordFormComponent extends BaseComponent<
+  IProps & RouteComponentProps<any>,
+  IState
+> {
   private userServices: UserServices;
   private readonly initialValues: IFormValues;
 
@@ -20,11 +25,57 @@ export class ResetPasswordForm extends BaseComponent<IProps, IState> {
       confirmPassword: '',
     };
 
+    this.state = {
+      success: false,
+      serverError: '',
+    };
+
     this.userServices = new UserServices();
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   public handleSubmit(values: IFormValues, formikActions: FormikActions<any>) {
-    console.log(values);
+    this.clearFormAlert();
+    const { password } = values;
+    this.resetPassword(password, formikActions);
+  }
+
+  public resetPassword(password: string, formikActions: FormikActions<any>) {
+    const { setSubmitting, resetForm } = formikActions;
+    const { match } = this.props;
+    const token = match.params.token;
+
+    this.userServices.resetPassword(password, token).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.showFormAlerSuccess();
+        }
+        setSubmitting(false);
+      },
+      (err: any) => {
+        console.log(err);
+        this.showFormAlertError(err);
+        resetForm();
+        setSubmitting(false);
+      },
+    );
+  }
+
+  public showFormAlertError(err: string) {
+    this.setState({
+      serverError: err,
+    });
+  }
+
+  public showFormAlerSuccess() {
+    this.setState({ success: true });
+  }
+
+  public clearFormAlert() {
+    this.setState({
+      serverError: '',
+      success: false,
+    });
   }
 
   public validate(values: IFormValues) {
@@ -49,6 +100,7 @@ export class ResetPasswordForm extends BaseComponent<IProps, IState> {
   }
 
   public render() {
+    const { success, serverError } = this.state;
     return (
       <Formik
         initialValues={this.initialValues}
@@ -56,6 +108,8 @@ export class ResetPasswordForm extends BaseComponent<IProps, IState> {
         render={formikProps => (
           <InnerForm
             {...formikProps}
+            success={success}
+            serverError={serverError}
           />
         )}
         validate={this.validate}
@@ -63,3 +117,5 @@ export class ResetPasswordForm extends BaseComponent<IProps, IState> {
     );
   }
 }
+
+export const ResetPasswordForm = withRouter(ResetPasswordFormComponent);

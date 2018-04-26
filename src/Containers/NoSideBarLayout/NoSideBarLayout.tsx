@@ -65,7 +65,7 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
                 render={() => this.authenticatedRender(<ForgotPassword />)}
               />
               <Route
-                path="/reset-password"
+                path="/reset-password/:token"
                 name="ResetPassword"
                 render={() => this.authenticatedRender(<ResetPassword />)}
               />

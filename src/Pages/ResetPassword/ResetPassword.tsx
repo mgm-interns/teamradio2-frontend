@@ -15,10 +15,6 @@ export class ResetPassword extends Component {
               <Col md="6">
                 <Card className="mx-4">
                   <CardBody className="p-4">
-                    <h1>Reset password</h1>
-                    <p className="text-muted">
-                      Please enter your new password.
-                    </p>
                     <ResetPasswordForm />
                   </CardBody>
                 </Card>
