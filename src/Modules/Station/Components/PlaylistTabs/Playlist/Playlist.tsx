@@ -53,7 +53,6 @@ export class PlaylistComponent extends BaseComponent<IProps, IStates> {
       response => {},
       err => {
         this.setState({ votingError: err });
-        this.showError(err);
       },
     );
   };
