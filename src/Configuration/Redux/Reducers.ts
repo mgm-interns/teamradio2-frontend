@@ -1,4 +1,4 @@
-import { playlistReducer } from 'Modules/Station/Redux/Reducer';
+import { chatReducer, playlistReducer } from 'Modules/Station/Redux/Reducer';
 import { IPlaylistState } from 'Modules/Station/Redux/Types';
 import { favoriteReducer, userReducer } from 'Modules/User/Redux/Reducer';
 import { IUser } from 'Modules/User/Redux/Types';
@@ -10,6 +10,7 @@ export interface IApplicationState {
   user: IUser;
   playlist: IPlaylistState;
   favoriteList: IFavorite;
+  chat: IMessage;
 }
 
 export const reducers: Reducer<IApplicationState> = combineReducers<
@@ -18,4 +19,5 @@ export const reducers: Reducer<IApplicationState> = combineReducers<
   user: userReducer,
   playlist: playlistReducer,
   favoriteList: favoriteReducer,
+  chat: chatReducer,
 });

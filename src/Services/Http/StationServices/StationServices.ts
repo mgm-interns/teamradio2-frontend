@@ -44,4 +44,14 @@ export class StationServices {
       body,
     );
   }
+
+  public sendMessage(stationId: string, message: string): Observable<Station> {
+    const body = {
+      content: message,
+    };
+    return this._httpServices.post(
+      `${this.serviceUrl}/${stationId}/messages`,
+      body,
+    );
+  }
 }
