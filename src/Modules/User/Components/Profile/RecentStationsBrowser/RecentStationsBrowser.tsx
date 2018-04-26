@@ -12,7 +12,7 @@ export class RecentStationsBrowser extends StationBrowser {
   }
 
   public getListStation() {
-    this.userServices.getListCurrentStation().subscribe(
+    this.userServices.getListMyRecentStation().subscribe(
       (listStation: StationItem[]) => {
         this.updateListStation(listStation);
       },

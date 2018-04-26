@@ -38,7 +38,7 @@ class FavoriteComponent extends BaseComponent<
   }
 
   public getListFavoriteSong() {
-    this.userServices.getListFavorite().subscribe(
+    this.userServices.getListMyFavorite().subscribe(
       (favoriteSongItem: FavoriteSongItem[]) => {
         this.props.updateNewestFavoriteList(favoriteSongItem);
         this.setState({

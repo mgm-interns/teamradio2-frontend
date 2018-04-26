@@ -15,6 +15,7 @@ export class UserServices {
   private _httpServices: HttpServices;
   private _oAuthService: OAuthService;
   private serviceUrl = 'users';
+  private currentUserServiceUrl = `${this.serviceUrl}/me`;
 
   constructor() {
     this._httpServices = new HttpServices();
@@ -22,14 +23,14 @@ export class UserServices {
   }
 
   public getCurrentUserProfile(): Observable<RegisteredUser> {
-    return this._httpServices.get(`${this.serviceUrl}/me`);
+    return this._httpServices.get(this.currentUserServiceUrl);
   }
 
   public getListMyStation(): Observable<Station[]> {
-    return this._httpServices.get('users/me/stations');
+    return this._httpServices.get(`${this.currentUserServiceUrl}/stations`);
   }
 
-  public getListCurrentStation(): Observable<Station[]> {
+  public getListMyRecentStation(): Observable<Station[]> {
     return this._httpServices.get('user/me/recent-station');
   }
 
@@ -50,41 +51,50 @@ export class UserServices {
   }
 
   public updateUserInfo(user: RegisteredUser): Observable<any> {
-    return this._httpServices.patch(`${this.serviceUrl}/me`, user);
+    return this._httpServices.patch(this.currentUserServiceUrl, user);
   }
 
   public uploadUserAvatar(userAvatar: Blob): Observable<any> {
     const formData = new FormData();
     formData.append('file', userAvatar);
-    return this._httpServices.patch(`${this.serviceUrl}/me/avatar`, formData);
+    return this._httpServices.patch(
+      `${this.currentUserServiceUrl}/avatar`,
+      formData,
+    );
   }
 
   public uploadUserCover(userAvatar: Blob): Observable<any> {
     const formData = new FormData();
     formData.append('file', userAvatar);
-    return this._httpServices.patch(`${this.serviceUrl}/me/cover`, formData);
+    return this._httpServices.patch(
+      `${this.currentUserServiceUrl}/cover`,
+      formData,
+    );
   }
 
-  public getListFavorite(): Observable<FavoriteSong[]> {
-    return this._httpServices.get(this.serviceUrl + '/me/favorites');
+  public getListMyFavorite(): Observable<FavoriteSong[]> {
+    return this._httpServices.get(`${this.currentUserServiceUrl}/favorites`);
   }
 
   public addSongToFavorite(songId: string): Observable<FavoriteSong> {
     const params: any = {
       songId,
     };
-    return this._httpServices.post(this.serviceUrl + '/me/favorites', params);
+    return this._httpServices.post(
+      `${this.currentUserServiceUrl}/favorites`,
+      params,
+    );
   }
 
   public removeFavorite(songId: string): Observable<{}> {
     return this._httpServices.delete(
-      `${this.serviceUrl}/me/favorites/${songId}`,
+      `${this.currentUserServiceUrl}/favorites/${songId}`,
     );
   }
 
   public changePassword(passwordForm: PasswordForm): Observable<any> {
     return this._httpServices.patch(
-      `${this.serviceUrl}/me/password`,
+      `${this.currentUserServiceUrl}/password`,
       passwordForm,
     );
   }
