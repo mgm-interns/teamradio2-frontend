@@ -1,5 +1,5 @@
 import { chatReducer, playlistReducer } from 'Modules/Station/Redux/Reducer';
-import { IPlaylistState } from 'Modules/Station/Redux/Types';
+import { IMessage, IPlaylistState } from 'Modules/Station/Redux/Types';
 import { favoriteReducer, userReducer } from 'Modules/User/Redux/Reducer';
 import { IUser } from 'Modules/User/Redux/Types';
 import { IFavorite } from 'Modules/User/Redux/Types/Types';
