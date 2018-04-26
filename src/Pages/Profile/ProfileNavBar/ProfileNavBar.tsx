@@ -1,4 +1,8 @@
-import { Favorite, MyStationsBrowser } from 'Modules/User';
+import {
+  Favorite,
+  MyStationsBrowser,
+  RecentStationsBrowser,
+} from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
 import { Container, Nav, NavItem, NavLink, Row } from 'reactstrap';
@@ -63,6 +67,8 @@ export class ProfileNavBar extends Component<{}, IProfileNavBarStates> {
             <TabPane tabId={STATION_TAB_ID}>
               <h2 className="title-header pd-left-15">My stations</h2>
               <MyStationsBrowser />
+              <h2 className="title-header pd-left-15">Recent</h2>
+              <RecentStationsBrowser />
             </TabPane>
             <TabPane tabId={FAVORITE_TAB_ID}>
               <Favorite />

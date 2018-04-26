@@ -28,6 +28,10 @@ export class UserServices {
     return this._httpServices.get('users/me/stations');
   }
 
+  public getListCurrentStation(): Observable<Station[]> {
+    return this._httpServices.get('user/me/recent-station');
+  }
+
   public register(user: UnregisteredUser): Observable<RegisteredUser> {
     return this._httpServices.post(`${this.serviceUrl}/register`, user);
   }
