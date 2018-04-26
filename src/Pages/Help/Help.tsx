@@ -9,7 +9,7 @@ export class Help extends Component {
   public render() {
     return (
       <div className="help-container">
-        <div className="cover"/>
+        <div className="cover" />
         <div className="content">
           <ReactMarkdown source={Resource.score} />
         </div>
