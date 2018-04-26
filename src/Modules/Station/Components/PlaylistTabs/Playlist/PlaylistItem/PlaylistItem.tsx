@@ -1,9 +1,11 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
-import { Dispatch } from 'Configuration/Redux';
+import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { YoutubeHelper } from 'Helpers';
+import { localStorageManager } from 'Helpers';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
-import { PlaylistSong, Song } from 'Models/Song';
+import {NowPlayingSong, PlaylistSong, Song } from 'Models/Song';
+import { RegisteredUser } from 'Models/User';
 import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -23,21 +25,29 @@ interface ISongProps {
   song: Song;
 }
 
-type IOwnProps = PlaylistSong & IPlayListItemProps & ISongProps;
+interface IStateProps {
+  nowPlaying: NowPlayingSong;
+}
 
 interface IDispatcherProps {
   addFavorite: (favorite: FavoriteSongItem) => void;
   removeFavorite: (songId: string) => void;
 }
 
-type IProps = IOwnProps & IDispatcherProps;
+interface IPlayListItemMethodProps {}
+
+type IProps = IPlayListItemProps &
+  IPlayListItemMethodProps &
+  PlaylistSong &
+  ISongProps &
+  IDispatcherProps &
+  IStateProps;
 
 interface IPlayListItemStates {
   isUpVote: boolean;
   isDownVote: boolean;
   upVoteCount: number;
   downVoteCount: number;
-  updateVote: boolean;
   isFavorite: boolean;
 }
 
@@ -54,30 +64,41 @@ export class PlaylistItemComponent extends BaseComponent<
       isDownVote: false,
       upVoteCount: this.props.upVoteCount,
       downVoteCount: this.props.downVoteCount,
-      updateVote: false,
       isFavorite: this.props.isFavorite,
     };
     this.setFavoriteSong = this.setFavoriteSong.bind(this);
     this.setUpVote = this.setUpVote.bind(this);
   }
 
+  public componentDidMount() {
+    const { upvoteUserList, downvoteUserList } = this.props;
+    this.setState({
+      isUpVote: this.isUpVote(upvoteUserList),
+      isDownVote: this.isDownVote(downvoteUserList),
+      upVoteCount: upvoteUserList.length,
+      downVoteCount: downvoteUserList.length,
+    });
+  }
+
   public componentWillReceiveProps(nextProps: IProps) {
     if (this.props.isFavorite !== nextProps.isFavorite) {
       this.setState({ isFavorite: nextProps.isFavorite });
     }
+
     if (nextProps.votingError !== '') {
-      this.setState({ updateVote: false });
+      this.setState({
+        upVoteCount: this.props.upVoteCount,
+        isUpVote: false,
+      });
     }
     if (this.props.upVoteCount !== nextProps.upVoteCount) {
       this.setState({
         upVoteCount: nextProps.upVoteCount,
-        updateVote: false,
       });
     }
     if (this.props.downVoteCount !== nextProps.downVoteCount) {
       this.setState({
         downVoteCount: nextProps.downVoteCount,
-        updateVote: false,
       });
     }
   }
@@ -106,39 +127,69 @@ export class PlaylistItemComponent extends BaseComponent<
   }
 
   public setUpVote() {
-    const { upVote, id } = this.props;
+    const { upVote, id, creator } = this.props;
+    const currentUser = localStorageManager.getUserInfo();
+
+    if (!currentUser) {
+      this.showError('You need to login to use this feature');
+      return;
+    }
+
+    if (currentUser.id === creator.id) {
+      this.showError('You cannot upvote your own song');
+      return;
+    }
 
     this.setState({
-      updateVote: true,
+      upVoteCount: this.state.upVoteCount + (this.state.isUpVote ? -1 : 1),
+      downVoteCount:
+        this.state.downVoteCount + (this.state.isDownVote ? -1 : 0),
+      isUpVote: !this.state.isUpVote,
+      isDownVote: false,
     });
-
     upVote(id);
   }
 
   public setDownVote() {
     const { downVote, id } = this.props;
+    const currentUser = localStorageManager.getUserInfo();
+
+    if (!currentUser) {
+      this.showError('You need to login to use this feature');
+      return;
+    }
 
     this.setState({
-      updateVote: true,
+      downVoteCount:
+        this.state.downVoteCount + (this.state.isDownVote ? -1 : 1),
+      upVoteCount: this.state.upVoteCount + (this.state.isUpVote ? -1 : 0),
+      isUpVote: false,
+      isDownVote: !this.state.isDownVote,
     });
-
     downVote(id);
   }
 
-  public isUpVote = (upvoteUserList: any[]) => {
-    // const currentUser = JSON.parse(localStorageManager.getUserInfo());
-    //
-    // for (let i = 0; i < upvoteUserList.length; i++) {
-    //   console.log('item: ', upvoteUserList[i]);
-    // }
-    // TODO: update style for current user if they already up vote song
+  public isUpVote = (upvoteUserList: RegisteredUser[]) => {
+    const currentUser = localStorageManager.getUserInfo();
+    for (const user of upvoteUserList) {
+      if (currentUser && currentUser.id === user.id) {
+        return true;
+      }
+    }
+    return false;
   };
 
-  public isDownVote = (downvoteUserList: any[]) => {
-    // TODO: update style for current user if they already up vote song
+  public isDownVote = (downvoteUserList: RegisteredUser[]) => {
+    const currentUser = localStorageManager.getUserInfo();
+    for (const user of downvoteUserList) {
+      if (currentUser && currentUser.id === user.id) {
+        return true;
+      }
+    }
+    return false;
   };
 
-  public _calculateVotingPercentage = (votes: number) => {
+  public _calculateVotingPercentage = (votes: number = 0) => {
     const { upVoteCount, downVoteCount } = this.state;
 
     if (upVoteCount === 0 && downVoteCount === 0) {
@@ -154,49 +205,42 @@ export class PlaylistItemComponent extends BaseComponent<
       isDownVote,
       upVoteCount,
       downVoteCount,
-      updateVote,
     } = this.state;
 
     return (
       <Col xs={5} className="d-flex align-items-end pr-0">
-        {updateVote ? (
-          <div className="buttonload">
-            <i className="fa fa-spinner fa-spin" />
+        <div className="w-100 vote-container">
+          <div className="d-flex vote-icons">
+            <span
+              onClick={() => this.setUpVote()}
+              className={classNames('like-icon', {
+                isActive: isUpVote,
+              })}>
+              <i className="fa fa-thumbs-up thumbs-icon" />
+              {upVoteCount}
+            </span>
+            <span
+              onClick={() => this.setDownVote()}
+              className={classNames('dislike-icon', {
+                isActive: isDownVote,
+              })}>
+              <i className="fa fa-thumbs-down thumbs-icon" />
+              {downVoteCount}
+            </span>
           </div>
-        ) : (
-          <div className="w-100 vote-container">
-            <div className="d-flex vote-icons">
-              <span
-                onClick={() => this.setUpVote()}
-                className={classNames('like-icon', {
-                  isActive: isUpVote,
-                })}>
-                <i className="fa fa-thumbs-up thumbs-icon" />
-                {upVoteCount}
-              </span>
-              <span
-                onClick={() => this.setDownVote()}
-                className={classNames('dislike-icon', {
-                  isActive: isDownVote,
-                })}>
-                <i className="fa fa-thumbs-down thumbs-icon" />
-                {downVoteCount}
-              </span>
-            </div>
-            <Progress multi>
-              <Progress
-                bar
-                value={this._calculateVotingPercentage(upVoteCount)}
-                barClassName="like-progress"
-              />
-              <Progress
-                bar
-                value={this._calculateVotingPercentage(downVoteCount)}
-                barClassName="dislike-progress"
-              />
-            </Progress>
-          </div>
-        )}
+          <Progress multi>
+            <Progress
+              bar
+              value={this._calculateVotingPercentage(upVoteCount)}
+              barClassName="like-progress"
+            />
+            <Progress
+              bar
+              value={this._calculateVotingPercentage(downVoteCount)}
+              barClassName="dislike-progress"
+            />
+          </Progress>
+        </div>
       </Col>
     );
   };
@@ -227,7 +271,6 @@ export class PlaylistItemComponent extends BaseComponent<
 
   public _renderCreator = () => {
     const { id, creator, message } = this.props;
-
     return (
       <Col xs={7} className="pl-0">
         <div className="h-100 item-addedBy">
@@ -266,13 +309,12 @@ export class PlaylistItemComponent extends BaseComponent<
   };
 
   public render() {
-    const { id, title, status } = this.props;
-
+    const { id, title, nowPlaying } = this.props;
     const { isFavorite } = this.state;
     return (
       <Row
         className={classNames('m-0', 'item-container', {
-          'playing-item': status !== null,
+          'playing-item': nowPlaying && nowPlaying.songId === id,
         })}>
         {this._renderThumbnail()}
         <Col xs={9} className="pr-0">
@@ -310,12 +352,16 @@ export class PlaylistItemComponent extends BaseComponent<
   }
 }
 
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
+  nowPlaying: state.playlist.nowPlaying,
+});
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addFavorite: (favorite: FavoriteSongItem) => dispatch(addFavorite(favorite)),
   removeFavorite: (songId: string) => dispatch(removeFavorite(songId)),
 });
 
-export const PlaylistItem = connect<{}, IDispatcherProps, IOwnProps>(
-  null,
+export const PlaylistItem = connect<IStateProps, IDispatcherProps>(
+  mapStateToProps,
   mapDispatchToProps,
 )(PlaylistItemComponent);
