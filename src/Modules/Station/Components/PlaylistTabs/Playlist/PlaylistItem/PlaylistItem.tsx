@@ -3,9 +3,9 @@ import * as classNames from 'classnames';
 import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { YoutubeHelper } from 'Helpers';
 import { localStorageManager } from 'Helpers';
-import { RegisteredUser } from 'Models/User';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import {NowPlayingSong, PlaylistSong, Song } from 'Models/Song';
+import { RegisteredUser } from 'Models/User';
 import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -136,7 +136,7 @@ export class PlaylistItemComponent extends BaseComponent<
     }
 
     if (currentUser.id === creator.id) {
-      this.showError('You cannot up vote your own song');
+      this.showError('You cannot upvote your own song');
       return;
     }
 
