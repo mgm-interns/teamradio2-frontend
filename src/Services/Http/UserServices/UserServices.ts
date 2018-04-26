@@ -1,5 +1,6 @@
 import {
   AccessToken,
+  EmailForm,
   FavoriteSong,
   PasswordForm,
   RegisteredUser,
@@ -85,6 +86,13 @@ export class UserServices {
     return this._httpServices.patch(
       `${this.serviceUrl}/me/password`,
       passwordForm,
+    );
+  }
+
+  public forgotPassword(emailForm: EmailForm): Observable<any> {
+    return this._httpServices.post(
+      `${this.serviceUrl}/forgot-password`,
+      emailForm,
     );
   }
 }

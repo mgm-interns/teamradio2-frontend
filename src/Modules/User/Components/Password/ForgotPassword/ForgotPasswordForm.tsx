@@ -1,50 +1,75 @@
 import { BaseComponent } from 'BaseComponent';
-import { Field, Form, FormikErrors, FormikProps, withFormik } from 'formik';
+import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
-import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
+import { UserServices } from 'Services/Http';
+import { IFormProps, IFormValues, InnerForm } from './InnerForm';
 
-interface IFormValues {
-  email: string;
-}
+interface IProps {}
 
-const InnerForm = (props: FormikProps<IFormValues>) => {
-  const { touched, errors, isSubmitting } = props;
-  return (
-    <Form>
-      <FormGroup>
-        <InputGroup>
-          <Field
-            type="email"
-            name="email"
-            className="form-control"
-            placeholder="Your email"
-          />
-          {touched.email &&
-            errors.email && <FormFeedback>{errors.email}</FormFeedback>}
-        </InputGroup>
-      </FormGroup>
+interface IState extends IFormProps {}
 
-      <Button color="success" block disabled={isSubmitting}>
-        Reset password
-      </Button>
-    </Form>
-  );
-};
+export class ForgotPasswordForm extends BaseComponent<IProps, IState> {
+  private userServices: UserServices;
+  private readonly initialValues: IFormValues;
 
-// The type of props FormWrapper receives
-interface IFormProps {
-  initialEmail?: string;
-}
+  constructor(props: any) {
+    super(props);
 
-const FormWrapper = withFormik<IFormProps, IFormValues>({
-  mapPropsToValues: props => {
-    return {
-      email: props.initialEmail || '',
+    this.initialValues = {
+      email: '',
     };
-  },
 
-  validate: (values: IFormValues) => {
+    this.state = {
+      success: false,
+      serverError: '',
+    };
+
+    this.userServices = new UserServices();
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.forgotPassword = this.forgotPassword.bind(this);
+  }
+
+  public handleSubmit(values: IFormValues, formikActions: FormikActions<any>) {
+    this.clearFormAlert();
+    this.forgotPassword(values, formikActions);
+  }
+
+  public forgotPassword(
+    values: IFormValues,
+    formikActions: FormikActions<any>,
+  ) {
+    const { setSubmitting } = formikActions;
+    this.userServices.forgotPassword(values).subscribe(
+      (res: any) => {
+        this.showFormAlerSuccess();
+        setSubmitting(false);
+      },
+      (err: any) => {
+        this.showFormAlertError(err);
+        setSubmitting(false);
+      },
+    );
+  }
+
+  public showFormAlertError(err: string) {
+    this.setState({
+      serverError: err,
+    });
+  }
+
+  public showFormAlerSuccess() {
+    this.setState({ success: true });
+  }
+
+  public clearFormAlert() {
+    this.setState({
+      serverError: '',
+      success: false,
+    });
+  }
+
+  public validate(values: IFormValues) {
     const errors: FormikErrors<any> = {};
     const { required, validEmail } = Rules;
     const emailValidator = new Validator('Email', values.email, [
@@ -53,19 +78,24 @@ const FormWrapper = withFormik<IFormProps, IFormValues>({
     ]);
     errors.email = emailValidator.validate();
     return Validator.removeUndefinedError(errors);
-  },
-
-  handleSubmit: values => {
-    console.log(values);
-  },
-})(InnerForm);
-
-export class ForgotPasswordForm extends BaseComponent<any, any> {
-  constructor(props: any) {
-    super(props);
   }
 
   public render() {
-    return <FormWrapper />;
+    const { success, serverError } = this.state;
+
+    return (
+      <Formik
+        initialValues={this.initialValues}
+        onSubmit={this.handleSubmit}
+        render={formikProps => (
+          <InnerForm
+            {...formikProps}
+            success={success}
+            serverError={serverError}
+          />
+        )}
+        validate={this.validate}
+      />
+    );
   }
 }
