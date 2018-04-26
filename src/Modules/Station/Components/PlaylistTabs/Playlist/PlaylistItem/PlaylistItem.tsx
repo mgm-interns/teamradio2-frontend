@@ -1,17 +1,20 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { Dispatch, IApplicationState } from 'Configuration/Redux';
-import { YoutubeHelper } from 'Helpers';
-import { localStorageManager } from 'Helpers';
-import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
-import {NowPlayingSong, PlaylistSong, Song } from 'Models/Song';
-import { RegisteredUser } from 'Models/User';
+import { localStorageManager, YoutubeHelper } from 'Helpers';
+import {
+  FavoriteSongItem,
+  NowPlayingSong,
+  PlaylistSong,
+  RegisteredUser,
+  Song,
+} from 'Models';
 import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
-import { UserServices } from 'Services/Http/UserServices';
+import { UserServices } from 'Services/Http';
 import './PlaylistItem.scss';
 
 interface IPlayListItemProps {
@@ -103,20 +106,20 @@ export class PlaylistItemComponent extends BaseComponent<
     }
   }
 
-  public setFavoriteSong() {
-    if (!this.state.isFavorite) {
-      return this.userServices.addSongToFavorite(this.props.songId).subscribe(
-        (res: FavoriteSongItem) => {
-          res.song = this.props.song;
-          this.props.addFavorite(res);
-        },
-        (err: any) => {
-          this.showError(err);
-        },
-      );
-    }
+  public addSongToFavorite() {
+    this.userServices.addSongToFavorite(this.props.songId).subscribe(
+      (res: FavoriteSongItem) => {
+        res.song = this.props.song;
+        this.props.addFavorite(res);
+      },
+      (err: any) => {
+        this.showError(err);
+      },
+    );
+  }
 
-    return this.userServices.removeFavorite(this.props.songId).subscribe(
+  public removeSongFromFavorite() {
+    this.userServices.removeFavorite(this.props.songId).subscribe(
       (res: {}) => {
         this.props.removeFavorite(this.props.songId);
       },
@@ -126,19 +129,35 @@ export class PlaylistItemComponent extends BaseComponent<
     );
   }
 
+  public setFavoriteSong() {
+    if (!this.state.isFavorite) {
+      return this.addSongToFavorite();
+    }
+
+    return this.removeSongFromFavorite();
+  }
+
+  public isAllowedToVote(): boolean {
+    if (this.isLoggedIn()) {
+      this.showError('You need to login to use this feature');
+      return false;
+    }
+    return true;
+  }
+
+  public isMySong(creator: RegisteredUser) {
+    const currentUser = localStorageManager.getUserInfo();
+    if (currentUser && currentUser.id === creator.id) {
+      this.showError('You cannot upvote your own song');
+      return false;
+    }
+    return true;
+  }
+
   public setUpVote() {
     const { upVote, id, creator } = this.props;
-    const currentUser = localStorageManager.getUserInfo();
 
-    if (!currentUser) {
-      this.showError('You need to login to use this feature');
-      return;
-    }
-
-    if (currentUser.id === creator.id) {
-      this.showError('You cannot upvote your own song');
-      return;
-    }
+    if (!this.isAllowedToVote() && !this.isMySong(creator)) return;
 
     this.setState({
       upVoteCount: this.state.upVoteCount + (this.state.isUpVote ? -1 : 1),
@@ -151,14 +170,9 @@ export class PlaylistItemComponent extends BaseComponent<
   }
 
   public setDownVote() {
+    if (!this.isAllowedToVote()) return;
+
     const { downVote, id } = this.props;
-    const currentUser = localStorageManager.getUserInfo();
-
-    if (!currentUser) {
-      this.showError('You need to login to use this feature');
-      return;
-    }
-
     this.setState({
       downVoteCount:
         this.state.downVoteCount + (this.state.isDownVote ? -1 : 1),
@@ -200,12 +214,7 @@ export class PlaylistItemComponent extends BaseComponent<
   };
 
   public _renderVotingSection = () => {
-    const {
-      isUpVote,
-      isDownVote,
-      upVoteCount,
-      downVoteCount,
-    } = this.state;
+    const { isUpVote, isDownVote, upVoteCount, downVoteCount } = this.state;
 
     return (
       <Col xs={5} className="d-flex align-items-end pr-0">

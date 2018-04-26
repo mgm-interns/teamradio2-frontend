@@ -5,7 +5,6 @@ import { PlaylistSong } from 'Models/Song';
 import * as React from 'react';
 import FlipMoveList from 'react-flip-move';
 import { connect } from 'react-redux';
-import { Card, CardBody } from 'reactstrap';
 import { SongServices, UserServices } from 'Services/Http';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
@@ -51,8 +50,9 @@ export class PlaylistComponent extends BaseComponent<IProps, IStates> {
 
     this.songServices.upVote(stationId, songId).subscribe(
       response => {},
-      err => {
+      (err: string) => {
         this.setState({ votingError: err });
+        this.showError(err);
       },
     );
   };
@@ -62,16 +62,11 @@ export class PlaylistComponent extends BaseComponent<IProps, IStates> {
 
     this.songServices.downVote(stationId, songId).subscribe(
       response => {},
-      err => {
+      (err: string) => {
         this.setState({ votingError: err });
         this.showError(err);
       },
     );
-  };
-
-  public addFavouriteSong = () => {
-    alert('Add favourite clicked!');
-    // TODO: Implemented addFavouriteSong function
   };
 
   public addSong(song: any) {
