@@ -1,3 +1,3 @@
 export class EmailForm {
-  email: string;
+  public email: string;
 }

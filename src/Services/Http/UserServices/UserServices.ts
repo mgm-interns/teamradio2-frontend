@@ -1,12 +1,12 @@
 import {
   AccessToken,
+  EmailForm,
   FavoriteSong,
   PasswordForm,
   RegisteredUser,
   Station,
   UnauthorizedUser,
   UnregisteredUser,
-  EmailForm,
 } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices, OAuthService } from '../HttpServices';

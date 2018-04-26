@@ -1,8 +1,8 @@
+import { LoadingIndicator } from 'Components/LoadingIndicator';
 import { Field, Form, FormikProps } from 'formik';
 import * as React from 'react';
-import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
 import { Fragment } from 'react';
-import { LoadingIndicator } from 'Components/LoadingIndicator';
+import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
 
 export interface IFormValues {
   email: string;

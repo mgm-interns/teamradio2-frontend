@@ -1,9 +1,9 @@
 import { BaseComponent } from 'BaseComponent';
-import { Formik, FormikActions, FormikErrors, withFormik } from 'formik';
+import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
-import { IFormProps, IFormValues, InnerForm } from './InnerForm';
 import { UserServices } from 'Services/Http';
+import { IFormProps, IFormValues, InnerForm } from './InnerForm';
 
 interface IProps {}
 
