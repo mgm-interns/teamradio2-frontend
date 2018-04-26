@@ -68,12 +68,16 @@ export default class SSEService implements ISSEService {
 
   protected beforeStart() {
     //
-    if (this.options.beforeStart) this.options.beforeStart();
+    if (this.options.beforeStart) {
+      this.options.beforeStart();
+    }
   }
 
   protected afterStart() {
     //
-    if (this.options.afterStart) this.options.afterStart();
+    if (this.options.afterStart) {
+      this.options.afterStart();
+    }
 
     this.eventSource.onopen = () => {
       this.store.dispatch({
@@ -90,11 +94,15 @@ export default class SSEService implements ISSEService {
 
   protected beforeClose() {
     //
-    if (this.options.beforeClose) this.options.beforeClose();
+    if (this.options.beforeClose) {
+      this.options.beforeClose();
+    }
   }
 
   protected afterClose() {
     //
-    if (this.options.afterClose) this.options.afterClose();
+    if (this.options.afterClose) {
+      this.options.afterClose();
+    }
   }
 }

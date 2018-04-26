@@ -10,7 +10,9 @@ const findRouteName = (url: string): string => {
 const getPaths = (pathname: string) => {
   const paths = ['/'];
 
-  if (pathname === '/') return paths;
+  if (pathname === '/') {
+    return paths;
+  }
 
   pathname.split('/').reduce((prev, curr, index) => {
     const currPath = `${prev}/${curr}`;

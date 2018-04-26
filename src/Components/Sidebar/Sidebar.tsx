@@ -163,7 +163,9 @@ export class Sidebar extends Component {
           ? divider(item, idx)
           : item.label
             ? navLabel(item, idx)
-            : item.children ? navDropdown(item, idx) : navItem(item, idx);
+            : item.children
+              ? navDropdown(item, idx)
+              : navItem(item, idx);
 
     // nav list
     const navList = (items: any[]): any[] => {
