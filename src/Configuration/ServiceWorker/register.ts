@@ -1,8 +1,14 @@
+import { isLocalhost } from 'Helpers/BrowserHelper';
+
 if ('serviceWorker' in navigator) {
   // Use the window load event to keep the page load performance
   window.addEventListener('load', () => {
-    const serviceWorkerUrl = `/sw.js`;
-    registerValidSW(serviceWorkerUrl);
+    // Don't register the service worker if environment is localhost
+    // Remove the if condition below to test it on your local development
+    if (!isLocalhost()) {
+      const serviceWorkerUrl = `/sw.js`;
+      registerValidSW(serviceWorkerUrl);
+    }
   });
 }
 
