@@ -115,4 +115,16 @@
       }
     }
   }
+
+  .playlist-none {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    .fa {
+      font-size: 56px;
+    }
+  }
 }

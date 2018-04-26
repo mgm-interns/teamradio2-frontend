@@ -1,5 +1,17 @@
 .player {
   flex: 1;
+  background: #fafafa;
+
+  &.player-none {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    .fa {
+      font-size: 56px;
+    }
+  }
 }
 
 .player-container {

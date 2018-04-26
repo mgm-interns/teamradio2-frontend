@@ -58,9 +58,22 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
   }
 
   public render() {
+    const { history } = this.state;
+    if (history.length === 0) {
+      return (
+        <div className="playlist-none">
+          <i className="fa fa-warning" />
+          <h5>
+            There is no song in the history.
+            <br />
+            Add a new song to the playlist tab then return to here.
+          </h5>
+        </div>
+      );
+    }
     return (
       <div className="list-container">
-        {this.state.history.map((song, index) => (
+        {history.map((song, index) => (
           <HistoryItem key={index} song={song} replaySong={this.replaySong} />
         ))}
       </div>

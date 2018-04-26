@@ -2,19 +2,7 @@
   width: inherit;
   margin: auto;
   position: relative;
-  font-family: 'Roboto Slab', sans-serif;
   overflow-y: auto;
-
-  .play-list-none {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    margin: auto;
-    & > i {
-      font-size: 56px;
-    }
-  }
 
   .flip-move-playlist {
     padding-top: 0;

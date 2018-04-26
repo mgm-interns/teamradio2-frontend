@@ -56,19 +56,30 @@ export class FavoriteComponent extends BaseComponent<IProps, IStates> {
   }
 
   public render() {
+    const { favoriteList } = this.state;
+    if (favoriteList.length === 0) {
+      return (
+        <div className="playlist-none">
+          <i className="fa fa-warning" />
+          <h5>
+            You don't have any favourite songs
+            <br />
+            You can add some songs you like from playlist tab.
+          </h5>
+        </div>
+      );
+    }
     return (
       <div className="list-container">
-        {this.state.favoriteList.map(
-          (favorite: FavoriteSongItem, index: number) => {
-            return (
-              <FavoriteItem
-                key={index}
-                {...favorite}
-                replaySong={this.replaySong}
-              />
-            );
-          },
-        )}
+        {favoriteList.map((favorite: FavoriteSongItem, index: number) => {
+          return (
+            <FavoriteItem
+              key={index}
+              {...favorite}
+              replaySong={this.replaySong}
+            />
+          );
+        })}
       </div>
     );
   }
