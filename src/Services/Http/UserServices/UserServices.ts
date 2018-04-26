@@ -105,4 +105,11 @@ export class UserServices {
       emailForm,
     );
   }
+
+  public resetPassword(password: string, token: string): Observable<any> {
+    return this._httpServices.post(
+      `${this.serviceUrl}/reset-password/${token}`,
+      { password },
+    );
+  }
 }
