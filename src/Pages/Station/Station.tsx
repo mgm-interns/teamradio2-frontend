@@ -16,6 +16,8 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import { compose } from 'redux';
 import './Station.scss';
+import { ChatMessage } from "../../Modules/Station/Components/ChatBox/ChatMessage";
+import { ChatBox } from "../../Modules/Station/Components/ChatBox";
 
 interface IStateProps {
   nowPlaying: NowPlayingSong;
