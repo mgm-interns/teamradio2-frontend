@@ -60,4 +60,9 @@
       box-shadow: none;
     }
   }
+
+  .btn-primary:not(:disabled):not(.disabled):active {
+    background: rgb(224, 106, 78);
+    border-color: rgb(224, 106, 78);
+  }
 }
