@@ -52,6 +52,18 @@ export class StationPlayer extends Component<IProps, IState> {
     const { url, playing, showProgressbar, muted } = this.props;
     const { played, loaded } = this.state;
 
+    if (!url) {
+      return (
+        <div className="player player-none">
+          <div>
+            <i className="fa fa-music" />
+            <h5>
+              There is no playing song.
+            </h5>
+          </div>
+        </div>
+      );
+    }
     return (
       <Fragment>
         <div className="player">

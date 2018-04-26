@@ -74,7 +74,7 @@ export class SearchSong extends Component<any, ISearchSongState> {
 
     const inputProps = {
       value,
-      placeholder: 'Type a video name, e.g., Shape of you',
+      placeholder: 'Type a video name, e.g., Perfect - Ed Sheeran',
       onChange: this.onChange,
       className: 'form-control',
     };

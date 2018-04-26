@@ -99,24 +99,24 @@ export class PlaylistComponent extends BaseComponent<IProps, IStates> {
   }
 
   public render() {
-    const nowPlaying = true;
-    if (!nowPlaying) {
+    const { playlist } = this.props;
+    if (playlist.length === 0) {
       return (
-        <Card className="play-list">
-          <CardBody className="play-list-none">
-            <i className="fa fa-warning" />
-            <h3>
-              There is no song in the playlist.<br />Please add new song.
-            </h3>
-          </CardBody>
-        </Card>
+        <div className="playlist-none">
+          <i className="fa fa-warning" />
+          <h5>
+            There is no song in the playlist.
+            <br />
+            Add a new song to start your station.
+          </h5>
+        </div>
       );
     }
 
     return (
       <div className="playlist">
         <FlipMoveList className="flip-move-playlist">
-          {this.props.playlist.map((song, index) => {
+          {playlist.map((song, index) => {
             return (
               <PlaylistItem
                 key={song.id || index}
