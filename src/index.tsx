@@ -15,11 +15,11 @@ import '../scss/core/_dropdown-menu-right.scss';
 import '../scss/style.scss';
 
 // config redux
+import { configureStore } from 'Configuration/Redux';
 import { Provider } from 'react-redux';
-import { configureStore } from './Configuration/Redux';
 
 // Containers
-import { FullLayout, NoSideBarLayout } from './Containers/';
+import { FullLayout, NoSideBarLayout } from 'Containers';
 
 const store = configureStore();
 
@@ -34,3 +34,8 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 );
+
+// Enable Hot Module Replacement
+if (module.hot) {
+  module.hot.accept();
+}
