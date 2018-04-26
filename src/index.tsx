@@ -18,6 +18,9 @@ import '../scss/style.scss';
 import { configureStore } from 'Configuration/Redux';
 import { Provider } from 'react-redux';
 
+// config service worker
+import 'Configuration/ServiceWorker';
+
 // Containers
 import { FullLayout, NoSideBarLayout } from 'Containers';
 
