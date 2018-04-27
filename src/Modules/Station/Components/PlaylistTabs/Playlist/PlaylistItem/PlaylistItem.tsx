@@ -138,7 +138,7 @@ export class PlaylistItemComponent extends BaseComponent<
   }
 
   public isAllowedToVote(): boolean {
-    if (this.isLoggedIn()) {
+    if (!this.isLoggedIn()) {
       this.showError('You need to login to use this feature');
       return false;
     }
@@ -149,15 +149,15 @@ export class PlaylistItemComponent extends BaseComponent<
     const currentUser = localStorageManager.getUserInfo();
     if (currentUser && currentUser.id === creator.id) {
       this.showError('You cannot upvote your own song');
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
 
   public setUpVote() {
     const { upVote, id, creator } = this.props;
 
-    if (!this.isAllowedToVote() && !this.isMySong(creator)) return;
+    if (!this.isAllowedToVote() && this.isMySong(creator)) return;
 
     this.setState({
       upVoteCount: this.state.upVoteCount + (this.state.isUpVote ? -1 : 1),
