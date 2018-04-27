@@ -1,5 +1,4 @@
-import { Station, StationPrivacy } from 'Models';
-import { SkipRuleType } from 'Models/Station';
+import { Message, SkipRuleType, Station, StationPrivacy } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';
 
@@ -45,7 +44,7 @@ export class StationServices {
     );
   }
 
-  public sendMessage(stationId: string, message: string): Observable<Station> {
+  public sendMessage(stationId: string, message: string): Observable<Message> {
     const body = {
       content: message,
     };

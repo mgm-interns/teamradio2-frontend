@@ -1,4 +1,4 @@
-import { NowPlayingSong, PlaylistSong } from "../../../../Models";
+import { NowPlayingSong, PlaylistSong } from 'Models';
 
 export interface IPlaylistState {
   nowPlaying: NowPlayingSong;
