@@ -112,7 +112,6 @@ class ImageUploaderComponent extends BaseComponent<IProps, any> {
 
   public async convertImageUploaded(event: any) {
     const uploadedImage = event.target.files[0];
-    console.log(uploadedImage);
     if (uploadedImage.size / 1024 / 1024 > 2) {
       this.setAllValueToDefault();
       this.showError('The picture size can not exceed 2MB.');
