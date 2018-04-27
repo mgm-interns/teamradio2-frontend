@@ -112,8 +112,10 @@ class ImageUploaderComponent extends BaseComponent<IProps, any> {
 
   public async convertImageUploaded(event: any) {
     const uploadedImage = event.target.files[0];
+    console.log(uploadedImage);
     if (uploadedImage.size / 1024 / 1024 > 2) {
-      // Notify image upload exceed 2MB
+      this.setAllValueToDefault();
+      this.showError('The picture size can not exceed 2MB.');
     } else {
       const base64 = await fileContentToBase64(uploadedImage);
       await this.setStateAsync({ uploadedImage: base64 });
