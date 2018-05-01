@@ -5,7 +5,6 @@ import { PlaylistSong } from 'Models/Song';
 import * as React from 'react';
 import FlipMoveList from 'react-flip-move';
 import { connect } from 'react-redux';
-import { Card, CardBody } from 'reactstrap';
 import { SongServices, UserServices } from 'Services/Http';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
@@ -51,7 +50,7 @@ export class PlaylistComponent extends BaseComponent<IProps, IStates> {
 
     this.songServices.upVote(stationId, songId).subscribe(
       response => {},
-      err => {
+      (err: string) => {
         this.setState({ votingError: err });
         this.showError(err);
       },
@@ -63,16 +62,11 @@ export class PlaylistComponent extends BaseComponent<IProps, IStates> {
 
     this.songServices.downVote(stationId, songId).subscribe(
       response => {},
-      err => {
+      (err: string) => {
         this.setState({ votingError: err });
         this.showError(err);
       },
     );
-  };
-
-  public addFavouriteSong = () => {
-    alert('Add favourite clicked!');
-    // TODO: Implemented addFavouriteSong function
   };
 
   public addSong(song: any) {
@@ -100,24 +94,24 @@ export class PlaylistComponent extends BaseComponent<IProps, IStates> {
   }
 
   public render() {
-    const nowPlaying = true;
-    if (!nowPlaying) {
+    const { playlist } = this.props;
+    if (playlist.length === 0) {
       return (
-        <Card className="play-list">
-          <CardBody className="play-list-none">
-            <i className="fa fa-warning" />
-            <h3>
-              There is no song in the playlist.<br />Please add new song.
-            </h3>
-          </CardBody>
-        </Card>
+        <div className="playlist-none">
+          <i className="fa fa-warning" />
+          <h5>
+            There is no song in the playlist.
+            <br />
+            Add a new song to start your station.
+          </h5>
+        </div>
       );
     }
 
     return (
       <div className="playlist">
         <FlipMoveList className="flip-move-playlist">
-          {this.props.playlist.map((song, index) => {
+          {playlist.map((song, index) => {
             return (
               <PlaylistItem
                 key={song.id || index}

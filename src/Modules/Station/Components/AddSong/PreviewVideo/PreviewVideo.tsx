@@ -91,8 +91,8 @@ export class PreviewVideo extends Component<any, any> {
                   />
                 )}
                 <Button
-                  className="preview__button"
                   color="primary"
+                  className="preview__button"
                   onClick={this.handleButtonAddSong}>
                   Add
                 </Button>

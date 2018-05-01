@@ -14,4 +14,4 @@ export {
   StationPrivacy,
 } from './Station';
 export { Song, PlaylistSong, NowPlayingSong } from './Song';
-export { FavoriteSong } from './FavoriteSong';
+export { FavoriteSong, FavoriteSongItem } from './FavoriteSong';
