@@ -171,7 +171,8 @@ export class PlaylistItemComponent extends BaseComponent<
     const { upVote, id, creator } = this.props;
 
     if (
-      (this.isAllowedToVote() && this.isMySong(creator)) ||
+      !this.isAllowedToVote() ||
+      this.isMySong(creator) ||
       this.state.isUpVoteLoading
     ) {
       return;
