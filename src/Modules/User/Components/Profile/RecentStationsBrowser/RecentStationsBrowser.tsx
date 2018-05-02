@@ -1,11 +1,9 @@
-import { StationItem } from 'Models';
-import { StationBrowser } from 'Modules/Station';
-import * as React from 'react';
+import { Station } from 'Models';
 import { UserServices } from 'Services/Http';
+import { BaseStationBrowser } from '..';
 
-export class RecentStationsBrowser extends StationBrowser {
+export class RecentStationsBrowser extends BaseStationBrowser {
   public userServices: UserServices;
-
   constructor(props: {}) {
     super(props);
     this.userServices = new UserServices();
@@ -13,8 +11,8 @@ export class RecentStationsBrowser extends StationBrowser {
 
   public getListStation() {
     this.userServices.getListMyRecentStation().subscribe(
-      (listStation: StationItem[]) => {
-        this.updateListStation(listStation);
+      (listStation: Station[]) => {
+        this.setState({ listStation });
       },
       (err: string) => {
         this.showError(err);

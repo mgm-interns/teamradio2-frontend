@@ -1,9 +1,9 @@
 import { StationItem } from 'Models';
-import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
+import { BaseStationBrowser } from '..';
 
-export class MyStationsBrowser extends StationBrowser {
+export class MyStationsBrowser extends BaseStationBrowser {
   public userServices: UserServices;
 
   constructor(props: {}) {
@@ -14,7 +14,7 @@ export class MyStationsBrowser extends StationBrowser {
   public getListStation() {
     this.userServices.getListMyStation().subscribe(
       (listStation: StationItem[]) => {
-        this.updateListStation(listStation);
+        this.setState({ listStation });
       },
       (err: string) => {
         this.showError(err);
