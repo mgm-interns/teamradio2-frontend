@@ -1,13 +1,7 @@
 import { Station } from 'Models';
-import { UserServices } from 'Services/Http';
-import { BaseStationBrowser } from '..';
+import { BaseStationBrowser } from '../BaseStationBrowser';
 
 export class RecentStationsBrowser extends BaseStationBrowser {
-  public userServices: UserServices;
-  constructor(props: {}) {
-    super(props);
-    this.userServices = new UserServices();
-  }
 
   public getListStation() {
     this.userServices.getListMyRecentStation().subscribe(

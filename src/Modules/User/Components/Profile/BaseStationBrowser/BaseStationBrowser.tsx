@@ -1,26 +1,29 @@
-import { BaseComponent } from 'BaseComponent/index';
-import { StationBrowserSlider } from 'Modules/User/Components/Components';
-import { Station, StationItem } from 'Models/index';
-import { StationBrowserItem } from 'Modules/Station/Components/StationBrowser/StationBrowserItem/index';
+import { BaseComponent } from 'BaseComponent';
+import { StationBrowserSlider } from 'Components';
+import { Station, StationItem } from 'Models';
+import { StationBrowserItem } from 'Modules/Station/Components/StationBrowser/StationBrowserItem';
 import * as React from 'react';
 import { Row } from 'reactstrap';
-import { UserServices } from 'Services/Http/index';
+import { UserServices } from 'Services/Http';
 
-export interface IProps {
+export interface IBaseStationBrowserProps {
   stationId?: string;
 }
 
-interface IStates {
+interface IBaseStationBrowserStates {
   listStation: Station[];
   stationItemContainerRef: HTMLElement;
 }
 
 export abstract class BaseStationBrowser extends BaseComponent<
-  IProps,
-  IStates
+  IBaseStationBrowserProps,
+  IBaseStationBrowserStates
 > {
-  constructor(props: IProps) {
+  public userServices: UserServices;
+  constructor(props: IBaseStationBrowserProps) {
     super(props);
+
+    this.userServices = new UserServices();
 
     this.state = {
       listStation: [],

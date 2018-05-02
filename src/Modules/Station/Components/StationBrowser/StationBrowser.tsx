@@ -1,6 +1,10 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
-import { Station, StationItem } from 'Models';
+import {
+  StationItem,
+  StationItemsControlledMap,
+  StationItemsMap,
+} from 'Models';
 import * as React from 'react';
 import { Row } from 'reactstrap';
 import { StationServices } from 'Services/Http';
@@ -12,7 +16,7 @@ export interface IStationBrowserProps {
 }
 
 interface IStationBrowserStates {
-  listStation: StationItem[];
+  listStation: StationItemsControlledMap;
   stationItemContainerRef: HTMLElement;
 }
 
@@ -26,7 +30,7 @@ export class StationBrowser extends BaseComponent<
     super(props);
     this.stationServices = new StationServices();
     this.state = {
-      listStation: [],
+      listStation: new StationItemsControlledMap(),
       stationItemContainerRef: null,
     };
   }
@@ -35,13 +39,17 @@ export class StationBrowser extends BaseComponent<
     this.getListStation();
   }
 
-  public updateListStation(listStationToUpdate: StationItem[]) {
-    this.setState({ listStation: listStationToUpdate });
+  public updateListStation(listStationToUpdate: StationItemsMap) {
+    // Must apply new instance to make sure that
+    // react component will trigger render again
+    this.setState({
+      listStation: new StationItemsControlledMap(listStationToUpdate),
+    });
   }
 
   public getListStation() {
     this.stationServices.getListStation().subscribe(
-      (listStation: StationItem[]) => {
+      (listStation: StationItemsMap) => {
         this.updateListStation(listStation);
       },
       (err: string) => {
@@ -69,7 +77,7 @@ export class StationBrowser extends BaseComponent<
               <div
                 className="station-item-container"
                 ref={this.bindStationItemContainerRef}>
-                {listStationFiltered.map((item: StationItem, index: number) => {
+                {listStationFiltered.map((item, index) => {
                   return <StationBrowserItem key={index} {...item} />;
                 })}
               </div>
@@ -87,10 +95,10 @@ export class StationBrowser extends BaseComponent<
   };
 
   private filterListStation(
-    listStation: StationItem[],
+    listStation: StationItemsControlledMap,
     stationIdToFilter: string,
-  ) {
-    return listStation.filter((station: Station) => {
+  ): StationItem[] {
+    return listStation.toArray().filter((station: StationItem) => {
       return station.friendlyId !== stationIdToFilter;
     });
   }

@@ -1,4 +1,4 @@
-import { Message, SkipRuleType, Station, StationPrivacy } from 'Models';
+import { Message, SkipRuleType, Station, StationItemsMap, StationPrivacy } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';
 
@@ -10,7 +10,7 @@ export class StationServices {
     this._httpServices = new HttpServices();
   }
 
-  public getListStation(): Observable<Station[]> {
+  public getListStation(): Observable<StationItemsMap> {
     return this._httpServices.get('stations');
   }
 
