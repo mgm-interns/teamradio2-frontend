@@ -1,29 +1,21 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
-import { Station, StationItem } from 'Models';
+import { StationItem } from 'Models';
 import { StationBrowserItem } from 'Modules/Station/Components/StationBrowser/StationBrowserItem';
 import * as React from 'react';
 import { Row } from 'reactstrap';
-import { UserServices } from 'Services/Http';
 
-export interface IBaseStationBrowserProps {
-  stationId?: string;
-}
-
-interface IBaseStationBrowserStates {
-  listStation: Station[];
+export interface IBaseStationBrowserStates {
+  listStation: StationItem[];
   stationItemContainerRef: HTMLElement;
 }
 
-export abstract class BaseStationBrowser extends BaseComponent<
-  IBaseStationBrowserProps,
+export abstract class BaseStationBrowser<T> extends BaseComponent<
+  T,
   IBaseStationBrowserStates
 > {
-  public userServices: UserServices;
-  constructor(props: IBaseStationBrowserProps) {
+  constructor(props: T) {
     super(props);
-
-    this.userServices = new UserServices();
 
     this.state = {
       listStation: [],
@@ -31,14 +23,9 @@ export abstract class BaseStationBrowser extends BaseComponent<
     };
   }
 
-  public getListStation() {}
-
-  public componentWillMount() {
-    this.getListStation();
-  }
-
   public render() {
-    if (this.state.listStation.length === 0) {
+    const listItems = this.getListItems();
+    if (listItems.length === 0) {
       return null;
     }
     return (
@@ -52,11 +39,9 @@ export abstract class BaseStationBrowser extends BaseComponent<
               <div
                 className="station-item-container"
                 ref={this.bindStationItemContainerRef}>
-                {this.state.listStation.map(
-                  (item: StationItem, index: number) => {
-                    return <StationBrowserItem key={index} {...item} />;
-                  },
-                )}
+                {listItems.map((item: StationItem, index: number) => {
+                  return <StationBrowserItem key={index} {...item} />;
+                })}
               </div>
             </div>
           </div>
@@ -64,6 +49,11 @@ export abstract class BaseStationBrowser extends BaseComponent<
       </Row>
     );
   }
+
+  protected getListItems = (): StationItem[] => {
+    return this.state.listStation;
+  };
+
   private bindStationItemContainerRef = (node: HTMLElement) => {
     this.setState({
       stationItemContainerRef: node,
