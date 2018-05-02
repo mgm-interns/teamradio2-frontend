@@ -1,4 +1,4 @@
-import { IHeader } from 'Services/Helpers';
+import { IHeader } from 'Services/Header';
 
 export interface IEventSourcePolyfill extends EventSource {
   new (endpoint: string, options: IEventSourcePolyfillOptions): EventSource;

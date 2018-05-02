@@ -3,7 +3,7 @@ import { IApplicationState } from 'Configuration/Redux/Reducers';
 import 'event-source-polyfill/src/eventsource';
 import { localStorageManager } from 'Helpers';
 import { Store } from 'redux';
-import {createHeaders} from "Services/Helpers";
+import { createHeaders } from 'Services/Header';
 import {
   IEventSourcePolyfill,
   IEventSourcePolyfillOptions,
