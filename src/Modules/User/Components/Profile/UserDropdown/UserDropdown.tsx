@@ -142,11 +142,9 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
                       <i className="fa fa-question-circle" />Help
                     </DropdownItem>
                   </Link>
-                  <DropdownItem className="drop-item">
-                    <div onClick={this.signOut}>
-                      <i className="fa fa-sign-out" />
-                      Sign out
-                    </div>
+                  <DropdownItem className="drop-item" onClick={this.signOut}>
+                    <i className="fa fa-sign-out" />
+                    Sign out
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>

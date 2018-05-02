@@ -44,19 +44,7 @@
   // Styles for item
   .item-container {
     padding: 8px;
-    height: 90px;
-
-    @include media-breakpoint-down(lg) {
-      height: 150px;
-    }
-
-    @include media-breakpoint-down(md) {
-      height: 120px;
-    }
-
-    @include media-breakpoint-down(xs) {
-      height: 90px;
-    }
+    min-height: 90px;
 
     .thumbnail-container {
       position: relative;
