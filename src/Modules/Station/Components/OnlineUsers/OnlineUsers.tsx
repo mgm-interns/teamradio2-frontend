@@ -1,5 +1,8 @@
 import { BaseComponent } from 'BaseComponent';
+import { IApplicationState } from 'Configuration/Redux';
+import { RegisteredUser } from 'Models';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { ListGroup, ListGroupItem, Popover } from 'reactstrap';
 import './OnlineUsers.scss';
 
@@ -9,36 +12,48 @@ const fixture = [
   {
     name: 'Mars',
     username: 'lybaokhanh',
-    avatar_url: '',
-    points: 20,
+    avatarUrl: '',
+    // points: 20,
   },
   {
     name: 'Lamth2',
     username: 'lamth2',
-    avatar_url: '',
-    points: 20,
+    avatarUrl: '',
+    // points: 10,
   },
   {
     name: 'Liquid',
     username: 'lybaokhanh',
-    avatar_url: '',
-    points: 20,
+    avatarUrl: '',
+    // points: 5,
   },
   {
     name: 'Navi',
     username: 'lybaokhanh',
-    avatar_url: '',
-    points: 20,
+    avatarUrl: '',
+    // points: 60,
   },
 ];
 
-interface IProps {}
+const currentUser = {
+  id: '1213123',
+  name: 'Lamth2',
+  username: 'lamth2',
+  avatarUrl: '',
+  // points: 10,
+  password: '',
+  email: 'lamth2@gmail.com',
+};
+
+interface IProps {
+  userInfo?: RegisteredUser;
+}
 
 interface IState {
   popoverOpen: boolean;
 }
 
-export class OnlineUsers extends BaseComponent<IProps, IState> {
+export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -56,20 +71,44 @@ export class OnlineUsers extends BaseComponent<IProps, IState> {
     });
   }
 
+  public isUserInfoAvailable = (userInfo: RegisteredUser) => {
+    return userInfo !== null;
+  };
+
+  public isMe = (username?: string) => {
+    // TODO: enable after fix fetch user info
+    // if (username && this.props.userInfo) {
+    //   return this.props.userInfo.username === username;
+    // }
+    if (username && currentUser) {
+      return currentUser.username === username;
+    }
+    return false;
+  };
+
   public renderPopoverContent() {
-    const filteredUsers = fixture;
+    const filteredUsers = fixture.sort(
+      user => (user.username === currentUser.username ? 0 : 1),
+    );
     return (
       <ListGroup className="online-users-list">
-        {filteredUsers.map(({ name, username, avatar_url, points }) => (
-          <ListGroupItem className="online-users-list-item">
+        {filteredUsers.map(({ name, username, avatarUrl }, index) => (
+          <ListGroupItem
+            key={index}
+            active={this.isMe(username)}
+            className="online-users-list-item">
             <div className="online-users-shape">
               <img
                 className="online-users-image"
                 alt="avatar"
-                src={avatar_url || DEFAULT_USER_AVATAR}
+                src={avatarUrl || DEFAULT_USER_AVATAR}
               />
             </div>
-            <span className="online-users-caption">{`${name} (${points})`}</span>
+            <span className="online-users-caption">{`${
+              this.isUserInfoAvailable(currentUser) && this.isMe(username)
+                ? 'YOU'
+                : name
+            }`}</span>
           </ListGroupItem>
         ))}
       </ListGroup>
@@ -83,7 +122,7 @@ export class OnlineUsers extends BaseComponent<IProps, IState> {
         className="online-users-container"
         id="online-users"
         onClick={this.toggle}>
-        <span>1 online</span>
+        <span>{fixture.length} online</span>
       </div>,
       <Popover
         key={2}
@@ -96,3 +135,9 @@ export class OnlineUsers extends BaseComponent<IProps, IState> {
     ];
   }
 }
+
+const mapStateToProps = (state: IApplicationState) => ({
+  userInfo: state.user.userInfo,
+});
+
+export const OnlineUsers = connect(mapStateToProps, null)(OnlineUsersComponent);
