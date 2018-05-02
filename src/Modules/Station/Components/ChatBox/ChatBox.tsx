@@ -1,66 +1,105 @@
 import { BaseComponent } from 'BaseComponent';
+import { IApplicationState } from 'Configuration/Redux/Reducers';
+import { localStorageManager } from 'Helpers';
+import { Message } from 'Models';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { StationServices } from 'Services/Http';
+import { StationChatSSE } from 'Services/SSE';
 import './ChatBox.scss';
-import { ChatMessage, IChatMessageProps } from './ChatMessage';
+import { ChatMessage } from './ChatMessage';
 
-interface IChatBoxStates {
-  listMessages: IChatMessageProps[];
+interface IChatBoxProps {
+  stationId: string;
 }
 
-export class ChatBox extends BaseComponent<{}, IChatBoxStates> {
+interface IChatReducerProps {
+  message: Message;
+}
+
+interface IChatBoxStates {
+  userId: string;
+  listMessages: Message[];
+}
+
+export class ChatBoxComponent extends BaseComponent<
+  IChatBoxProps & IChatReducerProps,
+  IChatBoxStates
+> {
   private messageBox: any;
-  constructor(props: {}) {
+  private stationServices: StationServices;
+  private stationChatSSE: StationChatSSE;
+
+  constructor(props: IChatBoxProps & IChatReducerProps) {
     super(props);
     this.state = {
-      listMessages: null,
+      userId: '',
+      listMessages: [],
     };
-    this.onMessageChange = this.onMessageChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+    this.onMessageChange = this.onMessageChange.bind(this);
+    this.stationServices = new StationServices();
   }
 
   public componentWillMount() {
-    this.getListMessages();
+    const userInfo = localStorageManager.getUserInfo();
+    if (userInfo) {
+      this.setState({
+        userId: userInfo.id,
+      });
+    }
   }
 
   public componentDidMount() {
-    this.scrollDownMessagesContainer();
+    const { stationId } = this.props;
+    this.startSSEService(stationId);
   }
 
-  // Dummy data
-  public getListMessages() {
-    const listMessages = [];
-    for (let i = 0; i < 20; i += 1) {
-      let message: IChatMessageProps;
-      if (i % 2 === 0) {
-        message = {
-          isOfCurrentUser: false,
-          avatarUrl: './img/female-01.png',
-          userName: 'Quoc Nguyen',
-          message: 'Hello world',
-        };
-      } else {
-        message = {
-          isOfCurrentUser: true,
-          avatarUrl: '',
-          userName: '',
-          message: 'Hello world',
-        };
-      }
-      listMessages.push(message);
-    }
-    this.setState({
-      listMessages,
-    });
+  public componentWillUnmount() {
+    this.stationChatSSE.close();
+  }
+
+  public componentWillReceiveProps(
+    nextProps: IChatReducerProps & IChatBoxProps,
+  ) {
+    const newMessage = nextProps.message;
+    this.onReceiveNewMessage(newMessage);
+
+    const { stationId: oldStationId } = this.props;
+    const { stationId: newStationId } = nextProps;
+    this.onSwitchStation(oldStationId, newStationId);
+  }
+
+  public componentDidUpdate() {
+    this.scrollDownMessagesContainer();
   }
 
   public onMessageChange(event: any) {
     const key = event.keyCode ? event.keyCode : event.which;
-    if (key === 13) {
-      // Send message if user press enter
+    const KEY_CODE_ENTER = 13;
+    if (key === KEY_CODE_ENTER) {
       this.sendMessage(event);
     } else {
-      // Resize message box to display all message content
       this.resizeMessageBox();
+    }
+  }
+
+  public onReceiveNewMessage(newMessage: Message) {
+    const listMessages = this.state.listMessages;
+    for(const message of listMessages) {
+      if (message.id === newMessage.id) {
+        return;
+      }
+    }
+    listMessages.push(newMessage);
+    this.setState({ listMessages });
+  }
+
+  public onSwitchStation(oldStationId: string, newStationId: string) {
+    if (oldStationId !== newStationId) {
+      this.setState({ listMessages: [] });
+      this.stationChatSSE.close();
+      this.startSSEService(newStationId);
     }
   }
 
@@ -72,27 +111,26 @@ export class ChatBox extends BaseComponent<{}, IChatBoxStates> {
   }
 
   public sendMessage(event: any) {
+    if (!this.isLoggedIn()) {
+      this.showError('You must login to be able to chat');
+      this.resetMessageBox(event);
+      return;
+    }
+
     const messageContent = this.messageBox.value.trim();
     if (messageContent) {
-      const message = {
-        isOfCurrentUser: true,
-        avatarUrl: '',
-        userName: '',
-        message: messageContent,
-      };
-      const listMessages = this.state.listMessages;
-      listMessages.push(message);
-      this.setState({
-        listMessages,
-      });
+      const { stationId } = this.props;
+      this.stationServices.sendMessage(stationId, messageContent).subscribe(
+        (data: Message) => {},
+        (err: string) => {
+          this.showError(err);
+        },
+      );
     }
-    this.setMessageBoxAsDefault(event);
-    setTimeout(() => {
-      this.scrollDownMessagesContainer();
-    });
+    this.resetMessageBox(event);
   }
 
-  public setMessageBoxAsDefault(event: any) {
+  public resetMessageBox(event: any) {
     this.messageBox.value = '';
     this.messageBox.style.height = '30px';
     event.preventDefault();
@@ -107,19 +145,19 @@ export class ChatBox extends BaseComponent<{}, IChatBoxStates> {
     return (
       <div className="chat-container">
         <div className="messages-container" id="messages-container">
-          {this.state.listMessages.map(
-            (message: IChatMessageProps, index: number) => {
-              return (
-                <ChatMessage
-                  key={index}
-                  isOfCurrentUser={message.isOfCurrentUser}
-                  avatarUrl={message.avatarUrl}
-                  userName={message.userName}
-                  message={message.message}
-                />
-              );
-            },
-          )}
+          {this.state.listMessages.map((message: Message, index: number) => {
+            return (
+              <ChatMessage
+                key={index}
+                isOfCurrentUser={
+                  message.sender.userId === this.state.userId
+                }
+                userName={message.sender.username}
+                avatarUrl={message.sender.avatarUrl}
+                message={message.content}
+              />
+            );
+          })}
         </div>
         <div className="message-input">
           <textarea
@@ -139,4 +177,18 @@ export class ChatBox extends BaseComponent<{}, IChatBoxStates> {
       </div>
     );
   }
+
+  private startSSEService(stationId: string) {
+    this.stationChatSSE = new StationChatSSE(stationId);
+    this.stationChatSSE.start();
+  }
 }
+
+const mapStateToProps = (state: IApplicationState): IChatReducerProps => ({
+  message: state.chat.message,
+});
+
+export const ChatBox = connect<IChatReducerProps, {}, {}>(
+  mapStateToProps,
+  null,
+)(ChatBoxComponent);

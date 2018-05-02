@@ -3,6 +3,7 @@ import { IApplicationState } from 'Configuration/Redux';
 import { NowPlayingSong, Station as StationModel } from 'Models';
 import {
   AddSong,
+  ChatBox,
   NowPlaying,
   PlaylistTabs,
   StationBrowser,
@@ -127,6 +128,11 @@ class StationComponent extends Component<
               <div className="add-song-container">
                 <h1>Add Song</h1>
                 <AddSong stationId={stationId} />
+              </div>
+            </Col>
+            <Col xs={12}>
+              <div className="chat-container">
+                <ChatBox stationId={stationId} />
               </div>
             </Col>
           </Row>

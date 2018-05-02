@@ -1,5 +1,4 @@
-import { Station, StationPrivacy } from 'Models';
-import { SkipRuleType } from 'Models/Station';
+import { Message, SkipRuleType, Station, StationPrivacy } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';
 
@@ -41,6 +40,16 @@ export class StationServices {
     };
     return this._httpServices.put(
       `${this.serviceUrl}/update-config/${id}`,
+      body,
+    );
+  }
+
+  public sendMessage(stationId: string, message: string): Observable<Message> {
+    const body = {
+      content: message,
+    };
+    return this._httpServices.post(
+      `${this.serviceUrl}/${stationId}/messages`,
       body,
     );
   }

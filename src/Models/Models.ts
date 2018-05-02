@@ -8,6 +8,7 @@ export {
 } from './User';
 export {
   ISkipRule,
+  Message,
   SkipRuleType,
   Station,
   StationItem,
