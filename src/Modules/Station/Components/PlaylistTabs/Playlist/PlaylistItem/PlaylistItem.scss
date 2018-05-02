@@ -11,8 +11,12 @@
     justify-content: center;
   }
 
-  .isActive {
+  .is-active {
     color: rgb(224, 106, 78);
+  }
+
+  .is-vote-loading {
+    opacity: 0.5;
   }
 
   .message-icon {
