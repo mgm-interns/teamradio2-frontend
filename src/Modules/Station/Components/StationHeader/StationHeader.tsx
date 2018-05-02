@@ -130,7 +130,7 @@ class OriginStationHeader extends BaseComponent<
 
     return (
       <Row className="header-container">
-        <div>
+        <div className="header-wrapper">
           <h1>{station && station.name}</h1>
           <OnlineUsers />
         </div>
