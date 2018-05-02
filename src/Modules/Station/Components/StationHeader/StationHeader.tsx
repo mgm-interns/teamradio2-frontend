@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
-import { StationSharing } from 'Modules/Station';
+import { OnlineUsers, StationSharing } from 'Modules/Station';
 import { Fragment } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -132,6 +132,7 @@ class OriginStationHeader extends BaseComponent<
       <Row className="header-container">
         <div>
           <h1>{station && station.name}</h1>
+          <OnlineUsers />
         </div>
         <div className="buttons-wrapper">
           {this._renderButton(
