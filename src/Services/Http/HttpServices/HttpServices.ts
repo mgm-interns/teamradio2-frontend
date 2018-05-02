@@ -116,7 +116,7 @@ export class HttpServices {
   }
 
   private isUnhandledServerError(err: any) {
-    return typeof err.response.data === 'string';
+    return !err || !err.response || typeof err.response.data === 'string';
   }
 
   private getServerErrorMessage(err: IServerError): string {
