@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Dotenv = require('dotenv-webpack');
 const WebpackBar = require('webpackbar');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -10,6 +9,8 @@ const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plu
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const paths = require('./paths');
+
+const getClientEnvironment = require('./getEnvironment');
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
@@ -126,8 +127,6 @@ module.exports = {
     new WebpackBar({
       profile: true,
     }),
-    // A secure webpack plugin that supports dotenv and other environment variables and only exposes what you choose and use.
-    new Dotenv(),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
@@ -166,6 +165,7 @@ module.exports = {
       async: false,
       checkSyntacticErrors: true,
     }),
+    new webpack.DefinePlugin(getClientEnvironment().stringified),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
