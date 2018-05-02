@@ -69,9 +69,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     }
     return (
       <div className="player-container">
-        {message ? (
-          <p className="player-message">{message}</p>
-        ) : null}
+        {message && this._renderMessage(message)}
         <StationPlayer
           url={url}
           playing={true}
@@ -179,6 +177,15 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     const { nowPlaying: oldNowPlaying } = this.props;
     const { nowPlaying: nextNowPlaying } = nextProps;
     return JSON.stringify(oldNowPlaying) !== JSON.stringify(nextNowPlaying);
+  }
+
+  private _renderMessage(message: string) {
+    if (!message.trim()) {
+      return null;
+    }
+    return (
+      <p className="player-message">{message}</p>
+    );
   }
 }
 
