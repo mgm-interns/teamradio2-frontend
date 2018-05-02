@@ -7,6 +7,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('@nuxtjs/friendly-errors-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const paths = require('./paths');
 
@@ -166,6 +167,15 @@ module.exports = {
       checkSyntacticErrors: true,
     }),
     new webpack.DefinePlugin(getClientEnvironment().stringified),
+    new WorkboxPlugin.GenerateSW({
+      swDest: paths.appServiceWorker,
+      // clientsClaim instructs the latest service worker
+      // to take control of all clients as soon as it's activated.
+      clientsClaim: true,
+      // skipWaiting instructs the latest service worker
+      // to activate as soon as it enters the waiting phase.
+      skipWaiting: true,
+    }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

@@ -16,4 +16,5 @@ module.exports = {
   appBabelRc: resolveApp('.babelrc.js'),
   appTsConfigJson: resolveApp('tsconfig.json'),
   appTsLintJson: resolveApp('tslint.json'),
+  appServiceWorker: resolveApp('build/sw.js'),
 };
