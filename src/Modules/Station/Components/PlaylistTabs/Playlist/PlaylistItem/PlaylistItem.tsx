@@ -51,7 +51,8 @@ interface IPlayListItemStates {
   isDownVote: boolean;
   upVoteCount: number;
   downVoteCount: number;
-  isVoteLoading: boolean;
+  isUpVoteLoading: boolean;
+  isDownVoteLoading: boolean;
   isFavorite: boolean;
 }
 
@@ -68,7 +69,8 @@ export class PlaylistItemComponent extends BaseComponent<
       isDownVote: false,
       upVoteCount: this.props.upVoteCount,
       downVoteCount: this.props.downVoteCount,
-      isVoteLoading: false,
+      isUpVoteLoading: false,
+      isDownVoteLoading: false,
       isFavorite: this.props.isFavorite,
     };
     this.setFavoriteSong = this.setFavoriteSong.bind(this);
@@ -99,13 +101,13 @@ export class PlaylistItemComponent extends BaseComponent<
     if (this.props.upVoteCount !== nextProps.upVoteCount) {
       this.setState({
         upVoteCount: nextProps.upVoteCount,
-        isVoteLoading: false,
+        isUpVoteLoading: false,
       });
     }
     if (this.props.downVoteCount !== nextProps.downVoteCount) {
       this.setState({
         downVoteCount: nextProps.downVoteCount,
-        isVoteLoading: false,
+        isDownVoteLoading: false,
       });
     }
   }
@@ -163,7 +165,7 @@ export class PlaylistItemComponent extends BaseComponent<
 
     if (
       (this.isAllowedToVote() && this.isMySong(creator)) ||
-      this.state.isVoteLoading
+      this.state.isUpVoteLoading
     ) {
       return;
     }
@@ -175,7 +177,7 @@ export class PlaylistItemComponent extends BaseComponent<
         upVoteCount: prevState.upVoteCount + (prevState.isUpVote ? -1 : 1),
         downVoteCount:
           prevState.downVoteCount + (prevState.isDownVote ? -1 : 0),
-        isVoteLoading: true,
+        isUpVoteLoading: true,
       };
     });
     upVote(id);
@@ -184,7 +186,7 @@ export class PlaylistItemComponent extends BaseComponent<
   public setDownVote() {
     const { downVote, id } = this.props;
 
-    if (!this.isAllowedToVote() || this.state.isVoteLoading) return;
+    if (!this.isAllowedToVote() || this.state.isDownVoteLoading) return;
 
     this.setState((prevState: IPlayListItemStates, props: IProps) => {
       return {
@@ -194,7 +196,7 @@ export class PlaylistItemComponent extends BaseComponent<
           prevState.downVoteCount +
           (prevState.isDownVote && prevState.downVoteCount > 0 ? -1 : 1),
         upVoteCount: prevState.upVoteCount + (prevState.isUpVote ? -1 : 0),
-        isVoteLoading: true,
+        isDownVoteLoading: true,
       };
     });
     downVote(id);
@@ -231,7 +233,14 @@ export class PlaylistItemComponent extends BaseComponent<
   };
 
   public _renderVotingSection = () => {
-    const { isUpVote, isDownVote, upVoteCount, downVoteCount } = this.state;
+    const {
+      isUpVote,
+      isDownVote,
+      upVoteCount,
+      downVoteCount,
+      isUpVoteLoading,
+      isDownVoteLoading,
+    } = this.state;
 
     return (
       <Col xs={5} className="d-flex align-items-end pr-0">
@@ -241,6 +250,7 @@ export class PlaylistItemComponent extends BaseComponent<
               onClick={() => this.setUpVote()}
               className={classNames('like-icon', {
                 'is-active': isUpVote,
+                'is-vote-loading': isUpVoteLoading,
               })}>
               <i className="fa fa-thumbs-up thumbs-icon" />
               {upVoteCount}
@@ -249,6 +259,7 @@ export class PlaylistItemComponent extends BaseComponent<
               onClick={() => this.setDownVote()}
               className={classNames('dislike-icon', {
                 'is-active': isDownVote,
+                'is-vote-loading': isDownVoteLoading,
               })}>
               <i className="fa fa-thumbs-down thumbs-icon" />
               {downVoteCount}
