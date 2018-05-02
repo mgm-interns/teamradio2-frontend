@@ -25,6 +25,11 @@ export const favoriteReducer: Reducer<IFavorite> = (
           item => item.songId !== action.payload,
         ),
       };
+    case actionTypes.SIGN_OUT:
+      return {
+        ...state,
+        favoriteList: [],
+      };
     default:
       return state;
   }
