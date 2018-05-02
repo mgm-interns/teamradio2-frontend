@@ -92,7 +92,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
       user => (user.username === currentUser.username ? 0 : 1),
     );
     return (
-      <ListGroup className="online-users-list">
+      <ListGroup>
         {filteredUsers.map(({ name, username, avatarUrl }, index) => (
           <ListGroupItem
             key={index}
