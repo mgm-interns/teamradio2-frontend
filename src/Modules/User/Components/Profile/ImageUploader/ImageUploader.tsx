@@ -7,6 +7,7 @@ import Cropper from 'react-cropper';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { UserServices } from 'Services/Http';
+import { MAXIMUM_IMAGE_TO_BYTE, MAXIMUM_IMAGE_TO_MB } from '../../../Constants';
 import { updateUserInfo } from '../../../Redux/Actions';
 import './ImageUploader.scss';
 
@@ -112,8 +113,9 @@ class ImageUploaderComponent extends BaseComponent<IProps, any> {
 
   public async convertImageUploaded(event: any) {
     const uploadedImage = event.target.files[0];
-    if (uploadedImage.size / 1024 / 1024 > 2) {
-      // Notify image upload exceed 2MB
+    if (uploadedImage.size > MAXIMUM_IMAGE_TO_BYTE) {
+      this.setAllValueToDefault();
+      this.showError(`The picture size can not exceed ${MAXIMUM_IMAGE_TO_MB}MB.`);
     } else {
       const base64 = await fileContentToBase64(uploadedImage);
       await this.setStateAsync({ uploadedImage: base64 });
@@ -191,7 +193,7 @@ class ImageUploaderComponent extends BaseComponent<IProps, any> {
     );
   }
 }
-//
+
 const mapDispatchToProps = (dispatch: Dispatch): IDispatcherProps => ({
   updateUserInfo: (userInfo: RegisteredUser) =>
     dispatch(updateUserInfo(userInfo)),
