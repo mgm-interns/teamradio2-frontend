@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 import { localStorageManager } from 'Helpers';
-import { AccessToken } from 'Models';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { createHeaders } from 'Services/Header';
 import { IServerError } from './IServerError';
 import { RequestMethod } from './RequestMethod';
 
@@ -46,7 +46,7 @@ export class HttpServices {
 
   protected createAxiosInstance(): AxiosInstance {
     const accessToken = localStorageManager.getAccessToken();
-    const headers = this.createHeaders(accessToken);
+    const headers = createHeaders(accessToken);
     const options: AxiosRequestConfig = {
       headers,
       baseURL: this._endPoint,
@@ -102,17 +102,6 @@ export class HttpServices {
 
   private getAxiousInstance(): AxiosInstance {
     return this.createAxiosInstance();
-  }
-
-  private createHeaders(accessToken?: AccessToken): any {
-    const headerParams: any = {
-      'Content-Type': 'application/json',
-    };
-    if (accessToken) {
-      const { access_token, token_type } = accessToken;
-      headerParams.Authorization = `${token_type} ${access_token}`;
-    }
-    return headerParams;
   }
 
   private isUnhandledServerError(err: any) {

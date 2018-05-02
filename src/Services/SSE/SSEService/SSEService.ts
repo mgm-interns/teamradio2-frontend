@@ -1,10 +1,20 @@
 import { getStore } from 'Configuration/Redux/index';
 import { IApplicationState } from 'Configuration/Redux/Reducers';
+import 'event-source-polyfill/src/eventsource';
+import { localStorageManager } from 'Helpers';
 import { Store } from 'redux';
+import { createHeaders } from 'Services/Header';
+import {
+  IEventSourcePolyfill,
+  IEventSourcePolyfillOptions,
+} from './EventSourcePolyfill';
 import { IRadioSSEOptions, ISSEService } from './ISSEService';
+
+declare var EventSourcePolyfill: IEventSourcePolyfill;
 
 export default class SSEService implements ISSEService {
   public eventSource: EventSource;
+  public eventSourceOptions: IEventSourcePolyfillOptions;
   public options: IRadioSSEOptions;
 
   private store: Store<IApplicationState>;
@@ -33,7 +43,10 @@ export default class SSEService implements ISSEService {
     /**
      * Initial EventSource instance
      */
-    this.eventSource = new EventSource(this.options.endpoint);
+    this.eventSource = new EventSourcePolyfill(
+      this.options.endpoint,
+      this.eventSourceOptions,
+    );
 
     // Bind listener
     this.eventSource.addEventListener(
@@ -69,6 +82,13 @@ export default class SSEService implements ISSEService {
   protected beforeStart() {
     //
     if (this.options.beforeStart) this.options.beforeStart();
+
+    // Read access token and append to headers
+    const accessToken = localStorageManager.getAccessToken();
+
+    this.eventSourceOptions = {
+      headers: createHeaders(accessToken),
+    };
   }
 
   protected afterStart() {
