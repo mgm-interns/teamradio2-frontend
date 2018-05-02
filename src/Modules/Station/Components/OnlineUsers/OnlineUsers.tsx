@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
@@ -119,10 +120,18 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     return [
       <div
         key={1}
-        className="online-users-container"
         id="online-users"
+        className="online-users-container"
         onClick={this.toggle}>
-        <span>{fixture.length} online</span>
+        <i
+          className={classNames('fa', {
+            'fa-circle online-color': fixture.length > 0,
+            'fa-circle-o': fixture.length <= 0,
+          })}
+        />
+        <span className="online-users-length">
+          {fixture.length || '0'} online
+        </span>
       </div>,
       <Popover
         key={2}
