@@ -3,7 +3,7 @@ import { Dispatch } from 'Configuration/Redux';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
-import { signOut } from 'Modules/User/Redux/Actions';
+import { signOut, updateUserInfo } from 'Modules/User/Redux/Actions';
 import { Fragment } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -21,6 +21,7 @@ import './UserDropdown.scss';
 interface IProps {
   userInfo: RegisteredUser;
   signOut: () => void;
+  updateUserInfo: (userInfo: RegisteredUser) => void;
 }
 
 interface IState {
@@ -99,7 +100,9 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
 
   public signOut() {
     localStorageManager.removeAccessToken();
+    // listen logout event
     this.props.signOut();
+    this.props.updateUserInfo(new RegisteredUser());
     this.setState({
       isAuthenticated: false,
     });
@@ -175,6 +178,8 @@ const mapStateToProps = (state: IApplicationState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   signOut: () => dispatch(signOut()),
+  updateUserInfo: (userInfo: RegisteredUser) =>
+    dispatch(updateUserInfo(userInfo)),
 });
 
 export const UserDropdown = connect(mapStateToProps, mapDispatchToProps)(
