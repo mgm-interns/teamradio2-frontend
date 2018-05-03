@@ -184,7 +184,9 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
       return null;
     }
     return (
-      <p className="player-message">{message}</p>
+      <p className="player-message">
+        <span className="content">{message}</span>
+      </p>
     );
   }
 }
