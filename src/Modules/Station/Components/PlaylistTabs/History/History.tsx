@@ -27,6 +27,10 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     this.replaySong = this.replaySong.bind(this);
   }
 
+  public componentDidMount() {
+    this.updateHistory();
+  }
+
   public replaySong(youtubeVideoId: string, message: string) {
     const { stationId } = this.props;
     this.songServices.addSong(stationId, youtubeVideoId, message).subscribe(
