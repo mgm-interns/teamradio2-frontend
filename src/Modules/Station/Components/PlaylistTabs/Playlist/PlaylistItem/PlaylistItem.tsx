@@ -332,7 +332,7 @@ export class PlaylistItemComponent extends BaseComponent<
                 <UncontrolledTooltip
                   placement="bottom"
                   target={'UserAvatar' + id}>
-                  {creator.username}
+                  { creator.name || creator.username }
                 </UncontrolledTooltip>
               </div>
             )}
