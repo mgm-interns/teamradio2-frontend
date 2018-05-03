@@ -1,9 +1,10 @@
+import { localStorageManager } from 'Helpers';
 import { Reducer } from 'redux';
 import { actionTypes } from '../Constants';
 import { IUser } from '../Types';
 
 const userInitialState: IUser = {
-  userInfo: null,
+  userInfo: { ...localStorageManager.getUserInfo() },
   error: '',
   loading: false,
   isAuthenticated: false,

@@ -10,6 +10,10 @@ export const updateUserInfo: ActionCreator<any> = (
   payload: userInfo,
 });
 
+export const signOut: ActionCreator<any> = () => ({
+  type: actionTypes.SIGN_OUT,
+});
+
 export const addFavorite: ActionCreator<any> = (
   favorite: FavoriteSongItem,
 ) => ({

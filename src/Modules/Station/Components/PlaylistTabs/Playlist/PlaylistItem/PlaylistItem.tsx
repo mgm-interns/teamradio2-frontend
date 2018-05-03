@@ -30,6 +30,7 @@ interface ISongProps {
 
 interface IStateProps {
   nowPlaying: NowPlayingSong;
+  userInfo: RegisteredUser;
 }
 
 interface IDispatcherProps {
@@ -54,6 +55,7 @@ interface IPlayListItemStates {
   isUpVoteLoading: boolean;
   isDownVoteLoading: boolean;
   isFavorite: boolean;
+  isLogout: boolean;
 }
 
 export class PlaylistItemComponent extends BaseComponent<
@@ -72,6 +74,7 @@ export class PlaylistItemComponent extends BaseComponent<
       isUpVoteLoading: false,
       isDownVoteLoading: false,
       isFavorite: this.props.isFavorite,
+      isLogout: !this.props.userInfo,
     };
     this.setFavoriteSong = this.setFavoriteSong.bind(this);
     this.setUpVote = this.setUpVote.bind(this);
@@ -88,6 +91,10 @@ export class PlaylistItemComponent extends BaseComponent<
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
+    if (this.props.userInfo !== nextProps.userInfo) {
+      this.setState({ isLogout: !!nextProps.userInfo });
+    }
+
     if (this.props.isFavorite !== nextProps.isFavorite) {
       this.setState({ isFavorite: nextProps.isFavorite });
     }
@@ -164,7 +171,8 @@ export class PlaylistItemComponent extends BaseComponent<
     const { upVote, id, creator } = this.props;
 
     if (
-      (this.isAllowedToVote() && this.isMySong(creator)) ||
+      !this.isAllowedToVote() ||
+      this.isMySong(creator) ||
       this.state.isUpVoteLoading
     ) {
       return;
@@ -240,6 +248,7 @@ export class PlaylistItemComponent extends BaseComponent<
       downVoteCount,
       isUpVoteLoading,
       isDownVoteLoading,
+      isLogout,
     } = this.state;
 
     return (
@@ -249,7 +258,7 @@ export class PlaylistItemComponent extends BaseComponent<
             <span
               onClick={() => this.setUpVote()}
               className={classNames('like-icon', {
-                'is-active': isUpVote,
+                'is-active': !isLogout && isUpVote,
                 'is-vote-loading': isUpVoteLoading,
               })}>
               <i className="fa fa-thumbs-up thumbs-icon" />
@@ -258,7 +267,7 @@ export class PlaylistItemComponent extends BaseComponent<
             <span
               onClick={() => this.setDownVote()}
               className={classNames('dislike-icon', {
-                'is-active': isDownVote,
+                'is-active': !isLogout && isDownVote,
                 'is-vote-loading': isDownVoteLoading,
               })}>
               <i className="fa fa-thumbs-down thumbs-icon" />
@@ -391,6 +400,7 @@ export class PlaylistItemComponent extends BaseComponent<
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
   nowPlaying: state.playlist.nowPlaying,
+  userInfo: state.user.userInfo,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
