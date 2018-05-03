@@ -1,5 +1,6 @@
 .player {
   flex: 1;
+  position: relative;
   background: #fafafa;
 
   &.player-none {
@@ -25,5 +26,36 @@
 
   .progress-buffer {
     background: #f3d2cb;
+  }
+}
+
+.player-message {
+  width: 100%;
+  position: absolute;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.46429em;
+  font-family: 'Roboto Slab', sans-serif;
+  color: white;
+  background: rgba(0, 0, 0, 0.54);
+  overflow: hidden;
+}
+
+.content {
+  white-space: nowrap;
+  position: relative;
+  animation: marquee 20s linear infinite;
+}
+
+.content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from {
+    margin-left: 100%;
+  }
+  to {
+    margin-left: -100%;
   }
 }

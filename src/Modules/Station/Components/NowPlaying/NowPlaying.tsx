@@ -62,26 +62,24 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     const { progress } = this.state;
     const { muted, nowPlaying } = this.props;
     const url = nowPlaying ? nowPlaying.url : null;
-    const message = nowPlaying ? nowPlaying.messages : null;
+    const message = nowPlaying ? nowPlaying.message : null;
 
     if (isMobileBrowser()) {
       return null;
     }
     return (
-      <div className="player-container">
-        {message && this._renderMessage(message)}
-        <StationPlayer
-          url={url}
-          playing={true}
-          showProgressbar
-          muted={muted}
-          playerRef={this.bindPlayerRef}
-          progress={progress}
-          onProgress={this.onProgress}
-          onStart={this.onStart}
-          onEnded={this.onEnded}
-        />
-      </div>
+      <StationPlayer
+        url={url}
+        playing={true}
+        showProgressbar
+        muted={muted}
+        playerRef={this.bindPlayerRef}
+        progress={progress}
+        onProgress={this.onProgress}
+        onStart={this.onStart}
+        onEnded={this.onEnded}
+        message={message}
+      />
     );
   }
 
@@ -177,17 +175,6 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     const { nowPlaying: oldNowPlaying } = this.props;
     const { nowPlaying: nextNowPlaying } = nextProps;
     return JSON.stringify(oldNowPlaying) !== JSON.stringify(nextNowPlaying);
-  }
-
-  private _renderMessage(message: string) {
-    if (!message.trim()) {
-      return null;
-    }
-    return (
-      <p className="player-message">
-        <span className="content">{message}</span>
-      </p>
-    );
   }
 }
 

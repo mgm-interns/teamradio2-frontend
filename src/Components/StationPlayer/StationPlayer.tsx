@@ -14,6 +14,7 @@ interface IProps {
   onProgress?: (playerState: IReactPlayerPropsOnProgressState) => void;
   onStart?: () => void;
   onEnded?: () => void;
+  message?: string;
 }
 
 interface IState {
@@ -49,7 +50,7 @@ export class StationPlayer extends Component<IProps, IState> {
   }
 
   public render() {
-    const { url, playing, showProgressbar, muted } = this.props;
+    const { url, playing, showProgressbar, muted, message } = this.props;
     const { played, loaded } = this.state;
 
     if (!url) {
@@ -65,6 +66,7 @@ export class StationPlayer extends Component<IProps, IState> {
     return (
       <Fragment>
         <div className="player">
+          {message && this._renderMessage(message)}
           <ReactPlayer
             url={url}
             ref={this.ref}
@@ -149,4 +151,15 @@ export class StationPlayer extends Component<IProps, IState> {
       this.props.onEnded();
     }
   };
+
+  private _renderMessage(message: string) {
+    if (!message.trim()) {
+      return null;
+    }
+    return (
+      <p className="player-message">
+        <span className="content">{message}</span>
+      </p>
+    );
+  }
 }

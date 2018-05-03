@@ -16,6 +16,5 @@ export class Song {
   public upvoteUserList: RegisteredUser[];
   public downvoteUserList: RegisteredUser[];
   public message: string;
-  public messages: string;
   public createdAt: string;
 }
