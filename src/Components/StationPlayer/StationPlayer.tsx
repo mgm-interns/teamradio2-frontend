@@ -57,9 +57,7 @@ export class StationPlayer extends Component<IProps, IState> {
         <div className="player player-none">
           <div>
             <i className="fa fa-music" />
-            <h5>
-              There is no playing song.
-            </h5>
+            <h5>There is no playing song.</h5>
           </div>
         </div>
       );

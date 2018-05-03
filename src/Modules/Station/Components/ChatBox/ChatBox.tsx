@@ -86,7 +86,7 @@ export class ChatBoxComponent extends BaseComponent<
 
   public onReceiveNewMessage(newMessage: Message) {
     const listMessages = this.state.listMessages;
-    for(const message of listMessages) {
+    for (const message of listMessages) {
       if (message.id === newMessage.id) {
         return;
       }
@@ -149,9 +149,7 @@ export class ChatBoxComponent extends BaseComponent<
             return (
               <ChatMessage
                 key={index}
-                isOfCurrentUser={
-                  message.sender.userId === this.state.userId
-                }
+                isOfCurrentUser={message.sender.userId === this.state.userId}
                 userName={message.sender.username}
                 avatarUrl={message.sender.avatarUrl}
                 message={message.content}

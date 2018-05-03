@@ -115,7 +115,9 @@ class ImageUploaderComponent extends BaseComponent<IProps, any> {
     const uploadedImage = event.target.files[0];
     if (uploadedImage.size > MAXIMUM_IMAGE_TO_BYTE) {
       this.setAllValueToDefault();
-      this.showError(`The picture size can not exceed ${MAXIMUM_IMAGE_TO_MB}MB.`);
+      this.showError(
+        `The picture size can not exceed ${MAXIMUM_IMAGE_TO_MB}MB.`,
+      );
     } else {
       const base64 = await fileContentToBase64(uploadedImage);
       await this.setStateAsync({ uploadedImage: base64 });
