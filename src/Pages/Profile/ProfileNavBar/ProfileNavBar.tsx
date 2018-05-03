@@ -5,7 +5,7 @@ import {
 } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
-import { Container, Nav, NavItem, NavLink, Row } from 'reactstrap';
+import { Col, Container, Nav, NavItem, NavLink, Row } from 'reactstrap';
 import { TabContent, TabPane } from 'reactstrap';
 import './ProfileNavBar.scss';
 import { SelectFormButton } from './SelectFormButton';
@@ -40,7 +40,7 @@ export class ProfileNavBar extends Component<{}, IProfileNavBarStates> {
     return (
       <Container>
         <Row>
-          <div className="col-10 pd-0">
+          <Col sm={11} xs={10} className="pd-0">
             <Nav tabs>
               <NavItem>
                 <NavLink
@@ -57,10 +57,10 @@ export class ProfileNavBar extends Component<{}, IProfileNavBarStates> {
                 </NavLink>
               </NavItem>
             </Nav>
-          </div>
-          <div className="col-2 pd-0">
+          </Col>
+          <Col sm={1} xs={2} className="pd-0">
             <SelectFormButton />
-          </div>
+          </Col>
         </Row>
         <Row>
           <TabContent className={'profile-tab-content'} activeTab={activeTab}>
