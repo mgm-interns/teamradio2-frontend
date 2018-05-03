@@ -39,7 +39,12 @@ export class PreviewVideo extends Component<any, any> {
   }
 
   public handleButtonAddSong() {
-    this.props.addSong(this.state.message);
+    const { message } = this.state;
+    this.props.addSong(message);
+
+    this.setState({
+      message: null,
+    });
   }
 
   public render() {
