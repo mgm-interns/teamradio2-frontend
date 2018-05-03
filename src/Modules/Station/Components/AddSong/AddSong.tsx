@@ -26,6 +26,7 @@ export class AddSongComponent extends BaseComponent<
   private stationServices: StationServices;
   private songServices: SongServices;
   private searchSongRef: SearchSong;
+  private previewVideoRef: PreviewVideo;
 
   constructor(props: IAddLinkProps) {
     super(props);
@@ -63,6 +64,7 @@ export class AddSongComponent extends BaseComponent<
       (res: Song) => {
         this.setPreviewVideo(null);
         this.searchSongRef.clearInput();
+        this.previewVideoRef.clearMessage();
       },
       (err: string) => {
         this.showError(err);
@@ -84,6 +86,7 @@ export class AddSongComponent extends BaseComponent<
               </Col>
               <Col lg="8" xs="12">
                 <PreviewVideo
+                  ref={this.binPreviewSongRef}
                   video={this.state.preview}
                   addSong={this.addSong}
                 />
@@ -97,6 +100,10 @@ export class AddSongComponent extends BaseComponent<
 
   private bindRef = (ref: SearchSong) => {
     this.searchSongRef = ref;
+  };
+
+  private binPreviewSongRef = (ref: PreviewVideo) => {
+    this.previewVideoRef = ref;
   };
 }
 
