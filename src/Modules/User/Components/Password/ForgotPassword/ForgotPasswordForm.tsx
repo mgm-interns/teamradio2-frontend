@@ -45,7 +45,8 @@ export class ForgotPasswordForm extends BaseComponent<IProps, IState> {
         this.showFormAlerSuccess();
         setSubmitting(false);
       },
-      (err: any) => {
+      (err: string) => {
+        this.showError(err);
         this.showFormAlertError(err);
         setSubmitting(false);
       },

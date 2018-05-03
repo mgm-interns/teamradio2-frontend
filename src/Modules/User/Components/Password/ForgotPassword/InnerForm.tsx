@@ -2,7 +2,7 @@ import { LoadingIndicator } from 'Components/LoadingIndicator';
 import { Field, Form, FormikProps } from 'formik';
 import * as React from 'react';
 import { Fragment } from 'react';
-import { Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
+import { Alert, Button, FormFeedback, FormGroup, InputGroup } from 'reactstrap';
 
 export interface IFormValues {
   email: string;
@@ -14,7 +14,7 @@ export interface IFormProps {
 }
 
 export const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
-  const { touched, errors, isSubmitting, success } = props;
+  const { touched, errors, isSubmitting, success, serverError } = props;
   return (
     <Fragment>
       {!success ? (
@@ -36,6 +36,11 @@ export const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
                   errors.email && <FormFeedback>{errors.email}</FormFeedback>}
               </InputGroup>
             </FormGroup>
+            {serverError && (
+              <Alert className="capitalize-first-letter" color="danger">
+                {serverError}
+              </Alert>
+            )}
             {isSubmitting ? (
               <div className="d-flex justify-content-center">
                 <LoadingIndicator />
