@@ -25,7 +25,15 @@ interface IDispatcherProps {
 
 type IProps = IImageUploaderComponentProps & IDispatcherProps;
 
-class ImageUploaderComponent extends BaseComponent<IProps, any> {
+interface IState {
+  isUploadingImage: boolean;
+  isOpenCropModal: boolean;
+  isSubmitting: boolean;
+  uploadedImage: any;
+  croppedImage: any;
+}
+
+class ImageUploaderComponent extends BaseComponent<IProps, IState> {
   private inputFileTag: any;
   private userServices: UserServices;
 
@@ -63,52 +71,50 @@ class ImageUploaderComponent extends BaseComponent<IProps, any> {
       isUploadingImage: true,
       isSubmitting: true,
     });
-    if (isUpdateAvatar) {
-      this.uploadUserAvatar();
-    } else {
-      this.uploadUserCover();
-    }
+    this.state.croppedImage.toBlob((croppedImageBlob: Blob) => {
+      if (isUpdateAvatar) {
+        this.uploadUserAvatar(croppedImageBlob);
+      } else {
+        this.uploadUserCover(croppedImageBlob);
+      }
+    }, 'image/jpeg');
   }
 
-  public uploadUserAvatar() {
-    this.state.croppedImage.toBlob((croppedImageBlob: Blob) => {
-      this.userServices.uploadUserAvatar(croppedImageBlob).subscribe(
-        (userInfo: RegisteredUser) => {
-          this.showSuccess('Your avatar has been successfully updated!');
-          this.props.updateUserInfo(userInfo);
-          this.setState({
-            croppedImage: userInfo.avatarUrl,
-            isUploadingImage: false,
-            isOpenCropModal: false,
-          });
-          this.responseImageUrl();
-          this.setAllValueToDefault();
-        },
-        (err: string) => {
-          this.showError(err);
-        },
-      );
-    });
+  public uploadUserAvatar(croppedImageBlob: Blob) {
+    this.userServices.uploadUserAvatar(croppedImageBlob).subscribe(
+      (userInfo: RegisteredUser) => {
+        this.showSuccess('Your avatar has been successfully updated!');
+        this.props.updateUserInfo(userInfo);
+        this.setState({
+          croppedImage: userInfo.avatarUrl,
+          isUploadingImage: false,
+          isOpenCropModal: false,
+        });
+        this.responseImageUrl();
+        this.setAllValueToDefault();
+      },
+      (err: string) => {
+        this.showError(err);
+      },
+    );
   }
 
-  public uploadUserCover() {
-    this.state.croppedImage.toBlob((croppedImageBlob: Blob) => {
-      this.userServices.uploadUserCover(croppedImageBlob).subscribe(
-        (userInfo: RegisteredUser) => {
-          this.showSuccess('Your cover photo has been successfully updated!');
-          this.setState({
-            croppedImage: userInfo.coverUrl,
-            isUploadingImage: false,
-            isOpenCropModal: false,
-          });
-          this.responseImageUrl();
-          this.setAllValueToDefault();
-        },
-        (err: string) => {
-          this.showError(err);
-        },
-      );
-    });
+  public uploadUserCover(croppedImageBlob: Blob) {
+    this.userServices.uploadUserCover(croppedImageBlob).subscribe(
+      (userInfo: RegisteredUser) => {
+        this.showSuccess('Your cover photo has been successfully updated!');
+        this.setState({
+          croppedImage: userInfo.coverUrl,
+          isUploadingImage: false,
+          isOpenCropModal: false,
+        });
+        this.responseImageUrl();
+        this.setAllValueToDefault();
+      },
+      (err: string) => {
+        this.showError(err);
+      },
+    );
   }
 
   public async convertImageUploaded(event: any) {
