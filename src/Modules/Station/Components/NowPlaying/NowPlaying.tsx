@@ -62,6 +62,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     const { progress } = this.state;
     const { muted, nowPlaying } = this.props;
     const url = nowPlaying ? nowPlaying.url : null;
+    const message = nowPlaying ? nowPlaying.message : null;
 
     if (isMobileBrowser()) {
       return null;
@@ -77,6 +78,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
         onProgress={this.onProgress}
         onStart={this.onStart}
         onEnded={this.onEnded}
+        message={message}
       />
     );
   }
