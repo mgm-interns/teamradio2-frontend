@@ -42,6 +42,12 @@ export class PreviewVideo extends Component<any, any> {
     this.props.addSong(this.state.message);
   }
 
+  public clearMessage() {
+    this.setState({
+      message: null,
+    });
+  }
+
   public render() {
     const { video } = this.props;
     const { muted } = this.state;
