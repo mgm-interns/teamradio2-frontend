@@ -1,3 +1,4 @@
+import * as classNames from 'classnames';
 import { YoutubeHelper } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
@@ -11,6 +12,7 @@ export class PreviewVideo extends Component<any, any> {
     this.state = {
       muted: true,
       message: null,
+      isAdding: false,
     };
     this.mutePreview = this.mutePreview.bind(this);
     this.updateMessage = this.updateMessage.bind(this);
@@ -39,18 +41,24 @@ export class PreviewVideo extends Component<any, any> {
   }
 
   public handleButtonAddSong() {
+    if (this.state.isAdding) {
+      return;
+    }
+
     this.props.addSong(this.state.message);
+    this.setState({ isAdding: true });
   }
 
   public clearMessage() {
     this.setState({
       message: null,
+      isAdding: false,
     });
   }
 
   public render() {
     const { video } = this.props;
-    const { muted } = this.state;
+    const { muted, isAdding } = this.state;
 
     return (
       <div className="preview">
@@ -98,7 +106,9 @@ export class PreviewVideo extends Component<any, any> {
                 )}
                 <Button
                   color="primary"
-                  className="preview__button"
+                  className={classNames('preview__button', {
+                    'is-adding': isAdding,
+                  })}
                   onClick={this.handleButtonAddSong}>
                   Add
                 </Button>
