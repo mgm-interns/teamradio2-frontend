@@ -17,9 +17,13 @@ export class MyStationsBrowser extends BaseStationBrowser<{}> {
   }
 
   public getListStation() {
+    this.setState({
+      loading: true,
+    });
+
     this.userServices.getListMyStation().subscribe(
       (listStation: StationItem[]) => {
-        this.setState({ listStation });
+        this.setState({ listStation, loading: false });
       },
       (err: string) => {
         this.showError(err);

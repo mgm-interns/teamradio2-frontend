@@ -8,6 +8,7 @@ import { Row } from 'reactstrap';
 export interface IBaseStationBrowserStates {
   listStation: StationItem[];
   stationItemContainerRef: HTMLElement;
+  loading: boolean;
 }
 
 export abstract class BaseStationBrowser<T> extends BaseComponent<
@@ -20,10 +21,14 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
     this.state = {
       listStation: [],
       stationItemContainerRef: null,
+      loading: false,
     };
   }
 
   public render() {
+    if (this.state.loading) {
+      return this.renderLoading();
+    }
     const listItems = this.getListItems();
     if (listItems.length === 0) {
       return null;
@@ -49,6 +54,34 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
       </Row>
     );
   }
+
+  protected renderLoading = () => {
+    const listItems = Array.from({ length: 14 });
+    return (
+      <div className="station-browser-loading-container">
+        <Row className="m-0 justify-content-center justify-content-center">
+          <div className="col-xl-12 browser">
+            <div className="cover-div">
+              <div className="m-auto extra-large-container list-station">
+                <div
+                  className="station-item-container"
+                  ref={this.bindStationItemContainerRef}>
+                  {listItems.map((item, index) => (
+                    <div
+                      className="station-browser-loading-item station-item"
+                      key={index}>
+                      <div className="thumbnail" />
+                      <div className="station-name" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </Row>
+      </div>
+    );
+  };
 
   protected getListItems = (): StationItem[] => {
     return this.state.listStation;

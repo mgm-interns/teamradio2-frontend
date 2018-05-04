@@ -31,10 +31,15 @@ export class StationBrowser extends BaseStationBrowser<IStationBrowserProps> {
     // react component will trigger render again
     this.setState({
       listStation: new StationItemsControlledMap(listStationToUpdate).toArray(),
+      loading: false,
     });
   }
 
   public getListStation() {
+    this.setState({
+      loading: true,
+    });
+
     this.stationServices.getListStation().subscribe(
       (listStation: StationItemsMap) => {
         this.updateListStation(listStation);
