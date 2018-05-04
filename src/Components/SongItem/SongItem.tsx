@@ -1,4 +1,5 @@
 import { Song } from 'Models/Song';
+import { DEFAULT_USER_AVATAR } from 'Modules/User/Constants';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, UncontrolledTooltip } from 'reactstrap';
@@ -56,7 +57,7 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
                 <img
                   className="avatar"
                   id={'UserAvatar' + id}
-                  src={creator.avatarUrl}
+                  src={creator.avatarUrl || DEFAULT_USER_AVATAR}
                 />
                 <UncontrolledTooltip
                   placement="bottom"
