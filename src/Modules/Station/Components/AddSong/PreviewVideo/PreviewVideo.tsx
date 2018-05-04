@@ -49,7 +49,7 @@ export class PreviewVideo extends Component<any, any> {
     this.setState({ isAdding: true });
   }
 
-  public clearMessage() {
+  public resetPreview() {
     this.setState({
       message: null,
       isAdding: false,
