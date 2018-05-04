@@ -1,6 +1,7 @@
 import { BaseComponent } from 'BaseComponent';
 import { Song } from 'Models';
 import * as React from 'react';
+import { Subscription } from 'rxjs/Subscription';
 import { SongServices } from 'Services/Http';
 import '../PlaylistTabs.scss';
 import { HistoryItem } from './HistoryItem';
@@ -16,6 +17,7 @@ interface IHistoryState {
 
 export class History extends BaseComponent<IHistoryProps, IHistoryState> {
   private songServices: SongServices;
+  private subscription: Subscription;
 
   constructor(props: any) {
     super(props);
@@ -43,22 +45,28 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
 
   public updateHistory() {
     const { stationId } = this.props;
-    this.songServices.getListPlayedSong(stationId).subscribe(
-      (history: Song[]) => {
-        this.setState({
-          history,
-        });
-      },
-      (err: string) => {
-        this.showError(`Get history error: ${err}`);
-      },
-    );
+    this.subscription = this.songServices
+      .getListPlayedSong(stationId)
+      .subscribe(
+        (history: Song[]) => {
+          this.setState({
+            history,
+          });
+        },
+        (err: string) => {
+          this.showError(`Get history error: ${err}`);
+        },
+      );
   }
 
-  public componentWillReceiveProps(nextProps: IHistoryProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: IHistoryProps) {
     if (nextProps.isActive) {
       this.updateHistory();
     }
+  }
+
+  public componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   public render() {
