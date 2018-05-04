@@ -1,10 +1,10 @@
-import { Song } from 'Models/Song';
+import { BaseComponent } from 'BaseComponent';
+import { YoutubeHelper } from 'Helpers';
+import { Song } from 'Models';
 import { DEFAULT_USER_AVATAR } from 'Modules/User/Constants';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, UncontrolledTooltip } from 'reactstrap';
-import { BaseComponent } from '../../BaseComponent';
-import { YoutubeHelper } from '../../Helpers';
 
 export class SongItem<P, S> extends BaseComponent<P, S> {
   public renderThumbnailImage(song: Song) {

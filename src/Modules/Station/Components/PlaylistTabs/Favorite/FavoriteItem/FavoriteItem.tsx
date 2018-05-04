@@ -1,6 +1,6 @@
 import * as classNames from 'classnames';
 import { SongItem } from 'Components/SongItem';
-import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
+import { FavoriteSongItem } from 'Models';
 import * as React from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
