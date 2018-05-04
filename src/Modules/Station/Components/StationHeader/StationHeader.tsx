@@ -24,6 +24,10 @@ const buttonActions = {
     iconOn: 'fa fa-lightbulb-o',
     iconOff: 'fa fa-lightbulb-o',
   },
+  player: {
+    iconOn: 'fa fa-music',
+    iconOff: 'fa fa-music',
+  },
 };
 
 export interface ISkipRuleRadio extends ISkipRule {
@@ -37,8 +41,10 @@ interface IStateProps {
 interface IOwnProps {
   muted: boolean;
   isPassive: boolean;
+  isEnableVideo: boolean;
   onVolumeClick: (e: React.FormEvent<EventTarget>) => void;
   onLightClick: (e: React.FormEvent<EventTarget>) => void;
+  enablePlayer: (e: React.FormEvent<EventTarget>) => void;
   stationId: string;
 }
 
@@ -121,8 +127,10 @@ class OriginStationHeader extends BaseComponent<
     const {
       muted,
       isPassive,
+      isEnableVideo,
       onVolumeClick,
       onLightClick,
+      enablePlayer,
       nowPlaying,
       stationId,
     } = this.props;
@@ -134,14 +142,31 @@ class OriginStationHeader extends BaseComponent<
           <h1>{station && station.name}</h1>
         </div>
         <div className="buttons-wrapper">
-          {this._renderButton(
-            !muted,
-            buttonActions.muted,
-            onVolumeClick,
-            'station-mute-button',
+          {nowPlaying && (
+            <Fragment>
+              {isEnableVideo && (
+                <Fragment>
+                  {this._renderButton(
+                    !muted,
+                    buttonActions.muted,
+                    onVolumeClick,
+                    'station-mute-button',
+                  )}
+                  {this._renderButton(
+                    isPassive,
+                    buttonActions.passive,
+                    onLightClick,
+                  )}
+                </Fragment>
+              )}
+              {!isPassive &&
+                this._renderButton(
+                  isEnableVideo,
+                  buttonActions.player,
+                  enablePlayer,
+                )}
+            </Fragment>
           )}
-          {nowPlaying &&
-            this._renderButton(isPassive, buttonActions.passive, onLightClick)}
           {!isPassive && (
             <Fragment>
               <StationSharing />
