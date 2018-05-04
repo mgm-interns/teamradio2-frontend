@@ -64,7 +64,7 @@ export class AddSongComponent extends BaseComponent<
       (res: Song) => {
         this.setPreviewVideo(null);
         this.searchSongRef.clearInput();
-        this.previewVideoRef.clearMessage();
+        this.previewVideoRef.resetPreview();
       },
       (err: string) => {
         this.showError(err);
