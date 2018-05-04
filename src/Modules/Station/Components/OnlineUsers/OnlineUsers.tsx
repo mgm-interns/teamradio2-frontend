@@ -5,9 +5,8 @@ import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { ListGroup, ListGroupItem, Popover } from 'reactstrap';
+import { DEFAULT_USER_AVATAR } from '../../../User/Constants';
 import './OnlineUsers.scss';
-
-const DEFAULT_USER_AVATAR = '/img/avatars/1.jpg';
 
 const fixture = [
   {
