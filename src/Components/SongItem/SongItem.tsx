@@ -7,26 +7,21 @@ import { BaseComponent } from '../../BaseComponent';
 import { YoutubeHelper } from '../../Helpers';
 
 export class SongItem<P, S> extends BaseComponent<P, S> {
-  public renderSongThumbnail(song: Song, willBeSkipped?: boolean) {
-    const { id, thumbnail, duration } = song;
+  public renderThumbnailImage(song: Song) {
+    const { thumbnail } = song;
+    return <img className="video-img" src={thumbnail} />;
+  }
+  public renderThumbnailDuration(song: Song) {
+    const { duration } = song;
+    return (
+      <div className="duration">{YoutubeHelper.convertDuration(duration)}</div>
+    );
+  }
+  public renderSongThumbnail(song: Song) {
     return (
       <Col xs={3} className="p-0 thumbnail-container">
-        <img className="video-img" src={thumbnail} />
-        <div className="duration">
-          {YoutubeHelper.convertDuration(duration)}
-        </div>
-        {willBeSkipped ? (
-          <div className="skip-bg" id={`WillBeSkipped` + id}>
-            <div className="skip-icon">
-              <i className="fa fa-step-forward" />
-            </div>
-            <UncontrolledTooltip
-              placement="right"
-              target={
-                `WillBeSkipped` + id
-              }>{`This song will be skipped when player starts it.`}</UncontrolledTooltip>
-          </div>
-        ) : null}
+        {this.renderThumbnailImage(song)}
+        {this.renderThumbnailDuration(song)}
       </Col>
     );
   }

@@ -12,7 +12,7 @@ import {
 import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Col, Progress, Row } from 'reactstrap';
+import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
 import { UserServices } from 'Services/Http';
 import './PlaylistItem.scss';
 
@@ -289,6 +289,28 @@ export class PlaylistItemComponent extends SongItem<
       </Col>
     );
   };
+
+  public renderSongThumbnail(song: Song, willBeSkipped?: boolean) {
+    const { id } = song;
+    return (
+      <Col xs={3} className="p-0 thumbnail-container">
+        {this.renderThumbnailImage(song)}
+        {this.renderThumbnailDuration(song)}
+        {willBeSkipped ? (
+          <div className="skip-bg" id={`WillBeSkipped` + id}>
+            <div className="skip-icon">
+              <i className="fa fa-step-forward" />
+            </div>
+            <UncontrolledTooltip
+              placement="right"
+              target={
+                `WillBeSkipped` + id
+              }>{`This song will be skipped when player starts it.`}</UncontrolledTooltip>
+          </div>
+        ) : null}
+      </Col>
+    );
+  }
 
   public render() {
     const { song, id, nowPlaying, willBeSkipped } = this.props;
