@@ -23,17 +23,20 @@ import 'Configuration/ServiceWorker';
 
 // Containers
 import { FullLayout, NoSideBarLayout } from 'Containers';
+import { HttpsRedirector } from './Helpers/HttpsRedirector';
 
 const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/dashboard" name="Dashboard" component={FullLayout} />
-        <Route path="/" name="Home" component={NoSideBarLayout} />
-      </Switch>
-    </BrowserRouter>
+    <HttpsRedirector>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/dashboard" name="Dashboard" component={FullLayout} />
+          <Route path="/" name="Home" component={NoSideBarLayout} />
+        </Switch>
+      </BrowserRouter>
+    </HttpsRedirector>
   </Provider>,
   document.getElementById('root'),
 );
