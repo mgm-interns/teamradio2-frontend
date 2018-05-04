@@ -1,7 +1,7 @@
-import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
+import { SongItem } from 'Components/SongItem';
 import { Dispatch, IApplicationState } from 'Configuration/Redux';
-import { localStorageManager, YoutubeHelper } from 'Helpers';
+import { localStorageManager } from 'Helpers';
 import {
   FavoriteSongItem,
   NowPlayingSong,
@@ -12,7 +12,6 @@ import {
 import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
 import { UserServices } from 'Services/Http';
 import './PlaylistItem.scss';
@@ -58,7 +57,7 @@ interface IPlayListItemStates {
   isLogout: boolean;
 }
 
-export class PlaylistItemComponent extends BaseComponent<
+export class PlaylistItemComponent extends SongItem<
   IProps,
   IPlayListItemStates
 > {
@@ -291,14 +290,12 @@ export class PlaylistItemComponent extends BaseComponent<
     );
   };
 
-  public _renderThumbnail = () => {
-    const { id, thumbnail, duration, willBeSkipped } = this.props;
+  public renderSongThumbnail(song: Song, willBeSkipped?: boolean) {
+    const { id } = song;
     return (
       <Col xs={3} className="p-0 thumbnail-container">
-        <img className="video-img" src={thumbnail} />
-        <div className="duration">
-          {YoutubeHelper.convertDuration(duration)}
-        </div>
+        {this.renderThumbnailImage(song)}
+        {this.renderThumbnailDuration(song)}
         {willBeSkipped ? (
           <div className="skip-bg" id={`WillBeSkipped` + id}>
             <div className="skip-icon">
@@ -313,66 +310,20 @@ export class PlaylistItemComponent extends BaseComponent<
         ) : null}
       </Col>
     );
-  };
-
-  public _renderCreator = () => {
-    const { id, creator, message } = this.props;
-    return (
-      <Col xs={7} className="pl-0">
-        <div className="h-100 item-addedBy">
-          <span className="title">Added by</span>
-          <Link to={`/login`} className="creator-container">
-            {creator && (
-              <div>
-                <img
-                  className="avatar"
-                  id={'UserAvatar' + id}
-                  src={creator.avatarUrl}
-                />
-                <UncontrolledTooltip
-                  placement="bottom"
-                  target={'UserAvatar' + id}>
-                  {creator.username}
-                </UncontrolledTooltip>
-              </div>
-            )}
-
-            {message ? (
-              <span className="message-icon">
-                <i
-                  className="icon-speech icons icon-message"
-                  id={'Message' + id}
-                />
-                <UncontrolledTooltip placement="bottom" target={'Message' + id}>
-                  {message}
-                </UncontrolledTooltip>
-              </span>
-            ) : null}
-          </Link>
-        </div>
-      </Col>
-    );
-  };
+  }
 
   public render() {
-    const { id, title, nowPlaying } = this.props;
+    const { song, id, nowPlaying, willBeSkipped } = this.props;
     const { isFavorite } = this.state;
     return (
       <Row
         className={classNames('m-0', 'item-container', {
           'playing-item': nowPlaying && nowPlaying.songId === id,
         })}>
-        {this._renderThumbnail()}
+        {this.renderSongThumbnail(song, willBeSkipped)}
         <Col xs={9} className="pr-0">
           <Row className="m-0 h-100">
-            <Col xs={10} className="pl-0 item-title">
-              <h6 className="item-title" id={`Song` + id}>
-                {title}
-              </h6>
-              <UncontrolledTooltip placement="bottom" target={`Song` + id}>
-                {title}
-              </UncontrolledTooltip>
-            </Col>
+            {this.renderSongTitle(song)}
             {this.isLoggedIn() && (
               <Col xs={2} className="pr-0">
                 <div
@@ -389,7 +340,7 @@ export class PlaylistItemComponent extends BaseComponent<
                 </div>
               </Col>
             )}
-            {this._renderCreator()}
+            {this.renderSongCreator(song)}
             {this._renderVotingSection()}
           </Row>
         </Col>

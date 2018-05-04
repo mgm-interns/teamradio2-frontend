@@ -1,7 +1,6 @@
-import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
-import { YoutubeHelper } from 'Helpers';
-import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
+import { SongItem } from 'Components/SongItem';
+import { FavoriteSongItem } from 'Models';
 import * as React from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
@@ -12,7 +11,7 @@ interface IProps extends FavoriteSongItem {
 
 interface IStates extends FavoriteSongItem {}
 
-export class FavoriteItem extends BaseComponent<IProps, IStates> {
+export class FavoriteItem extends SongItem<IProps, IStates> {
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -54,26 +53,14 @@ export class FavoriteItem extends BaseComponent<IProps, IStates> {
   };
 
   public render() {
-    const { thumbnail, title, duration, songId } = this.state.song;
+    const { song, songId } = this.state;
 
     return (
       <Row className={classNames('m-0', 'item-container')}>
-        <Col xs={3} className="p-0 thumbnail-container">
-          <img className="video-img" src={thumbnail} />
-          <div className="duration">
-            {YoutubeHelper.convertDuration(duration)}
-          </div>
-        </Col>
+        {this.renderSongThumbnail(song)}
         <Col xs={9} className="pr-0">
           <Row className="m-0 h-100">
-            <Col xs={10} className="pl-0 item-title">
-              <h6 className="item-title" id={`Song` + songId}>
-                {title}
-              </h6>
-              <UncontrolledTooltip placement="bottom" target={`Song` + songId}>
-                {title}
-              </UncontrolledTooltip>
-            </Col>
+            {this.renderSongTitle(song)}
             <Col xs={2} className="pr-0">
               <div className="action-icon" onClick={this.replaySong}>
                 <i
