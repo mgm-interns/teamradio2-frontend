@@ -1,53 +1,66 @@
 import { BaseStationBrowser } from 'BaseComponent/BaseStationBrowser';
-import { StationBrowserSlider } from 'Components';
+import { IApplicationState } from 'Configuration/Redux';
 import {
   StationItem,
   StationItemsControlledMap,
   StationItemsMap,
 } from 'Models';
 import * as React from 'react';
-import { Row } from 'reactstrap';
-import { StationServices } from 'Services/Http';
+import { connect } from 'react-redux';
+import { StationsBrowserSSE } from 'Services/SSE';
 import './StationBrowser.scss';
 
-export interface IStationBrowserProps {
+interface IOwnProps {
   stationId?: string;
 }
 
-export class StationBrowser extends BaseStationBrowser<IStationBrowserProps> {
-  public stationServices: StationServices;
+interface IStateProps {
+  stations: StationItemsMap;
+  loading: boolean;
+}
 
-  constructor(props: IStationBrowserProps) {
+interface IDispatchProps {}
+
+type IProps = IOwnProps & IStateProps & IDispatchProps;
+
+export class OriginStationBrowser extends BaseStationBrowser<IProps> {
+  public stationsBrowserSSE: StationsBrowserSSE;
+
+  constructor(props: IProps) {
     super(props);
-    this.stationServices = new StationServices();
+    this.stationsBrowserSSE = new StationsBrowserSSE();
   }
 
   public componentWillMount() {
-    this.getListStation();
+    this.setState({ loading: this.props.loading });
+
+    this.stationsBrowserSSE.start();
   }
 
-  public updateListStation(listStationToUpdate: StationItemsMap) {
+  public componentWillUnmount() {
+    this.stationsBrowserSSE.close();
+  }
+
+  public componentWillReceiveProps(nextProps: IProps) {
+    const { stations: currentStations } = this.props;
+    const { stations: nextStations } = nextProps;
+    if (currentStations !== nextStations) {
+      this.updateListStation(nextStations);
+    }
+
+    const { loading: currentLoading } = this.props;
+    const { loading: nextLoading } = nextProps;
+    if (currentLoading !== nextLoading) {
+      this.setState({ loading: nextLoading });
+    }
+  }
+
+  protected updateListStation(listStationToUpdate: StationItemsMap) {
     // Must apply new instance to make sure that
     // react component will trigger render again
     this.setState({
       listStation: new StationItemsControlledMap(listStationToUpdate).toArray(),
-      loading: false,
     });
-  }
-
-  public getListStation() {
-    this.setState({
-      loading: true,
-    });
-
-    this.stationServices.getListStation().subscribe(
-      (listStation: StationItemsMap) => {
-        this.updateListStation(listStation);
-      },
-      (err: string) => {
-        this.showError(err);
-      },
-    );
   }
 
   protected getListItems = () => {
@@ -56,3 +69,12 @@ export class StationBrowser extends BaseStationBrowser<IStationBrowserProps> {
     });
   };
 }
+
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
+  stations: state.stations.data,
+  loading: state.stations.loading,
+});
+
+export const StationBrowser = connect<IStateProps, IDispatchProps, IOwnProps>(
+  mapStateToProps,
+)(OriginStationBrowser);

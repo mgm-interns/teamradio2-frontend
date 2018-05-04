@@ -3,7 +3,7 @@ import { object } from 'prop-types';
 import * as React from 'react';
 import { Component } from 'react';
 
-export class BaseComponent<P, S> extends Component<P, S> {
+export abstract class BaseComponent<P, S> extends Component<P, S> {
   public static contextTypes = {
     notifications: object,
   };
