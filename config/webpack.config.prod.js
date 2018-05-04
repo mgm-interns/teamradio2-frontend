@@ -155,7 +155,10 @@ module.exports = {
     // Makes webpack ignore declaration files
     new webpack.IgnorePlugin(/\.d\.ts$/),
     // Copies individual files or entire directories to the build directory
-    new CopyWebpackPlugin([{ from: './public/img', to: 'img' }], {
+    new CopyWebpackPlugin([
+      { from: './public/img', to: 'img' },
+      { from: './public/fonts', to: 'fonts' },
+    ], {
       copyUnmodified: false,
     }),
     new ForkTsCheckerWebpackPlugin({
