@@ -3,7 +3,7 @@ import { Song } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';
 
-@Service
+@Service('SongServices')
 export class SongServices {
   private _httpServices: HttpServices;
   private serviceUrl = 'station';

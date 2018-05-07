@@ -1,7 +1,7 @@
 import { Service } from 'Configuration/DI';
 import SSEService from './SSEService/SSEService';
 
-@Service
+@Service('StationPlaylistSSEService')
 export class StationPlaylistSSEService {
   private service: SSEService;
   private _endpoint: string = process.env.REACT_APP_HTTP_END_POINT;

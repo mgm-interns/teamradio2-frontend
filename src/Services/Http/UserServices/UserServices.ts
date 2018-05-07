@@ -12,7 +12,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { HttpServices, OAuthService } from '../HttpServices';
 
-@Service
+@Service('UserServices')
 export class UserServices {
   private _httpServices: HttpServices;
   private _oAuthService: OAuthService;

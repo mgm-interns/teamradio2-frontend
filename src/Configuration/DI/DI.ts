@@ -13,11 +13,13 @@ type ServiceClassType = new () => {};
  *   // Service declaration
  * }
  */
-function Service(target: ServiceClassType) {
+function Service(serviceName: string) {
   // Register target service to the container
-  container.bind(target.name).to(target);
   // Then return original injectable decorator
-  return injectable()(target);
+  return (target: ServiceClassType) => {
+    container.bind(serviceName).to(target);
+    return injectable()(target)
+  };
 }
 
 /**
