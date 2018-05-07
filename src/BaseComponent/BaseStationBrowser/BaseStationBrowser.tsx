@@ -39,6 +39,7 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
           <div className="cover-div">
             <StationBrowserSlider
               stationItemContainer={this.state.stationItemContainerRef}
+              onEndReach={this.onEndReach}
             />
             <div className="m-auto extra-large-container list-station">
               <div
@@ -81,6 +82,10 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
         </Row>
       </div>
     );
+  };
+
+  protected onEndReach = () => {
+    console.log('trigger fetch more');
   };
 
   protected getListItems = (): StationItem[] => {

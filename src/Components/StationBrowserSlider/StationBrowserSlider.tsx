@@ -4,6 +4,7 @@ import './StationBrowserSlider.scss';
 
 interface IStationBrowserSliderProps {
   stationItemContainer: HTMLElement;
+  onEndReach?: () => void;
 }
 
 interface IStationBrowserSliderStates {}
@@ -15,8 +16,15 @@ export class StationBrowserSlider extends Component<
   constructor(props: IStationBrowserSliderProps) {
     super(props);
   }
-
   public scrollRight = () => {
+    const {
+      scrollWidth: containerWidth,
+      clientWidth: pageWidth,
+    } = this.props.stationItemContainer;
+    const currentScroll = this.getCurrentScrollValue();
+    if (this.props.onEndReach && currentScroll + pageWidth >= containerWidth) {
+      this.props.onEndReach();
+    }
     this.scroll(this.getCurrentScrollValue() + this.getNextScrollingValue());
   };
 

@@ -6,7 +6,7 @@ export class StationsBrowserSSE {
 
   constructor() {
     this.service = new SSEService({
-      endpoint: this._endpoint + `/stations`,
+      endpoint: this._endpoint + `/stations/stream`,
       eventKey: 'message',
       action: 'STATIONS_BROWSER:LIST',
     });
