@@ -30,6 +30,7 @@ interface IState {
   isPassive: boolean;
   isEnableVideo: boolean;
   station: StationModel;
+  toggleChatPopup: boolean;
 }
 
 class StationComponent extends Component<
@@ -44,6 +45,7 @@ class StationComponent extends Component<
       isPassive: false,
       isEnableVideo: true,
       station: null,
+      toggleChatPopup: false,
     };
   }
 
@@ -80,6 +82,10 @@ class StationComponent extends Component<
     this.setState({ isEnableVideo: !this.state.isEnableVideo });
   };
 
+  public toggleChatPopup = () => {
+    this.setState({ toggleChatPopup: !this.state.toggleChatPopup });
+  };
+
   public _renderPlayer = () => {
     const { muted, isPassive, isEnableVideo } = this.state;
     const stationId = this.parseStationId();
@@ -100,7 +106,7 @@ class StationComponent extends Component<
   };
 
   public render() {
-    const { isPassive } = this.state;
+    const { isPassive, toggleChatPopup } = this.state;
     const stationId = this.parseStationId();
 
     return [
@@ -138,11 +144,25 @@ class StationComponent extends Component<
                 <AddSong stationId={stationId} />
               </div>
             </Col>
-            <Col xs={12}>
-              <div className="chat-container">
-                <ChatBox stationId={stationId} />
-              </div>
-            </Col>
+            <div className="col-10 col-md-8 col-lg-6 p-0 station-chat-container">
+              {!toggleChatPopup && (
+                <div
+                  className="chat-popup-button"
+                  onClick={this.toggleChatPopup}>
+                  <span>
+                    <i className="fa fa-comments" />
+                  </span>
+                </div>
+              )}
+              {toggleChatPopup && (
+                <div className="chat-popup">
+                  <ChatBox
+                    stationId={stationId}
+                    toggleChatPopup={this.toggleChatPopup}
+                  />
+                </div>
+              )}
+            </div>
           </Row>
         </Col>
       </Row>,

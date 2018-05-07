@@ -90,4 +90,39 @@ $mq-xlarge: '(min-width: #{$bp-xlarge})';
   .add-song-container {
     margin-top: 20px;
   }
+
+  .station-chat-container {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: calc(100vh / 1.5);
+
+    @media (min-width: 1700px) {
+      max-width: 875px;
+    }
+  }
+
+  .chat-popup-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: lightgrey;
+    //box-shadow: 0 0 0 1px dimgrey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    .fa {
+      font-size: 1.5rem;
+    }
+  }
+
+  .chat-popup {
+    width: 100%;
+    height: 100%;
+  }
 }
