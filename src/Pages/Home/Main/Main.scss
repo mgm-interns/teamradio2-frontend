@@ -1,6 +1,8 @@
 @import 'scss/style';
 
-$background-image: '/img/home/backdrop.jpg';
+$bg-image: '/img/home/backdrop.jpg';
+$bg-gradient-color-light: color('tertiary-light');
+$bg-gradient-color-dark: color('tertiary-dark');
 $font-title: 'Pacifico', sans-serif;
 
 .header {
@@ -8,10 +10,10 @@ $font-title: 'Pacifico', sans-serif;
   min-height: 800px;
   background: linear-gradient(
       to right bottom,
-      rgba(color('tertiary-light'), 0.4),
-      rgba(color('tertiary-dark'), 0.6)
+      rgba($bg-gradient-color-light, 0.4),
+      rgba($bg-gradient-color-dark, 0.6)
     ),
-    url($background-image) top;
+    url($bg-image) top;
   background-size: cover;
   position: relative;
   &__text-box {
