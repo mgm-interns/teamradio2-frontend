@@ -27,6 +27,12 @@ $green:                           #4dbd74;
 $teal:                            #20c997 !default;
 $cyan:                            #63c2de;
 
+$cyprus:                          #07292c;
+$green-dark:                      #0b3e41;
+$turquoise:                       #07292c;
+$flamingo:                        #e06a4e;
+$spring-wood:                     #e8e0d5;
+
 $colors: (
   blue:                           $blue,
   indigo:                         $indigo,
@@ -40,13 +46,17 @@ $colors: (
   cyan:                           $cyan,
   white:                          $white,
   gray:                           $gray-600,
-  gray-dark:                      $gray-800
+  gray-dark:                      $gray-800,
+  primary:                        $flamingo,
+  secondary:                      $green-dark,
+  tertiary:                       $spring-wood,
 );
 
 $theme-colors: (
-  primary:                        $blue,
-  secondary:                      $gray-300,
-  success:                        $green,
+  primary:                        $flamingo,
+  secondary:                      $green-dark,
+  tertiary:                       $spring-wood,
+  success:                        $flamingo,
   info:                           $cyan,
   warning:                        $yellow,
   danger:                         $red,
