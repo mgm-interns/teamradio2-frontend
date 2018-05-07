@@ -13,6 +13,12 @@
   justify-content: space-between;
 }
 
+.header-wrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
 .buttons-wrapper {
   display: flex;
 }
