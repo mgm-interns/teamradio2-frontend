@@ -1,4 +1,4 @@
-import { Inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DependencyInjector';
 import { isMobileBrowser, objectToParams } from 'Helpers';
 import { AccessToken } from 'Models';
 import * as React from 'react';

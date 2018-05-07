@@ -1,4 +1,4 @@
-import { Inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DependencyInjector';
 import { StationItem } from 'Models';
 import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';

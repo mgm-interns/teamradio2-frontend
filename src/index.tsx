@@ -21,7 +21,7 @@ import { Provider } from 'react-redux';
 // config service worker
 import 'Configuration/ServiceWorker';
 
-// Require for inversify to resolve DI
+// Require for inversify to resolve DependencyInjector
 import 'reflect-metadata';
 
 // Containers

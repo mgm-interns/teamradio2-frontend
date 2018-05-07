@@ -1,6 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
-import { Inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DependencyInjector';
 import { Station, StationItem } from 'Models';
 import * as React from 'react';
 import { Row } from 'reactstrap';

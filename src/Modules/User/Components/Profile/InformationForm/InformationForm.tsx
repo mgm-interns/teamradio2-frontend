@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { Inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DependencyInjector';
 import { Dispatch } from 'Configuration/Redux';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';

@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { Inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DependencyInjector';
 import { IApplicationState } from 'Configuration/Redux/Reducers';
 import { localStorageManager } from 'Helpers';
 import { Message } from 'Models';
@@ -29,7 +29,8 @@ export class ChatBoxComponent extends BaseComponent<
 > {
   private messageBox: any;
   @Inject('StationServices') private stationServices: StationServices;
-  @Inject('StationChatSSEService')private stationChatSSEService: StationChatSSEService;
+  @Inject('StationChatSSEService')
+  private stationChatSSEService: StationChatSSEService;
 
   constructor(props: IChatBoxProps & IChatReducerProps) {
     super(props);
