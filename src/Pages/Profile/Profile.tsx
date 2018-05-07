@@ -3,6 +3,7 @@ import { ProfileHeader } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
 import { ProfileNavBar } from './ProfileNavBar';
+import { PublicProfileNavBar } from './ProfileNavBar/PublicProfileNavBar';
 
 export class Profile extends Component<{}, {}> {
   constructor(props: any) {
@@ -16,7 +17,7 @@ export class Profile extends Component<{}, {}> {
           <ProfileHeader />
         </div>
         <div className="profile-body">
-          <ProfileNavBar />
+          {userId ? <PublicProfileNavBar userId={userId} /> : <ProfileNavBar />}
         </div>
       </div>
     );

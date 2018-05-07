@@ -1,1 +1,2 @@
-export * from './RecentStationsBrowser';
+export * from './MyRecentStationsBrowser';
+export * from './UserRecentStationsBrowser';

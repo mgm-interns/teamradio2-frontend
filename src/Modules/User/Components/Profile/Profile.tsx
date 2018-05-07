@@ -4,4 +4,4 @@ export { InformationForm } from './InformationForm';
 export { UserDropdown } from './UserDropdown';
 export { Favorite } from './Favorite';
 export { MyStationsBrowser } from './MyStationsBrowser';
-export { RecentStationsBrowser } from './RecentStationsBrowser';
+export { MyRecentStationsBrowser } from './RecentStationsBrowser';
