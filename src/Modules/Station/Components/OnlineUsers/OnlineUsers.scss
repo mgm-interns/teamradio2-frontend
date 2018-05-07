@@ -1,0 +1,35 @@
+.online-users-container {
+  cursor: pointer;
+  position: relative;
+  margin-left: 1.5rem;
+}
+
+.online-users-length {
+  margin-left: 0.5rem;
+}
+
+.online-color {
+  color: #51ff9a;
+}
+
+.online-users-list-item {
+  display: flex;
+  align-items: center;
+}
+
+.online-users-shape {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  shape-outside: circle(50% at 50% 50%);
+  -webkit-shape-outside: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+}
+
+.online-users-image {
+  transform: translate(-50%, -50%);
+}
+
+.online-users-caption {
+  padding-left: 1rem;
+}

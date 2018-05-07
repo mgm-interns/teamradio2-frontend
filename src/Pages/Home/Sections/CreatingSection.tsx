@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
+import LazyLoad from 'react-lazyload';
 
 export class CreatingSection extends Component {
   public render() {
@@ -23,21 +24,27 @@ export class CreatingSection extends Component {
             </div>
             <div className="col-lg-6 col-lg-pull-6">
               <div className="composition-create">
-                <img
-                  src="img/home/create-station-1-large.jpg"
-                  alt="Station 1"
-                  className="composition__photo composition__photo--p1"
-                />
-                <img
-                  src="img/home/create-station-2-large.jpg"
-                  alt="Station 2"
-                  className="composition__photo composition__photo--p2"
-                />
-                <img
-                  src="img/home/create-station-3-large.jpg"
-                  alt="Station 3"
-                  className="composition__photo composition__photo--p3"
-                />
+                <LazyLoad once height={260}>
+                  <img
+                    src="/img/home/create-station-1-large.jpg"
+                    alt="Station 1"
+                    className="composition__photo composition__photo--p1"
+                  />
+                </LazyLoad>
+                <LazyLoad once height={200}>
+                  <img
+                    src="/img/home/create-station-2-large.jpg"
+                    alt="Station 2"
+                    className="composition__photo composition__photo--p2"
+                  />
+                </LazyLoad>
+                <LazyLoad once height={150}>
+                  <img
+                    src="/img/home/create-station-3-large.jpg"
+                    alt="Station 3"
+                    className="composition__photo composition__photo--p3"
+                  />
+                </LazyLoad>
               </div>
             </div>
           </div>

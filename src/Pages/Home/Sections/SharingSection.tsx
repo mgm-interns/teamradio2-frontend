@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
+import LazyLoad from 'react-lazyload';
 
 export class SharingSection extends Component {
   public render() {
@@ -21,11 +22,13 @@ export class SharingSection extends Component {
             </div>
             <div className="col-lg-6 col-lg-pull-6">
               <div className="composition-share">
-                <img
-                  src="img/home/share-station.png"
-                  alt="Share Station"
-                  className="composition__photo composition__photo--p5"
-                />
+                <LazyLoad once height={350}>
+                  <img
+                    src="/img/home/share-station.png"
+                    alt="Share Station"
+                    className="composition__photo composition__photo--p5"
+                  />
+                </LazyLoad>
               </div>
             </div>
           </div>

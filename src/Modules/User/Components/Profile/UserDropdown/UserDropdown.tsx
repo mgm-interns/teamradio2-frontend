@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Dispatch } from 'Configuration/Redux';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
@@ -31,7 +32,7 @@ interface IState {
 }
 
 class UserDropdownComponent extends BaseComponent<IProps, IState> {
-  private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
 
   constructor(props: any) {
     super(props);
@@ -43,7 +44,6 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
       isAuthenticated: false,
     };
 
-    this.userServices = new UserServices();
     this.signOut = this.signOut.bind(this);
   }
 

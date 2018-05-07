@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Dispatch } from 'Configuration/Redux';
 import { YoutubeHelper } from 'Helpers';
 import { Song } from 'Models';
@@ -25,10 +26,10 @@ export class FavoriteItemComponent extends BaseComponent<
   IProps,
   IFavoriteItemStates
 > {
-  private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   constructor(props: IOwnProps & IDispatcherProps) {
     super(props);
-    this.userServices = new UserServices();
+
     this.processDelete = this.processDelete.bind(this);
     this.state = {
       song: this.props.song,

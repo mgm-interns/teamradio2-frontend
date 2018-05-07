@@ -147,7 +147,10 @@ module.exports = {
     // aggregates and prioritizes them to provide a better Developer Experience.
     new FriendlyErrorsWebpackPlugin(),
     // Copies individual files or entire directories to the build directory
-    new CopyWebpackPlugin([{ from: './public/img', to: 'img' }], {
+    new CopyWebpackPlugin([
+      { from: './public/img', to: 'img' },
+      { from: './public/fonts', to: 'fonts' },
+    ], {
       copyUnmodified: false,
     }),
     // Makes webpack ignore declaration files

@@ -1,3 +1,4 @@
+import { Inject } from 'Configuration/DependencyInjection';
 import { isMobileBrowser, objectToParams } from 'Helpers';
 import { AccessToken } from 'Models';
 import * as React from 'react';
@@ -50,7 +51,7 @@ export class FacebookLogin extends Component<IProps, IState> {
     authType: '',
   };
 
-  private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
 
   constructor(props: IProps) {
     super(props);
@@ -59,8 +60,6 @@ export class FacebookLogin extends Component<IProps, IState> {
       isSdkLoaded: false,
       isProcessing: false,
     };
-
-    this.userServices = new UserServices();
   }
 
   public componentDidMount() {

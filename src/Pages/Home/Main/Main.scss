@@ -1,5 +1,5 @@
 // COLORS & BACKGROUND
-$background-image: '../../../../public/img/home/backdrop.jpg';
+$background-image: '/img/home/backdrop.jpg';
 $color-primary-light: #0b3e41;
 $color-primary-dark: #07292c;
 $color-primary: #e06a4e;
@@ -7,8 +7,8 @@ $color-white: #fff;
 // FONTS
 $font-title: 'Pacifico', sans-serif;
 .header {
-  height: 100vh;
-  min-height: 700px;
+  height: calc(100vh - 260px);
+  min-height: 800px;
   background: linear-gradient(
       to right bottom,
       rgba($color-primary-light, 0.4),

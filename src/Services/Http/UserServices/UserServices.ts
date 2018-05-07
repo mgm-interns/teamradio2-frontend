@@ -1,3 +1,4 @@
+import { Service } from 'Configuration/DependencyInjection';
 import {
   AccessToken,
   EmailForm,
@@ -11,6 +12,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { HttpServices, OAuthService } from '../HttpServices';
 
+@Service('UserServices')
 export class UserServices {
   private _httpServices: HttpServices;
   private _oAuthService: OAuthService;

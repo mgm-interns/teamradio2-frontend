@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Field, Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { Station, StationPrivacy } from 'Models';
@@ -90,12 +91,11 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
     return Validator.removeUndefinedError(errors);
   }
 
-  private stationServices: StationServices;
+  @Inject('StationServices') private stationServices: StationServices;
   private readonly initialValues: any;
 
   constructor(props: RouteComponentProps<any>) {
     super(props);
-    this.stationServices = new StationServices();
 
     this.state = {
       error: '',

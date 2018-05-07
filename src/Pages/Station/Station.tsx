@@ -28,6 +28,7 @@ type IProps = IOwnProps & IStateProps;
 interface IState {
   muted: boolean;
   isPassive: boolean;
+  isEnableVideo: boolean;
   station: StationModel;
 }
 
@@ -41,6 +42,7 @@ class StationComponent extends Component<
     this.state = {
       muted: false,
       isPassive: false,
+      isEnableVideo: true,
       station: null,
     };
   }
@@ -82,19 +84,25 @@ class StationComponent extends Component<
     );
   };
 
+  public enablePlayer = () => {
+    this.setState({ isEnableVideo: !this.state.isEnableVideo });
+  };
+
   public _renderPlayer = () => {
-    const { muted, isPassive } = this.state;
+    const { muted, isPassive, isEnableVideo } = this.state;
     const stationId = this.parseStationId();
     return (
       <Fragment>
         <StationHeader
           muted={muted}
           isPassive={isPassive}
+          isEnableVideo={isEnableVideo}
           onVolumeClick={this.onVolumeClick}
           onLightClick={this.onLightClick}
+          enablePlayer={this.enablePlayer}
           stationId={stationId}
         />
-        <NowPlaying muted={muted} />
+        {isEnableVideo && <NowPlaying muted={muted} />}
       </Fragment>
     );
   };

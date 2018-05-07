@@ -1,3 +1,4 @@
+import { Inject } from 'Configuration/DependencyInjection';
 import * as React from 'react';
 import { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
@@ -12,11 +13,11 @@ interface IProps {
 interface IState {}
 
 export class ButtonGoogleLogin extends Component<IProps, IState> {
-  private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
 
   constructor(props: IProps) {
     super(props);
-    this.userServices = new UserServices();
+
     this.handleResponse = this.handleResponse.bind(this);
   }
 

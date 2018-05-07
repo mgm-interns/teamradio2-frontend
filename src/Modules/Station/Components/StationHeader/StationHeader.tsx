@@ -1,9 +1,10 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
+import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
-import { StationSharing } from 'Modules/Station';
+import { OnlineUsers, StationSharing } from 'Modules/Station';
 import { Fragment } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -24,6 +25,10 @@ const buttonActions = {
     iconOn: 'fa fa-lightbulb-o',
     iconOff: 'fa fa-lightbulb-o',
   },
+  player: {
+    iconOn: 'fa fa-music',
+    iconOff: 'fa fa-music',
+  },
 };
 
 export interface ISkipRuleRadio extends ISkipRule {
@@ -37,8 +42,10 @@ interface IStateProps {
 interface IOwnProps {
   muted: boolean;
   isPassive: boolean;
+  isEnableVideo: boolean;
   onVolumeClick: (e: React.FormEvent<EventTarget>) => void;
   onLightClick: (e: React.FormEvent<EventTarget>) => void;
+  enablePlayer: (e: React.FormEvent<EventTarget>) => void;
   stationId: string;
 }
 
@@ -53,7 +60,8 @@ class OriginStationHeader extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {
-  private stationServices: StationServices;
+  @Inject('StationServices') private stationServices: StationServices;
+
   constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
 
@@ -61,8 +69,6 @@ class OriginStationHeader extends BaseComponent<
       station: null,
       currentSkipRule: null,
     };
-
-    this.stationServices = new StationServices();
   }
 
   public componentWillMount() {
@@ -121,8 +127,10 @@ class OriginStationHeader extends BaseComponent<
     const {
       muted,
       isPassive,
+      isEnableVideo,
       onVolumeClick,
       onLightClick,
+      enablePlayer,
       nowPlaying,
       stationId,
     } = this.props;
@@ -130,18 +138,33 @@ class OriginStationHeader extends BaseComponent<
 
     return (
       <Row className="header-container">
-        <div>
+        <div className="header-wrapper">
           <h1>{station && station.name}</h1>
+          <OnlineUsers />
         </div>
         <div className="buttons-wrapper">
-          {this._renderButton(
-            !muted,
-            buttonActions.muted,
-            onVolumeClick,
-            'station-mute-button',
-          )}
           {nowPlaying &&
-            this._renderButton(isPassive, buttonActions.passive, onLightClick)}
+            isEnableVideo && (
+              <Fragment>
+                {this._renderButton(
+                  !muted,
+                  buttonActions.muted,
+                  onVolumeClick,
+                  'station-mute-button',
+                )}
+                {this._renderButton(
+                  isPassive,
+                  buttonActions.passive,
+                  onLightClick,
+                )}
+              </Fragment>
+            )}
+          {!isPassive &&
+            this._renderButton(
+              isEnableVideo,
+              buttonActions.player,
+              enablePlayer,
+            )}
           {!isPassive && (
             <Fragment>
               <StationSharing />

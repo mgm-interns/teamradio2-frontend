@@ -1,19 +1,10 @@
 import { BaseStationBrowser } from 'BaseComponent/BaseStationBrowser';
+import { Inject } from 'Configuration/DependencyInjection';
 import { StationItem } from 'Models';
 import { UserServices } from 'Services/Http';
 
 export class RecentStationsBrowser extends BaseStationBrowser<{}> {
-  public userServices: UserServices;
-
-  constructor(props: {}) {
-    super(props);
-
-    this.userServices = new UserServices();
-  }
-
-  public componentWillMount() {
-    this.getListStation();
-  }
+  @Inject('UserServices') private userServices: UserServices;
 
   public getListStation() {
     this.setState({

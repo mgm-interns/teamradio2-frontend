@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
+import LazyLoad from 'react-lazyload';
 
 export class AddingSongSection extends Component {
   public render() {
@@ -9,11 +10,13 @@ export class AddingSongSection extends Component {
           <div className="row flex-column-reverse flex-md-row">
             <div className="col-lg-6 col-lg-push-6">
               <div className="composition-search">
-                <img
-                  src="img/home/add-song.gif"
-                  alt="Add Song"
-                  className="composition__photo composition__photo--p4"
-                />
+                <LazyLoad once height={400}>
+                  <img
+                    src="/img/home/add-song.gif"
+                    alt="Add Song"
+                    className="composition__photo composition__photo--p4"
+                  />
+                </LazyLoad>
               </div>
             </div>
             <div className="col-lg-6 col-lg-pull-6">
