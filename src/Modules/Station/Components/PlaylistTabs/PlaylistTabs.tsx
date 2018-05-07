@@ -1,6 +1,7 @@
 import { BaseComponent } from 'BaseComponent';
-import { Dispatch } from 'Configuration/Redux';
+import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
+import { Dispatch } from 'Configuration/Redux';
 import { FavoriteSong, PlaylistSong } from 'Models';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
@@ -8,7 +9,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
-import { StationPlaylistSSE } from 'Services/SSE';
+import { StationPlaylistSSEService } from 'Services/SSE';
 import { Favorite } from './Favorite';
 import { History } from './History';
 import { Playlist } from './Playlist';
@@ -38,11 +39,11 @@ interface IStates {
 type IProps = IOwnProps & IDispatcherProps & IReduxProps;
 
 export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
-  private stationPlaylistSSE: StationPlaylistSSE;
-  private userServices: UserServices;
+  @Inject('StationPlaylistSSEService')
+  private stationPlaylistSSEService: StationPlaylistSSEService;
+  @Inject('UserServices') private userServices: UserServices;
   constructor(props: IProps) {
     super(props);
-    this.userServices = new UserServices();
     this.state = {
       favoriteList: [],
       activeTab: PLAYLIST_TAB_ID,
@@ -59,7 +60,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   }
 
   public componentWillUnmount() {
-    this.stationPlaylistSSE.close();
+    this.stationPlaylistSSEService.close();
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
@@ -68,7 +69,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
 
     if (oldStationId !== nextStationId) {
       // Close old SSE instance
-      this.stationPlaylistSSE.close();
+      this.stationPlaylistSSEService.close();
       // Open new instance
       this.startSSEService(nextStationId);
     }
@@ -126,8 +127,8 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   }
 
   private startSSEService(stationId: string) {
-    this.stationPlaylistSSE = new StationPlaylistSSE(stationId);
-    this.stationPlaylistSSE.start();
+    this.stationPlaylistSSEService.initiate(stationId);
+    this.stationPlaylistSSEService.start();
   }
 
   private openTab = (tabId: any) => {

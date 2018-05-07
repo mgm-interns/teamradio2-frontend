@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { ISkipRule, SkipRuleType } from 'Models';
 import * as React from 'react';
 import {
@@ -42,7 +43,7 @@ const RULES: ISkipRuleRadio[] = [
 ];
 
 export class ConfigurationButton extends BaseComponent<IProps, IStates> {
-  private stationServices: StationServices;
+  @Inject('StationServices') private stationServices: StationServices;
 
   constructor(props: any) {
     super(props);
@@ -52,8 +53,6 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
       rules: RULES,
       selectedRule: null,
     };
-
-    this.stationServices = new StationServices();
   }
 
   public _onModalToggle = () => {

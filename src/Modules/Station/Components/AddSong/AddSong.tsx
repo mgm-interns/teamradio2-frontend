@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Dispatch } from 'Configuration/Redux';
 import { Song } from 'Models';
 import * as React from 'react';
@@ -23,16 +24,13 @@ export class AddSongComponent extends BaseComponent<
   IAddLinkProps,
   IAddLinkState
 > {
-  private stationServices: StationServices;
-  private songServices: SongServices;
+  @Inject('StationServices') private stationServices: StationServices;
+  @Inject('SongServices') private songServices: SongServices;
   private searchSongRef: SearchSong;
   private previewVideoRef: PreviewVideo;
 
   constructor(props: IAddLinkProps) {
     super(props);
-
-    this.stationServices = new StationServices();
-    this.songServices = new SongServices();
 
     this.state = {
       preview: null,

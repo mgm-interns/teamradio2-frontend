@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
@@ -14,7 +15,7 @@ export class ResetPasswordFormComponent extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {
-  private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   private readonly initialValues: IFormValues;
 
   constructor(props: any) {
@@ -30,7 +31,6 @@ export class ResetPasswordFormComponent extends BaseComponent<
       serverError: '',
     };
 
-    this.userServices = new UserServices();
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 

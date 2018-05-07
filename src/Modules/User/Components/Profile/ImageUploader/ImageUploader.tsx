@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Dispatch } from 'Configuration/Redux';
 import { fileContentToBase64 } from 'Helpers';
 import { RegisteredUser } from 'Models';
@@ -34,8 +35,8 @@ interface IState {
 }
 
 class ImageUploaderComponent extends BaseComponent<IProps, IState> {
+  @Inject('UserServices') private userServices: UserServices;
   private inputFileTag: any;
-  private userServices: UserServices;
 
   constructor(props: IProps) {
     super(props);
@@ -46,7 +47,7 @@ class ImageUploaderComponent extends BaseComponent<IProps, IState> {
       uploadedImage: '',
       croppedImage: '',
     };
-    this.userServices = new UserServices();
+
     this.openChooseImageModal = this.openChooseImageModal.bind(this);
     this.cropImage = this.cropImage.bind(this);
     this.convertImageUploaded = this.convertImageUploaded.bind(this);

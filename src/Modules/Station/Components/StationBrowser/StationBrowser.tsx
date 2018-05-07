@@ -1,5 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Station, StationItem } from 'Models';
 import * as React from 'react';
 import { Row } from 'reactstrap';
@@ -20,11 +21,11 @@ export class StationBrowser extends BaseComponent<
   IStationBrowserProps,
   IStationBrowserStates
 > {
-  public stationServices: StationServices;
+  @Inject('StationServices') public stationServices: StationServices;
 
   constructor(props: IStationBrowserProps) {
     super(props);
-    this.stationServices = new StationServices();
+
     this.state = {
       listStation: [],
       stationItemContainerRef: null,

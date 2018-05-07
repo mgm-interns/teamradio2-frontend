@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { RegisteredUser, UnauthorizedUser } from 'Models';
@@ -14,8 +15,8 @@ interface IProps {
 }
 
 export class LoginForm extends BaseComponent<IProps, IState> {
+  @Inject('UserServices') private userServices: UserServices;
   private readonly initialValues: FormValues;
-  private userServices: UserServices;
 
   constructor(props: IProps) {
     super(props);
@@ -30,7 +31,6 @@ export class LoginForm extends BaseComponent<IProps, IState> {
       serverError: '',
     };
 
-    this.userServices = new UserServices();
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 

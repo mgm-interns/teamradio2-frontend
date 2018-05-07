@@ -1,11 +1,12 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux/Reducers';
 import { localStorageManager } from 'Helpers';
 import { Message } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { StationServices } from 'Services/Http';
-import { StationChatSSE } from 'Services/SSE';
+import { StationChatSSEService } from 'Services/SSE';
 import './ChatBox.scss';
 import { ChatMessage } from './ChatMessage';
 
@@ -27,8 +28,9 @@ export class ChatBoxComponent extends BaseComponent<
   IChatBoxStates
 > {
   private messageBox: any;
-  private stationServices: StationServices;
-  private stationChatSSE: StationChatSSE;
+  @Inject('StationServices') private stationServices: StationServices;
+  @Inject('StationChatSSEService')
+  private stationChatSSEService: StationChatSSEService;
 
   constructor(props: IChatBoxProps & IChatReducerProps) {
     super(props);
@@ -38,7 +40,6 @@ export class ChatBoxComponent extends BaseComponent<
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.onMessageChange = this.onMessageChange.bind(this);
-    this.stationServices = new StationServices();
   }
 
   public componentWillMount() {
@@ -56,7 +57,7 @@ export class ChatBoxComponent extends BaseComponent<
   }
 
   public componentWillUnmount() {
-    this.stationChatSSE.close();
+    this.stationChatSSEService.close();
   }
 
   public componentWillReceiveProps(
@@ -94,7 +95,7 @@ export class ChatBoxComponent extends BaseComponent<
   public onSwitchStation(oldStationId: string, newStationId: string) {
     if (oldStationId !== newStationId) {
       this.setState({ listMessages: [] });
-      this.stationChatSSE.close();
+      this.stationChatSSEService.close();
       this.startSSEService(newStationId);
     }
   }
@@ -173,8 +174,8 @@ export class ChatBoxComponent extends BaseComponent<
   }
 
   private startSSEService(stationId: string) {
-    this.stationChatSSE = new StationChatSSE(stationId);
-    this.stationChatSSE.start();
+    this.stationChatSSEService.initiate(stationId);
+    this.stationChatSSEService.start();
   }
 }
 

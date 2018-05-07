@@ -1,7 +1,9 @@
+import { Service } from 'Configuration/DependencyInjection';
 import { Message, SkipRuleType, Station, StationPrivacy } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';
 
+@Service('StationServices')
 export class StationServices {
   private _httpServices: HttpServices;
   private serviceUrl = 'stations';

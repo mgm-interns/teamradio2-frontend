@@ -1,5 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
+import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
@@ -59,7 +60,8 @@ class OriginStationHeader extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {
-  private stationServices: StationServices;
+  @Inject('StationServices') private stationServices: StationServices;
+
   constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
 
@@ -67,8 +69,6 @@ class OriginStationHeader extends BaseComponent<
       station: null,
       currentSkipRule: null,
     };
-
-    this.stationServices = new StationServices();
   }
 
   public componentWillMount() {
