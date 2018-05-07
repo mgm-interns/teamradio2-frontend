@@ -1,7 +1,9 @@
+import { injectable } from 'inversify';
 import { Song } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';
 
+@injectable()
 export class SongServices {
   private _httpServices: HttpServices;
   private serviceUrl = 'station';

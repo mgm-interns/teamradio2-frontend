@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { inject } from 'Configuration/DI';
 import { Dispatch } from 'Configuration/Redux';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
@@ -24,7 +25,7 @@ interface IStates {
 }
 
 export class InformationForms extends BaseComponent<IProps, IStates> {
-  private readonly userServices: UserServices;
+  @inject('UserServices') private userServices: UserServices;
 
   constructor(props: IProps) {
     super(props);
@@ -32,7 +33,6 @@ export class InformationForms extends BaseComponent<IProps, IStates> {
       userInfo: null,
       isLoadingUserInfo: false,
     };
-    this.userServices = new UserServices();
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 

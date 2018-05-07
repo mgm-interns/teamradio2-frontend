@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { inject } from 'Configuration/DI';
 import { IApplicationState } from 'Configuration/Redux/Reducers';
 import { localStorageManager } from 'Helpers';
 import { Message } from 'Models';
@@ -27,7 +28,7 @@ export class ChatBoxComponent extends BaseComponent<
   IChatBoxStates
 > {
   private messageBox: any;
-  private stationServices: StationServices;
+  @inject('StationServices') private stationServices: StationServices;
   private stationChatSSE: StationChatSSE;
 
   constructor(props: IChatBoxProps & IChatReducerProps) {
@@ -38,7 +39,6 @@ export class ChatBoxComponent extends BaseComponent<
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.onMessageChange = this.onMessageChange.bind(this);
-    this.stationServices = new StationServices();
   }
 
   public componentWillMount() {

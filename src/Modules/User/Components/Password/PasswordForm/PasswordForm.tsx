@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { inject } from 'Configuration/DI';
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
@@ -14,7 +15,7 @@ interface IProps {
 }
 
 export class PasswordForm extends BaseComponent<IProps, IState> {
-  private userServices: UserServices;
+  @inject('UserServices') private userServices: UserServices;
   private readonly initialValues: IFormValues;
 
   constructor(props: IProps) {
@@ -26,7 +27,6 @@ export class PasswordForm extends BaseComponent<IProps, IState> {
       confirmPassword: '',
     };
 
-    this.userServices = new UserServices();
     this.validate = this.validate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changePassword = this.changePassword.bind(this);

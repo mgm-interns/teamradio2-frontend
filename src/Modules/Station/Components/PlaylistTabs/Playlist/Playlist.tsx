@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { inject } from 'Configuration/DI';
 import { IApplicationState } from 'Configuration/Redux';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { PlaylistSong } from 'Models/Song';
@@ -29,14 +30,11 @@ interface IStates {
 type IProps = IPlaylistProps & IReduxProps;
 
 export class PlaylistComponent extends BaseComponent<IProps, IStates> {
-  private userServices: UserServices;
-  private songServices: SongServices;
+  @inject('UserServices') private userServices: UserServices;
+  @inject('SongServices') private songServices: SongServices;
 
   constructor(props: IProps) {
     super(props);
-
-    this.userServices = new UserServices();
-    this.songServices = new SongServices();
 
     this.state = {
       playlist: props.playlist,

@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { inject } from 'Configuration/DI';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
@@ -29,8 +30,8 @@ interface IStates {
 }
 
 export class ProfileHeaders extends BaseComponent<IProps, IStates> {
+  @inject('UserServices') private userServices: UserServices;
   private imageUploader: any;
-  private readonly userServices: UserServices;
 
   constructor(props: any) {
     super(props);
@@ -44,7 +45,7 @@ export class ProfileHeaders extends BaseComponent<IProps, IStates> {
       isLoadingUserInfo: false,
       aspectRatio: 1,
     };
-    this.userServices = new UserServices();
+
     this.uploadAvatar = this.uploadAvatar.bind(this);
     this.uploadCover = this.uploadCover.bind(this);
     this.setImageUploadUrl = this.setImageUploadUrl.bind(this);

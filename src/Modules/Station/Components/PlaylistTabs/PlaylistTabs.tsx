@@ -1,6 +1,7 @@
 import { BaseComponent } from 'BaseComponent';
-import { Dispatch } from 'Configuration/Redux';
+import { inject } from 'Configuration/DI';
 import { IApplicationState } from 'Configuration/Redux';
+import { Dispatch } from 'Configuration/Redux';
 import { FavoriteSong, PlaylistSong } from 'Models';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
@@ -39,10 +40,9 @@ type IProps = IOwnProps & IDispatcherProps & IReduxProps;
 
 export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   private stationPlaylistSSE: StationPlaylistSSE;
-  private userServices: UserServices;
+  @inject('UserServices') private userServices: UserServices;
   constructor(props: IProps) {
     super(props);
-    this.userServices = new UserServices();
     this.state = {
       favoriteList: [],
       activeTab: PLAYLIST_TAB_ID,
