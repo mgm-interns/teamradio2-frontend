@@ -8,8 +8,8 @@ $font-title: 'Pacifico', sans-serif;
   min-height: 800px;
   background: linear-gradient(
       to right bottom,
-      rgba(color('secondary-light'), 0.4),
-      rgba(color('secondary-dark'), 0.6)
+      rgba(color('tertiary-light'), 0.4),
+      rgba(color('tertiary-dark'), 0.6)
     ),
     url($background-image) top;
   background-size: cover;

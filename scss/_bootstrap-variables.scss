@@ -49,15 +49,17 @@ $colors: (
   gray-dark:                      $gray-800,
   primary:                        $flamingo,
   secondary:                      $gray-300,
-  secondary-light:                $cyprus,
-  secondary-dark:                 $green-dark,
-  tertiary:                       $spring-wood,
+  tertiary-light:                 $cyprus,
+  tertiary-dark:                  $green-dark,
+  quaternary:                     $spring-wood,
 );
 
 $theme-colors: (
   primary:                        $flamingo,
-  secondary:                      $green-dark,
-  tertiary:                       $spring-wood,
+  secondary:                      $gray-300,
+  tertiary-light:                 $cyprus,
+  tertiary-dark:                  $green-dark,
+  quaternary:                     $spring-wood,
   success:                        $flamingo,
   info:                           $cyan,
   warning:                        $yellow,
