@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { IApplicationState } from 'Configuration/Redux';
 import { Dispatch } from 'Configuration/Redux';
 import { FavoriteSong, PlaylistSong } from 'Models';
@@ -40,7 +40,7 @@ type IProps = IOwnProps & IDispatcherProps & IReduxProps;
 
 export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
   private stationPlaylistSSE: StationPlaylistSSE;
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   constructor(props: IProps) {
     super(props);
     this.state = {

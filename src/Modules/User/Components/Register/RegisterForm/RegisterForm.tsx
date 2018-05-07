@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { RegisteredUser } from 'Models';
@@ -17,7 +17,7 @@ export class RegisterFormComponent extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   private readonly initialValues: FormValues;
 
   constructor(props: IProps & RouteComponentProps<any>) {

@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { Service } from 'Configuration/DI';
 import {
   AccessToken,
   EmailForm,
@@ -12,7 +12,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { HttpServices, OAuthService } from '../HttpServices';
 
-@injectable()
+@Service
 export class UserServices {
   private _httpServices: HttpServices;
   private _oAuthService: OAuthService;

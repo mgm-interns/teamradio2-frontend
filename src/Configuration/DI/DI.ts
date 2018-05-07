@@ -1,18 +1,32 @@
-import { SongServices, StationServices, UserServices } from 'Services/Http';
-import { container, inject } from './container';
+import { injectable } from 'inversify';
+import { container, lazyInject } from './container';
 
-// Binding services
-container.bind('UserServices').to(UserServices);
-container.bind('SongServices').to(SongServices);
-container.bind('StationServices').to(StationServices);
+type ServiceClassType = new () => {};
+/**
+ *
+ * Export Service decorator.
+ *
+ * ********HOW TO USE********
+ *
+ * @Service
+ * class UserService {
+ *   // Service declaration
+ * }
+ */
+function Service(target: ServiceClassType) {
+  // Register target service to the container
+  container.bind(target.name).to(target);
+  // Then return original injectable decorator
+  return injectable()(target);
+}
 
 /**
- * Export inject decorator.
+ * Export Inject decorator.
  *
- * HOW TO USE
+ * ***********************HOW TO USE*****************************
  *
  * class CustomComponent extends Component{
- *    @inject('UserServices') private userServices: UserServices
+ *    @Inject('UserServices') private userServices: UserServices
  *
  *    componentDidMount() {
  *       this.userServices.doSomething();
@@ -20,4 +34,8 @@ container.bind('StationServices').to(StationServices);
  * }
  *
  */
-export { inject };
+function Inject(target: any) {
+  return lazyInject(target);
+}
+
+export { Inject, Service };

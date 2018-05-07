@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { IApplicationState } from 'Configuration/Redux';
 import { Song } from 'Models';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
@@ -26,7 +26,7 @@ interface IStates {
 }
 
 export class FavoriteComponent extends BaseComponent<IProps, IStates> {
-  @inject('SongServices') private songServices: SongServices;
+  @Inject('SongServices') private songServices: SongServices;
 
   constructor(props: IProps) {
     super(props);

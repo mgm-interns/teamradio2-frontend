@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { ISkipRule, SkipRuleType } from 'Models';
 import * as React from 'react';
 import {
@@ -43,7 +43,7 @@ const RULES: ISkipRuleRadio[] = [
 ];
 
 export class ConfigurationButton extends BaseComponent<IProps, IStates> {
-  @inject('StationServices') private stationServices: StationServices;
+  @Inject('StationServices') private stationServices: StationServices;
 
   constructor(props: any) {
     super(props);

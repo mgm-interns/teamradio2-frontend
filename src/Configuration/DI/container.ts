@@ -3,6 +3,17 @@ import getDecorators from 'inversify-inject-decorators';
 
 const container = new Container();
 const decorators = getDecorators(container);
-const inject = decorators.lazyInject;
+const {
+  lazyInject,
+  lazyInjectNamed,
+  lazyInjectTagged,
+  lazyMultiInject,
+} = decorators;
 
-export { container, inject };
+export {
+  container,
+  lazyInject,
+  lazyInjectNamed,
+  lazyInjectTagged,
+  lazyMultiInject,
+};

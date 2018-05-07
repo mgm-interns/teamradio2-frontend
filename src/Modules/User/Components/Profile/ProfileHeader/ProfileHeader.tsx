@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
@@ -30,7 +30,7 @@ interface IStates {
 }
 
 export class ProfileHeaders extends BaseComponent<IProps, IStates> {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   private imageUploader: any;
 
   constructor(props: any) {

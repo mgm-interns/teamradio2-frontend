@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { Dispatch } from 'Configuration/Redux';
 import { fileContentToBase64 } from 'Helpers';
 import { RegisteredUser } from 'Models';
@@ -35,7 +35,7 @@ interface IState {
 }
 
 class ImageUploaderComponent extends BaseComponent<IProps, IState> {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   private inputFileTag: any;
 
   constructor(props: IProps) {

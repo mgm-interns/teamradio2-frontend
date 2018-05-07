@@ -1,6 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
@@ -60,7 +60,7 @@ class OriginStationHeader extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {
-  @inject('StationServices') private stationServices: StationServices;
+  @Inject('StationServices') private stationServices: StationServices;
 
   constructor(props: IProps & RouteComponentProps<any>) {
     super(props);

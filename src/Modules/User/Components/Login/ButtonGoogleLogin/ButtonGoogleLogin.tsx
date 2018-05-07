@@ -1,4 +1,4 @@
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import * as React from 'react';
 import { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
@@ -13,7 +13,7 @@ interface IProps {
 interface IState {}
 
 export class ButtonGoogleLogin extends Component<IProps, IState> {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
 
   constructor(props: IProps) {
     super(props);

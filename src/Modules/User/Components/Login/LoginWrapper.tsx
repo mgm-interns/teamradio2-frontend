@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { Dispatch } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
@@ -29,7 +29,7 @@ type IProps = ILoginWrapperComponentProps &
 interface IState {}
 
 export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
 
   constructor(props: IProps) {
     super(props);

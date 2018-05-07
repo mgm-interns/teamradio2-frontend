@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { Dispatch } from 'Configuration/Redux';
 import { YoutubeHelper } from 'Helpers';
 import { Song } from 'Models';
@@ -26,7 +26,7 @@ export class FavoriteItemComponent extends BaseComponent<
   IProps,
   IFavoriteItemStates
 > {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   constructor(props: IOwnProps & IDispatcherProps) {
     super(props);
 

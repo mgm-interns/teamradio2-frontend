@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { Song } from 'Models';
 import * as React from 'react';
 import { SongServices } from 'Services/Http';
@@ -16,7 +16,7 @@ interface IHistoryState {
 }
 
 export class History extends BaseComponent<IHistoryProps, IHistoryState> {
-  @inject('SongServices') private songServices: SongServices;
+  @Inject('SongServices') private songServices: SongServices;
 
   constructor(props: any) {
     super(props);

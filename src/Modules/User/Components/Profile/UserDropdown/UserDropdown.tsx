@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { Dispatch } from 'Configuration/Redux';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
@@ -32,7 +32,7 @@ interface IState {
 }
 
 class UserDropdownComponent extends BaseComponent<IProps, IState> {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
 
   constructor(props: any) {
     super(props);

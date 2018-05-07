@@ -1,6 +1,6 @@
 import * as classNames from 'classnames';
+import { Inject } from 'Configuration/DI';
 import { SongItem } from 'Components/SongItem';
-import { inject } from 'Configuration/DI';
 import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import {
@@ -62,7 +62,7 @@ export class PlaylistItemComponent extends SongItem<
   IProps,
   IPlayListItemStates
 > {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   constructor(props: IProps) {
     super(props);
     this.state = {

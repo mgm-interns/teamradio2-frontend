@@ -1,6 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { Station, StationItem } from 'Models';
 import * as React from 'react';
 import { Row } from 'reactstrap';
@@ -21,7 +21,7 @@ export class StationBrowser extends BaseComponent<
   IStationBrowserProps,
   IStationBrowserStates
 > {
-  @inject('StationServices') public stationServices: StationServices;
+  @Inject('StationServices') public stationServices: StationServices;
 
   constructor(props: IStationBrowserProps) {
     super(props);

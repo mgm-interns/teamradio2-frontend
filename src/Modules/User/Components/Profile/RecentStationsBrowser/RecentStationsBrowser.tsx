@@ -1,11 +1,11 @@
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { StationItem } from 'Models';
 import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
 
 export class RecentStationsBrowser extends StationBrowser {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   public getListStation() {
     this.userServices.getListMyRecentStation().subscribe(
       (listStation: StationItem[]) => {

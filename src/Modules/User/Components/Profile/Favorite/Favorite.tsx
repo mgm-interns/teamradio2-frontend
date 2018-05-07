@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { inject } from 'Configuration/DI';
+import { Inject } from 'Configuration/DI';
 import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
@@ -25,7 +25,7 @@ class FavoriteComponent extends BaseComponent<
   IReduxProps & IDispatcherProps,
   IOwnStates
 > {
-  @inject('UserServices') private userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
   constructor(props: IReduxProps & IDispatcherProps) {
     super(props);
 
