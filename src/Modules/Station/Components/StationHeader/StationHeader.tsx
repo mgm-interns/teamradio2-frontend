@@ -142,31 +142,28 @@ class OriginStationHeader extends BaseComponent<
           <h1>{station && station.name}</h1>
         </div>
         <div className="buttons-wrapper">
-          {nowPlaying && (
-            <Fragment>
-              {isEnableVideo && (
-                <Fragment>
-                  {this._renderButton(
-                    !muted,
-                    buttonActions.muted,
-                    onVolumeClick,
-                    'station-mute-button',
-                  )}
-                  {this._renderButton(
-                    isPassive,
-                    buttonActions.passive,
-                    onLightClick,
-                  )}
-                </Fragment>
-              )}
-              {!isPassive &&
-                this._renderButton(
-                  isEnableVideo,
-                  buttonActions.player,
-                  enablePlayer,
+          {nowPlaying &&
+            isEnableVideo && (
+              <Fragment>
+                {this._renderButton(
+                  !muted,
+                  buttonActions.muted,
+                  onVolumeClick,
+                  'station-mute-button',
                 )}
-            </Fragment>
-          )}
+                {this._renderButton(
+                  isPassive,
+                  buttonActions.passive,
+                  onLightClick,
+                )}
+              </Fragment>
+            )}
+          {!isPassive &&
+            this._renderButton(
+              isEnableVideo,
+              buttonActions.player,
+              enablePlayer,
+            )}
           {!isPassive && (
             <Fragment>
               <StationSharing />
