@@ -1,98 +1,90 @@
-import { BaseComponent } from 'BaseComponent';
-import { StationBrowserSlider } from 'Components';
+import { BaseStationBrowser } from 'BaseComponent/BaseStationBrowser';
 import { Inject } from 'Configuration/DependencyInjection';
-import { Station, StationItem } from 'Models';
+import { IApplicationState } from 'Configuration/Redux';
+import {
+  StationItem,
+  StationItemsControlledMap,
+  StationItemsMap,
+} from 'Models';
 import * as React from 'react';
-import { Row } from 'reactstrap';
-import { StationServices } from 'Services/Http';
+import { connect } from 'react-redux';
+import { StationsBrowserSSE, StationsBrowserSSEStatus } from 'Services/SSE';
 import './StationBrowser.scss';
-import { StationBrowserItem } from './StationBrowserItem';
 
-export interface IStationBrowserProps {
+interface IOwnProps {
   stationId?: string;
 }
 
-interface IStationBrowserStates {
-  listStation: StationItem[];
-  stationItemContainerRef: HTMLElement;
+interface IStateProps {
+  stations: StationItemsMap;
+  loading: boolean;
 }
 
-export class StationBrowser extends BaseComponent<
-  IStationBrowserProps,
-  IStationBrowserStates
-> {
-  @Inject('StationServices') public stationServices: StationServices;
+interface IDispatchProps {}
 
-  constructor(props: IStationBrowserProps) {
+type IProps = IOwnProps & IStateProps & IDispatchProps;
+
+export class OriginStationBrowser extends BaseStationBrowser<IProps> {
+  @Inject('StationsBrowserSSE') private stationsBrowserSSE: StationsBrowserSSE;
+
+  constructor(props: IProps) {
     super(props);
-
-    this.state = {
-      listStation: [],
-      stationItemContainerRef: null,
-    };
   }
 
   public componentWillMount() {
-    this.getListStation();
-  }
-
-  public updateListStation(listStationToUpdate: StationItem[]) {
-    this.setState({ listStation: listStationToUpdate });
-  }
-
-  public getListStation() {
-    this.stationServices.getListStation().subscribe(
-      (listStation: StationItem[]) => {
-        this.updateListStation(listStation);
-      },
-      (err: string) => {
-        this.showError(err);
-      },
-    );
-  }
-
-  public render() {
-    if (this.state.listStation.length === 0) {
-      return null;
+    if (StationsBrowserSSE.status === StationsBrowserSSEStatus.starting) {
+      this.updateListStation(this.props.stations);
+      return;
     }
-    const listStationFiltered = this.filterListStation(
-      this.state.listStation,
-      this.props.stationId,
-    );
-    return (
-      <Row className="m-0 justify-content-center justify-content-center">
-        <div className="col-xl-12 browser">
-          <div className="m-auto extra-large-container cover-div">
-            <StationBrowserSlider
-              stationItemContainer={this.state.stationItemContainerRef}
-            />
-            <div className="list-station">
-              <div
-                className="station-item-container"
-                ref={this.bindStationItemContainerRef}>
-                {listStationFiltered.map((item: StationItem, index: number) => {
-                  return <StationBrowserItem key={index} {...item} />;
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Row>
-    );
+
+    this.setState({ loading: this.props.loading });
+
+    if (
+      StationsBrowserSSE.status === StationsBrowserSSEStatus.not_initiated_yet
+    ) {
+      this.stationsBrowserSSE.initiate();
+    }
+    if (
+      StationsBrowserSSE.status === StationsBrowserSSEStatus.not_started_yet
+    ) {
+      this.stationsBrowserSSE.start();
+    }
   }
 
-  private bindStationItemContainerRef = (node: HTMLElement) => {
+  public componentWillReceiveProps(nextProps: IProps) {
+    const { stations: currentStations } = this.props;
+    const { stations: nextStations } = nextProps;
+    if (currentStations !== nextStations) {
+      this.updateListStation(nextStations);
+    }
+
+    const { loading: currentLoading } = this.props;
+    const { loading: nextLoading } = nextProps;
+    if (currentLoading !== nextLoading) {
+      this.setState({ loading: nextLoading });
+    }
+  }
+
+  protected updateListStation(listStationToUpdate: StationItemsMap) {
+    // Must apply new instance to make sure that
+    // react component will trigger render again
     this.setState({
-      stationItemContainerRef: node,
+      listStation: new StationItemsControlledMap(listStationToUpdate).toArray(),
+    });
+  }
+
+  protected getListItems = () => {
+    return this.state.listStation.filter((station: StationItem) => {
+      return station.friendlyId !== this.props.stationId;
     });
   };
-
-  private filterListStation(
-    listStation: StationItem[],
-    stationIdToFilter: string,
-  ) {
-    return listStation.filter((station: Station) => {
-      return station.friendlyId !== stationIdToFilter;
-    });
-  }
 }
+
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
+  stations: state.stations.data,
+  loading: state.stations.loading,
+});
+
+export const StationBrowser = connect<IStateProps, IDispatchProps, IOwnProps>(
+  mapStateToProps,
+)(OriginStationBrowser);

@@ -1,4 +1,4 @@
 export * from './SSE';
-export * from './StationPlaylistSSE';
-export * from './StationChatSSE';
+export * from './StationPlaylistSSEService';
+export * from './StationChatSSEService';
 export * from './StationsBrowserSSE';

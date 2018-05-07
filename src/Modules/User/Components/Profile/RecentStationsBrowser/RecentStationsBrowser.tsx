@@ -6,6 +6,10 @@ import { UserServices } from 'Services/Http';
 export class RecentStationsBrowser extends BaseStationBrowser<{}> {
   @Inject('UserServices') private userServices: UserServices;
 
+  public componentWillMount() {
+    this.getListStation();
+  }
+
   public getListStation() {
     this.setState({
       loading: true,
