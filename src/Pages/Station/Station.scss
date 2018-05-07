@@ -69,6 +69,10 @@ $mq-xlarge: '(min-width: #{$bp-xlarge})';
     margin: 0 !important;
     color: white;
     transition: all 0.3s linear;
+
+    .player {
+      background: none;
+    }
   }
 
   .playlist-tabs-container {
