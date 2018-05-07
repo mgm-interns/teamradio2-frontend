@@ -1,18 +1,15 @@
-// COLORS & BACKGROUND
+@import 'scss/style';
+
 $background-image: '/img/home/backdrop.jpg';
-$color-primary-light: #0b3e41;
-$color-primary-dark: #07292c;
-$color-primary: #e06a4e;
-$color-white: #fff;
-// FONTS
 $font-title: 'Pacifico', sans-serif;
+
 .header {
   height: calc(100vh - 260px);
   min-height: 800px;
   background: linear-gradient(
       to right bottom,
-      rgba($color-primary-light, 0.4),
-      rgba($color-primary-dark, 0.6)
+      rgba(color('secondary-light'), 0.4),
+      rgba(color('secondary-dark'), 0.6)
     ),
     url($background-image) top;
   background-size: cover;
