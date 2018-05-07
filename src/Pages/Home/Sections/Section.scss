@@ -1,12 +1,13 @@
-// FONTS
+@import 'scss/style';
+
 $font-title: 'Pacifico', sans-serif;
 $font-size-default: 1.25rem;
 $font-size-medium: 2.25rem;
-// COLORS
-$color-white: #fff;
-$color-tertiary: #f4f0ea;
+$color-white: color('white');
+$color-tertiary: color('quaternary');
 $color-black: #000;
-$color-primary: #e06a4e;
+$color-primary: color('primary');
+
 .section-feature {
   &-create {
     padding: 5% 0 5%;
@@ -119,20 +120,4 @@ $color-primary: #e06a4e;
   &__photo:not(:hover) {
     transform: scale(0.95);
   }
-}
-
-.u-margin-bottom-small {
-  margin-bottom: 2rem;
-}
-
-.u-margin-bottom-medium {
-  margin-bottom: 4rem;
-}
-
-.u-margin-bottom-big {
-  margin-bottom: 8rem;
-}
-
-.pd-bt-10 {
-  padding-bottom: 10%;
 }
