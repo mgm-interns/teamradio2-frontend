@@ -12,6 +12,7 @@ import { ChatMessage } from './ChatMessage';
 
 interface IChatBoxProps {
   stationId: string;
+  toggleChatPopup: () => void;
 }
 
 interface IChatReducerProps {
@@ -139,8 +140,15 @@ export class ChatBoxComponent extends BaseComponent<
   }
 
   public render() {
+    const { toggleChatPopup } = this.props;
+
     return (
       <div className="chat-container">
+        <div className="d-flex justify-content-end chat-toolbar">
+          <span className="close-button" onClick={toggleChatPopup}>
+            <i className="fa fa-times" />
+          </span>
+        </div>
         <div className="messages-container" id="messages-container">
           {this.state.listMessages.map((message: Message, index: number) => {
             return (
