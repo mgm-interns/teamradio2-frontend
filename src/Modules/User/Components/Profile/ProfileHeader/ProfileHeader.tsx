@@ -119,7 +119,7 @@ export class ProfileHeader<P, S> extends BaseComponent<
 
   public renderAvatarImage() {
     const { avatarUrl } = this.state;
-    return <img src={avatarUrl} className="rounded-circle" alt="User Avatar" />;
+    return <img src={avatarUrl} className="rounded-circle" />;
   }
 
   public renderAvatarHover() {
@@ -135,7 +135,6 @@ export class ProfileHeader<P, S> extends BaseComponent<
     return (
       <div className="avatar">
         {this.renderAvatarImage()}
-        {this.renderAvatarHover()}
       </div>
     );
   }
