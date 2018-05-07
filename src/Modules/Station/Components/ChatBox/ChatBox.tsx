@@ -70,10 +70,6 @@ export class ChatBoxComponent extends BaseComponent<
     this.onSwitchStation(oldStationId, newStationId);
   }
 
-  public componentDidUpdate() {
-    this.scrollDownMessagesContainer();
-  }
-
   public onMessageChange(event: any) {
     const key = event.keyCode ? event.keyCode : event.which;
     const KEY_CODE_ENTER = 13;
@@ -92,7 +88,7 @@ export class ChatBoxComponent extends BaseComponent<
       }
     }
     listMessages.push(newMessage);
-    this.setState({ listMessages });
+    this.setState({ listMessages }, () => this.scrollDownMessagesContainer());
   }
 
   public onSwitchStation(oldStationId: string, newStationId: string) {
