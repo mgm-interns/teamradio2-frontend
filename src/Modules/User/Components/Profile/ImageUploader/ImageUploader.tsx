@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { Inject } from 'Configuration/DependencyInjector';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Dispatch } from 'Configuration/Redux';
 import { fileContentToBase64 } from 'Helpers';
 import { RegisteredUser } from 'Models';

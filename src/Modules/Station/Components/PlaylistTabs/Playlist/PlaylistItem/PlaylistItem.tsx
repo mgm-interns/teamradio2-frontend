@@ -1,6 +1,6 @@
 import * as classNames from 'classnames';
 import { SongItem } from 'Components/SongItem';
-import { Inject } from 'Configuration/DependencyInjector';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import {

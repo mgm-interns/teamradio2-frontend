@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { Inject } from 'Configuration/DependencyInjector';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Dispatch } from 'Configuration/Redux';
 import { YoutubeHelper } from 'Helpers';
 import { Song } from 'Models';

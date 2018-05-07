@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { Inject } from 'Configuration/DependencyInjector';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Field, Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { Station, StationPrivacy } from 'Models';

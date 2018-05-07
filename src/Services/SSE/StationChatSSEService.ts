@@ -1,4 +1,4 @@
-import { Service } from 'Configuration/DependencyInjector';
+import { Service } from 'Configuration/DependencyInjection';
 import SSEService from './SSEService/SSEService';
 
 @Service('StationChatSSEService')

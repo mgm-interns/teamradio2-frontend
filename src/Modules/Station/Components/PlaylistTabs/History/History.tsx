@@ -1,5 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
-import { Inject } from 'Configuration/DependencyInjector';
+import { Inject } from 'Configuration/DependencyInjection';
 import { Song } from 'Models';
 import * as React from 'react';
 import { SongServices } from 'Services/Http';

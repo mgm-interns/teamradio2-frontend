@@ -1,4 +1,4 @@
-import { Inject } from 'Configuration/DependencyInjector';
+import { Inject } from 'Configuration/DependencyInjection';
 import * as React from 'react';
 import { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';

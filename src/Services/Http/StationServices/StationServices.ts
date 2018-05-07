@@ -1,4 +1,4 @@
-import { Service } from 'Configuration/DependencyInjector';
+import { Service } from 'Configuration/DependencyInjection';
 import { Message, SkipRuleType, Station, StationPrivacy } from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';

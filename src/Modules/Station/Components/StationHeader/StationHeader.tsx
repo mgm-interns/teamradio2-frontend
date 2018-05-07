@@ -1,6 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
-import { Inject } from 'Configuration/DependencyInjector';
+import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
 import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
