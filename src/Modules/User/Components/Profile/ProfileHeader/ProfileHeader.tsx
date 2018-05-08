@@ -1,14 +1,11 @@
 import { BaseComponent } from 'BaseComponent';
-import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
-import * as React from 'react';
-import { Col, Container, Row } from 'reactstrap';
-import { Observable } from 'rxjs/Observable';
-import { UserServices } from 'Services/Http';
 import {
   DEFAULT_USER_AVATAR,
   DEFAULT_USER_COVER_PHOTO,
-} from '../../../Constants';
+} from 'Modules/User/Constants';
+import * as React from 'react';
+import { Col, Container, Row } from 'reactstrap';
 import './ProfileHeader.scss';
 
 export interface IProfileHeaderProps {
@@ -33,9 +30,6 @@ export class ProfileHeader<P, S> extends BaseComponent<
   P & IProfileHeaderProps,
   IProfileHeaderStates
 > {
-  protected userServices: UserServices;
-  protected functionLoadUserInfo: Observable<RegisteredUser>;
-
   constructor(props: P & IProfileHeaderProps) {
     super(props);
     this.state = {
@@ -51,17 +45,7 @@ export class ProfileHeader<P, S> extends BaseComponent<
       songs: 0,
       voted: 0,
     };
-    this.userServices = new UserServices();
     this.setImageUploadUrl = this.setImageUploadUrl.bind(this);
-  }
-
-  public componentDidMount() {
-    this.setState({
-      isLoadingUserInfo: true,
-    });
-    const userInfo = localStorageManager.getUserInfo();
-    this.setUserHeaderInfo(userInfo);
-    this.getUserProfile();
   }
 
   public setUserHeaderInfo(userInfo: RegisteredUser) {
@@ -94,17 +78,6 @@ export class ProfileHeader<P, S> extends BaseComponent<
     });
   }
 
-  public getUserProfile() {
-    this.functionLoadUserInfo.subscribe(
-      (userInfo: RegisteredUser) => {
-        this.setUserHeaderInfo(userInfo);
-      },
-      (err: string) => {
-        this.showError(err);
-      },
-    );
-  }
-
   public setImageUploadUrl(imageUploadUrl: string) {
     if (this.state.isUpdateAvatar) {
       this.setState({
@@ -132,11 +105,7 @@ export class ProfileHeader<P, S> extends BaseComponent<
   }
 
   public renderAvatar() {
-    return (
-      <div className="avatar">
-        {this.renderAvatarImage()}
-      </div>
-    );
+    return <div className="avatar">{this.renderAvatarImage()}</div>;
   }
 
   public renderCoverPhoto() {

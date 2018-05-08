@@ -1,7 +1,8 @@
+import { IApplicationState } from 'Configuration/Redux';
+import { localStorageManager } from 'Helpers';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
-import { IApplicationState } from '../../../../../Configuration/Redux';
 import { ImageUploader } from '../ImageUploader';
 import {
   IProfileHeaderProps,
@@ -19,10 +20,16 @@ class CurrentUserProfileHeaderComponent extends ProfileHeader<
 
   constructor(props: IProps & IProfileHeaderProps) {
     super(props);
-    this.functionLoadUserInfo = this.userServices.getCurrentUserProfile();
-
     this.uploadAvatar = this.uploadAvatar.bind(this);
     this.uploadCover = this.uploadCover.bind(this);
+  }
+
+  public componentDidMount() {
+    this.setState({
+      isLoadingUserInfo: true,
+    });
+    const userInfo = localStorageManager.getUserInfo();
+    this.setUserHeaderInfo(userInfo);
   }
 
   public uploadAvatar() {
