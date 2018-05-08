@@ -107,7 +107,6 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
 
   public signOut() {
     localStorageManager.removeAccessToken();
-    // listen logout event
     this.props.signOut();
     this.props.updateUserInfo(new RegisteredUser());
     this.setState({
@@ -118,7 +117,7 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
 
   public render() {
     const {
-      userInfo: { name, avatarUrl },
+      userInfo: { name, avatarUrl, reputation },
       isAuthenticated,
       dropdownOpen,
     } = this.state;
@@ -127,7 +126,7 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
       <Fragment>
         {isAuthenticated ? (
           <Fragment>
-            <span className="reputation">Reputation: {20}</span>
+            <span className="reputation">Reputation: {reputation}</span>
             <div className="user-info ml-2">
               <Dropdown
                 className="drop-down"
