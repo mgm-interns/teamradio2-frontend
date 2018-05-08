@@ -16,15 +16,9 @@ export const stationsReducer: Reducer<IStationsListState> = (
     case actionTypes.STATIONS_LIST_CONNECTED:
       return state;
     case actionTypes.STATIONS_LIST_CLOSED:
-      return {
-        ...state,
-        loading: true,
-      };
+      return state;
     case actionTypes.STATIONS_LIST_ERROR:
-      return {
-        ...state,
-        loading: true,
-      };
+      return state;
     case actionTypes.STATIONS_LIST_UPDATE:
       return {
         ...state,

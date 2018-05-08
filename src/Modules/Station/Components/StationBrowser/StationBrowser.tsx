@@ -27,10 +27,6 @@ type IProps = IOwnProps & IStateProps & IDispatchProps;
 export class OriginStationBrowser extends BaseStationBrowser<IProps> {
   @Inject('StationsBrowserSSE') private stationsBrowserSSE: StationsBrowserSSE;
 
-  constructor(props: IProps) {
-    super(props);
-  }
-
   public componentWillMount() {
     if (StationsBrowserSSE.status === StationsBrowserSSEStatus.starting) {
       this.updateListStation(this.props.stations);
@@ -64,6 +60,10 @@ export class OriginStationBrowser extends BaseStationBrowser<IProps> {
       this.setState({ loading: nextLoading });
     }
   }
+
+  protected onEndReach = () => {
+    this.stationsBrowserSSE.increaseLimit();
+  };
 
   protected updateListStation(listStationToUpdate: StationItemsMap) {
     // Must apply new instance to make sure that

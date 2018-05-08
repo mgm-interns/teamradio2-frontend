@@ -5,32 +5,48 @@ export enum StationsBrowserSSEStatus {
   not_initiated_yet,
   not_started_yet,
   starting,
+  changing_limit,
 }
+
+export const DEFAULT_STATIONS_PAGE_SIZE = 28;
 
 @Service('StationsBrowserSSE')
 export class StationsBrowserSSE {
-  public static _status = StationsBrowserSSEStatus.not_initiated_yet;
-
-  private service: SSEService;
+  private static _status = StationsBrowserSSEStatus.not_initiated_yet;
+  private static _service: SSEService;
   private _endpoint: string = process.env.REACT_APP_HTTP_END_POINT;
+  private limit: number = DEFAULT_STATIONS_PAGE_SIZE;
 
   public static get status() {
     return StationsBrowserSSE._status;
   }
 
-  public start() {
-    this.service.start();
+  public initiate = () => {
+    this.registerService(this.limit);
+  };
+
+  public increaseLimit = () => {
+    StationsBrowserSSE._status = StationsBrowserSSEStatus.changing_limit;
+    this.close();
+    this.limit = this.limit + DEFAULT_STATIONS_PAGE_SIZE;
+    this.initiate();
+    this.start();
     StationsBrowserSSE._status = StationsBrowserSSEStatus.starting;
-  }
+  };
 
-  public close() {
-    this.service.close();
+  public start = () => {
+    StationsBrowserSSE._service.start();
+    StationsBrowserSSE._status = StationsBrowserSSEStatus.starting;
+  };
+
+  public close = () => {
+    StationsBrowserSSE._service.close();
     StationsBrowserSSE._status = StationsBrowserSSEStatus.not_started_yet;
-  }
+  };
 
-  public initiate() {
-    this.service = new SSEService({
-      endpoint: this._endpoint + `/stations/stream`,
+  private registerService(limit: number) {
+    StationsBrowserSSE._service = new SSEService({
+      endpoint: this._endpoint + `/stations/stream?limit=${limit}`,
       eventKey: 'message',
       action: 'STATIONS_BROWSER:LIST',
     });
