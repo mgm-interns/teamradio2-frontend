@@ -30,10 +30,10 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
     const { id, title } = song;
     return (
       <Col xs={10} className="pl-0 item-title">
-        <h6 className="item-title" id={`Song` + id}>
+        <h6 className="item-title" id={`Song-${id}`}>
           {title}
         </h6>
-        <UncontrolledTooltip placement="bottom" target={`Song` + id}>
+        <UncontrolledTooltip placement="bottom" target={`Song-${id}`}>
           {title}
         </UncontrolledTooltip>
       </Col>
@@ -46,7 +46,7 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
       <Col xs={7} className="pl-0">
         <div className="h-100 item-addedBy">
           <span className="title">Added by</span>
-          <Link to={`/login`} className="creator-container">
+          <Link to={`/profile/${creator.id}`} className="creator-container">
             {creator && (
               <div>
                 <img
