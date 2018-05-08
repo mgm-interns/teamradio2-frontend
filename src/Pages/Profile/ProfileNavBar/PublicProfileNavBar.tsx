@@ -1,11 +1,11 @@
+import { RegisteredUser } from 'Models/User';
+import { UserStationsBrowser } from 'Modules/User/Components/Profile/MyStationsBrowser';
+import { UserRecentStationsBrowser } from 'Modules/User/Components/Profile/RecentStationsBrowser';
 import * as React from 'react';
-import { Col, Nav, Row } from 'reactstrap';
-import TabContent from 'reactstrap/lib/TabContent';
-import TabPane from 'reactstrap/lib/TabPane';
-import { RegisteredUser } from '../../../Models/User';
-import { UserStationsBrowser } from '../../../Modules/User/Components/Profile/MyStationsBrowser';
-import { UserRecentStationsBrowser } from '../../../Modules/User/Components/Profile/RecentStationsBrowser';
+import { Col, Nav, Row, TabContent, TabPane } from 'reactstrap';
 import { ProfileNavBar } from './ProfileNavBar';
+
+const STATION_TAB_ID = '1';
 
 interface IProps {
   userId: string;
@@ -19,7 +19,7 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      activeTab: '1',
+      activeTab: STATION_TAB_ID,
       userInfo: null,
     };
   }

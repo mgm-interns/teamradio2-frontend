@@ -1,4 +1,4 @@
-import { Inject } from "Configuration/DependencyInjection";
+import { Inject } from 'Configuration/DependencyInjection';
 import { StationItem } from 'Models';
 import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';
@@ -8,10 +8,7 @@ interface IProps {
   userId: string;
 }
 
-export class UserStationsBrowser extends StationBrowser<
-  IProps,
-  {}
-> {
+export class UserStationsBrowser extends StationBrowser<IProps, {}> {
   @Inject('UserServices') private userServices: UserServices;
 
   constructor(props: IProps) {

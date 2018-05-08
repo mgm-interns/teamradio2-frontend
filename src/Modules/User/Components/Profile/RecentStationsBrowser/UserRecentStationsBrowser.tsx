@@ -2,7 +2,7 @@ import { StationItem } from 'Models';
 import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
-import { Inject } from "Configuration/DependencyInjection";
+import { Inject } from 'Configuration/DependencyInjection';
 
 interface IProps {
   userId: string;
