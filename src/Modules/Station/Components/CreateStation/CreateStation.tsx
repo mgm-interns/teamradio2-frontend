@@ -113,7 +113,7 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
   }
 
   public handleSubmit = (formValues: IStationFormValues) => {
-    const name = formValues.name;
+    const name = formValues.name.trim();
     const stationPrivacy = formValues.privacy
       ? StationPrivacy.STATION_PRIVATE
       : StationPrivacy.STATION_PUBLIC;
