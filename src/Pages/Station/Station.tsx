@@ -30,6 +30,7 @@ interface IState {
   isPassive: boolean;
   isEnableVideo: boolean;
   station: StationModel;
+  toggleChatBox: boolean;
 }
 
 class StationComponent extends Component<
@@ -44,6 +45,7 @@ class StationComponent extends Component<
       isPassive: false,
       isEnableVideo: true,
       station: null,
+      toggleChatBox: false,
     };
   }
 
@@ -80,6 +82,10 @@ class StationComponent extends Component<
     this.setState({ isEnableVideo: !this.state.isEnableVideo });
   };
 
+  public toggleChatBox = () => {
+    this.setState({ toggleChatBox: !this.state.toggleChatBox });
+  };
+
   public _renderPlayer = () => {
     const { muted, isPassive, isEnableVideo } = this.state;
     const stationId = this.parseStationId();
@@ -100,7 +106,7 @@ class StationComponent extends Component<
   };
 
   public render() {
-    const { isPassive } = this.state;
+    const { isPassive, toggleChatBox } = this.state;
     const stationId = this.parseStationId();
 
     return [
@@ -138,11 +144,27 @@ class StationComponent extends Component<
                 <AddSong stationId={stationId} />
               </div>
             </Col>
-            <Col xs={12}>
-              <div className="chat-container">
-                <ChatBox stationId={stationId} />
-              </div>
-            </Col>
+            <div
+              className={classNames('p-0 station-chat-container', {
+                'col-10 col-md-6 col-lg-4': toggleChatBox,
+                'chat-popup-custom': toggleChatBox,
+              })}>
+              {!toggleChatBox && (
+                <div className="chat-popup-button" onClick={this.toggleChatBox}>
+                  <span>
+                    <i className="fa fa-comments" />
+                  </span>
+                </div>
+              )}
+              {toggleChatBox && (
+                <div className="chat-popup">
+                  <ChatBox
+                    stationId={stationId}
+                    toggleChatBox={this.toggleChatBox}
+                  />
+                </div>
+              )}
+            </div>
           </Row>
         </Col>
       </Row>,
