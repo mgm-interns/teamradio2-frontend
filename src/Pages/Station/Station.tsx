@@ -144,7 +144,10 @@ class StationComponent extends Component<
                 <AddSong stationId={stationId} />
               </div>
             </Col>
-            <div className="col-10 col-md-8 col-lg-6 p-0 station-chat-container">
+            <div
+              className={classNames('p-0 station-chat-container', {
+                'col-10 col-md-8 col-lg-6': toggleChatPopup,
+              })}>
               {!toggleChatPopup && (
                 <div
                   className="chat-popup-button"
