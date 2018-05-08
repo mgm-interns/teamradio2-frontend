@@ -146,11 +146,7 @@ class StationComponent extends Component<
                 <AddSong stationId={stationId} />
               </div>
             </Col>
-            <Col xs={12}>
-              <div className="chat-container">
-                <ChatBox stationId={stationId} />
-              </div>
-            </Col>
+            <ChatBox stationId={stationId} />
           </Row>
         </Col>
       </Row>,
