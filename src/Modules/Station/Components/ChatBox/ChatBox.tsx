@@ -221,6 +221,7 @@ export class ChatBoxComponent extends BaseComponent<
                     this.messageBox = messageBox;
                   }}
                   onKeyDown={this.onMessageChange}
+                  rows={1}
                 />
                 <button className="btn-send-message" onClick={this.sendMessage}>
                   <i className="fa fa-paper-plane" />

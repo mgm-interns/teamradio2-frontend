@@ -47,6 +47,7 @@
   }
 
   .chat-box {
+    margin-bottom: -16px;
     width: 100%;
     height: 100%;
   }
@@ -64,6 +65,8 @@
     width: 100%;
     height: 100%;
     background: #f9f4ef;
+    display: flex;
+    flex-direction: column;
 
     .chat-toolbar {
       background: #ede4bb;
@@ -76,13 +79,13 @@
 
     .messages-container {
       padding: 10px 10px;
-      height: calc(100% - 99px);
+      flex: 1;
       overflow-y: auto;
     }
 
     .message-input {
       width: 100%;
-      padding: 8px 16px;
+      padding: 16px;
       display: flex;
       justify-content: center;
       background: #fcf9f7;
@@ -94,7 +97,7 @@
         border: 0;
         outline: 0;
         resize: none;
-        overflow: hidden;
+        overflow-y: auto;
         background: transparent;
         border-bottom: 1px solid black;
 
