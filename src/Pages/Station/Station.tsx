@@ -108,9 +108,7 @@ class StationComponent extends Component<
   };
 
   public render() {
-    const {
-      isPassive,
-    } = this.state;
+    const { isPassive } = this.state;
     const stationId = this.parseStationId();
 
     return [
