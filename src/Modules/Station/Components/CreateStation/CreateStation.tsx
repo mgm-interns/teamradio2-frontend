@@ -32,7 +32,7 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
   const { touched, errors, handleSubmit } = props;
 
   return (
-    <Form onSubmit={handleSubmit} className="form-wrapper">
+    <Form onSubmit={handleSubmit} className="form-wrapper" autoComplete="off">
       <FormGroup className="input-wrapper">
         <InputGroup>
           <Field
