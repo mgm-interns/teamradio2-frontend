@@ -1,6 +1,6 @@
-import { BaseStationBrowser } from 'BaseComponent/BaseStationBrowser';
 import { Inject } from 'Configuration/DependencyInjection';
 import { StationItem } from 'Models';
+import { BaseStationBrowser } from 'Modules/Station';
 import { UserServices } from 'Services/Http';
 
 export class MyRecentStationsBrowser extends BaseStationBrowser<{}> {
