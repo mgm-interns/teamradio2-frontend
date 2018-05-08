@@ -1,3 +1,4 @@
+@import "scss/style";
 $suggestion_height: 48px;
 
 .search-input {
@@ -40,7 +41,7 @@ $suggestion_height: 48px;
     position: absolute;
     top: 40px;
     max-width: 100%;
-    background-color: #fff;
+    background-color: $white;
     z-index: 2;
   }
 }
@@ -53,7 +54,7 @@ $icon_height: 14px;
   right: 1px;
   top: 1px;
   padding: ($input_height - $icon_height)/2 - 1px;
-  background: #fff;
+  background: $white;
   color: rgba(0, 0, 0, 0.54);
 
   &:hover {

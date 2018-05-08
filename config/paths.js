@@ -17,4 +17,5 @@ module.exports = {
   appTsConfigJson: resolveApp('tsconfig.json'),
   appTsLintJson: resolveApp('tslint.json'),
   appServiceWorker: resolveApp('build/sw.js'),
+  appScss: resolveApp('scss'),
 };

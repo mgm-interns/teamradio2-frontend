@@ -1,3 +1,5 @@
+@import "scss/style";
+
 //global variable
 $height-container-lg: 300px;
 $height-container-sx-md: 400px;
@@ -32,7 +34,7 @@ $height-container-sx-md: 400px;
 .profile-header-container {
   @include header-container;
   @include component-display(flex, center, center);
-  background: #000000;
+  background: $black;
   margin: auto;
   overflow-x: hidden;
   z-index: 0;
@@ -50,8 +52,8 @@ $height-container-sx-md: 400px;
       height: 100%;
       background: linear-gradient(
         to right bottom,
-        rgba(#000000, 0.5),
-        rgba(#000000, 0.5)
+        rgba($black, 0.5),
+        rgba($black, 0.5)
       );
       position: absolute;
     }
@@ -67,7 +69,7 @@ $height-container-sx-md: 400px;
       @include component-display(flex, center, flex-start);
       .avatar {
         @include avatar-container;
-        background: #ffffff;
+        background: $white;
         cursor: pointer;
         &:hover .avatar-hover {
           @include component-display(flex, null, center);
@@ -75,14 +77,14 @@ $height-container-sx-md: 400px;
         }
         img {
           @include avatar-container;
-          border: 5px solid #ffffff;
+          border: 5px solid $white;
         }
         .avatar-hover {
           @include avatar-container;
           background: linear-gradient(
             to right bottom,
-            rgba(#000000, 0.5),
-            rgba(#000000, 0.5)
+            rgba($black, 0.5),
+            rgba($black, 0.5)
           );
           position: absolute;
           top: 0;
@@ -113,7 +115,7 @@ $height-container-sx-md: 400px;
         flex-direction: column;
         padding: 0 25px;
         .summarize-item-header {
-          color: #ffffff;
+          color: $white;
           font-weight: 500;
           font-size: 1rem;
         }

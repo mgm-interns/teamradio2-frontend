@@ -1,20 +1,19 @@
-// COLORS & BACKGROUND
-$background-image: '/img/home/backdrop.jpg';
-$color-primary-light: #0b3e41;
-$color-primary-dark: #07292c;
-$color-primary: #e06a4e;
-$color-white: #fff;
-// FONTS
+@import 'scss/style';
+
+$bg-image: '/img/home/backdrop.jpg';
+$bg-gradient-color-light: color('tertiary-light');
+$bg-gradient-color-dark: color('tertiary-dark');
 $font-title: 'Pacifico', sans-serif;
+
 .header {
   height: calc(100vh - 260px);
   min-height: 800px;
   background: linear-gradient(
       to right bottom,
-      rgba($color-primary-light, 0.4),
-      rgba($color-primary-dark, 0.6)
+      rgba($bg-gradient-color-light, 0.4),
+      rgba($bg-gradient-color-dark, 0.6)
     ),
-    url($background-image) top;
+    url($bg-image) top;
   background-size: cover;
   position: relative;
   &__text-box {
@@ -25,17 +24,10 @@ $font-title: 'Pacifico', sans-serif;
     text-align: center;
     margin-top: 5rem;
   }
-  &__create-box {
-    position: absolute;
-    transform: translate(-50%, -50%); // top: 50%;
-    left: 50%;
-    font-size: 18px;
-    width: 100%;
-  }
 }
 
 .heading-primary {
-  color: #ffffff;
+  color: $white;
   margin-bottom: 3rem;
   backface-visibility: hidden; // fix animation a little move on top
   &--main {
@@ -46,7 +38,7 @@ $font-title: 'Pacifico', sans-serif;
   }
   &--sub {
     display: block;
-    font-size: 2.5rem;
+    font-size: 2.625rem;
     font-weight: 200;
     font-family: 'Roboto Slab', serif;
     animation: moveInRight 1s ease-out;
@@ -58,8 +50,8 @@ $font-title: 'Pacifico', sans-serif;
   padding: 12px 24px;
   font-size: 18px;
   background: 0 0;
-  border: 1px solid #fff;
-  color: #fff;
+  border: 1px solid $white;
+  color: $white;
   transition: all 0.3s;
 }
 
@@ -82,9 +74,9 @@ $font-title: 'Pacifico', sans-serif;
   padding: 12px 24px;
   font-size: 18px;
   background: transparent;
-  border: 1.2px solid #fff;
+  border: 1.2px solid $white;
   border-radius: 0.25rem;
-  color: #fff;
+  color: $white;
   transition: all 0.3s;
   width: 100%;
   @include placeholder {
@@ -92,7 +84,7 @@ $font-title: 'Pacifico', sans-serif;
   }
   &:focus {
     background: #fff;
-    color: #000;
+    color: $black;
     box-shadow: none;
     & + .fa {
       color: #95a5a6;
