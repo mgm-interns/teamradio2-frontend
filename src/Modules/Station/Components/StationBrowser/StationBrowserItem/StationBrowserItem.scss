@@ -44,6 +44,10 @@
     color: white;
     font-size: 10px;
 
+    i.fa-circle {
+      color: #51ff9a;
+    }
+
     @include media-breakpoint-up(sm) {
       font-size: 12px;
     }

@@ -15,7 +15,7 @@ class SBItem extends Component<IProps, {}> {
   };
 
   public render() {
-    const { name, numberOfOnlineUsers = 0, picture, id } = this.props;
+    const { name, numberOnline = 0, picture, id } = this.props;
     return (
       <div className="station-item d-flex" onClick={this.joinStation}>
         <div className="thumbnail">
@@ -23,11 +23,11 @@ class SBItem extends Component<IProps, {}> {
           <div className="online-users">
             <i
               className={classNames('fa', {
-                'fa-circle': numberOfOnlineUsers > 0,
-                'fa-circle-o': numberOfOnlineUsers <= 0,
+                'fa-circle': numberOnline > 0,
+                'fa-circle-o': numberOnline <= 0,
               })}
             />
-            <span> {numberOfOnlineUsers} online</span>
+            <span> {numberOnline} online</span>
           </div>
         </div>
         <div className="station-name">
