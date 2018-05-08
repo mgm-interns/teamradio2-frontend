@@ -47,6 +47,14 @@ class StationComponent extends Component<
     };
   }
 
+  public componentDidMount() {
+    // Automatically scroll to top when user open station page
+    window.scroll({
+      behavior: 'smooth',
+      top: 0,
+    });
+  }
+
   public componentWillReceiveProps(nextProps: IProps) {
     if (!nextProps.nowPlaying) {
       this.setState({ isPassive: false });

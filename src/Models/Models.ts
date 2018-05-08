@@ -12,6 +12,8 @@ export {
   SkipRuleType,
   Station,
   StationItem,
+  StationItemsControlledMap,
+  StationItemsMap,
   StationPrivacy,
 } from './Station';
 export { Song, PlaylistSong, NowPlayingSong } from './Song';

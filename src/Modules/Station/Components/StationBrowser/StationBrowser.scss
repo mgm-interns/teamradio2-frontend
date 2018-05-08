@@ -1,6 +1,3 @@
-@mixin scroll-bar {
-}
-
 .browser {
   .cover-div {
     position: relative;
@@ -28,5 +25,36 @@
         }
       }
     }
+  }
+}
+
+.station-browser-loading-container {
+  //
+}
+
+.station-browser-loading-item.station-item {
+  animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+  cursor: default;
+
+  .thumbnail,
+  .station-name {
+    background: rgba(0, 0, 0, 0.15);
+  }
+
+  .thumbnail {
+    &:hover, &:active {
+      transform: none;
+    }
+  }
+
+  .station-name {
+    margin-top: 4px;
+    height: 16px;
+  }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0.5;
   }
 }

@@ -1,15 +1,23 @@
+import { BaseStationBrowser } from 'BaseComponent/BaseStationBrowser';
 import { Inject } from 'Configuration/DependencyInjection';
 import { StationItem } from 'Models';
-import { StationBrowser } from 'Modules/Station';
-import * as React from 'react';
 import { UserServices } from 'Services/Http';
 
-export class MyRecentStationsBrowser extends StationBrowser<{}, {}> {
+export class MyRecentStationsBrowser extends BaseStationBrowser<{}> {
   @Inject('UserServices') private userServices: UserServices;
+
+  public componentWillMount() {
+    this.getListStation();
+  }
+
   public getListStation() {
+    this.setState({
+      loading: true,
+    });
+
     this.userServices.getListMyRecentStation().subscribe(
       (listStation: StationItem[]) => {
-        this.updateListStation(listStation);
+        this.setState({ listStation, loading: false });
       },
       (err: string) => {
         this.showError(err);

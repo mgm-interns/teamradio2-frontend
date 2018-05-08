@@ -1,6 +1,6 @@
+import { BaseStationBrowser } from 'BaseComponent/BaseStationBrowser';
 import { Inject } from 'Configuration/DependencyInjection';
 import { StationItem } from 'Models';
-import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
 
@@ -8,18 +8,17 @@ interface IProps {
   userId: string;
 }
 
-export class UserStationsBrowser extends StationBrowser<IProps, {}> {
+export class UserStationsBrowser extends BaseStationBrowser<IProps> {
   @Inject('UserServices') private userServices: UserServices;
 
-  constructor(props: IProps) {
-    super(props);
-    this.userServices = new UserServices();
+  public componentWillMount() {
+    this.getListStation();
   }
 
   public getListStation() {
     this.userServices.getUserStation(this.props.userId).subscribe(
       (listStation: StationItem[]) => {
-        this.updateListStation(listStation);
+        this.setState({ listStation, loading: false });
       },
       (err: string) => {
         this.showError(err);
