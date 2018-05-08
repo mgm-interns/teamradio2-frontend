@@ -6,6 +6,7 @@
 
     .message-container {
       margin-left: 8px;
+      width: 100%;
 
       .username {
         margin-left: 8px;
@@ -25,6 +26,10 @@
     display: flex;
     justify-content: flex-end;
     margin: 10px 0 10px 20px;
+
+    .message-container {
+      width: 100%;
+    }
   }
 
   .message-content {
@@ -33,7 +38,7 @@
     border-radius: 8px;
     padding: 8px 16px;
     font-size: 14px;
-    word-break: keep-all;
+    word-break: break-word;
   }
 
   .display-none {
