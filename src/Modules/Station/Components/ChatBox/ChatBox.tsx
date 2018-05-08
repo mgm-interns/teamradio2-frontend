@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import * as classNames from 'classnames';
 import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux/Reducers';
 import { localStorageManager } from 'Helpers';
@@ -12,7 +13,6 @@ import { ChatMessage } from './ChatMessage';
 
 interface IChatBoxProps {
   stationId: string;
-  toggleChatBox: () => void;
 }
 
 interface IChatReducerProps {
@@ -22,6 +22,8 @@ interface IChatReducerProps {
 interface IChatBoxStates {
   userId: string;
   listMessages: Message[];
+  toggleChatBox: boolean;
+  receiveNewMessage: boolean;
 }
 
 export class ChatBoxComponent extends BaseComponent<
@@ -38,6 +40,8 @@ export class ChatBoxComponent extends BaseComponent<
     this.state = {
       userId: '',
       listMessages: [],
+      toggleChatBox: false,
+      receiveNewMessage: false,
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.onMessageChange = this.onMessageChange.bind(this);
@@ -84,13 +88,22 @@ export class ChatBoxComponent extends BaseComponent<
 
   public onReceiveNewMessage(newMessage: Message) {
     const listMessages = this.state.listMessages;
+
     for (const message of listMessages) {
       if (message.id === newMessage.id) {
         return;
       }
     }
     listMessages.push(newMessage);
-    this.setState({ listMessages }, () => this.scrollDownMessagesContainer());
+    this.setState({ listMessages }, () => {
+      if (this.state.toggleChatBox) {
+        this.scrollDownMessagesContainer();
+      }
+    });
+
+    this.setState({
+      receiveNewMessage: true,
+    });
   }
 
   public onSwitchStation(oldStationId: string, newStationId: string) {
@@ -139,44 +152,83 @@ export class ChatBoxComponent extends BaseComponent<
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
 
+  public toggleChatBox = () => {
+    this.setState(
+      {
+        toggleChatBox: !this.state.toggleChatBox,
+        receiveNewMessage: false,
+      },
+      () => {
+        if (this.state.toggleChatBox) {
+          this.scrollDownMessagesContainer();
+        }
+      },
+    );
+  };
+
   public render() {
-    const { toggleChatBox } = this.props;
+    const { toggleChatBox, receiveNewMessage } = this.state;
 
     return (
-      <div className="chat-container">
-        <div className="d-flex justify-content-end chat-toolbar">
-          <span className="close-button" onClick={toggleChatBox}>
-            <i className="fa fa-times" />
-          </span>
-        </div>
-        <div className="messages-container" id="messages-container">
-          {this.state.listMessages.map((message: Message, index: number) => {
-            return (
-              <ChatMessage
-                key={index}
-                isOfCurrentUser={message.sender.userId === this.state.userId}
-                userName={message.sender.username}
-                avatarUrl={message.sender.avatarUrl}
-                message={message.content}
-              />
-            );
-          })}
-        </div>
-        <div className="message-input">
-          <textarea
-            maxLength={200}
-            placeholder="Type a message here"
-            className="type-message"
-            id="message-box"
-            ref={messageBox => {
-              this.messageBox = messageBox;
-            }}
-            onKeyDown={this.onMessageChange}
-          />
-          <button className="btn-send-message" onClick={this.sendMessage}>
-            <i className="fa fa-paper-plane" />
-          </button>
-        </div>
+      <div
+        className={classNames('p-0 station-chat-container', {
+          'col-10 col-md-6 col-lg-4': toggleChatBox,
+          'chat-box-dimension': toggleChatBox,
+        })}>
+        {!toggleChatBox && (
+          <div
+            className={classNames('chat-box-button', {
+              'chat-box-button-custom': receiveNewMessage,
+            })}
+            onClick={this.toggleChatBox}>
+            <span>
+              <i className="fa fa-comments" />
+            </span>
+          </div>
+        )}
+        {toggleChatBox && (
+          <div className="chat-box">
+            <div className="chat-container">
+              <div className="d-flex justify-content-end chat-toolbar">
+                <span className="close-button" onClick={this.toggleChatBox}>
+                  <i className="fa fa-times" />
+                </span>
+              </div>
+              <div className="messages-container" id="messages-container">
+                {this.state.listMessages.map(
+                  (message: Message, index: number) => {
+                    return (
+                      <ChatMessage
+                        key={index}
+                        isOfCurrentUser={
+                          message.sender.userId === this.state.userId
+                        }
+                        userName={message.sender.username}
+                        avatarUrl={message.sender.avatarUrl}
+                        message={message.content}
+                      />
+                    );
+                  },
+                )}
+              </div>
+              <div className="message-input">
+                <textarea
+                  maxLength={200}
+                  placeholder="Type a message here"
+                  className="type-message"
+                  id="message-box"
+                  ref={messageBox => {
+                    this.messageBox = messageBox;
+                  }}
+                  onKeyDown={this.onMessageChange}
+                />
+                <button className="btn-send-message" onClick={this.sendMessage}>
+                  <i className="fa fa-paper-plane" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
