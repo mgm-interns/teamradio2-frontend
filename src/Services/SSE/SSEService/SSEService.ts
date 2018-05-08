@@ -122,7 +122,7 @@ export default class SSEService implements ISSEService {
     if (this.options.afterClose) this.options.afterClose();
 
     this.store.dispatch({
-      type: this.getTypeClosed()
-    })
+      type: this.getTypeClosed(),
+    });
   }
 }

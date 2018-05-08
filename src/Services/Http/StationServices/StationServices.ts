@@ -1,5 +1,11 @@
 import { Service } from 'Configuration/DependencyInjection';
-import { Message, SkipRuleType, Station, StationItemsMap, StationPrivacy } from 'Models';
+import {
+  Message,
+  SkipRuleType,
+  Station,
+  StationItemsMap,
+  StationPrivacy,
+} from 'Models';
 import { Observable } from 'rxjs/Observable';
 import { HttpServices } from '../HttpServices';
 

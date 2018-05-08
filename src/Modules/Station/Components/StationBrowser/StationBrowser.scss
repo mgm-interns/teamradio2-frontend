@@ -33,7 +33,7 @@
 }
 
 .station-browser-loading-item.station-item {
-  animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+  animation: blinker 1.5s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
   cursor: default;
 
   .thumbnail,
@@ -42,7 +42,8 @@
   }
 
   .thumbnail {
-    &:hover, &:active {
+    &:hover,
+    &:active {
       transform: none;
     }
   }

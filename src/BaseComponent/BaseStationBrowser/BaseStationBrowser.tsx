@@ -36,12 +36,12 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
     return (
       <Row className="m-0 justify-content-center justify-content-center">
         <div className="col-xl-12 browser">
-          <div className="cover-div">
+          <div className="m-auto extra-large-container cover-div">
             <StationBrowserSlider
               stationItemContainer={this.state.stationItemContainerRef}
               onEndReach={this.onEndReach}
             />
-            <div className="m-auto extra-large-container list-station">
+            <div className="list-station">
               <div
                 className="station-item-container"
                 ref={this.bindStationItemContainerRef}>
