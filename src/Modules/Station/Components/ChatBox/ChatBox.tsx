@@ -23,7 +23,7 @@ interface IChatBoxStates {
   userId: string;
   listMessages: Message[];
   toggleChatBox: boolean;
-  receiveNewMessage: boolean;
+  hasNewMessage: boolean;
 }
 
 export class ChatBoxComponent extends BaseComponent<
@@ -41,7 +41,7 @@ export class ChatBoxComponent extends BaseComponent<
       userId: '',
       listMessages: [],
       toggleChatBox: false,
-      receiveNewMessage: false,
+      hasNewMessage: false,
     };
     this.sendMessage = this.sendMessage.bind(this);
     this.onMessageChange = this.onMessageChange.bind(this);
@@ -102,7 +102,7 @@ export class ChatBoxComponent extends BaseComponent<
     });
 
     this.setState({
-      receiveNewMessage: true,
+      hasNewMessage: true,
     });
   }
 
@@ -156,7 +156,7 @@ export class ChatBoxComponent extends BaseComponent<
     this.setState(
       {
         toggleChatBox: !this.state.toggleChatBox,
-        receiveNewMessage: false,
+        hasNewMessage: false,
       },
       () => {
         if (this.state.toggleChatBox) {
@@ -167,7 +167,7 @@ export class ChatBoxComponent extends BaseComponent<
   };
 
   public render() {
-    const { toggleChatBox, receiveNewMessage } = this.state;
+    const { toggleChatBox, hasNewMessage } = this.state;
 
     return (
       <div
@@ -178,7 +178,7 @@ export class ChatBoxComponent extends BaseComponent<
         {!toggleChatBox && (
           <div
             className={classNames('chat-box-button', {
-              'chat-box-button-custom': receiveNewMessage,
+              'chat-box-button-custom': hasNewMessage,
             })}
             onClick={this.toggleChatBox}>
             <span>
@@ -191,7 +191,7 @@ export class ChatBoxComponent extends BaseComponent<
             <div className="chat-container">
               <div className="d-flex justify-content-end chat-toolbar">
                 <span className="close-button" onClick={this.toggleChatBox}>
-                  <i className="fa fa-times" />
+                  <i className="fa fa-minus" />
                 </span>
               </div>
               <div className="messages-container" id="messages-container">
