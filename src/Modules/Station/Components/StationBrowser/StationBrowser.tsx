@@ -17,13 +17,13 @@ interface IStationBrowserStates {
   stationItemContainerRef: HTMLElement;
 }
 
-export class StationBrowser extends BaseComponent<
-  IStationBrowserProps,
+export class StationBrowser<P, S> extends BaseComponent<
+  P & IStationBrowserProps,
   IStationBrowserStates
 > {
   @Inject('StationServices') public stationServices: StationServices;
 
-  constructor(props: IStationBrowserProps) {
+  constructor(props: P & IStationBrowserProps) {
     super(props);
 
     this.state = {

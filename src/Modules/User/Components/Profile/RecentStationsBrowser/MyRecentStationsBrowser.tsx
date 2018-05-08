@@ -4,11 +4,10 @@ import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
 
-export class MyStationsBrowser extends StationBrowser<{}, {}> {
+export class MyRecentStationsBrowser extends StationBrowser<{}, {}> {
   @Inject('UserServices') private userServices: UserServices;
-
   public getListStation() {
-    this.userServices.getListMyStation().subscribe(
+    this.userServices.getListMyRecentStation().subscribe(
       (listStation: StationItem[]) => {
         this.updateListStation(listStation);
       },

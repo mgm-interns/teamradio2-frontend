@@ -4,10 +4,20 @@ import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
 
-export class RecentStationsBrowser extends StationBrowser {
+interface IProps {
+  userId: string;
+}
+
+export class UserStationsBrowser extends StationBrowser<IProps, {}> {
   @Inject('UserServices') private userServices: UserServices;
+
+  constructor(props: IProps) {
+    super(props);
+    this.userServices = new UserServices();
+  }
+
   public getListStation() {
-    this.userServices.getListMyRecentStation().subscribe(
+    this.userServices.getUserStation(this.props.userId).subscribe(
       (listStation: StationItem[]) => {
         this.updateListStation(listStation);
       },
