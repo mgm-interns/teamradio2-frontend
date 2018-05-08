@@ -3,7 +3,7 @@ import { Inject } from 'Configuration/DependencyInjection';
 import { StationItem } from 'Models';
 import { UserServices } from 'Services/Http';
 
-export class RecentStationsBrowser extends BaseStationBrowser<{}> {
+export class MyRecentStationsBrowser extends BaseStationBrowser<{}> {
   @Inject('UserServices') private userServices: UserServices;
 
   public componentWillMount() {
