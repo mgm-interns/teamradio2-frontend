@@ -1,4 +1,5 @@
 import { BaseComponent } from 'BaseComponent';
+import { Inject } from 'Configuration/DependencyInjection';
 import { RegisteredUser } from 'Models';
 import {
   DEFAULT_USER_AVATAR,
@@ -6,6 +7,8 @@ import {
 } from 'Modules/User/Constants';
 import * as React from 'react';
 import { Col, Container, Row } from 'reactstrap';
+import { Observable } from 'rxjs/Observable';
+import { UserServices } from 'Services/Http';
 import './ProfileHeader.scss';
 
 export interface IProfileHeaderProps {
@@ -30,6 +33,9 @@ export class ProfileHeader<P, S> extends BaseComponent<
   P & IProfileHeaderProps,
   IProfileHeaderStates
 > {
+  @Inject('UserServices') protected userServices: UserServices;
+  protected functionLoadUserInfo: Observable<RegisteredUser>;
+
   constructor(props: P & IProfileHeaderProps) {
     super(props);
     this.state = {
@@ -46,6 +52,13 @@ export class ProfileHeader<P, S> extends BaseComponent<
       voted: 0,
     };
     this.setImageUploadUrl = this.setImageUploadUrl.bind(this);
+  }
+
+  public componentDidMount() {
+    this.setState({
+      isLoadingUserInfo: true,
+    });
+    this.getUserProfile();
   }
 
   public setUserHeaderInfo(userInfo: RegisteredUser) {
@@ -76,6 +89,17 @@ export class ProfileHeader<P, S> extends BaseComponent<
       name: newUserInfo.name || '',
       username: newUserInfo.username || '',
     });
+  }
+
+  public getUserProfile() {
+    this.functionLoadUserInfo.subscribe(
+      (userInfo: RegisteredUser) => {
+        this.setUserHeaderInfo(userInfo);
+      },
+      (err: string) => {
+        this.showError(err);
+      },
+    );
   }
 
   public setImageUploadUrl(imageUploadUrl: string) {
