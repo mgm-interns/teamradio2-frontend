@@ -27,7 +27,7 @@ $font-title: 'Pacifico', sans-serif;
 }
 
 .heading-primary {
-  color: #ffffff;
+  color: $white;
   margin-bottom: 3rem;
   backface-visibility: hidden; // fix animation a little move on top
   &--main {
@@ -50,8 +50,8 @@ $font-title: 'Pacifico', sans-serif;
   padding: 12px 24px;
   font-size: 18px;
   background: 0 0;
-  border: 1px solid #fff;
-  color: #fff;
+  border: 1px solid $white;
+  color: $white;
   transition: all 0.3s;
 }
 
@@ -74,9 +74,9 @@ $font-title: 'Pacifico', sans-serif;
   padding: 12px 24px;
   font-size: 18px;
   background: transparent;
-  border: 1.2px solid #fff;
+  border: 1.2px solid $white;
   border-radius: 0.25rem;
-  color: #fff;
+  color: $white;
   transition: all 0.3s;
   width: 100%;
   @include placeholder {
@@ -84,7 +84,7 @@ $font-title: 'Pacifico', sans-serif;
   }
   &:focus {
     background: #fff;
-    color: #000;
+    color: $black;
     box-shadow: none;
     & + .fa {
       color: #95a5a6;

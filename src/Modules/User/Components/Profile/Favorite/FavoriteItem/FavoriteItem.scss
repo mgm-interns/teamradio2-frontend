@@ -1,3 +1,5 @@
+@import "scss/style";
+
 .favorite-song-item {
   max-width: 210px;
   min-width: 100px;
@@ -81,7 +83,7 @@
       background-color: rgba(108, 108, 108, 0.56);
       text-align: left;
       padding-left: 5%;
-      color: #ffffff;
+      color: $white;
 
       .fa-circle {
         color: #51ff9a;
