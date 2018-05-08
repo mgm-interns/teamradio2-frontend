@@ -7,12 +7,12 @@ import {
 } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { BaseStationBrowser } from './BaseStationBrowser';
 import {
   DEFAULT_STATIONS_PAGE_SIZE,
   StationsBrowserSSE,
   StationsBrowserSSEStatus,
 } from 'Services/SSE';
+import { BaseStationBrowser } from './BaseStationBrowser';
 import './StationBrowser.scss';
 
 interface IOwnProps {
@@ -28,7 +28,7 @@ interface IDispatchProps {}
 
 type IProps = IOwnProps & IStateProps & IDispatchProps;
 
-export class OriginStationBrowser extends BaseStationBrowser<IProps> {
+class OriginStationBrowser extends BaseStationBrowser<IProps> {
   @Inject('StationsBrowserSSE') private stationsBrowserSSE: StationsBrowserSSE;
 
   public componentWillMount() {

@@ -17,7 +17,7 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
 > {
   protected stationBrowserSliderRef: StationBrowserSlider;
 
-  protected constructor(props: T) {
+  constructor(props: T) {
     super(props);
 
     this.state = {
