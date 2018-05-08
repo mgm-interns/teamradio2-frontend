@@ -92,7 +92,6 @@ export class StationBrowser<P, S> extends BaseComponent<
     stationIdToFilter: string,
   ) {
     return listStation.filter((station: Station) => {
-      console.log(station);
       return station.friendlyId !== stationIdToFilter;
     });
   }

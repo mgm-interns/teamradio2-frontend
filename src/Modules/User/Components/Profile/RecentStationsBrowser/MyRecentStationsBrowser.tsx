@@ -4,7 +4,7 @@ import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
 
-export class RecentStationsBrowser extends StationBrowser<{}, {}> {
+export class MyRecentStationsBrowser extends StationBrowser<{}, {}> {
   @Inject('UserServices') private userServices: UserServices;
   public getListStation() {
     this.userServices.getListMyRecentStation().subscribe(

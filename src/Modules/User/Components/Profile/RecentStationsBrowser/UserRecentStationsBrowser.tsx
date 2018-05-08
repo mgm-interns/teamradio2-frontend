@@ -2,13 +2,14 @@ import { StationItem } from 'Models';
 import { StationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
+import { Inject } from "Configuration/DependencyInjection";
 
 interface IProps {
   userId: string;
 }
 
 export class UserRecentStationsBrowser extends StationBrowser<IProps, {}> {
-  public userServices: UserServices;
+  @Inject('UserServices') private userServices: UserServices;
 
   constructor(props: IProps) {
     super(props);

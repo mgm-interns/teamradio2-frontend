@@ -19,7 +19,7 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      activeTab: '',
+      activeTab: '1',
       userInfo: null,
     };
   }
@@ -42,7 +42,7 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
   public renderNavBar() {
     return (
       <Row>
-        <Col sm={12} xs={12} className="pd-0">
+        <Col sm={12} className="pd-0">
           <Nav tabs>{this.renderStationTab()}</Nav>
         </Col>
       </Row>

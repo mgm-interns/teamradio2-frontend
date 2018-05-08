@@ -10,7 +10,7 @@ export class RegisteredUser extends UnregisteredUser {
   public bio?: string;
   public avatarUrl?: string;
   public coverUrl?: string;
-  public reputation: number;
+  public reputation?: number;
   public songs?: number;
   public voted?: number;
 }
