@@ -30,7 +30,7 @@ interface IState {
   isPassive: boolean;
   isEnableVideo: boolean;
   station: StationModel;
-  toggleChatPopup: boolean;
+  toggleChatBox: boolean;
 }
 
 class StationComponent extends Component<
@@ -45,7 +45,7 @@ class StationComponent extends Component<
       isPassive: false,
       isEnableVideo: true,
       station: null,
-      toggleChatPopup: false,
+      toggleChatBox: false,
     };
   }
 
@@ -90,8 +90,8 @@ class StationComponent extends Component<
     this.setState({ isEnableVideo: !this.state.isEnableVideo });
   };
 
-  public toggleChatPopup = () => {
-    this.setState({ toggleChatPopup: !this.state.toggleChatPopup });
+  public toggleChatBox = () => {
+    this.setState({ toggleChatBox: !this.state.toggleChatBox });
   };
 
   public _renderPlayer = () => {
@@ -114,7 +114,7 @@ class StationComponent extends Component<
   };
 
   public render() {
-    const { isPassive, toggleChatPopup } = this.state;
+    const { isPassive, toggleChatBox } = this.state;
     const stationId = this.parseStationId();
 
     return [
@@ -154,22 +154,21 @@ class StationComponent extends Component<
             </Col>
             <div
               className={classNames('p-0 station-chat-container', {
-                'col-10 col-md-8 col-lg-6': toggleChatPopup,
+                'col-10 col-md-6 col-lg-4': toggleChatBox,
+                'chat-popup-custom': toggleChatBox,
               })}>
-              {!toggleChatPopup && (
-                <div
-                  className="chat-popup-button"
-                  onClick={this.toggleChatPopup}>
+              {!toggleChatBox && (
+                <div className="chat-popup-button" onClick={this.toggleChatBox}>
                   <span>
                     <i className="fa fa-comments" />
                   </span>
                 </div>
               )}
-              {toggleChatPopup && (
+              {toggleChatBox && (
                 <div className="chat-popup">
                   <ChatBox
                     stationId={stationId}
-                    toggleChatPopup={this.toggleChatPopup}
+                    toggleChatBox={this.toggleChatBox}
                   />
                 </div>
               )}
