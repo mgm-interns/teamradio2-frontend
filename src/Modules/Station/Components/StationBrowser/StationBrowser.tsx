@@ -12,7 +12,10 @@ import {
   StationsBrowserSSE,
   StationsBrowserSSEStatus,
 } from 'Services/SSE';
-import { BaseStationBrowser } from './BaseStationBrowser';
+import {
+  BaseStationBrowser,
+  IBaseStationBrowserStates,
+} from './BaseStationBrowser';
 import './StationBrowser.scss';
 
 interface IOwnProps {
@@ -56,13 +59,26 @@ class OriginStationBrowser extends BaseStationBrowser<IProps> {
     const { stations: nextStations } = nextProps;
     if (currentStations !== nextStations) {
       this.updateListStation(nextStations);
-      this.scrollToLatestPage();
     }
 
     const { loading: currentLoading } = this.props;
     const { loading: nextLoading } = nextProps;
     if (currentLoading !== nextLoading) {
       this.setState({ loading: nextLoading });
+    }
+  }
+
+  public componentWillUpdate(
+    nextProps: IProps,
+    nextState: IBaseStationBrowserStates,
+  ) {
+    const { listStation: currentStations } = this.state;
+    const { listStation: nextStations } = nextState;
+    // if the stations list change the length
+    // this mean that the limit of API has change
+    // not the array changed
+    if (currentStations.length !== nextStations.length) {
+      this.scrollToLatestPage();
     }
   }
 
