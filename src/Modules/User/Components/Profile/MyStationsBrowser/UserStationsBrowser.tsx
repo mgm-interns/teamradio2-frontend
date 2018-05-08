@@ -1,6 +1,6 @@
-import { BaseStationBrowser } from 'BaseComponent/BaseStationBrowser';
 import { Inject } from 'Configuration/DependencyInjection';
 import { StationItem } from 'Models';
+import { BaseStationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
 

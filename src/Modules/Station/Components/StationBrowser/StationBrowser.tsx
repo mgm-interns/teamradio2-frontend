@@ -1,4 +1,3 @@
-import { BaseStationBrowser } from 'BaseComponent/BaseStationBrowser';
 import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
 import {
@@ -9,6 +8,7 @@ import {
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { StationsBrowserSSE, StationsBrowserSSEStatus } from 'Services/SSE';
+import { BaseStationBrowser } from './BaseStationBrowser';
 import './StationBrowser.scss';
 
 interface IOwnProps {

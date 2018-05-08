@@ -1,9 +1,9 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
 import { StationItem } from 'Models';
-import { StationBrowserItem } from 'Modules/Station/Components/StationBrowser/StationBrowserItem';
 import * as React from 'react';
 import { Row } from 'reactstrap';
+import { StationBrowserItem } from './StationBrowserItem';
 
 export interface IBaseStationBrowserStates {
   listStation: StationItem[];
@@ -15,7 +15,7 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
   T,
   IBaseStationBrowserStates
 > {
-  constructor(props: T) {
+  protected constructor(props: T) {
     super(props);
 
     this.state = {
@@ -62,8 +62,8 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
       <div className="station-browser-loading-container">
         <Row className="m-0 justify-content-center justify-content-center">
           <div className="col-xl-12 browser">
-            <div className="cover-div">
-              <div className="m-auto extra-large-container list-station">
+            <div className="m-auto extra-large-container cover-div">
+              <div className="list-station">
                 <div
                   className="station-item-container"
                   ref={this.bindStationItemContainerRef}>

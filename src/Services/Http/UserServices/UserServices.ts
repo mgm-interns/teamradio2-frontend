@@ -5,7 +5,7 @@ import {
   FavoriteSong,
   PasswordForm,
   RegisteredUser,
-  Station,
+  StationItem,
   UnauthorizedUser,
   UnregisteredUser,
 } from 'Models';
@@ -28,11 +28,11 @@ export class UserServices {
     return this._httpServices.get(this.currentUserServiceUrl);
   }
 
-  public getListMyStation(): Observable<Station[]> {
+  public getListMyStation(): Observable<StationItem[]> {
     return this._httpServices.get(`${this.currentUserServiceUrl}/stations`);
   }
 
-  public getListMyRecentStation(): Observable<Station[]> {
+  public getListMyRecentStation(): Observable<StationItem[]> {
     return this._httpServices.get('user/me/recent-station');
   }
 
@@ -119,11 +119,11 @@ export class UserServices {
     return this._httpServices.get(`${this.serviceUrl}/${userId}`);
   }
 
-  public getUserStation(userId: string): Observable<Station[]> {
+  public getUserStation(userId: string): Observable<StationItem[]> {
     return this._httpServices.get(`${this.serviceUrl}/${userId}/stations`);
   }
 
-  public getUserRecentStation(userId: string): Observable<Station[]> {
+  public getUserRecentStation(userId: string): Observable<StationItem[]> {
     // return this._httpServices.get(`${this.serviceUrl}/${userId}/recent-station`);
     // TODO user recent-station instead of station when recent-station API available
     return this._httpServices.get(`${this.serviceUrl}/${userId}/stations`);

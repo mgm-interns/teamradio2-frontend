@@ -5,7 +5,7 @@ export class StationItemsControlledMap {
   private stationMap: StationItemsMap;
 
   constructor(stationMap?: StationItemsMap) {
-    this.stationMap = stationMap;
+    this.stationMap = stationMap || {};
   }
 
   public set(stationMap: StationItemsMap) {
