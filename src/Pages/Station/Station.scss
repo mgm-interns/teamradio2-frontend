@@ -102,6 +102,14 @@ $mq-xlarge: '(min-width: #{$bp-xlarge})';
     @media (min-width: 1700px) {
       max-width: 875px;
     }
+
+    @media (max-width: 600px) {
+      min-width: 250px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      max-width: 350px;
+    }
   }
 
   .chat-popup-custom {
