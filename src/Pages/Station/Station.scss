@@ -76,11 +76,7 @@ $mq-xlarge: '(min-width: #{$bp-xlarge})';
   }
 
   .playlist-tabs-container {
-    height: 360px;
-
-    @include media-breakpoint-up(sm) {
-      height: 100%;
-    }
+    height: 50vh;
   }
 
   .u-margin-top-medium {
