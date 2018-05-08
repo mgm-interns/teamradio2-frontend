@@ -16,7 +16,10 @@ import {
   DropdownToggle,
 } from 'reactstrap';
 import { UserServices } from 'Services/Http';
-import { DEFAULT_USER_AVATAR } from '../../../Constants';
+import {
+  DEFAULT_USER_AVATAR,
+  LOGOUT_SUCCESS_MESSAGE,
+} from '../../../Constants';
 import './UserDropdown.scss';
 
 interface IProps {
@@ -98,6 +101,10 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
     );
   }
 
+  public showNotificationLogoutSuccess() {
+    this.showSuccess(LOGOUT_SUCCESS_MESSAGE);
+  }
+
   public signOut() {
     localStorageManager.removeAccessToken();
     // listen logout event
@@ -106,6 +113,7 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
     this.setState({
       isAuthenticated: false,
     });
+    this.showNotificationLogoutSuccess();
   }
 
   public render() {
