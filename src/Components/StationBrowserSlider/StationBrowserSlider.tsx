@@ -17,12 +17,7 @@ export class StationBrowserSlider extends Component<
     super(props);
   }
   public scrollRight = () => {
-    const {
-      scrollWidth: containerWidth,
-      clientWidth: pageWidth,
-    } = this.props.stationItemContainer;
-    const currentScroll = this.getCurrentScrollValue();
-    if (this.props.onEndReach && currentScroll + pageWidth >= containerWidth) {
+    if (this.props.onEndReach && this.isReachingScrollThreshold()) {
       this.props.onEndReach();
     }
     this.scroll(this.getCurrentScrollValue() + this.getNextScrollingValue());
@@ -30,6 +25,22 @@ export class StationBrowserSlider extends Component<
 
   public scrollLeft = () => {
     this.scroll(this.getCurrentScrollValue() - this.getNextScrollingValue());
+  };
+
+  public getCurrentScrollValue = () => {
+    return this.props.stationItemContainer.scrollLeft;
+  };
+
+  public getNextScrollingValue = () => {
+    return this.props.stationItemContainer.clientWidth;
+  };
+
+  public scroll = (to: number) => {
+    const { stationItemContainer } = this.props;
+
+    stationItemContainer.scroll({
+      left: to,
+    });
   };
 
   public render() {
@@ -46,19 +57,15 @@ export class StationBrowserSlider extends Component<
       </div>
     );
   }
-  private scroll = (to: number) => {
-    const { stationItemContainer } = this.props;
-
-    stationItemContainer.scroll({
-      left: to,
-    });
-  };
-
-  private getCurrentScrollValue = () => {
-    return this.props.stationItemContainer.scrollLeft;
-  };
-
-  private getNextScrollingValue = () => {
-    return this.props.stationItemContainer.clientWidth;
+  private isReachingScrollThreshold = () => {
+    const {
+      scrollWidth: containerWidth,
+      clientWidth: pageWidth,
+    } = this.props.stationItemContainer;
+    const currentScroll = this.getCurrentScrollValue();
+    if (currentScroll + pageWidth >= containerWidth) {
+      return true;
+    }
+    return false;
   };
 }

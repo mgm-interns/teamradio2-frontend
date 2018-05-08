@@ -8,27 +8,31 @@ export enum StationsBrowserSSEStatus {
   changing_limit,
 }
 
-export const DEFAULT_STATIONS_PAGE_SIZE = 28;
+export const DEFAULT_STATIONS_PAGE_SIZE = 40;
 
 @Service('StationsBrowserSSE')
 export class StationsBrowserSSE {
   private static _status = StationsBrowserSSEStatus.not_initiated_yet;
   private static _service: SSEService;
   private _endpoint: string = process.env.REACT_APP_HTTP_END_POINT;
-  private limit: number = DEFAULT_STATIONS_PAGE_SIZE;
+  private _limit: number = DEFAULT_STATIONS_PAGE_SIZE;
+
+  public get limit () {
+    return this._limit
+  }
 
   public static get status() {
     return StationsBrowserSSE._status;
   }
 
   public initiate = () => {
-    this.registerService(this.limit);
+    this.registerService(this._limit);
   };
 
   public increaseLimit = () => {
     StationsBrowserSSE._status = StationsBrowserSSEStatus.changing_limit;
     this.close();
-    this.limit = this.limit + DEFAULT_STATIONS_PAGE_SIZE;
+    this._limit = this._limit + DEFAULT_STATIONS_PAGE_SIZE;
     this.initiate();
     this.start();
     StationsBrowserSSE._status = StationsBrowserSSEStatus.starting;

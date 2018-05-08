@@ -7,8 +7,12 @@ import {
 } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { StationsBrowserSSE, StationsBrowserSSEStatus } from 'Services/SSE';
 import { BaseStationBrowser } from './BaseStationBrowser';
+import {
+  DEFAULT_STATIONS_PAGE_SIZE,
+  StationsBrowserSSE,
+  StationsBrowserSSEStatus,
+} from 'Services/SSE';
 import './StationBrowser.scss';
 
 interface IOwnProps {
@@ -52,6 +56,7 @@ export class OriginStationBrowser extends BaseStationBrowser<IProps> {
     const { stations: nextStations } = nextProps;
     if (currentStations !== nextStations) {
       this.updateListStation(nextStations);
+      this.scrollToLatestPage();
     }
 
     const { loading: currentLoading } = this.props;
@@ -61,8 +66,25 @@ export class OriginStationBrowser extends BaseStationBrowser<IProps> {
     }
   }
 
+  protected scrollToLatestPage = () => {
+    // Need to push this function to the bottom of the runtime queue
+    // To make sure that the station-item has been rendered
+    setTimeout(() => {
+      const { listStation } = this.state;
+      const stationItem = document.getElementsByClassName('station-item')[0];
+      const stationItemWidth = stationItem.clientWidth;
+      const newScrollingIndex = listStation.length - DEFAULT_STATIONS_PAGE_SIZE;
+
+      this.stationBrowserSliderRef.scroll(stationItemWidth * newScrollingIndex);
+    });
+  };
+
   protected onEndReach = () => {
-    this.stationsBrowserSSE.increaseLimit();
+    // Only dispatch increasing limit if the list station is
+    // match with the limit value of current SSE instance
+    if (this.state.listStation.length >= this.stationsBrowserSSE.limit) {
+      this.stationsBrowserSSE.increaseLimit();
+    }
   };
 
   protected updateListStation(listStationToUpdate: StationItemsMap) {
