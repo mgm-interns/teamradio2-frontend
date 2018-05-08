@@ -27,6 +27,8 @@ $green:                           #4dbd74;
 $teal:                            #20c997 !default;
 $cyan:                            #63c2de;
 
+$flamingo:                        #e06a4e;
+
 $colors: (
   blue:                           $blue,
   indigo:                         $indigo,
@@ -44,9 +46,9 @@ $colors: (
 );
 
 $theme-colors: (
-  primary:                        $blue,
+  primary:                        $flamingo,
   secondary:                      $gray-300,
-  success:                        $green,
+  success:                        $flamingo,
   info:                           $cyan,
   warning:                        $yellow,
   danger:                         $red,
