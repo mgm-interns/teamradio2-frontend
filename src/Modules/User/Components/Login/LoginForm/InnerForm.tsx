@@ -9,6 +9,7 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from 'reactstrap';
+import { LOGIN_SUCCESS_MESSAGE } from '../../../Constants';
 
 export class FormValues extends UnauthorizedUser {}
 
@@ -60,7 +61,7 @@ export const InnerForm = (props: FormikProps<FormValues> & IFormProps) => {
 
       {success && (
         <Alert className="capitalize-first-letter" color="success">
-          You have successfully logged in!
+          {LOGIN_SUCCESS_MESSAGE}
         </Alert>
       )}
       <Button color="success" block disabled={isSubmitting}>

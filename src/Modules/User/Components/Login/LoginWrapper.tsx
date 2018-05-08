@@ -10,6 +10,7 @@ import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import { UserServices } from 'Services/Http';
+import { LOGIN_SUCCESS_MESSAGE } from '../../Constants';
 import { updateUserInfo } from '../../Redux/Actions';
 import { ButtonFacebookLogin } from './ButtonFacebookLogin';
 import { ButtonGoogleLogin } from './ButtonGoogleLogin';
@@ -47,7 +48,7 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
   }
 
   public showNotificationLoginSuccess() {
-    this.showSuccess('Login successful!');
+    this.showSuccess(LOGIN_SUCCESS_MESSAGE);
   }
 
   public getUserInfo() {
