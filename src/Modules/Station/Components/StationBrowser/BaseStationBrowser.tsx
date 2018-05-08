@@ -15,7 +15,9 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
   T,
   IBaseStationBrowserStates
 > {
-  protected constructor(props: T) {
+  protected stationBrowserSliderRef: StationBrowserSlider;
+
+  constructor(props: T) {
     super(props);
 
     this.state = {
@@ -40,6 +42,7 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
             <StationBrowserSlider
               stationItemContainer={this.state.stationItemContainerRef}
               onEndReach={this.onEndReach}
+              ref={this.bindStationBrowserSlider}
             />
             <div className="list-station">
               <div
@@ -96,5 +99,9 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
     this.setState({
       stationItemContainerRef: node,
     });
+  };
+
+  private bindStationBrowserSlider = (node: StationBrowserSlider) => {
+    this.stationBrowserSliderRef = node;
   };
 }
