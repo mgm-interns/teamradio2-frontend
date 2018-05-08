@@ -114,4 +114,18 @@ export class UserServices {
       { password },
     );
   }
+
+  public getUserProfile(userId: string): Observable<RegisteredUser> {
+    return this._httpServices.get(`${this.serviceUrl}/${userId}`);
+  }
+
+  public getUserStation(userId: string): Observable<Station[]> {
+    return this._httpServices.get(`${this.serviceUrl}/${userId}/stations`);
+  }
+
+  public getUserRecentStation(userId: string): Observable<Station[]> {
+    // return this._httpServices.get(`${this.serviceUrl}/${userId}/recent-station`);
+    // TODO user recent-station instead of station when recent-station API available
+    return this._httpServices.get(`${this.serviceUrl}/${userId}/stations`);
+  }
 }

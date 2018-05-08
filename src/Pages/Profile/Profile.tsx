@@ -1,24 +1,33 @@
 import 'cropperjs/dist/cropper.css';
-import { ProfileHeader } from 'Modules/User';
+import { CurrentUserProfileHeader, PublicProfileHeader } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ProfileNavBar } from './ProfileNavBar';
+import { PublicProfileNavBar } from './ProfileNavBar/PublicProfileNavBar';
 
-export class Profile extends Component<{}, {}> {
+class ProfilePage extends Component<RouteComponentProps<any>, {}> {
   constructor(props: any) {
     super(props);
   }
 
   public render() {
+    const userId = this.props.match.params.userId;
     return (
       <div className="profile-container">
         <div className="profile-header">
-          <ProfileHeader />
+          {userId ? (
+            <PublicProfileHeader userId={userId} />
+          ) : (
+            <CurrentUserProfileHeader />
+          )}
         </div>
         <div className="profile-body">
-          <ProfileNavBar />
+          {userId ? <PublicProfileNavBar userId={userId} /> : <ProfileNavBar />}
         </div>
       </div>
     );
   }
 }
+
+export const Profile = withRouter(ProfilePage);

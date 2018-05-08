@@ -70,13 +70,21 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
                 render={() => this.authenticatedRender(<ResetPassword />)}
               />
               <Route path="/help" name="Help" component={Help} />
-              <Route path="/profile" name="Profile" component={Profile} />
+              <Route
+                path="/profile/:userId"
+                name="Profile"
+                component={Profile}
+              />
+              <Route
+                path="/profile"
+                name="Profile"
+                render={() => this.authenticatedRender(<Profile />, false)}
+              />
               <Route
                 path="/station/:stationId"
                 name="Station"
                 component={Station}
               />
-              <Route path="/profile" name="Profile" component={Profile} />
               <Redirect from="/" to="/" />
             </Switch>
           </main>
@@ -87,7 +95,7 @@ export class NoSideBarLayout extends BaseComponent<any, any> {
     );
   }
 
-  private authenticatedRender(component: any) {
-    return this.isLoggedIn() ? <Redirect to="/" /> : component;
+  private authenticatedRender(component: any, needLoggedIn: boolean = true) {
+    return needLoggedIn === this.isLoggedIn() ? <Redirect to="/" /> : component;
   }
 }

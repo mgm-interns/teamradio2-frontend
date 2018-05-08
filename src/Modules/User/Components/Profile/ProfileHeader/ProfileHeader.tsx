@@ -1,24 +1,21 @@
 import { BaseComponent } from 'BaseComponent';
 import { Inject } from 'Configuration/DependencyInjection';
-import { IApplicationState } from 'Configuration/Redux';
-import { localStorageManager } from 'Helpers';
 import { RegisteredUser } from 'Models';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Container, Row } from 'reactstrap';
-import { UserServices } from 'Services/Http';
 import {
   DEFAULT_USER_AVATAR,
   DEFAULT_USER_COVER_PHOTO,
-} from '../../../Constants';
-import { ImageUploader } from '../ImageUploader';
+} from 'Modules/User/Constants';
+import * as React from 'react';
+import { Col, Container, Row } from 'reactstrap';
+import { Observable } from 'rxjs/Observable';
+import { UserServices } from 'Services/Http';
 import './ProfileHeader.scss';
 
-interface IProps {
-  userInfo: RegisteredUser;
+export interface IProfileHeaderProps {
+  userInfo?: RegisteredUser;
 }
 
-interface IStates {
+export interface IProfileHeaderStates {
   name: string;
   username: string;
   avatarUrl: string;
@@ -27,13 +24,19 @@ interface IStates {
   isUpdateAvatar: boolean;
   isUpdateCover: boolean;
   isLoadingUserInfo: boolean;
+  reputation: number;
+  songs: number;
+  voted: number;
 }
 
-export class ProfileHeaders extends BaseComponent<IProps, IStates> {
-  @Inject('UserServices') private userServices: UserServices;
-  private imageUploader: any;
+export class ProfileHeader<P, S> extends BaseComponent<
+  P & IProfileHeaderProps,
+  IProfileHeaderStates
+> {
+  @Inject('UserServices') protected userServices: UserServices;
+  protected functionLoadUserInfo: Observable<RegisteredUser>;
 
-  constructor(props: any) {
+  constructor(props: P & IProfileHeaderProps) {
     super(props);
     this.state = {
       name: null,
@@ -44,10 +47,10 @@ export class ProfileHeaders extends BaseComponent<IProps, IStates> {
       isUpdateCover: false,
       isLoadingUserInfo: false,
       aspectRatio: 1,
+      reputation: 0,
+      songs: 0,
+      voted: 0,
     };
-
-    this.uploadAvatar = this.uploadAvatar.bind(this);
-    this.uploadCover = this.uploadCover.bind(this);
     this.setImageUploadUrl = this.setImageUploadUrl.bind(this);
   }
 
@@ -55,19 +58,28 @@ export class ProfileHeaders extends BaseComponent<IProps, IStates> {
     this.setState({
       isLoadingUserInfo: true,
     });
-    const userInfo = localStorageManager.getUserInfo();
-    this.setUserHeaderInfo(userInfo);
     this.getUserProfile();
   }
 
   public setUserHeaderInfo(userInfo: RegisteredUser) {
-    const { name, username, avatarUrl, coverUrl } = userInfo;
+    const {
+      name,
+      username,
+      avatarUrl,
+      coverUrl,
+      reputation,
+      songs,
+      voted,
+    } = userInfo;
     this.setState({
       name: name || '',
       username: username || '',
       avatarUrl: avatarUrl || DEFAULT_USER_AVATAR,
       coverUrl: coverUrl || DEFAULT_USER_COVER_PHOTO,
       isLoadingUserInfo: false,
+      reputation: reputation || 0,
+      songs: songs || 0,
+      voted: voted || 0,
     });
   }
 
@@ -80,7 +92,7 @@ export class ProfileHeaders extends BaseComponent<IProps, IStates> {
   }
 
   public getUserProfile() {
-    this.userServices.getCurrentUserProfile().subscribe(
+    this.functionLoadUserInfo.subscribe(
       (userInfo: RegisteredUser) => {
         this.setUserHeaderInfo(userInfo);
       },
@@ -88,24 +100,6 @@ export class ProfileHeaders extends BaseComponent<IProps, IStates> {
         this.showError(err);
       },
     );
-  }
-
-  public uploadAvatar() {
-    this.setState({
-      isUpdateAvatar: true,
-      isUpdateCover: false,
-      aspectRatio: 1,
-    });
-    this.imageUploader.getWrappedInstance().openChooseImageModal();
-  }
-
-  public uploadCover() {
-    this.setState({
-      isUpdateAvatar: false,
-      isUpdateCover: true,
-      aspectRatio: 16 / 9,
-    });
-    this.imageUploader.getWrappedInstance().openChooseImageModal();
   }
 
   public setImageUploadUrl(imageUploadUrl: string) {
@@ -120,101 +114,100 @@ export class ProfileHeaders extends BaseComponent<IProps, IStates> {
     }
   }
 
-  public render() {
-    const {
-      isLoadingUserInfo,
-      coverUrl,
-      avatarUrl,
-      name,
-      username,
-    } = this.state;
-    if (!isLoadingUserInfo) {
-      return (
-        <div className="profile-header-container">
-          {/*Background image cover*/}
-          <div className="background-wrapper">
-            <img src={coverUrl} />
-            <div className="background-cover" />
-          </div>
-          {/*User information container*/}
-          <Container className="user-info-container">
-            <Row>
-              <div className="col-sm-12 col-md-8 col-lg-8">
-                <div className="row">
-                  {/* User's avatar and name */}
-                  <div className="col-sm-12 col-md-12 col-lg-6">
-                    <div className="user-avatar">
-                      <div className="avatar" onClick={this.uploadAvatar}>
-                        <img
-                          src={avatarUrl}
-                          className="rounded-circle"
-                          alt="User Avatar"
-                        />
-                        <div className="avatar-hover">
-                          <span>camera_alt</span>
-                          <span>Upload Profile Photo</span>
-                        </div>
-                      </div>
-                      <div className="name">
-                        <h3 className="display-name">{name}</h3>
-                        <span className="user-name">{username}</span>
-                      </div>
-                    </div>
-                  </div>
-                  {/* User's summarize(song,vote,reputation) */}
-                  <div className="col-sm-12 col-md-12 col-lg-6">
-                    <div className="summarize">
-                      <div className="summarize-item">
-                        <span className="summarize-item-header">Songs</span>
-                        <span className="summarize-item-score">0</span>
-                      </div>
-                      <div className="summarize-item">
-                        <span className="summarize-item-header">Voted</span>
-                        <span className="summarize-item-score">0</span>
-                      </div>
-                      <div className="summarize-item">
-                        <span className="summarize-item-header">
-                          Reputation
-                        </span>
-                        <span className="summarize-item-score">0</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Button update cover photo */}
-              <div className="col-sm-12 col-md-4 col-lg-4">
-                <div className="update-cover">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.uploadCover();
-                    }}
-                    className="btn btn-update-cover">
-                    <i className="fa fa-camera" /> Update Cover Photo
-                  </button>
-                </div>
-              </div>
-            </Row>
-          </Container>
-          <ImageUploader
-            ref={instance => {
-              this.imageUploader = instance;
-            }}
-            aspectRatio={this.state.aspectRatio}
-            isUpdateAvatar={this.state.isUpdateAvatar}
-            isUpdateCover={this.state.isUpdateCover}
-            imageUploadUrl={this.setImageUploadUrl}
-          />
+  public renderAvatarImage() {
+    const { avatarUrl } = this.state;
+    return <img src={avatarUrl} className="rounded-circle" />;
+  }
+
+  public renderAvatarHover() {
+    return (
+      <div className="avatar-hover">
+        <span>camera_alt</span>
+        <span>Upload Profile Photo</span>
+      </div>
+    );
+  }
+
+  public renderAvatar() {
+    return <div className="avatar">{this.renderAvatarImage()}</div>;
+  }
+
+  public renderCoverPhoto() {
+    const { coverUrl } = this.state;
+    return (
+      <div className="background-wrapper">
+        <img src={coverUrl} />
+        <div className="background-cover" />
+      </div>
+    );
+  }
+
+  public renderDisplayName() {
+    const { name, username } = this.state;
+    return (
+      <div className="name">
+        <h3 className="display-name">{name}</h3>
+        <span className="user-name">{username}</span>
+      </div>
+    );
+  }
+
+  public renderUserScore() {
+    const { reputation, songs, voted } = this.state;
+    return (
+      <div className="summarize">
+        <div className="summarize-item">
+          <span className="summarize-item-header">Songs</span>
+          <span className="summarize-item-score">{songs}</span>
         </div>
-      );
+        <div className="summarize-item">
+          <span className="summarize-item-header">Voted</span>
+          <span className="summarize-item-score">{voted}</span>
+        </div>
+        <div className="summarize-item">
+          <span className="summarize-item-header">Reputation</span>
+          <span className="summarize-item-score">{reputation}</span>
+        </div>
+      </div>
+    );
+  }
+
+  public renderUserInfo() {
+    return (
+      <div className="row">
+        <div className="col-sm-12 col-md-12 col-lg-6">
+          <div className="user-avatar">
+            {this.renderAvatar()}
+            {this.renderDisplayName()}
+          </div>
+        </div>
+        <div className="col-sm-12 col-md-12 col-lg-6">
+          {this.renderUserScore()}
+        </div>
+      </div>
+    );
+  }
+
+  public renderHeaderProfileContainer() {
+    return (
+      <div className="profile-header-container">
+        {this.renderCoverPhoto()}
+        <Container className="user-info-container">
+          <Row>
+            <Col xs={12} md={8}>
+              {this.renderUserInfo()}
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
+
+  public render() {
+    const { isLoadingUserInfo } = this.state;
+    if (!isLoadingUserInfo) {
+      return this.renderHeaderProfileContainer();
     }
     return <div className="profile-header-container" />;
   }
 }
-
-const mapStateToProps = (state: IApplicationState) => ({
-  userInfo: state.user.userInfo,
-});
-
-export const ProfileHeader = connect(mapStateToProps, null)(ProfileHeaders);
