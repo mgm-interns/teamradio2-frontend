@@ -46,12 +46,17 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
     }
   }
 
+  public showNotificationLoginSuccess() {
+    this.showSuccess('Login successful!');
+  }
+
   public getUserInfo() {
     this.userServices.getCurrentUserProfile().subscribe(
       (userInfo: RegisteredUser) => {
         localStorageManager.setUserInfo(userInfo);
         this.props.updateUserInfo(userInfo);
         this.goBack();
+        this.showNotificationLoginSuccess();
       },
       (err: string) => {
         this.showError(err);

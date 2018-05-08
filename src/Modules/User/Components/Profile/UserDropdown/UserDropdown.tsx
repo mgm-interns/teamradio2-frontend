@@ -98,6 +98,10 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
     );
   }
 
+  public showNotificationLogoutSuccess() {
+    this.showSuccess('Logout successful!')
+  }
+
   public signOut() {
     localStorageManager.removeAccessToken();
     // listen logout event
@@ -106,6 +110,7 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
     this.setState({
       isAuthenticated: false,
     });
+    this.showNotificationLogoutSuccess();
   }
 
   public render() {
