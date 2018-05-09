@@ -29,10 +29,6 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     this.replaySong = this.replaySong.bind(this);
   }
 
-  public componentDidMount() {
-    this.updateHistory();
-  }
-
   public replaySong(youtubeVideoId: string, message: string) {
     const { stationId } = this.props;
     this.songServices.addSong(stationId, youtubeVideoId, message).subscribe(
@@ -58,6 +54,7 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
   }
 
   public componentWillReceiveProps(nextProps: IHistoryProps) {
+    console.log('componentWillReceiveProps', nextProps.isSwitchStation);
     if (nextProps.isActive || nextProps.isSwitchStation) {
       this.updateHistory();
       this.props.updateIsSwitchStation(false);

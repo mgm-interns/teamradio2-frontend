@@ -75,12 +75,14 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
       // Open new instance
       this.startSSEService(nextStationId);
 
-      this.setState({ isSwitchStation: true });
+      this.updateIsSwitchStation(true);
     }
   }
 
   public updateIsSwitchStation = (newValue: boolean) => {
-    this.setState({ isSwitchStation: newValue });
+    if(newValue !== this.state.isSwitchStation){
+      this.setState({ isSwitchStation: newValue });
+    }
   };
 
   public render() {
