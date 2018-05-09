@@ -52,6 +52,10 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     );
   }
 
+  public componentDidMount() {
+    this.updateHistory(this.props.stationId);
+  }
+
   public componentWillReceiveProps(nextProps: IHistoryProps) {
     if (nextProps.isActive || nextProps.isSwitchStation) {
       this.updateHistory(nextProps.stationId);
