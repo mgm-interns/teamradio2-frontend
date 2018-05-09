@@ -73,6 +73,14 @@ $mq-xlarge: '(min-width: #{$bp-xlarge})';
     .player {
       background: none;
     }
+
+    .passive-video-info {
+      margin-top: 10px;
+
+      p {
+        margin-bottom: 8px;
+      }
+    }
   }
 
   .playlist-tabs-container {
