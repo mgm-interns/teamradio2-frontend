@@ -1,4 +1,5 @@
 import 'cropperjs/dist/cropper.css';
+import { localStorageManager } from "Helpers/LocalStorageManager";
 import { CurrentUserProfileHeader, PublicProfileHeader } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
@@ -6,13 +7,32 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ProfileNavBar } from './ProfileNavBar';
 import { PublicProfileNavBar } from './ProfileNavBar/PublicProfileNavBar';
 
-class ProfilePage extends Component<RouteComponentProps<any>, {}> {
+interface IStates {
+  userId: string;
+}
+
+class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
   constructor(props: any) {
     super(props);
+    this.state = {
+      userId: null,
+    }
+  }
+
+  public componentWillMount() {
+    this.checkCurrentUser();
+  }
+
+  public checkCurrentUser() {
+    const userId = this.props.match.params.userId;
+    const userInfo = localStorageManager.getUserInfo();
+    if (!userInfo || userInfo.id !== userId) {
+      this.setState({userId});
+    }
   }
 
   public render() {
-    const userId = this.props.match.params.userId;
+    const userId = this.state.userId;
     return (
       <div className="profile-container">
         <div className="profile-header">
