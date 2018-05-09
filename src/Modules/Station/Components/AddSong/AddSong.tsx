@@ -13,6 +13,7 @@ import { SearchSong } from './SearchSong';
 interface IAddLinkState {
   preview: any;
   message: string;
+  embeddableVideo: boolean;
 }
 
 interface IAddLinkProps {
@@ -35,6 +36,7 @@ export class AddSongComponent extends BaseComponent<
     this.state = {
       preview: null,
       message: null,
+      embeddableVideo: false,
     };
 
     this.setPreviewVideo = this.setPreviewVideo.bind(this);
@@ -47,7 +49,22 @@ export class AddSongComponent extends BaseComponent<
     });
   }
 
+  public checkEmbeddableVideo = (video: any) => {
+    const embeddable = video.status.embeddable;
+    this.setState({ embeddableVideo: embeddable }, () => {
+      if (!this.state.embeddableVideo) {
+        this.showError(
+          'Your video cannot be added because of copyright issue or it is blocked from the owner.',
+        );
+      }
+    });
+    return embeddable;
+  };
+
   public async setPreviewVideo(preview: any) {
+    if (preview) {
+      this.checkEmbeddableVideo(preview);
+    }
     await this.setStateAsync({
       preview,
     });
@@ -63,6 +80,7 @@ export class AddSongComponent extends BaseComponent<
         this.setPreviewVideo(null);
         this.searchSongRef.clearInput();
         this.previewVideoRef.resetPreview();
+        this.setState({ embeddableVideo: false });
       },
       (err: string) => {
         this.showError(err);
@@ -71,6 +89,7 @@ export class AddSongComponent extends BaseComponent<
   }
 
   public render() {
+    const { embeddableVideo } = this.state;
     return (
       <div className="add-song">
         <Card>
@@ -87,6 +106,7 @@ export class AddSongComponent extends BaseComponent<
                   ref={this.binPreviewSongRef}
                   video={this.state.preview}
                   addSong={this.addSong}
+                  embeddableVideo={embeddableVideo}
                 />
               </Col>
             </Row>
