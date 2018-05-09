@@ -1,14 +1,9 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
 import { StationItem } from 'Models';
-import { RegisteredUser } from 'Models/User';
 import { StationBrowserItem } from 'Modules/Station/Components/StationBrowser/StationBrowserItem';
 import * as React from 'react';
 import { Row } from 'reactstrap';
-
-export interface IBaseStationBrowserProps {
-  userInfo?: RegisteredUser;
-}
 
 export interface IBaseStationBrowserStates {
   listStation: StationItem[];
@@ -17,12 +12,12 @@ export interface IBaseStationBrowserStates {
 }
 
 export abstract class BaseStationBrowser<T> extends BaseComponent<
-  T & IBaseStationBrowserProps,
+  T,
   IBaseStationBrowserStates
 > {
   protected stationBrowserSliderRef: StationBrowserSlider;
 
-  constructor(props: T & IBaseStationBrowserProps) {
+  constructor(props: T) {
     super(props);
 
     this.state = {
