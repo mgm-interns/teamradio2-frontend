@@ -39,8 +39,7 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     );
   }
 
-  public updateHistory() {
-    const { stationId } = this.props;
+  public updateHistory(stationId: string) {
     this.songServices.getListPlayedSong(stationId).subscribe(
       (history: Song[]) => {
         this.setState({
@@ -54,9 +53,8 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
   }
 
   public componentWillReceiveProps(nextProps: IHistoryProps) {
-    console.log('componentWillReceiveProps', nextProps.isSwitchStation);
     if (nextProps.isActive || nextProps.isSwitchStation) {
-      this.updateHistory();
+      this.updateHistory(nextProps.stationId);
       this.props.updateIsSwitchStation(false);
     }
   }
