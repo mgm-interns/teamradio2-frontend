@@ -4,7 +4,12 @@ import { IApplicationState } from 'Configuration/Redux';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { ListGroup, ListGroupItem, Popover } from 'reactstrap';
+import {
+  ListGroup,
+  ListGroupItem,
+  Popover,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import { DEFAULT_USER_AVATAR } from '../../../User/Constants';
 import './OnlineUsers.scss';
 
@@ -132,6 +137,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
           {fixture.length || '0'} online
         </span>
       </div>,
+      this.renderOnlineTooltip(fixture, 'online-users'),
       <Popover
         key={2}
         placement="bottom"
@@ -141,6 +147,23 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         {this.renderPopoverContent()}
       </Popover>,
     ];
+  }
+
+  private renderOnlineTooltip(list: any[], target: string) {
+    if (this.state.popoverOpen) return null;
+    return (
+      <UncontrolledTooltip placement="bottom" target={target}>
+        {list.map(({ name, username }) => (
+          <div>
+            <span>
+              {this.isUserInfoAvailable(currentUser) && this.isMe(username)
+                ? 'YOU'
+                : name}
+            </span><br/>
+          </div>
+        ))}
+      </UncontrolledTooltip>
+    );
   }
 }
 
