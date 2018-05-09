@@ -8,7 +8,7 @@ import { signOut, updateUserInfo } from 'Modules/User/Redux/Actions';
 import { Fragment } from 'react';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import {
   Dropdown,
   DropdownItem,
@@ -22,6 +22,8 @@ import {
 } from '../../../Constants';
 import './UserDropdown.scss';
 
+const PROFILE_PATH = "profile";
+
 interface IProps {
   userInfo: RegisteredUser;
   signOut: () => void;
@@ -34,7 +36,10 @@ interface IState {
   isAuthenticated: boolean;
 }
 
-class UserDropdownComponent extends BaseComponent<IProps, IState> {
+class UserDropdownComponent extends BaseComponent<
+  IProps & RouteComponentProps<any>,
+  IState
+> {
   @Inject('UserServices') private userServices: UserServices;
 
   constructor(props: any) {
@@ -112,7 +117,17 @@ class UserDropdownComponent extends BaseComponent<IProps, IState> {
     this.setState({
       isAuthenticated: false,
     });
+    this.checkSignOutAtProfilePage();
     this.showNotificationLogoutSuccess();
+  }
+
+  public checkSignOutAtProfilePage() {
+    const userId  = this.props.userInfo.id;
+    const pathName = this.props.location.pathname.split('/')[1];
+    if (pathName === PROFILE_PATH) {
+      this.props.history.push(`/profile/${userId}`);
+      window.location.reload();
+    }
   }
 
   public render() {
@@ -189,6 +204,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(updateUserInfo(userInfo)),
 });
 
-export const UserDropdown = connect(mapStateToProps, mapDispatchToProps)(
-  UserDropdownComponent,
-);
+export const UserDropdown = withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UserDropdownComponent) as any);
