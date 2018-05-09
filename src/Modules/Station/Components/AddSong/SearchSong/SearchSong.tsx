@@ -5,12 +5,16 @@ import * as Autosuggest from 'react-autosuggest';
 import { Suggestion } from '../Suggestion';
 import './SearchSong.scss';
 
+interface IProps {
+  setPreviewVideo: (preview: any) => void;
+}
+
 interface ISearchSongState {
   value: string;
   suggestions: any[];
 }
 
-export class SearchSong extends Component<any, ISearchSongState> {
+export class SearchSong extends Component<IProps, ISearchSongState> {
   constructor(props: any) {
     super(props);
 

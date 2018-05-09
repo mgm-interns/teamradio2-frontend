@@ -6,7 +6,13 @@ import ReactPlayer from 'react-player';
 import { Button, Col, Input, Row } from 'reactstrap';
 import './PreviewVideo.scss';
 
-export class PreviewVideo extends Component<any, any> {
+interface IProps {
+  embeddableVideo: boolean;
+  video: any;
+  addSong: (message: string) => void;
+}
+
+export class PreviewVideo extends Component<IProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -41,12 +47,8 @@ export class PreviewVideo extends Component<any, any> {
   }
 
   public handleButtonAddSong() {
-    if (this.state.isAdding) {
-      return;
-    }
-
-    this.props.addSong(this.state.message);
     this.setState({ isAdding: true });
+    this.props.addSong(this.state.message);
   }
 
   public resetPreview() {
@@ -57,7 +59,7 @@ export class PreviewVideo extends Component<any, any> {
   }
 
   public render() {
-    const { video } = this.props;
+    const { video, embeddableVideo } = this.props;
     const { muted, isAdding } = this.state;
 
     return (
@@ -106,15 +108,16 @@ export class PreviewVideo extends Component<any, any> {
                 )}
                 <Button
                   color="primary"
-                  className={classNames('preview__button', {
-                    'is-adding': isAdding,
-                  })}
+                  className={classNames('preview__button')}
+                  disabled={!embeddableVideo || isAdding}
                   onClick={this.handleButtonAddSong}>
                   Add
                 </Button>
               </div>
             </Col>
           </Row>
+        ) : video === undefined ? (
+          <img src="/img/not_found_song.png" alt="" />
         ) : (
           <img src="/img/loading_song.png" alt="" />
         )}
