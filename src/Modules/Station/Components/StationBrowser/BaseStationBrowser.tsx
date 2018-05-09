@@ -1,9 +1,14 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
 import { StationItem } from 'Models';
+import { RegisteredUser } from 'Models/User';
+import { StationBrowserItem } from 'Modules/Station/Components/StationBrowser/StationBrowserItem';
 import * as React from 'react';
 import { Row } from 'reactstrap';
-import { StationBrowserItem } from './StationBrowserItem';
+
+export interface IBaseStationBrowserProps {
+  userInfo?: RegisteredUser;
+}
 
 export interface IBaseStationBrowserStates {
   listStation: StationItem[];
@@ -12,12 +17,12 @@ export interface IBaseStationBrowserStates {
 }
 
 export abstract class BaseStationBrowser<T> extends BaseComponent<
-  T,
+  T & IBaseStationBrowserProps,
   IBaseStationBrowserStates
 > {
   protected stationBrowserSliderRef: StationBrowserSlider;
 
-  constructor(props: T) {
+  constructor(props: T & IBaseStationBrowserProps) {
     super(props);
 
     this.state = {
@@ -28,13 +33,15 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
   }
 
   public render() {
-    if (this.state.loading) {
-      return this.renderLoading();
-    }
     const listItems = this.getListItems();
-    if (listItems.length === 0) {
-      return null;
+    if (this.state.loading || listItems.length === 0) {
+      return this.renderListNoStation();
     }
+    return this.renderListStation();
+  }
+
+  protected renderListStation = () => {
+    const listItems = this.getListItems();
     return (
       <Row className="m-0 justify-content-center justify-content-center">
         <div className="col-xl-12 browser">
@@ -59,26 +66,16 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
     );
   }
 
-  protected renderLoading = () => {
-    const listItems = Array.from({ length: 14 });
+  protected renderListNoStation = () => {
     return (
       <div className="station-browser-loading-container">
         <Row className="m-0 justify-content-center justify-content-center">
           <div className="col-xl-12 browser">
-            <div className="m-auto extra-large-container cover-div">
-              <div className="list-station">
-                <div
-                  className="station-item-container"
-                  ref={this.bindStationItemContainerRef}>
-                  {listItems.map((item, index) => (
-                    <div
-                      className="station-browser-loading-item station-item"
-                      key={index}>
-                      <div className="thumbnail" />
-                      <div className="station-name" />
-                    </div>
-                  ))}
-                </div>
+            <div className="cover-div">
+              <div className="m-auto extra-large-container list-station">
+                {this.state.loading
+                  ? this.renderListStationLoading()
+                  : this.renderListStationEmpty()}
               </div>
             </div>
           </div>
@@ -86,6 +83,47 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
       </div>
     );
   };
+
+  protected renderListStationLoading = () => {
+    const listItems = Array.from({ length: 14 });
+    return (
+      <div
+        className="station-item-container"
+        ref={this.bindStationItemContainerRef}>
+        {listItems.map((item, index) => (
+          <div
+            className="station-browser-loading-item station-item"
+            key={index}>
+            <div className="thumbnail" />
+            <div className="station-name" />
+          </div>
+        ))};
+      </div>
+    );
+  };
+
+  protected renderListStationEmpty = () => {
+    const listItems = Array.from({ length: 6 });
+    return (
+      <div
+        className="station-item-container"
+        ref={this.bindStationItemContainerRef}>
+        {listItems.map((item, index) => (
+          <div className="station-browser-empty-item station-item" key={index}>
+            <div className="thumbnail" />
+            <div className="station-name" />
+          </div>
+        ))}
+        <span className="station-browser-empty-message">
+          {this.getNoStationFoundMessage()}
+        </span>
+      </div>
+    );
+  };
+
+  protected getNoStationFoundMessage() {
+    return ("");
+  }
 
   protected onEndReach = () => {
     console.log('trigger fetch more');

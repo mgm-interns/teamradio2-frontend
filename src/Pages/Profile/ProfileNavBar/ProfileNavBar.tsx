@@ -18,6 +18,7 @@ const FAVORITE_TAB_ID = '2';
 interface IProfileNavBarStates {
   activeTab: string;
   userInfo: RegisteredUser;
+  isLoadingUserInfo?: boolean;
 }
 
 export class ProfileNavBar<P, S> extends BaseComponent<
