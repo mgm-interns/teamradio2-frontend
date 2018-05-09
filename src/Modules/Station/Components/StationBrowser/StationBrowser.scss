@@ -29,7 +29,7 @@
       .station-item-container {
         display: flex;
         align-content: center;
-        overflow-x: scroll;
+        overflow-x: hidden;
         scroll-behavior: smooth;
         margin: 2px auto 5px auto;
         white-space: nowrap;
