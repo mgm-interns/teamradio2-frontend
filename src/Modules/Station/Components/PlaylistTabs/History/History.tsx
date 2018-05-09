@@ -9,6 +9,8 @@ import { HistoryItem } from './HistoryItem';
 interface IHistoryProps {
   stationId: string;
   isActive: boolean;
+  isSwitchStation: boolean;
+  updateIsSwitchStation: (newValue: boolean) => void;
 }
 
 interface IHistoryState {
@@ -56,8 +58,9 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
   }
 
   public componentWillReceiveProps(nextProps: IHistoryProps) {
-    if (nextProps.isActive) {
+    if (nextProps.isActive || nextProps.isSwitchStation) {
       this.updateHistory();
+      this.props.updateIsSwitchStation(false);
     }
   }
 
