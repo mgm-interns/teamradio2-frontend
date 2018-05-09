@@ -9,6 +9,8 @@ import { HistoryItem } from './HistoryItem';
 interface IHistoryProps {
   stationId: string;
   isActive: boolean;
+  isSwitchStation: boolean;
+  updateIsSwitchStation: (newValue: boolean) => void;
 }
 
 interface IHistoryState {
@@ -27,10 +29,6 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     this.replaySong = this.replaySong.bind(this);
   }
 
-  public componentDidMount() {
-    this.updateHistory();
-  }
-
   public replaySong(youtubeVideoId: string, message: string) {
     const { stationId } = this.props;
     this.songServices.addSong(stationId, youtubeVideoId, message).subscribe(
@@ -41,8 +39,7 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     );
   }
 
-  public updateHistory() {
-    const { stationId } = this.props;
+  public updateHistory(stationId: string) {
     this.songServices.getListPlayedSong(stationId).subscribe(
       (history: Song[]) => {
         this.setState({
@@ -55,9 +52,14 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     );
   }
 
+  public componentDidMount() {
+    this.updateHistory(this.props.stationId);
+  }
+
   public componentWillReceiveProps(nextProps: IHistoryProps) {
-    if (nextProps.isActive) {
-      this.updateHistory();
+    if (nextProps.isActive || nextProps.isSwitchStation) {
+      this.updateHistory(nextProps.stationId);
+      this.props.updateIsSwitchStation(false);
     }
   }
 

@@ -34,6 +34,7 @@ interface IDispatcherProps {
 interface IStates {
   activeTab: string;
   favoriteList: FavoriteSongItem[];
+  isSwitchStation: boolean;
 }
 
 type IProps = IOwnProps & IDispatcherProps & IReduxProps;
@@ -47,6 +48,7 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
     this.state = {
       favoriteList: [],
       activeTab: PLAYLIST_TAB_ID,
+      isSwitchStation: false,
     };
   }
 
@@ -72,8 +74,16 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
       this.stationPlaylistSSEService.close();
       // Open new instance
       this.startSSEService(nextStationId);
+
+      this.updateIsSwitchStation(true);
     }
   }
+
+  public updateIsSwitchStation = (newValue: boolean) => {
+    if(newValue !== this.state.isSwitchStation){
+      this.setState({ isSwitchStation: newValue });
+    }
+  };
 
   public render() {
     const { playlist, stationId } = this.props;
@@ -116,6 +126,8 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
             <History
               stationId={stationId}
               isActive={this.state.activeTab === HISTORY_TAB_ID}
+              isSwitchStation={this.state.isSwitchStation}
+              updateIsSwitchStation={this.updateIsSwitchStation}
             />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
