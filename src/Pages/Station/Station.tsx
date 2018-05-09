@@ -1,5 +1,6 @@
 import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
+import { YoutubeHelper } from 'Helpers';
 import { NowPlayingSong, Station as StationModel } from 'Models';
 import {
   AddSong,
@@ -89,6 +90,7 @@ class StationComponent extends Component<
   };
 
   public _renderPlayer = () => {
+    const { nowPlaying } = this.props;
     const { muted, isPassive, isEnableVideo } = this.state;
     const stationId = this.parseStationId();
     return (
@@ -103,6 +105,12 @@ class StationComponent extends Component<
           stationId={stationId}
         />
         {isEnableVideo && <NowPlaying muted={muted} />}
+        {isPassive && (
+          <div className="passive-video-info">
+            <p>{nowPlaying.title}</p>
+            <p>{YoutubeHelper.convertDuration(nowPlaying.duration)}</p>
+          </div>
+        )}
       </Fragment>
     );
   };
