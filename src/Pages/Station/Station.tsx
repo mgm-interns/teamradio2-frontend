@@ -104,7 +104,7 @@ class StationComponent extends Component<
           enablePlayer={this.enablePlayer}
           stationId={stationId}
         />
-        {isEnableVideo && <NowPlaying muted={muted} />}
+        <NowPlaying muted={muted} isEnableVideo={isEnableVideo} />
         {isPassive && (
           <div className="passive-video-info">
             <p>{nowPlaying.title}</p>

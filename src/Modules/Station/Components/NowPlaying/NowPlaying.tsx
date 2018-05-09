@@ -22,6 +22,7 @@ interface IStateProps {
 
 interface IOwnProps {
   muted: boolean;
+  isEnableVideo: boolean;
 }
 
 type IProps = IStateProps & IOwnProps;
@@ -60,9 +61,23 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
 
   public render() {
     const { progress } = this.state;
-    const { muted, nowPlaying } = this.props;
+    const { muted, nowPlaying, isEnableVideo } = this.props;
     const url = nowPlaying ? nowPlaying.url : null;
     const message = nowPlaying ? nowPlaying.message : null;
+
+    if (!isEnableVideo && nowPlaying) {
+      return (
+        <div className="disabled-nowPlaying">
+          <img src={nowPlaying.thumbnail} alt={nowPlaying.title} />
+          <div className="nowPlaying-backdrop">
+            <span>The player is disabled.</span>
+            <span>
+              Press <i className="fa fa-music" /> to re-enable the player.
+            </span>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <StationPlayer
