@@ -18,11 +18,18 @@ export class MyStationsBrowser extends BaseStationBrowser<{}> {
 
     this.userServices.getListMyStation().subscribe(
       (listStation: StationItem[]) => {
-        this.setState({ listStation, loading: false });
+        this.setState({
+          listStation,
+          loading: false,
+        });
       },
       (err: string) => {
         this.showError(err);
       },
     );
+  }
+
+  public getNoStationFoundMessage() {
+    return ("You have no station");
   }
 }

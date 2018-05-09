@@ -17,11 +17,18 @@ export class MyRecentStationsBrowser extends BaseStationBrowser<{}> {
 
     this.userServices.getListMyRecentStation().subscribe(
       (listStation: StationItem[]) => {
-        this.setState({ listStation, loading: false });
+        this.setState({
+          listStation,
+          loading: false,
+        });
       },
       (err: string) => {
         this.showError(err);
       },
     );
+  }
+
+  public getNoStationFoundMessage() {
+    return ("You haven't interact with any station yet");
   }
 }

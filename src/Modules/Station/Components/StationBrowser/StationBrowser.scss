@@ -1,3 +1,22 @@
+@mixin station-item {
+  .thumbnail,
+  .station-name {
+    background: rgba(0, 0, 0, 0.15);
+  }
+
+  .thumbnail,
+  .station-name{
+    &:hover, &:active {
+      transform: none;
+    }
+  }
+
+  .station-name {
+    margin-top: 4px;
+    height: 16px;
+  }
+}
+
 .browser {
   .cover-div {
     position: relative;
@@ -23,34 +42,32 @@
         &::-webkit-scrollbar {
           display: none;
         }
+
+        .station-browser-loading-item.station-item {
+          animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+          cursor: default;
+          @include station-item;
+        }
+
+        .station-browser-empty-item.station-item {
+          cursor: default;
+          @include station-item;
+        }
+
+        .station-browser-empty-message {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 400;
+          font-size: 17px;
+        }
       }
     }
-  }
-}
-
-.station-browser-loading-container {
-  //
-}
-
-.station-browser-loading-item.station-item {
-  animation: blinker 1.5s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
-  cursor: default;
-
-  .thumbnail,
-  .station-name {
-    background: rgba(0, 0, 0, 0.15);
-  }
-
-  .thumbnail {
-    &:hover,
-    &:active {
-      transform: none;
-    }
-  }
-
-  .station-name {
-    margin-top: 4px;
-    height: 16px;
   }
 }
 

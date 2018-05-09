@@ -13,6 +13,7 @@ interface IProps {
 
 interface IStates {
   userInfo: RegisteredUser;
+  isLoadingUserInfo: boolean;
 }
 
 export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
@@ -21,17 +22,19 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
     this.state = {
       activeTab: STATION_TAB_ID,
       userInfo: null,
+      isLoadingUserInfo: true,
     };
   }
 
   public componentWillMount() {
+    this.setState({ isLoadingUserInfo: true });
     this.getUserInfo();
   }
 
   public getUserInfo() {
     this.userServices.getUserProfile(this.props.userId).subscribe(
       (userInfo: RegisteredUser) => {
-        this.setState({ userInfo });
+        this.setState({ userInfo, isLoadingUserInfo: false });
       },
       error => {
         this.showError(error);
@@ -50,6 +53,9 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
   }
 
   public renderTabContent() {
+    if (this.state.isLoadingUserInfo) {
+      return <div />;
+    }
     return (
       <Row>
         <TabContent className={'profile-tab-content'}>
@@ -59,9 +65,9 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
                 ? this.state.userInfo.name + "'s station"
                 : ''}
             </h2>
-            <UserStationsBrowser userId={this.props.userId} />
+            <UserStationsBrowser userInfo={this.state.userInfo} />
             <h2 className="title-header pd-left-15">Recent</h2>
-            <UserRecentStationsBrowser userId={this.props.userId} />
+            <UserRecentStationsBrowser userInfo={this.state.userInfo} />
           </TabPane>
         </TabContent>
       </Row>
