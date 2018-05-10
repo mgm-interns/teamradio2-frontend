@@ -1,6 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
 import { YoutubeHelper } from 'Helpers';
-import { Song } from 'Models';
+import { RegisteredUser, Song } from 'Models';
 import { DEFAULT_USER_AVATAR } from 'Modules/User/Constants';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
@@ -40,39 +40,69 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
     );
   }
 
+  public renderUserAvatar(songId: string, avatarUrl?: string) {
+    return (
+      <img
+        className="avatar"
+        id={'UserAvatar' + songId}
+        src={avatarUrl || DEFAULT_USER_AVATAR}
+      />
+    );
+  }
+
+  public renderUserDisplayNameTooltip(songId: string, displayName?: string) {
+    return (
+      <UncontrolledTooltip placement="bottom" target={'UserAvatar' + songId}>
+        {displayName}
+      </UncontrolledTooltip>
+    );
+  }
+
+  public renderCreator(songId: string, creator: RegisteredUser) {
+    return (
+      <Link to={`/profile/${creator.id}`}>
+        {this.renderUserAvatar(songId, creator.avatarUrl)}
+        {this.renderUserDisplayNameTooltip(
+          songId,
+          creator.name || creator.username || creator.email,
+        )}
+      </Link>
+    );
+  }
+
+  public renderAnonymousCreator(songId: string) {
+    return (
+      <div>
+        {this.renderUserAvatar(songId)}
+        {this.renderUserDisplayNameTooltip(songId, 'Anonymous')}
+      </div>
+    );
+  }
+
   public renderSongCreator(song: Song) {
-    const { id, creator, message } = song;
+    const { id: songId, creator, message } = song;
     return (
       <Col xs={7} className="pl-0">
         <div className="h-100 item-addedBy">
           <span className="title">Added by</span>
-          <Link to={`/profile/${creator.id}`} className="creator-container">
-            {creator && (
-              <div>
-                <img
-                  className="avatar"
-                  id={'UserAvatar' + id}
-                  src={creator.avatarUrl || DEFAULT_USER_AVATAR}
-                />
-                <UncontrolledTooltip
-                  placement="bottom"
-                  target={'UserAvatar' + id}>
-                  {creator.name || creator.username || creator.email}
-                </UncontrolledTooltip>
-              </div>
-            )}
+          <div className="creator-container">
+            {creator
+              ? this.renderCreator(songId, creator)
+              : this.renderAnonymousCreator(songId)}
             {message ? (
               <span className="message-icon">
                 <i
                   className="icon-speech icons icon-message"
-                  id={'Message' + id}
+                  id={'Message' + songId}
                 />
-                <UncontrolledTooltip placement="bottom" target={'Message' + id}>
+                <UncontrolledTooltip
+                  placement="bottom"
+                  target={'Message' + songId}>
                   {message}
                 </UncontrolledTooltip>
               </span>
             ) : null}
-          </Link>
+          </div>
         </div>
       </Col>
     );
