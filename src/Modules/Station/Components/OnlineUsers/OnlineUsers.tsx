@@ -163,7 +163,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
           <div className="online-tooltip" key={index}>
             <span>
               {this.isUserInfoAvailable(currentUser) && this.isMe(username)
-                ? 'YOU'
+                ? 'You'
                 : name}
             </span>
             <br />
