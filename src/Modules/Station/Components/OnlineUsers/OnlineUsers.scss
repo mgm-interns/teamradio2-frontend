@@ -1,3 +1,33 @@
+.popover-container {
+  .online-users-list-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .online-users-shape {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    shape-outside: circle(50% at 50% 50%);
+    -webkit-shape-outside: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+  }
+
+  .online-users-image {
+    transform: translate(-50%, -50%);
+  }
+
+  .online-users-caption {
+    padding-left: 1rem;
+    color: black;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+}
+
 .online-users-container {
   cursor: pointer;
   position: relative;
@@ -12,24 +42,6 @@
   color: #51ff9a;
 }
 
-.online-users-list-item {
-  display: flex;
-  align-items: center;
-}
-
-.online-users-shape {
-  width: 1.5rem;
-  height: 1.5rem;
-
-  shape-outside: circle(50% at 50% 50%);
-  -webkit-shape-outside: circle(50% at 50% 50%);
-  clip-path: circle(50% at 50% 50%);
-}
-
-.online-users-image {
-  transform: translate(-50%, -50%);
-}
-
-.online-users-caption {
-  padding-left: 1rem;
+.online-tooltip {
+  text-align: left;
 }
