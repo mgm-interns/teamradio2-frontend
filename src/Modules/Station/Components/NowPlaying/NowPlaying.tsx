@@ -4,7 +4,7 @@ import {
   StationPlayer,
 } from 'Components/StationPlayer';
 import { IApplicationState } from 'Configuration/Redux';
-import { convertToEpochTimeInSeconds, isMobileBrowser } from 'Helpers';
+import { convertToEpochTimeInSeconds } from 'Helpers';
 import { NowPlayingSong } from 'Models';
 import * as React from 'react';
 import ReactPlayer from 'react-player';
@@ -64,9 +64,6 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     const url = nowPlaying ? nowPlaying.url : null;
     const message = nowPlaying ? nowPlaying.message : null;
 
-    if (isMobileBrowser()) {
-      return null;
-    }
     return (
       <StationPlayer
         url={url}

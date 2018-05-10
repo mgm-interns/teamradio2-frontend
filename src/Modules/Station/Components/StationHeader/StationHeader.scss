@@ -2,52 +2,59 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-.u-margin-top-medium {
-  margin-top: 100px;
-}
-
 .header-container {
   flex-direction: row;
   padding: 0 16px 3px 16px;
   align-items: center;
   justify-content: space-between;
-}
 
-.header-wrapper {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-}
+  .header-wrapper {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    max-width: calc(100% - 180px);
 
-.buttons-wrapper {
-  display: flex;
-}
+    &.is-mobile {
+      max-width: calc(100% - 50px);
+    }
 
-.btn-no-shadow {
-  &:focus {
-    box-shadow: none;
+    h1 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
-  min-width: 39px;
-}
 
-.icon-wrapper {
-  font-size: 25px;
-  padding: 0 10px;
-}
+  .buttons-wrapper {
+    display: flex;
+  }
 
-.icon {
-  min-width: 25px;
-  text-align: center;
-}
+  .btn-no-shadow {
+    &:focus {
+      box-shadow: none;
+    }
+    min-width: 39px;
+  }
 
-.activeButton {
-  color: red;
-}
+  .icon-wrapper {
+    font-size: 25px;
+    padding: 0 10px;
+  }
 
-.station-mute-button {
-  display: none;
+  .icon {
+    min-width: 25px;
+    text-align: center;
+  }
 
-  @include media-breakpoint-up(sm) {
-    display: block;
+  .activeButton {
+    color: red;
+  }
+
+  .station-mute-button {
+    display: none;
+
+    @include media-breakpoint-up(sm) {
+      display: block;
+    }
   }
 }

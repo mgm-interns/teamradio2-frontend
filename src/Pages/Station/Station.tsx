@@ -1,6 +1,6 @@
 import * as classNames from 'classnames';
 import { IApplicationState } from 'Configuration/Redux';
-import { YoutubeHelper } from 'Helpers';
+import { isMobileBrowser, YoutubeHelper } from 'Helpers';
 import { NowPlayingSong, Station as StationModel } from 'Models';
 import {
   AddSong,
@@ -43,7 +43,7 @@ class StationComponent extends Component<
     this.state = {
       muted: false,
       isPassive: false,
-      isEnableVideo: true,
+      isEnableVideo: !isMobileBrowser(),
       station: null,
     };
   }

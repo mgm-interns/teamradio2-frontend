@@ -2,7 +2,7 @@ import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
-import { localStorageManager } from 'Helpers';
+import { isMobileBrowser, localStorageManager } from 'Helpers';
 import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
 import { OnlineUsers, StationSharing } from 'Modules/Station';
 import { Fragment } from 'react';
@@ -62,6 +62,8 @@ class OriginStationHeader extends BaseComponent<
 > {
   @Inject('StationServices') private stationServices: StationServices;
 
+  private isMobile: boolean;
+
   constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
 
@@ -69,6 +71,8 @@ class OriginStationHeader extends BaseComponent<
       station: null,
       currentSkipRule: null,
     };
+
+    this.isMobile = isMobileBrowser();
   }
 
   public componentWillMount() {
@@ -138,7 +142,11 @@ class OriginStationHeader extends BaseComponent<
 
     return (
       <Row className="header-container">
-        <div className="header-wrapper">
+        <div
+          className={classNames(
+            'header-wrapper',
+            this.isMobile ? 'is-mobile' : '',
+          )}>
           <h1>{station && station.name}</h1>
           <OnlineUsers />
         </div>
@@ -160,6 +168,7 @@ class OriginStationHeader extends BaseComponent<
               </Fragment>
             )}
           {!isPassive &&
+            !this.isMobile &&
             this._renderButton(
               isEnableVideo,
               buttonActions.player,
