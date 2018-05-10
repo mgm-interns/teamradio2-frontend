@@ -95,8 +95,7 @@ export class PreviewVideo extends Component<IProps, any> {
               <div>
                 <h4 className="preview__title">{this.getTitle(video)}</h4>
                 <p>
-                  <i className="fa fa-clock-o" />
-                  {this.renderDurationCaseVideoLongerThan5Minute(video)}
+                  <i className="fa fa-clock-o" /> {this.renderDurationCaseVideoLongerThan5Minute(video)}
                 </p>
                 <Input
                   className="preview__input"
