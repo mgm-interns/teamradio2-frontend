@@ -118,21 +118,8 @@ class UserDropdownComponent extends BaseComponent<
     this.setState({
       isAuthenticated: false,
     });
-    this.checkSignOutAtProfilePage();
+    this.reloadPage();
     this.showNotificationLogoutSuccess();
-  }
-
-  public checkSignOutAtProfilePage() {
-    const userId = this.props.userInfo.id;
-    const pathName = this.props.location.pathname.split('/')[1];
-    console.log(this.props.location.pathname);
-    console.log(userId);
-    console.log(pathName);
-    if (pathName === PROFILE_PATH) {
-      console.log('signout');
-      this.props.history.push(`/profile/${userId}`);
-      window.location.reload();
-    }
   }
 
   public render() {
@@ -196,6 +183,19 @@ class UserDropdownComponent extends BaseComponent<
         )}
       </Fragment>
     );
+  }
+
+  private reloadPage() {
+    this.checkSignOutAtProfilePage();
+    window.location.reload();
+  }
+
+  private checkSignOutAtProfilePage() {
+    const userId = this.props.userInfo.id;
+    const pathName = this.props.location.pathname.split('/')[1];
+    if (pathName === PROFILE_PATH) {
+      this.props.history.push(`/profile/${userId}`);
+    }
   }
 }
 

@@ -26,14 +26,6 @@ class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
     }
   }
 
-  public isCurrentUser(userId: string) {
-    const userInfo = localStorageManager.getUserInfo();
-    if (!userInfo || userInfo.id !== userId) {
-      return false;
-    }
-    return true;
-  }
-
   public render() {
     const { userId } = this.state;
     return (
@@ -50,6 +42,14 @@ class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
         </div>
       </div>
     );
+  }
+
+  private isCurrentUser(userId: string) {
+    const userInfo = localStorageManager.getUserInfo();
+    if (!userInfo || userInfo.id !== userId) {
+      return false;
+    }
+    return true;
   }
 }
 
