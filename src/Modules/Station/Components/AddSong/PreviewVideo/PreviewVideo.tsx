@@ -96,9 +96,6 @@ export class PreviewVideo extends Component<IProps, any> {
                 <h4 className="preview__title">{this.getTitle(video)}</h4>
                 <p>
                   <i className="fa fa-clock-o" />
-                  {/*<span color={this.isDurationLongerThan5Minute(video)? "#c89129" : "#151b1e"} className="preview__duration warning">*/}
-                    {/*{this.getDuration(video)}*/}
-                  {/*</span>*/}
                   {this.renderDurationCaseVideoLongerThan5Minute(video)}
                 </p>
                 <Input
