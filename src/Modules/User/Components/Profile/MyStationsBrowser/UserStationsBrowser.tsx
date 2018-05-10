@@ -37,7 +37,7 @@ export class UserStationsBrowser extends BaseStationBrowser<IProps> {
   public getNoStationFoundMessage() {
     const { userInfo } = this.props;
     if (userInfo) {
-      return (userInfo.name + " has no station");
+      return userInfo.name + ' has no station';
     }
   }
 }

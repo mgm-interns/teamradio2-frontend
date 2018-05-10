@@ -59,7 +59,7 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
         </div>
       </Row>
     );
-  }
+  };
 
   protected renderListNoStation = () => {
     return (
@@ -117,7 +117,7 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
   };
 
   protected getNoStationFoundMessage() {
-    return ("");
+    return '';
   }
 
   protected onEndReach = () => {

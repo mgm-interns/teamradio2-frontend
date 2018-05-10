@@ -29,6 +29,6 @@ export class MyRecentStationsBrowser extends BaseStationBrowser<{}> {
   }
 
   public getNoStationFoundMessage() {
-    return ("You haven't interact with any station yet");
+    return "You haven't interact with any station yet";
   }
 }

@@ -102,26 +102,28 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     );
     return (
       <ListGroup className="popover-container">
-        {filteredUsers.map(({ id, name, username, avatarUrl, points }, index) => (
-          <Link to={`/profile/${id}`} key={index}>
-            <ListGroupItem
-              active={this.isMe(username)}
-              className="online-users-list-item">
-              <div className="online-users-shape">
-                <img
-                  className="online-users-image"
-                  alt="avatar"
-                  src={avatarUrl || DEFAULT_USER_AVATAR}
-                />
-              </div>
-              <span className="online-users-caption">
-                {this.isUserInfoAvailable(currentUser) && this.isMe(username)
-                  ? `You (${points})`
-                  : `${name} (${points})`}
-              </span>
-            </ListGroupItem>
-          </Link>
-        ))}
+        {filteredUsers.map(
+          ({ id, name, username, avatarUrl, points }, index) => (
+            <Link to={`/profile/${id}`} key={index}>
+              <ListGroupItem
+                active={this.isMe(username)}
+                className="online-users-list-item">
+                <div className="online-users-shape">
+                  <img
+                    className="online-users-image"
+                    alt="avatar"
+                    src={avatarUrl || DEFAULT_USER_AVATAR}
+                  />
+                </div>
+                <span className="online-users-caption">
+                  {this.isUserInfoAvailable(currentUser) && this.isMe(username)
+                    ? `You (${points})`
+                    : `${name} (${points})`}
+                </span>
+              </ListGroupItem>
+            </Link>
+          ),
+        )}
       </ListGroup>
     );
   }

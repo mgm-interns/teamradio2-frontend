@@ -17,8 +17,8 @@ export class StationsBrowserSSE {
   private _endpoint: string = process.env.REACT_APP_HTTP_END_POINT;
   private _limit: number = DEFAULT_STATIONS_PAGE_SIZE;
 
-  public get limit () {
-    return this._limit
+  public get limit() {
+    return this._limit;
   }
 
   public static get status() {

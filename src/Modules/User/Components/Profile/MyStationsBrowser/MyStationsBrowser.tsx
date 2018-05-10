@@ -30,6 +30,6 @@ export class MyStationsBrowser extends BaseStationBrowser<{}> {
   }
 
   public getNoStationFoundMessage() {
-    return ("You have no station");
+    return 'You have no station';
   }
 }
