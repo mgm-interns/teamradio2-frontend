@@ -15,6 +15,7 @@ import {
   DropdownMenu,
   DropdownToggle,
 } from 'reactstrap';
+import { compose } from 'redux';
 import { UserServices } from 'Services/Http';
 import {
   DEFAULT_USER_AVATAR,
@@ -22,7 +23,7 @@ import {
 } from '../../../Constants';
 import './UserDropdown.scss';
 
-const PROFILE_PATH = "profile";
+const PROFILE_PATH = 'profile';
 
 interface IProps {
   userInfo: RegisteredUser;
@@ -122,9 +123,13 @@ class UserDropdownComponent extends BaseComponent<
   }
 
   public checkSignOutAtProfilePage() {
-    const userId  = this.props.userInfo.id;
+    const userId = this.props.userInfo.id;
     const pathName = this.props.location.pathname.split('/')[1];
+    console.log(this.props.location.pathname);
+    console.log(userId);
+    console.log(pathName);
     if (pathName === PROFILE_PATH) {
+      console.log('signout');
       this.props.history.push(`/profile/${userId}`);
       window.location.reload();
     }
@@ -204,7 +209,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(updateUserInfo(userInfo)),
 });
 
-export const UserDropdown = withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UserDropdownComponent) as any);
+export const UserDropdown = compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(UserDropdownComponent);
