@@ -10,8 +10,6 @@ import { HistoryItem } from './HistoryItem';
 interface IHistoryProps {
   stationId: string;
   isActive: boolean;
-  isSwitchStation: boolean;
-  updateIsSwitchStation: (newValue: boolean) => void;
 }
 
 interface IHistoryState {
@@ -44,29 +42,26 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
       );
   }
 
-  public updateHistory(stationId: string) {
-    this.getHistorySub = this.songServices
-      .getListPlayedSong(stationId)
-      .subscribe(
-        (history: Song[]) => {
-          this.setState({
-            history,
-          });
-        },
-        (err: string) => {
-          this.showError(`Get history error: ${err}`);
-        },
-      );
+  public updateHistory() {
+    this.songServices.getListPlayedSong(this.props.stationId).subscribe(
+      (history: Song[]) => {
+        this.setState({
+          history,
+        });
+      },
+      (err: string) => {
+        this.showError(`Get history error: ${err}`);
+      },
+    );
   }
 
   public componentDidMount() {
-    this.updateHistory(this.props.stationId);
+    this.updateHistory();
   }
 
   public componentWillReceiveProps(nextProps: IHistoryProps) {
-    if (nextProps.isActive || nextProps.isSwitchStation) {
-      this.updateHistory(nextProps.stationId);
-      this.props.updateIsSwitchStation(false);
+    if (nextProps.isActive) {
+      this.updateHistory();
     }
   }
 
