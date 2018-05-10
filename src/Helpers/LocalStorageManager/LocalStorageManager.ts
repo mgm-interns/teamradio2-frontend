@@ -2,6 +2,7 @@ import { AccessToken, RegisteredUser } from 'Models/User';
 
 const accessTokenKey = 'accessToken';
 const userInfoKey = 'userInfo';
+const loginByKey = 'loginBy';
 
 export const localStorageManager = {
   getAccessToken: (): AccessToken => {
@@ -20,5 +21,11 @@ export const localStorageManager = {
   },
   getUserInfo: (): RegisteredUser => {
     return JSON.parse(localStorage.getItem(userInfoKey));
+  },
+  setLoginSource: (source: string) => {
+    localStorage.setItem(loginByKey, source);
+  },
+  getLoginSource: (): string => {
+    return localStorage.getItem(loginByKey);
   },
 };

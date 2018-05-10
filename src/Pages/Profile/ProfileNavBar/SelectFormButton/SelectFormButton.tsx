@@ -1,4 +1,5 @@
-import { InformationForm, PasswordForm } from 'Modules/User';
+import { localStorageManager } from 'Helpers';
+import { InformationForm, LoginSource, PasswordForm } from 'Modules/User';
 import * as React from 'react';
 import { Component } from 'react';
 import {
@@ -26,6 +27,10 @@ export class SelectFormButton extends Component<any, any> {
     this.openInformationForm = this.openInformationForm.bind(this);
     this.openPasswordForm = this.openPasswordForm.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
+  }
+
+  public isLoginByPassword(): boolean {
+    return localStorageManager.getLoginSource() === LoginSource.PASSWORD;
   }
 
   public toggle() {
@@ -108,13 +113,15 @@ export class SelectFormButton extends Component<any, any> {
               }}>
               <i className="fa fa-user" />Information
             </DropdownItem>
-            <DropdownItem
-              className="drop-item"
-              onClick={() => {
-                this.openPasswordForm();
-              }}>
-              <i className="fa fa-key" />Password
-            </DropdownItem>
+            {this.isLoginByPassword() && (
+              <DropdownItem
+                className="drop-item"
+                onClick={() => {
+                  this.openPasswordForm();
+                }}>
+                <i className="fa fa-key" />Password
+              </DropdownItem>
+            )}
           </DropdownMenu>
         </Dropdown>
         {this.state.openInformationForm ? this.renderInformationForm() : null}

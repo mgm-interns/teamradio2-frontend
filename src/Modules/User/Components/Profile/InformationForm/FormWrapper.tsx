@@ -43,10 +43,8 @@ const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
               className="form-control"
               type="text"
               name="username"
-              placeholder="Enter your username"
+              readOnly
             />
-            {touched.username &&
-              errors.username && <FormFeedback>{errors.username}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
@@ -172,16 +170,11 @@ export const FormWrapper = withFormik<IFormProps, IFormValues>({
 
   validate: (values: IFormValues) => {
     const errors: FormikErrors<any> = {};
-    const { name, username } = values;
+    const { name } = values;
     const { required } = Rules;
 
     const nameValidator = new Validator('Display Name', name, [required]);
-    const usernameValidator = new Validator('RegisteredUser name', username, [
-      required,
-    ]);
-
     errors.name = nameValidator.validate();
-    errors.username = usernameValidator.validate();
 
     return Validator.removeUndefinedError(errors);
   },
