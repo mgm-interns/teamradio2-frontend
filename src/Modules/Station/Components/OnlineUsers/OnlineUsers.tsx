@@ -154,12 +154,13 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     return (
       <UncontrolledTooltip placement="bottom" target={target}>
         {list.map(({ name, username }) => (
-          <div>
+          <div className="online-tooltip">
             <span>
               {this.isUserInfoAvailable(currentUser) && this.isMe(username)
                 ? 'YOU'
                 : name}
-            </span><br/>
+            </span>
+            <br />
           </div>
         ))}
       </UncontrolledTooltip>
