@@ -34,6 +34,18 @@ export class PreviewVideo extends Component<IProps, any> {
     return YoutubeHelper.convertDuration(duration);
   }
 
+  public renderDurationCaseVideoLongerThan5Minute(video: any) {
+    const duration = YoutubeHelper.getDuration(video);
+    const fiveMinuteDuration = 300000;
+    if (duration > fiveMinuteDuration) {
+      return <div className="preview__tooltip">
+        {YoutubeHelper.convertDuration(duration)}
+        <span className="preview__tooltip tooltiptext">This video has long duration.</span>
+        </div>;
+    }
+    return <span className="preview__duration">{YoutubeHelper.convertDuration(duration)}</span>;
+  }
+
   public mutePreview() {
     this.setState((prevState: any) => ({
       muted: !prevState.muted,
@@ -83,10 +95,7 @@ export class PreviewVideo extends Component<IProps, any> {
               <div>
                 <h4 className="preview__title">{this.getTitle(video)}</h4>
                 <p>
-                  <i className="fa fa-clock-o" />
-                  <span className="preview__duration">
-                    {this.getDuration(video)}
-                  </span>
+                  <i className="fa fa-clock-o" /> {this.renderDurationCaseVideoLongerThan5Minute(video)}
                 </p>
                 <Input
                   className="preview__input"
