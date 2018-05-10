@@ -4,6 +4,7 @@ import { IApplicationState } from 'Configuration/Redux';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   ListGroup,
   ListGroupItem,
@@ -15,24 +16,28 @@ import './OnlineUsers.scss';
 
 const fixture = [
   {
+    id: '5acdce8373f8d20004bc3314',
     name: 'Mars',
     username: 'lybaokhanh',
     avatarUrl: '',
     // points: 20,
   },
   {
+    id: '5acdce8373f8d20004bc3314',
     name: 'Lamth2',
     username: 'lamth2',
     avatarUrl: '',
     // points: 10,
   },
   {
+    id: '5acdce8373f8d20004bc3314',
     name: 'Liquid',
     username: 'lybaokhanh',
     avatarUrl: '',
     // points: 5,
   },
   {
+    id: '5acdce8373f8d20004bc3314',
     name: 'Navi',
     username: 'lybaokhanh',
     avatarUrl: '',
@@ -41,7 +46,7 @@ const fixture = [
 ];
 
 const currentUser = {
-  id: '1213123',
+  id: '5acdce8373f8d20004bc3314',
   name: 'Lamth2',
   username: 'lamth2',
   avatarUrl: '',
@@ -96,25 +101,26 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
       user => (user.username === currentUser.username ? 0 : 1),
     );
     return (
-      <ListGroup>
-        {filteredUsers.map(({ name, username, avatarUrl }, index) => (
-          <ListGroupItem
-            key={index}
-            active={this.isMe(username)}
-            className="online-users-list-item">
-            <div className="online-users-shape">
-              <img
-                className="online-users-image"
-                alt="avatar"
-                src={avatarUrl || DEFAULT_USER_AVATAR}
-              />
-            </div>
-            <span className="online-users-caption">{`${
-              this.isUserInfoAvailable(currentUser) && this.isMe(username)
-                ? 'YOU'
-                : name
-            }`}</span>
-          </ListGroupItem>
+      <ListGroup className="popover-container">
+        {filteredUsers.map(({ id, name, username, avatarUrl }, index) => (
+          <Link to={`/profile/${id}`} key={index}>
+            <ListGroupItem
+              active={this.isMe(username)}
+              className="online-users-list-item">
+              <div className="online-users-shape">
+                <img
+                  className="online-users-image"
+                  alt="avatar"
+                  src={avatarUrl || DEFAULT_USER_AVATAR}
+                />
+              </div>
+              <span className="online-users-caption">
+                {this.isUserInfoAvailable(currentUser) && this.isMe(username)
+                  ? 'YOU'
+                  : name}
+              </span>
+            </ListGroupItem>
+          </Link>
         ))}
       </ListGroup>
     );
@@ -137,7 +143,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
           {fixture.length || '0'} online
         </span>
       </div>,
-      this.renderOnlineTooltip(fixture, 'online-users'),
+      <div key={3}>{this.renderOnlineTooltip(fixture, 'online-users')}</div>,
       <Popover
         key={2}
         placement="bottom"
@@ -153,8 +159,8 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     if (this.state.popoverOpen) return null;
     return (
       <UncontrolledTooltip placement="bottom" target={target}>
-        {list.map(({ name, username }) => (
-          <div className="online-tooltip">
+        {list.map(({ name, username }, index) => (
+          <div className="online-tooltip" key={index}>
             <span>
               {this.isUserInfoAvailable(currentUser) && this.isMe(username)
                 ? 'YOU'
