@@ -148,7 +148,7 @@ class OriginStationHeader extends BaseComponent<
             this.isMobile ? 'is-mobile' : '',
           )}>
           <h1>{station && station.name}</h1>
-          {/*<OnlineUsers />*/}
+          <OnlineUsers data={station} />
         </div>
         <div className="buttons-wrapper">
           {nowPlaying &&
@@ -176,7 +176,7 @@ class OriginStationHeader extends BaseComponent<
             )}
           {!isPassive && (
             <Fragment>
-              <StationSharing stationId={stationId} />
+              <StationSharing />
               {station &&
                 this.isLoggedIn() &&
                 this.isOwner() && (
