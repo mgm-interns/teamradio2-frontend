@@ -28,7 +28,37 @@
   }
 
   &__duration {
-    margin-left: 5px;
+    margin-left: 10px;
+  }
+
+  &__tooltip {
+    margin-left: 10px;
+    color: #c89129;
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+
+  &__tooltip .tooltiptext {
+    visibility: hidden;
+    opacity: 0.5;
+    font-size: x-small;
+    top: 120%;
+    left: -10px;
+    width: max-content;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 1px;
+    padding: 3px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+
+  &__tooltip:hover .tooltiptext {
+    visibility: visible;
   }
 
   &__input {
@@ -64,5 +94,12 @@
   .btn-primary:not(:disabled):not(.disabled):active {
     background: rgb(224, 106, 78);
     border-color: rgb(224, 106, 78);
+  }
+
+  &data-placement {
+
+  }
+
+  &__notice {
   }
 }
