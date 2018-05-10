@@ -63,6 +63,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     const { progress } = this.state;
     const { playerVolume, nowPlaying, isEnableVideo } = this.props;
     const url = nowPlaying ? nowPlaying.url : null;
+    const thumbnail = nowPlaying ? nowPlaying.thumbnail : null;
     const message = nowPlaying ? nowPlaying.message : null;
 
     if (!isEnableVideo && nowPlaying) {
@@ -91,6 +92,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
         onStart={this.onStart}
         onEnded={this.onEnded}
         message={message}
+        thumbnail={thumbnail}
       />
     );
   }

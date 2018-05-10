@@ -35,6 +35,42 @@
       animation-play-state: paused;
     }
   }
+
+  .skip-song-cover {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background-color: #000000;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    .skip-song-message-cover {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: inherit;
+
+      .skip-song-message {
+        margin-top: 10px;
+
+        p {
+          margin: 0;
+          text-align: center;
+          color: #ffffff;
+          font-size: 1.5em;
+          font-weight: 500;
+        }
+      }
+
+      .fa-thumbs-down {
+        display: block;
+        font-size: 5em;
+        color: white;
+      }
+    }
+  }
 }
 
 .player-container {
