@@ -20,28 +20,28 @@ const fixture = [
     name: 'Mars',
     username: 'lybaokhanh',
     avatarUrl: '',
-    // points: 20,
+    points: 200,
   },
   {
     id: '5acdce8373f8d20004bc3314',
     name: 'Lamth2',
     username: 'lamth2',
     avatarUrl: '',
-    // points: 10,
+    points: 130,
   },
   {
     id: '5acdce8373f8d20004bc3314',
     name: 'Liquid',
     username: 'lybaokhanh',
     avatarUrl: '',
-    // points: 5,
+    points: 455,
   },
   {
     id: '5acdce8373f8d20004bc3314',
     name: 'Navi',
     username: 'lybaokhanh',
     avatarUrl: '',
-    // points: 60,
+    points: 600,
   },
 ];
 
@@ -50,7 +50,7 @@ const currentUser = {
   name: 'Lamth2',
   username: 'lamth2',
   avatarUrl: '',
-  // points: 10,
+  points: 10,
   password: '',
   email: 'lamth2@gmail.com',
 };
@@ -98,11 +98,11 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
 
   public renderPopoverContent() {
     const filteredUsers = fixture.sort(
-      user => (user.username === currentUser.username ? 0 : 1),
+      user => (user.username === currentUser.username ? 1 : 0),
     );
     return (
       <ListGroup className="popover-container">
-        {filteredUsers.map(({ id, name, username, avatarUrl }, index) => (
+        {filteredUsers.map(({ id, name, username, avatarUrl, points }, index) => (
           <Link to={`/profile/${id}`} key={index}>
             <ListGroupItem
               active={this.isMe(username)}
@@ -116,8 +116,8 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
               </div>
               <span className="online-users-caption">
                 {this.isUserInfoAvailable(currentUser) && this.isMe(username)
-                  ? 'YOU'
-                  : name}
+                  ? `You (${points})`
+                  : `${name} (${points})`}
               </span>
             </ListGroupItem>
           </Link>
