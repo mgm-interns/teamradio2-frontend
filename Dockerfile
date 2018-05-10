@@ -5,5 +5,5 @@ COPY package*.json /usr/src/app/
 COPY .env /usr/src/app/
 RUN npm install
 COPY . /usr/src/app
-EXPOSE 3000/tcp
+EXPOSE 8082/tcp
 CMD [ "npm", "start" ]
