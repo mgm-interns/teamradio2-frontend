@@ -1,5 +1,5 @@
 import 'cropperjs/dist/cropper.css';
-import { localStorageManager } from "Helpers/LocalStorageManager";
+import { localStorageManager } from 'Helpers/LocalStorageManager';
 import { CurrentUserProfileHeader, PublicProfileHeader } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
@@ -16,23 +16,26 @@ class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
     super(props);
     this.state = {
       userId: null,
-    }
+    };
   }
 
   public componentWillMount() {
-    this.checkCurrentUser();
-  }
-
-  public checkCurrentUser() {
     const userId = this.props.match.params.userId;
-    const userInfo = localStorageManager.getUserInfo();
-    if (!userInfo || userInfo.id !== userId) {
-      this.setState({userId});
+    if (!this.isCurrentUser(userId)) {
+      this.setState({ userId });
     }
   }
 
+  public isCurrentUser(userId: string) {
+    const userInfo = localStorageManager.getUserInfo();
+    if (!userInfo || userInfo.id !== userId) {
+      return false;
+    }
+    return true;
+  }
+
   public render() {
-    const userId = this.state.userId;
+    const { userId } = this.state;
     return (
       <div className="profile-container">
         <div className="profile-header">
