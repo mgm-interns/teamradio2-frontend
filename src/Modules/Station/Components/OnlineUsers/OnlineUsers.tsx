@@ -1,5 +1,6 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
+import { LoadingIndicator } from 'Components';
 import { IApplicationState } from 'Configuration/Redux';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
@@ -14,49 +15,9 @@ import {
 import { DEFAULT_USER_AVATAR } from '../../../User/Constants';
 import './OnlineUsers.scss';
 
-const fixture = [
-  {
-    id: '5acdce8373f8d20004bc3314',
-    name: 'Mars',
-    username: 'lybaokhanh',
-    avatarUrl: '',
-    points: 200,
-  },
-  {
-    id: '5acdce8373f8d20004bc3314',
-    name: 'Lamth2',
-    username: 'lamth2',
-    avatarUrl: '',
-    points: 130,
-  },
-  {
-    id: '5acdce8373f8d20004bc3314',
-    name: 'Liquid',
-    username: 'lybaokhanh',
-    avatarUrl: '',
-    points: 455,
-  },
-  {
-    id: '5acdce8373f8d20004bc3314',
-    name: 'Navi',
-    username: 'lybaokhanh',
-    avatarUrl: '',
-    points: 600,
-  },
-];
-
-const currentUser = {
-  id: '5acdce8373f8d20004bc3314',
-  name: 'Lamth2',
-  username: 'lamth2',
-  avatarUrl: '',
-  points: 10,
-  password: '',
-  email: 'lamth2@gmail.com',
-};
-
 interface IProps {
   userInfo?: RegisteredUser;
+  data: any;
 }
 
 interface IState {
@@ -86,19 +47,18 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
   };
 
   public isMe = (username?: string) => {
-    // TODO: enable after fix fetch user info
-    // if (username && this.props.userInfo) {
-    //   return this.props.userInfo.username === username;
-    // }
-    if (username && currentUser) {
-      return currentUser.username === username;
+    if (username && this.props.userInfo) {
+      return this.props.userInfo.username === username;
     }
     return false;
   };
 
-  public renderPopoverContent() {
-    const filteredUsers = fixture.sort(
-      user => (user.username === currentUser.username ? 1 : 0),
+  public renderPopoverContent(onlineUsers: RegisteredUser) {
+    const filteredListToArray = this.toArray(onlineUsers);
+    const { userInfo } = this.props;
+
+    const filteredUsers = filteredListToArray.sort(
+      user => (user.username === userInfo.username ? 0 : 1),
     );
     return (
       <ListGroup className="popover-container">
@@ -129,6 +89,12 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
   }
 
   public render() {
+    if (!this.props.data) {
+      return <LoadingIndicator />;
+    }
+
+    const { onlineUsers, numberOnline } = this.props.data;
+
     return [
       <div
         key={1}
@@ -137,12 +103,12 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         onClick={this.toggle}>
         <i
           className={classNames('fa', {
-            'fa-circle online-color': fixture.length > 0,
-            'fa-circle-o': fixture.length <= 0,
+            'fa-circle online-color': numberOnline > 0,
+            'fa-circle-o': numberOnline <= 0,
           })}
         />
         <span className="online-users-length">
-          {fixture.length || '0'} online
+          {numberOnline || '0'} online
         </span>
       </div>,
       <div key={3}>{this.renderOnlineTooltip(fixture, 'online-users')}</div>,
@@ -152,10 +118,16 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         isOpen={this.state.popoverOpen}
         toggle={this.toggle}
         target="online-users">
-        {this.renderPopoverContent()}
+        {this.renderPopoverContent(onlineUsers)}
       </Popover>,
     ];
   }
+
+  private toArray = (userMap: any) => {
+    return Object.keys(userMap).reduce((prev, key) => {
+      return [...prev, userMap[key]];
+    }, []);
+  };
 
   private renderOnlineTooltip(list: any[], target: string) {
     if (this.state.popoverOpen) return null;
