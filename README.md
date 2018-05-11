@@ -1,5 +1,9 @@
 Team Radio is an open source application for sharing and listening music in realtime like a live radio.
+
+Now we just support Youtube video. All members of team can watch a video at the same time.
+
 The frontend is using ReactJS, Bootstrap 4, Webpack.
+
 This project was bootstrapped with [CoreUI-React](https://github.com/mrholek/CoreUI-React/tree/master/React_Starter).
 
 # Folder Structure
@@ -37,11 +41,12 @@ team-radio/
             …
         Services
             Http
-                User
-                Station
+                UserServices
+                StationServices
                 ...
-            Web Socket
-                Station
+            SSE
+                StationChatSSEService
+                StationPlaylistSSEService
                 ...
         Modules
             User
@@ -88,6 +93,8 @@ For the project to build, these files must exist with exact filenames:
 - src/index.tsx is the TypeScript entry point.
 
 You can delete or rename the other files.
+
+In folder Pages, each page is just the combination of many modules. It defines position and custom style for module. So it's easy to change structure of a page, you just need to put a module into the right position.
 
 # How to name a folder and a file?
 - Folder name: <component name>.
