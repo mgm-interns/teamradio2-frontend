@@ -84,6 +84,7 @@ export class AddSongComponent extends BaseComponent<
       },
       (err: string) => {
         this.showError(err);
+        this.previewVideoRef.changeIsAddingState(false);
       },
     );
   }

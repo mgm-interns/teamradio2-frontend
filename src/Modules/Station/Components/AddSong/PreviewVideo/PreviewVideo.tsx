@@ -58,6 +58,12 @@ export class PreviewVideo extends Component<IProps, any> {
     });
   }
 
+  public changeIsAddingState(isAdding: boolean) {
+    this.setState({
+      isAdding,
+    });
+  }
+
   public render() {
     const { video, embeddableVideo } = this.props;
     const { muted, isAdding } = this.state;
