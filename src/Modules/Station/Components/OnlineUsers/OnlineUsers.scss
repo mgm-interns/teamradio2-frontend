@@ -5,17 +5,20 @@
     cursor: pointer;
   }
 
-  .online-users-shape {
-    width: 1.5rem;
-    height: 1.5rem;
-
-    shape-outside: circle(50% at 50% 50%);
-    -webkit-shape-outside: circle(50% at 50% 50%);
-    clip-path: circle(50% at 50% 50%);
+  .online-users-image {
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
   }
 
-  .online-users-image {
-    transform: translate(-50%, -50%);
+  .online-users-anonymous {
+    background-color: grey;
+    border-radius: 25px;
+    padding: 3px 6px 6px 6px;
+    height: 25px;
+    &-text {
+      color: white;
+    }
   }
 
   .online-users-caption {

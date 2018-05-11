@@ -79,13 +79,11 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
               <ListGroupItem
                 active={this.isMe(id)}
                 className="online-users-list-item">
-                <div className="online-users-shape">
-                  <img
-                    className="online-users-image"
-                    alt="avatar"
-                    src={avatarUrl || DEFAULT_USER_AVATAR}
-                  />
-                </div>
+                <img
+                  className="online-users-image"
+                  alt="avatar"
+                  src={avatarUrl || DEFAULT_USER_AVATAR}
+                />
                 <span className="online-users-caption">
                   {this.isUserInfoAvailable(currentUser) && this.isMe(id)
                     ? `You (${points || 0})`
@@ -98,8 +96,10 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         )}
         {anonymousUsersCount > 0 ? (
           <ListGroupItem className="online-users-list-item">
-            <div className="online-users-shape">
-              <span className="online-users-image">{anonymousUsersCount}</span>
+            <div className="online-users-anonymous">
+              <span className="online-users-anonymous-text">
+                {anonymousUsersCount}
+              </span>
             </div>
             <span className="online-users-caption">Anonymous</span>
           </ListGroupItem>
