@@ -26,10 +26,11 @@ interface IStationFormValues {
 interface IFormProps {
   initialStationName?: string;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  isLoggedIn: boolean;
 }
 
 const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
-  const { touched, errors, handleSubmit } = props;
+  const { touched, errors, handleSubmit, isLoggedIn } = props;
 
   return (
     <Form onSubmit={handleSubmit} className="form-wrapper" autoComplete="off">
@@ -53,26 +54,28 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
           <FormFeedback className="text-error">{errors.name}</FormFeedback>
         )}
 
-      <div
-        className={
-          touched.name && errors.name
-            ? 'toggle-container-with-error'
-            : 'toggle-container-without-error'
-        }>
-        <Label className="switch switch-3d switch-primary">
-          <Input
-            name="privacy"
-            type="checkbox"
-            className="switch-input"
-            onChange={event => {
-              props.setFieldValue('privacy', event.target.checked);
-            }}
-          />
-          <span className="switch-label" />
-          <span className="switch-handle" />
-        </Label>
-        <span className="toggle-text">Private station</span>
-      </div>
+      {isLoggedIn && (
+        <div
+          className={
+            touched.name && errors.name
+              ? 'toggle-container-with-error'
+              : 'toggle-container-without-error'
+          }>
+          <Label className="switch switch-3d switch-primary">
+            <Input
+              name="privacy"
+              type="checkbox"
+              className="switch-input"
+              onChange={event => {
+                props.setFieldValue('privacy', event.target.checked);
+              }}
+            />
+            <span className="switch-label" />
+            <span className="switch-handle" />
+          </Label>
+          <span className="toggle-text">Private station</span>
+        </div>
+      )}
     </Form>
   );
 };
@@ -114,9 +117,10 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
   public handleSubmit = (formValues: IStationFormValues) => {
     const name = formValues.name.trim();
-    const stationPrivacy = formValues.privacy
-      ? StationPrivacy.STATION_PRIVATE
-      : StationPrivacy.STATION_PUBLIC;
+    const stationPrivacy =
+      formValues.privacy || !this.isLoggedIn()
+        ? StationPrivacy.STATION_PRIVATE
+        : StationPrivacy.STATION_PUBLIC;
     this.stationServices.createStation(name, stationPrivacy).subscribe(
       (station: Station) => {
         this.props.history.push(`/station/${station.friendlyId}`);
@@ -133,7 +137,9 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
       <Formik
         initialValues={this.initialValues}
         onSubmit={this.handleSubmit}
-        render={formikProps => <InnerForm {...formikProps} />}
+        render={formikProps => (
+          <InnerForm {...formikProps} isLoggedIn={this.isLoggedIn()} />
+        )}
         validate={CreateStationForm.validate}
       />
     );
