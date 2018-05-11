@@ -140,13 +140,16 @@ export class PreviewVideo extends Component<IProps, any> {
       <span>
         <span
           id="preview-duration"
-          className={classNames('preview__duration', {'warning': duration > FIVE_MINUTE_DURATION})}>
-            {YoutubeHelper.convertDuration(duration)}
-        </span>
-          {duration > FIVE_MINUTE_DURATION &&
-        <UncontrolledTooltip placement="right" target="preview-duration">
-          This song has long duration!
-        </UncontrolledTooltip>}
+          className={classNames('preview__duration', {
+            warning: duration > FIVE_MINUTE_DURATION,
+          })}>
+          {YoutubeHelper.convertDuration(duration)}
+        </span>{' '}
+        {duration > FIVE_MINUTE_DURATION && (
+          <UncontrolledTooltip placement="right" target="preview-duration">
+            This song has long duration!
+          </UncontrolledTooltip>
+        )}
       </span>
     );
   }
