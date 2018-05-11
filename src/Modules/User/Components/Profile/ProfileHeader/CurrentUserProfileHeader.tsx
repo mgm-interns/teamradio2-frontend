@@ -42,6 +42,15 @@ class CurrentUserProfileHeaderComponent extends ProfileHeader<
     this.imageUploader.getWrappedInstance().openChooseImageModal();
   }
 
+  public componentWillReceiveProps(nextProps: any) {
+    const newUserInfo = nextProps.userInfo;
+    this.setState({
+      name: newUserInfo.name || '',
+      username: newUserInfo.username || '',
+      reputation: newUserInfo.reputation || '',
+    });
+  }
+
   public renderAvatar() {
     return (
       <div className="avatar" onClick={this.uploadAvatar}>
@@ -86,10 +95,10 @@ class CurrentUserProfileHeaderComponent extends ProfileHeader<
         {this.renderCoverPhoto()}
         <Container className="user-info-container">
           <Row>
-            <Col sm={12} md={8}>
+            <Col xs={12} md={8}>
               {this.renderUserInfo()}
             </Col>
-            <Col sm={12} md={4}>
+            <Col xs={12} md={4}>
               {this.renderButtonUploadCoverPhoto()}
             </Col>
           </Row>

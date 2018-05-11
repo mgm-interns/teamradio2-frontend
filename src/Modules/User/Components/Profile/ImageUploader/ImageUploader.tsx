@@ -104,6 +104,7 @@ class ImageUploaderComponent extends BaseComponent<IProps, IState> {
     this.userServices.uploadUserCover(croppedImageBlob).subscribe(
       (userInfo: RegisteredUser) => {
         this.showSuccess('Your cover photo has been successfully updated!');
+        this.props.updateUserInfo(userInfo);
         this.setState({
           croppedImage: userInfo.coverUrl,
           isUploadingImage: false,
