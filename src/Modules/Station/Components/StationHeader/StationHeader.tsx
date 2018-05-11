@@ -13,6 +13,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Row } from 'reactstrap';
 import { compose } from 'redux';
 import { StationServices } from 'Services/Http';
+import { StationSSEService } from 'Services/SSE';
 import { ConfigurationButton } from '../ConfigurationButton';
 import './StationHeader.scss';
 
@@ -36,6 +37,7 @@ export interface ISkipRuleRadio extends ISkipRule {
 }
 
 interface IStateProps {
+  stations: Station;
   nowPlaying?: Song;
 }
 
@@ -61,6 +63,7 @@ class OriginStationHeader extends BaseComponent<
   IState
 > {
   @Inject('StationServices') private stationServices: StationServices;
+  @Inject('StationSSEService') private stationSSEService: StationSSEService;
 
   private isMobile: boolean;
 
@@ -75,9 +78,18 @@ class OriginStationHeader extends BaseComponent<
     this.isMobile = isMobileBrowser();
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     const { stationId } = this.props;
-    this.updateStation(stationId);
+    this.startSSEService(stationId);
+  }
+
+  // public componentWillMount() {
+  //   const { stationId } = this.props;
+  //   this.updateStation(stationId);
+  // }
+
+  public componentWillUnmount() {
+    this.stationSSEService.close();
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
@@ -139,6 +151,7 @@ class OriginStationHeader extends BaseComponent<
       stationId,
     } = this.props;
     const { station, currentSkipRule } = this.state;
+    console.log(this.props.stations);
 
     return (
       <Row className="header-container">
@@ -195,15 +208,18 @@ class OriginStationHeader extends BaseComponent<
     );
   }
 
+  private startSSEService(stationId: string) {
+    this.stationSSEService.initiate(stationId);
+    this.stationSSEService.start();
+  }
+
   private updateStation = (stationId: string) => {
-    this.stationServices.getStationById(stationId).subscribe(
-      (station: any) => {
-        this.setState({ station });
-      },
-      (err: string) => {
-        this.props.history.replace('/');
-      },
-    );
+    if (this.stationSSEService) {
+      this.stationSSEService.close();
+      this.startSSEService(stationId);
+    } else {
+      this.startSSEService(stationId);
+    }
   };
 
   private isOwner() {
@@ -214,6 +230,7 @@ class OriginStationHeader extends BaseComponent<
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
   nowPlaying: state.playlist.nowPlaying,
+  stations: state.stations.station,
 });
 
 export const StationHeader = compose(

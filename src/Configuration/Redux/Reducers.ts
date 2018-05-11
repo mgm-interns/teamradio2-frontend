@@ -13,6 +13,7 @@ export interface IApplicationState {
   favoriteList: IFavorite;
   chat: IMessage;
   stations: IStationsListState;
+  // station: IStationsListState;
 }
 
 export const reducers: Reducer<IApplicationState> = combineReducers<
@@ -23,4 +24,5 @@ export const reducers: Reducer<IApplicationState> = combineReducers<
   favoriteList: favoriteReducer,
   chat: chatReducer,
   stations: stationsReducer,
+  // station: stationsReducer,
 });
