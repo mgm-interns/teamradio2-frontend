@@ -33,7 +33,7 @@ export class UserServices {
   }
 
   public getListMyRecentStation(): Observable<StationItem[]> {
-    return this._httpServices.get('user/me/recent-station');
+    return this._httpServices.get(`${this.currentUserServiceUrl}/recent-station`);
   }
 
   public register(user: UnregisteredUser): Observable<RegisteredUser> {
@@ -124,8 +124,6 @@ export class UserServices {
   }
 
   public getUserRecentStation(userId: string): Observable<StationItem[]> {
-    // return this._httpServices.get(`${this.serviceUrl}/${userId}/recent-station`);
-    // TODO user recent-station instead of station when recent-station API available
-    return this._httpServices.get(`${this.serviceUrl}/${userId}/stations`);
+    return this._httpServices.get(`${this.serviceUrl}/${userId}/recent-station`);
   }
 }
