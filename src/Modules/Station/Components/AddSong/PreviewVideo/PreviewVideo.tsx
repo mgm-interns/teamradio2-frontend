@@ -82,12 +82,15 @@ export class PreviewVideo extends Component<IProps, any> {
               className="d-flex flex-column justify-content-between">
               <div>
                 <h4 className="preview__title">{this.getTitle(video)}</h4>
-                <p>
-                  <i className="fa fa-clock-o" />
-                  <span className="preview__duration">
-                    {this.getDuration(video)}
-                  </span>
-                </p>
+                <div className="d-flex justify-content-between secondary-info">
+                  <p>
+                    <i className="fa fa-clock-o" />
+                    <span className="preview__duration">
+                      {this.getDuration(video)}
+                    </span>
+                  </p>
+                  <p>Channel: {video.snippet.channelTitle}</p>
+                </div>
                 <Input
                   className="preview__input"
                   placeholder="Do you want to say something about this video?"
