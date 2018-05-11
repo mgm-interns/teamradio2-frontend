@@ -144,7 +144,7 @@ export class PreviewVideo extends Component<IProps, any> {
             {YoutubeHelper.convertDuration(duration)}
         </span>
           {duration > FIVE_MINUTE_DURATION &&
-        <UncontrolledTooltip placement="bottom" target="preview-duration" className={"preview__tooltipModify"}>
+        <UncontrolledTooltip placement="right" target="preview-duration">
           This song has long duration!
         </UncontrolledTooltip>}
       </span>
