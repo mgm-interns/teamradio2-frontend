@@ -45,6 +45,7 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
     } else {
       this.props.history.replace('/');
     }
+    setTimeout(() => window.location.reload());
   }
 
   public showNotificationLoginSuccess() {
