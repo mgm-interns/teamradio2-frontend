@@ -20,14 +20,19 @@ team-radio/
     scss
         …
     src
+        BaseComponents
         Components
             …Common Components
+        Configuration
+            DependencyInjection
+            Redux
+            ServiceWorker
         Containers
             FullLayout
         Models
             User
             Station
-            Setting
+            Song
         Helpers
             …
         Services
@@ -44,21 +49,35 @@ team-radio/
                     Login
                     Register
                     ...
-                Actions
+                Redux
+                  Actions
                     ...
-                Reducers
+                  Constants
+                    ...
+                  Types
+                    ...
+                  Reducers
                     ...
             Station
                 Components
                     ...
-                Actions
+                Redux
+                  Actions
                     ...
-                Reducers
+                  Constants
+                    ...
+                  Types
+                    ...
+                  Reducers
                     ...
         Pages
-            Login
-            Sign up
+            ForgotPassword
+            Help
             Home
+            Login
+            Profile
+            Register
+            ResetPassword
             Station
             ...
         index.tsx
@@ -114,6 +133,7 @@ import { Aside, Header, Sidebar, Breadcrumb, Footer } from '../../Components/'; 
 - Find all components on [reactstrap documentation](http://reactstrap.github.io/components/)
 
 # How to add new Environment Variables
+- evn template: in folder env. You have to create file .env and copy content of one env.
 - In .env file define new variable with prefix REACT_APP
 ```
 REACT_APP_HTTP_END_POINT=https://www.teamrad.io/api
