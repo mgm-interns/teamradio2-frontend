@@ -20,7 +20,7 @@ class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
   }
 
   public componentWillMount() {
-    const userId = this.props.match.params.userId;
+    const { userId } = this.props.match.params;
     if (!this.isCurrentUser(userId)) {
       this.setState({ userId });
     }
