@@ -1,11 +1,10 @@
 import 'cropperjs/dist/cropper.css';
-import { localStorageManager } from 'Helpers/LocalStorageManager';
+import { localStorageManager } from 'Helpers';
 import { CurrentUserProfileHeader, PublicProfileHeader } from 'Modules/User';
 import { Component } from 'react';
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { ProfileNavBar } from './ProfileNavBar';
-import { PublicProfileNavBar } from './ProfileNavBar/PublicProfileNavBar';
+import { ProfileNavBar, PublicProfileNavBar } from './ProfileNavBar';
 
 interface IStates {
   userId: string;

@@ -83,14 +83,6 @@ export class ProfileHeader<P, S> extends BaseComponent<
     });
   }
 
-  public componentWillReceiveProps(nextProps: any) {
-    const newUserInfo = nextProps.userInfo;
-    this.setState({
-      name: newUserInfo.name || '',
-      username: newUserInfo.username || '',
-    });
-  }
-
   public getUserProfile() {
     this.functionLoadUserInfo.subscribe(
       (userInfo: RegisteredUser) => {
