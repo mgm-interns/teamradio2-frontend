@@ -37,8 +37,10 @@ export interface ISkipRuleRadio extends ISkipRule {
 }
 
 interface IStateProps {
-  stations: Station;
   nowPlaying?: Song;
+  stationInfo: any;
+  joinUser: string;
+  leaveUser: string;
 }
 
 interface IOwnProps {
@@ -83,22 +85,28 @@ class OriginStationHeader extends BaseComponent<
     this.startSSEService(stationId);
   }
 
-  // public componentWillMount() {
-  //   const { stationId } = this.props;
-  //   this.updateStation(stationId);
-  // }
-
   public componentWillUnmount() {
     this.stationSSEService.close();
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
-    const { stationId: oldStationId } = this.props;
-    const { stationId: nextStationId } = nextProps;
+    const { stationId: oldStationId, stationInfo: oldStationInfo } = this.props;
+    const {
+      stationId: nextStationId,
+      stationInfo: nextStationInfo,
+      joinUser,
+      leaveUser,
+    } = nextProps;
 
     if (oldStationId !== nextStationId) {
       this.updateStation(nextStationId);
     }
+
+    if (oldStationInfo !== nextStationInfo) {
+      this.updateStationInfo(nextStationInfo);
+    }
+
+    this.handleJoinAndLeaveUser(joinUser, leaveUser);
   }
 
   public _onSkipRuleChange = (skipRuleType: SkipRuleType) => {
@@ -151,7 +159,6 @@ class OriginStationHeader extends BaseComponent<
       stationId,
     } = this.props;
     const { station, currentSkipRule } = this.state;
-    console.log(this.props.stations);
 
     return (
       <Row className="header-container">
@@ -222,15 +229,32 @@ class OriginStationHeader extends BaseComponent<
     }
   };
 
+  private updateStationInfo = (stationInfo: Station) => {
+    this.setState({
+      station: stationInfo,
+    });
+  };
+
   private isOwner() {
     const userInfo = localStorageManager.getUserInfo();
     return userInfo && userInfo.id === this.state.station.ownerId;
   }
+
+  private handleJoinAndLeaveUser = (joinUser: string, leaveUser: string) => {
+    console.log('joinUser', joinUser, 'leaveUser', leaveUser);
+    if (joinUser) {
+      this.showInfo(`${joinUser} joined`);
+    } else if (leaveUser) {
+      this.showInfo(`${leaveUser} leaved`);
+    }
+  };
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
-  nowPlaying: state.playlist.nowPlaying,
-  stations: state.stations.station,
+  nowPlaying: state.station.nowPlaying,
+  stationInfo: state.station.stationInfo,
+  joinUser: state.station.joinUser,
+  leaveUser: state.station.leaveUser,
 });
 
 export const StationHeader = compose(

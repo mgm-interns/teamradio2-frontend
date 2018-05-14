@@ -61,7 +61,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     const { userInfo: currentUser } = this.props;
 
     const filteredUsers = onlineUsers.sort(
-      user => (user.username === currentUser.username ? 1 : 0),
+      user => (user.username === currentUser.username ? 0 : 1),
     );
 
     // Only display keep top 10 users

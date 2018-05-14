@@ -28,19 +28,6 @@ export const stationsReducer: Reducer<IStationsListState> = (
         data: action.payload,
         loading: false,
       };
-    // case actionTypes.STATION_GET_STATION_BY_ID_CONNECTED:
-    //   return state;
-    // case actionTypes.STATION_GET_STATION_BY_ID_ERROR:
-    //   return state;
-    // case actionTypes.STATION_GET_STATION_BY_ID_CLOSED:
-    //   return state;
-    case actionTypes.STATION_GET_STATION_BY_ID_UPDATED: {
-      console.log(action.payload);
-      return {
-        ...state,
-        station: action.payload.data,
-      };
-    }
     default:
       return state;
   }
