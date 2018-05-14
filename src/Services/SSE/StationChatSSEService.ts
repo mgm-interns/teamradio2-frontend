@@ -32,9 +32,9 @@ export class StationChatSSEService {
       this.close();
     }
     this.service = new SSEService({
-      endpoint: this._endpoint + `/stations/${stationId}`,
+      endpoint: this._endpoint + `/stations/${stationId}/messages`,
       eventKey: 'message',
-      action: 'STATION:GET_STATION_BY_ID',
+      action: 'STATION:CHAT',
     });
   }
 }
