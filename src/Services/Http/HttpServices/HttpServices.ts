@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 import { localStorageManager } from 'Helpers';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
@@ -50,6 +49,7 @@ export class HttpServices {
     const options: AxiosRequestConfig = {
       headers,
       baseURL: this._endPoint,
+      withCredentials: true,
     };
     return axios.create(options);
   }
