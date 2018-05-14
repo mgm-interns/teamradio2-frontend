@@ -111,8 +111,8 @@ class OriginStationHeader extends BaseComponent<
       this.updateStationInfo(nextStationInfo);
     }
 
-    if (oldJoinUser !== newJoinUser && newJoinUser) {
-      this.showInfo(`${newJoinUser} joined`);
+    if (oldJoinUser !== newJoinUser || oldLeaveUser !== newLeaveUser) {
+      this.showMessage(newJoinUser, newLeaveUser);
     }
   }
 
@@ -247,12 +247,13 @@ class OriginStationHeader extends BaseComponent<
     return userInfo && userInfo.id === this.state.station.ownerId;
   }
 
-  private handleJoinAndLeaveUser = (joinUser: string, leaveUser: string) => {
-    console.log('joinUser', joinUser, 'leaveUser', leaveUser);
+  private showMessage(joinUser: string, leaveUser: string) {
     if (joinUser) {
-      this.showInfo(`${joinUser} joined`);
+      this.showInfo(`${joinUser} has joined`);
+    } else if (leaveUser) {
+      this.showInfo(`${leaveUser} has left`);
     }
-  };
+  }
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
