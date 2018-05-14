@@ -90,12 +90,17 @@ class OriginStationHeader extends BaseComponent<
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
-    const { stationId: oldStationId, stationInfo: oldStationInfo } = this.props;
+    const {
+      stationId: oldStationId,
+      stationInfo: oldStationInfo,
+      joinUser: oldJoinUser,
+      leaveUser: oldLeaveUser,
+    } = this.props;
     const {
       stationId: nextStationId,
       stationInfo: nextStationInfo,
-      joinUser,
-      leaveUser,
+      joinUser: newJoinUser,
+      leaveUser: newLeaveUser,
     } = nextProps;
 
     if (oldStationId !== nextStationId) {
@@ -106,7 +111,9 @@ class OriginStationHeader extends BaseComponent<
       this.updateStationInfo(nextStationInfo);
     }
 
-    this.handleJoinAndLeaveUser(joinUser, leaveUser);
+    if (oldJoinUser !== newJoinUser && newJoinUser) {
+      this.showInfo(`${newJoinUser} joined`);
+    }
   }
 
   public _onSkipRuleChange = (skipRuleType: SkipRuleType) => {
@@ -218,7 +225,6 @@ class OriginStationHeader extends BaseComponent<
   private startSSEService(stationId: string) {
     this.stationSSEService.initiate(stationId);
     this.stationSSEService.start();
-    console.log('startSSEService');
   }
 
   private updateStation = (stationId: string) => {
@@ -245,8 +251,6 @@ class OriginStationHeader extends BaseComponent<
     console.log('joinUser', joinUser, 'leaveUser', leaveUser);
     if (joinUser) {
       this.showInfo(`${joinUser} joined`);
-    } else if (leaveUser) {
-      this.showInfo(`${leaveUser} leaved`);
     }
   };
 }
