@@ -43,7 +43,6 @@ export const stationReducer: Reducer<IStationState> = (
       };
     }
     case stationTypes.STATION_GET_STATION_BY_ID_CONNECTED: {
-      console.log('STATION_GET_STATION_BY_ID_CONNECTED', action.payload);
       return state;
     }
     case stationTypes.STATION_GET_STATION_BY_ID_ERROR:

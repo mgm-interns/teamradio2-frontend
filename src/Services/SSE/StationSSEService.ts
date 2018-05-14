@@ -31,7 +31,7 @@ export class StationSSEService {
     }
     this.service = new SSEService({
       endpoint: this._endpoint + `/stations/${stationId}`,
-      eventKey: 'joinStation',
+      eventKey: 'message',
       action: 'STATION:GET_STATION_BY_ID',
     });
   }
