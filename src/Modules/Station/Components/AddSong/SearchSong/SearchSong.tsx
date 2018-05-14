@@ -44,6 +44,7 @@ export class SearchSong extends Component<IProps, ISearchSongState> {
 
   public onChange = (event: any, { newValue }: any) => {
     if (newValue === '') {
+      // null => return the initial state
       this.props.setPreviewVideo(null);
     }
     this.setState({
@@ -57,9 +58,17 @@ export class SearchSong extends Component<IProps, ISearchSongState> {
       const videoList = await YoutubeHelper.getVideoList(videoId);
       this.props.setPreviewVideo(videoList[0]);
     } else {
-      this.setState({
-        suggestions: await this.getSuggestions(value),
-      });
+      this.setState(
+        {
+          suggestions: await this.getSuggestions(value),
+        },
+        () => {
+          if (this.state.suggestions.length === 0) {
+            // undefined => not found
+            this.props.setPreviewVideo(undefined);
+          }
+        },
+      );
     }
   };
 
