@@ -350,7 +350,7 @@ export class PlaylistItemComponent extends SongItem<
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
-  nowPlaying: state.playlist.nowPlaying,
+  nowPlaying: state.station.nowPlaying,
   userInfo: state.user.userInfo,
 });
 
