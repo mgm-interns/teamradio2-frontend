@@ -13,4 +13,20 @@
   .pd-left-15 {
     padding-left: 15px;
   }
+
+  .favorite-empty {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px 0;
+
+    .empty-warning {
+      font-size: 50px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 20px;
+    }
+  }
 }
