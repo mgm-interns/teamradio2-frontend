@@ -19,6 +19,15 @@ class SBItem extends Component<IProps, {}> {
     return (
       <div className="station-item d-flex" onClick={this.joinStation}>
         <div className="thumbnail">
+          {picture && (
+            <div className="sound-wave">
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+          )}
           <img src={picture || '/img/station_default_cover.png'} />
           <div className="online-users">
             <i
