@@ -218,6 +218,7 @@ class OriginStationHeader extends BaseComponent<
   private startSSEService(stationId: string) {
     this.stationSSEService.initiate(stationId);
     this.stationSSEService.start();
+    console.log('startSSEService');
   }
 
   private updateStation = (stationId: string) => {
