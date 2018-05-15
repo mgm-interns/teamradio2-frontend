@@ -15,6 +15,21 @@ interface IProps {
 }
 
 export class LoginForm extends BaseComponent<IProps, IState> {
+  private static validate(values: FormValues) {
+    const errors: FormikErrors<any> = {};
+    const { username, password } = values;
+    const { required } = Rules;
+    const usernameValidator = new Validator('Username or Email', username, [
+      required,
+    ]);
+    const passwordValidator = new Validator('Password', password, [required]);
+
+    errors.username = usernameValidator.validate();
+    errors.password = passwordValidator.validate();
+
+    return Validator.removeUndefinedError(errors);
+  }
+
   @Inject('UserServices') private userServices: UserServices;
   private readonly initialValues: FormValues;
 
@@ -67,31 +82,12 @@ export class LoginForm extends BaseComponent<IProps, IState> {
         this.props.getUserInfo();
       },
       (err: string) => {
-        if (err === 'Bad credentials') {
-          err = 'Username or password is incorrect';
-        } else {
-          err = 'Something went wrong. Please try again later';
-        }
+        err = this.handleErrorMessageFromServer(err);
         this.showError(err);
         this.showFormAlertError(err);
         setSubmitting(false);
       },
     );
-  }
-
-  public validate(values: FormValues) {
-    const errors: FormikErrors<any> = {};
-    const { username, password } = values;
-    const { required } = Rules;
-    const usernameValidator = new Validator('Username or Email', username, [
-      required,
-    ]);
-    const passwordValidator = new Validator('Password', password, [required]);
-
-    errors.username = usernameValidator.validate();
-    errors.password = passwordValidator.validate();
-
-    return Validator.removeUndefinedError(errors);
   }
 
   public render() {
@@ -107,8 +103,16 @@ export class LoginForm extends BaseComponent<IProps, IState> {
             serverError={serverError}
           />
         )}
-        validate={this.validate}
+        validate={LoginForm.validate}
       />
     );
   }
+
+  private handleErrorMessageFromServer = (err: string) => {
+    if (err === 'Bad credentials') {
+      return 'Username or password is incorrect';
+    } else {
+      return 'Something went wrong. Please try again later';
+    }
+  };
 }
