@@ -44,7 +44,6 @@ export class SearchSong extends Component<IProps, ISearchSongState> {
 
   public onChange = (event: any, { newValue }: any) => {
     if (newValue === '') {
-      // null => return the initial state
       this.props.setPreviewVideo(null);
     }
     this.setState({
@@ -64,7 +63,7 @@ export class SearchSong extends Component<IProps, ISearchSongState> {
         },
         () => {
           if (this.state.suggestions.length === 0) {
-            // undefined => not found
+            // if the search result is not found, set an undefined video to show a "Not Found" icon
             this.props.setPreviewVideo(undefined);
           }
         },

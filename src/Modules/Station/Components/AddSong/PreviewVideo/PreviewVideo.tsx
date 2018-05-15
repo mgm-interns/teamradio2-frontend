@@ -123,7 +123,7 @@ export class PreviewVideo extends Component<IProps, any> {
               </div>
             </Col>
           </Row>
-        ) : video === undefined ? (
+        ) : video === undefined ? ( // video is undefined when the search result is not found, even search by a link or a keyword
           <img src="/img/not_found_song.png" alt="" />
         ) : (
           <img src="/img/loading_song.png" alt="" />
