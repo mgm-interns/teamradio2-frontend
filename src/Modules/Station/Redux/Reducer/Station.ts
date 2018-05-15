@@ -7,8 +7,8 @@ export const initialState: IStationState = {
   nowPlaying: null,
   playlist: [],
   stationInfo: {},
-  joinUser: '',
-  leaveUser: '',
+  joinUser: [],
+  leaveUser: [],
   error: '',
   loading: false,
 };

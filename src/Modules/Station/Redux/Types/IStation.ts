@@ -4,8 +4,8 @@ export interface IStationState {
   nowPlaying: NowPlayingSong;
   playlist: PlaylistSong[];
   stationInfo: object;
-  joinUser: string;
-  leaveUser: string;
+  joinUser: string[];
+  leaveUser: string[];
   error?: string | null;
   loading?: boolean;
 }

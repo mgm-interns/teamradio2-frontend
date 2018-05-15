@@ -39,8 +39,8 @@ export interface ISkipRuleRadio extends ISkipRule {
 interface IStateProps {
   nowPlaying?: Song;
   stationInfo: any;
-  joinUser: string;
-  leaveUser: string;
+  joinUser: string[];
+  leaveUser: string[];
 }
 
 interface IOwnProps {
@@ -247,10 +247,10 @@ class OriginStationHeader extends BaseComponent<
     return userInfo && userInfo.id === this.state.station.ownerId;
   }
 
-  private showMessage(joinUser: string, leaveUser: string) {
-    if (joinUser) {
+  private showMessage(joinUser: string[], leaveUser: string[]) {
+    if (joinUser && joinUser.length !== 0) {
       this.showInfo(`${joinUser} has joined`);
-    } else if (leaveUser) {
+    } else if (leaveUser && leaveUser.length !== 0) {
       this.showInfo(`${leaveUser} has left`);
     }
   }
