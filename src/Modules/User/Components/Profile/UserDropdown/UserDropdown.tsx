@@ -17,12 +17,12 @@ import {
 } from 'reactstrap';
 import { compose } from 'redux';
 import { UserServices } from 'Services/Http';
+import { reduceByCharacters } from 'Helpers/TextHelper';
 import {
   DEFAULT_USER_AVATAR,
   LOGOUT_SUCCESS_MESSAGE,
 } from '../../../Constants';
 import './UserDropdown.scss';
-import { reduceByCharacters } from '../../../../../Helpers/TextHelper';
 
 const PROFILE_PATH = 'profile';
 
