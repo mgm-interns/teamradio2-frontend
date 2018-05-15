@@ -4,7 +4,7 @@
   "description": "Team Radio Frontend",
   "author": "mgm Technology",
   "homepage": "https://www.teamrad.io/",
-  "copyright": "Copyright 2018 © mgm. All rights reversed.",
+  "copyright": "Copyright 2018 © mgm. All rights reserved.",
   "browserslist": ">1%, not ie < 11",
   "engines": {
     "node": ">= 8.9.4",
