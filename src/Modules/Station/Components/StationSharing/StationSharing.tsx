@@ -7,7 +7,9 @@ const FACEBOOK_SHARING = 'https://www.facebook.com/sharer/sharer.php?u=';
 const GOOGLE_PLUS_SHARING = 'https://plus.google.com/share?url=';
 const TWITTER_SHARING = 'http://twitter.com/share?url=';
 
-interface IProps {}
+interface IProps {
+  stationId: string;
+}
 
 interface IState {
   popoverOpen: any;
@@ -30,12 +32,18 @@ export class StationSharing extends BaseComponent<IProps, IState> {
   }
 
   public componentDidMount() {
-    this.setStationUrl(this.props);
+    this.setStationUrl(this.props.stationId);
   }
 
-  public setStationUrl(nextProps = {}) {
+  public componentWillReceiveProps(nextProps: IProps){
+    if(this.props.stationId !== nextProps.stationId){
+      this.setStationUrl(nextProps.stationId)
+    }
+  }
+
+  public setStationUrl(stationId: string) {
     this.setState({
-      url: StationSharing._transformUrl(),
+      url: StationSharing._transformUrl(stationId),
     });
   }
 
@@ -46,7 +54,7 @@ export class StationSharing extends BaseComponent<IProps, IState> {
   }
 
   // tslint:disable-next-line
-  public static _transformUrl() {
+  public static _transformUrl(stationId: string) {
     /**
      * Only need to return window.location
      */
