@@ -6,12 +6,23 @@ import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ProfileNavBar, PublicProfileNavBar } from './ProfileNavBar';
 
+interface IProps {
+  match: any;
+  location: any;
+  history: any;
+}
+
 interface IStates {
   userId: string;
 }
 
 class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
-  constructor(props: any) {
+  private static isCurrentUser(userId: string) {
+    const userInfo = localStorageManager.getUserInfo();
+    return !(!userInfo || userInfo.id !== userId);
+  }
+
+  constructor(props: IProps) {
     super(props);
     this.state = {
       userId: null,
@@ -20,12 +31,12 @@ class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
 
   public componentWillMount() {
     const { userId } = this.props.match.params;
-    if (!this.isCurrentUser(userId)) {
+    if (!ProfilePage.isCurrentUser(userId)) {
       this.setState({ userId });
     }
   }
 
-  public componentWillReceiveProps(nextProps: any) {
+  public componentWillReceiveProps(nextProps: IProps) {
     const { userId: oldUserId } = this.props.match.params;
     const { userId: newUserId } = nextProps.match.params;
     if (oldUserId !== newUserId) {
@@ -49,14 +60,6 @@ class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
         </div>
       </div>
     );
-  }
-
-  private isCurrentUser(userId: string) {
-    const userInfo = localStorageManager.getUserInfo();
-    if (!userInfo || userInfo.id !== userId) {
-      return false;
-    }
-    return true;
   }
 }
 
