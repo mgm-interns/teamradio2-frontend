@@ -3,10 +3,11 @@ import { Inject } from 'Configuration/DependencyInjection';
 import { Dispatch } from 'Configuration/Redux';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
+import { reduceByCharacters } from 'Helpers/TextHelper';
 import { RegisteredUser } from 'Models';
 import { signOut, updateUserInfo } from 'Modules/User/Redux/Actions';
-import { Fragment } from 'react';
 import * as React from 'react';
+import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import {
@@ -17,7 +18,6 @@ import {
 } from 'reactstrap';
 import { compose } from 'redux';
 import { UserServices } from 'Services/Http';
-import { reduceByCharacters } from 'Helpers/TextHelper';
 import {
   DEFAULT_USER_AVATAR,
   LOGOUT_SUCCESS_MESSAGE,
