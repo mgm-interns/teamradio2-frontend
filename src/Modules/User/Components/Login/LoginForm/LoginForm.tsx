@@ -69,6 +69,8 @@ export class LoginForm extends BaseComponent<IProps, IState> {
       (err: string) => {
         if (err === 'Bad credentials') {
           err = 'Username or password is incorrect';
+        } else {
+          err = 'Something went wrong. Please try again later';
         }
         this.showError(err);
         this.showFormAlertError(err);
