@@ -7,7 +7,13 @@ import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import {
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import { UserServices } from 'Services/Http/UserServices';
 import './FavoriteItem.scss';
 
@@ -106,7 +112,14 @@ export class FavoriteItemComponent extends BaseComponent<
         <div className="favorite-song-thumbnail">
           <img src={song.thumbnail} />
         </div>
-        <div className="favorite-song-name">{song.title}</div>
+        <div className="favorite-song-name" id={`favorite-` + song.id}>
+          {song.title}
+          <UncontrolledTooltip
+            placement="top"
+            target={`favorite-` + song.id}>
+            {song.title}
+          </UncontrolledTooltip>
+        </div>
       </div>
     );
   }
