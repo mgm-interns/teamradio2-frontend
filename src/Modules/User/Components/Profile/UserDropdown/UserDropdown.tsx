@@ -22,6 +22,7 @@ import {
   LOGOUT_SUCCESS_MESSAGE,
 } from '../../../Constants';
 import './UserDropdown.scss';
+import { reduceByCharacters } from '../../../../../Helpers/TextHelper';
 
 const PROFILE_PATH = 'profile';
 
@@ -145,13 +146,15 @@ class UserDropdownComponent extends BaseComponent<
                     alt="avatar"
                     src={avatarUrl || DEFAULT_USER_AVATAR}
                   />
-                  <span className="d-md-down-none mr-2">{name}</span>
+                  <span className="d-md-down-none mr-2">
+                    {reduceByCharacters(name)}
+                  </span>
                 </DropdownToggle>
                 <DropdownMenu right className="drop-down-menu">
                   <DropdownItem header className="drop-item">
                     <span>Signed in as: </span>
                     <br />
-                    {name}
+                    {reduceByCharacters(name)}
                   </DropdownItem>
                   <Link to="/profile">
                     <DropdownItem className="drop-item">
