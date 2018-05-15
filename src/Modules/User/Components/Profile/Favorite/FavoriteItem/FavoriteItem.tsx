@@ -60,25 +60,28 @@ export class FavoriteItemComponent extends BaseComponent<
 
   public renderDeleteConfirmModal() {
     return (
-        <Modal
-          isOpen={this.state.isOpenDeleteConfirmModal}
-          toggle={this.toggleDeleteConfirmModal}
-          className="confirm-modal-container">
-          <ModalHeader className="confirm-modal-header">Are you sure?</ModalHeader>
-          <ModalBody className="confirm-modal-body">
-            This song will be removed from your favourite list.
-          </ModalBody>
-          <ModalFooter className="confirm-modal-footer">
-            <button
-              className="btn-confirm"
-              onClick={this.toggleDeleteConfirmModal}>
-              No
-            </button>
-            <button className="btn-confirm" onClick={this.deleteFavoriteItem}>
-              Yes
-            </button>
-          </ModalFooter>
-        </Modal>
+      <Modal
+        key={2}
+        isOpen={this.state.isOpenDeleteConfirmModal}
+        toggle={this.toggleDeleteConfirmModal}
+        className="confirm-modal-container">
+        <ModalHeader className="confirm-modal-header">
+          Are you sure?
+        </ModalHeader>
+        <ModalBody className="confirm-modal-body">
+          This song will be removed from your favourite list.
+        </ModalBody>
+        <ModalFooter className="confirm-modal-footer">
+          <button
+            className="btn-confirm"
+            onClick={this.toggleDeleteConfirmModal}>
+            No
+          </button>
+          <button className="btn-confirm" onClick={this.deleteFavoriteItem}>
+            Yes
+          </button>
+        </ModalFooter>
+      </Modal>
     );
   }
 
@@ -86,7 +89,7 @@ export class FavoriteItemComponent extends BaseComponent<
     const { song } = this.props;
 
     return (
-      <div className="favorite-song-item my-flex-item">
+      <div key={1} className="favorite-song-item my-flex-item">
         <div className="favorite-song-item-transition">
           <div className="trash-favorite-song">
             <a href="#" onClick={this.toggleDeleteConfirmModal}>
