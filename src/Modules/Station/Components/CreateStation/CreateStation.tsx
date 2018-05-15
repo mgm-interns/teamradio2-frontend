@@ -44,7 +44,7 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
           />
         </InputGroup>
 
-        <Button color="success" block className="button-submit">
+        <Button color="primary" block className="button-submit">
           <i className="fa fa-paper-plane-o input--fa" />
         </Button>
       </FormGroup>

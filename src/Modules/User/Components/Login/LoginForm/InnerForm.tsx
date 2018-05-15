@@ -64,7 +64,7 @@ export const InnerForm = (props: FormikProps<FormValues> & IFormProps) => {
           {LOGIN_SUCCESS_MESSAGE}
         </Alert>
       )}
-      <Button color="success" block disabled={isSubmitting}>
+      <Button color="primary" block disabled={isSubmitting}>
         LOG IN
       </Button>
     </Form>

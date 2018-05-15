@@ -71,7 +71,7 @@ export const InnerForm = (props: IFormProps & FormikProps<IFormValues>) => {
                 <LoadingIndicator />
               </div>
             ) : (
-              <Button color="success" block disabled={isSubmitting}>
+              <Button color="primary" block disabled={isSubmitting}>
                 Reset password
               </Button>
             )}
