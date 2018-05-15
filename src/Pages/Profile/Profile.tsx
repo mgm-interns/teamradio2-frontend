@@ -25,6 +25,14 @@ class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
     }
   }
 
+  public componentWillReceiveProps(nextProps: any) {
+    const { userId: oldUserId } = this.props.match.params;
+    const { userId: newUserId } = nextProps.match.params;
+    if (oldUserId !== newUserId) {
+      this.setState({ userId: newUserId });
+    }
+  }
+
   public render() {
     const { userId } = this.state;
     return (
