@@ -6,17 +6,13 @@ import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ProfileNavBar, PublicProfileNavBar } from './ProfileNavBar';
 
-interface IProps {
-  match: any;
-  location: any;
-  history: any;
-}
+interface IProps extends RouteComponentProps<any> {}
 
 interface IStates {
   userId: string;
 }
 
-class ProfilePage extends Component<RouteComponentProps<any>, IStates> {
+class ProfilePage extends Component<IProps, IStates> {
   private static isCurrentUser(userId: string) {
     const userInfo = localStorageManager.getUserInfo();
     return !(!userInfo || userInfo.id !== userId);
