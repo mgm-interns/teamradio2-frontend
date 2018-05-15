@@ -1,3 +1,4 @@
+import { reduceByCharacters } from 'Helpers/TextHelper';
 import { RegisteredUser } from 'Models/User';
 import { UserStationsBrowser } from 'Modules/User/Components/Profile/MyStationsBrowser';
 import { UserRecentStationsBrowser } from 'Modules/User/Components/Profile/RecentStationsBrowser';
@@ -62,7 +63,7 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
           <TabPane>
             <h2 className="title-header pd-left-15">
               {this.state.userInfo
-                ? this.state.userInfo.name + "'s station"
+                ? reduceByCharacters(this.state.userInfo.name) + "'s station"
                 : ''}
             </h2>
             <UserStationsBrowser userInfo={this.state.userInfo} />

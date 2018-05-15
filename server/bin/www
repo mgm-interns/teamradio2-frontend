@@ -6,6 +6,11 @@
 
 var app = require('../app');
 var http = require('http');
+var path = require('path');
+
+require('dotenv').config({
+  path: path.resolve(__dirname, '..', '..', '.env'),
+});
 
 /**
  * Get port from environment and store in Express.

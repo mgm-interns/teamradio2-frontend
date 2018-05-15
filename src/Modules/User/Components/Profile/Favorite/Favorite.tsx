@@ -61,19 +61,37 @@ class FavoriteComponent extends BaseComponent<
     }
   }
 
+  public renderFavoriteListEmpty() {
+    return (
+      <div className="favorite-empty">
+        <i className="fa fa-exclamation-triangle empty-warning" />
+        <p>There is no song in your list.</p>
+        <p>Please favorite any song.</p>
+      </div>
+    );
+  }
+
+  public renderFavoriteList() {
+    return (
+      <div className="d-flex flex-row flex-wrap my-flex-container pd-left-15">
+        {this.state.favoriteList.map(
+          (item: FavoriteSongItem, index: number) => {
+            return <FavoriteItem key={index} {...item} />;
+          },
+        )}
+      </div>
+    );
+  }
+
   public render() {
     return (
       <div>
         <h2 className="title-header pd-left-15">
           Hear the tracks you've saved
         </h2>
-        <div className="d-flex flex-row flex-wrap my-flex-container pd-left-15">
-          {this.state.favoriteList.map(
-            (item: FavoriteSongItem, index: number) => {
-              return <FavoriteItem key={index} {...item} />;
-            },
-          )}
-        </div>
+        {this.state.favoriteList.length === 0
+          ? this.renderFavoriteListEmpty()
+          : this.renderFavoriteList()}
       </div>
     );
   }

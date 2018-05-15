@@ -6,6 +6,17 @@ import { Main } from './Main';
 import { Sections } from './Sections';
 
 export class Home extends Component {
+  private static scrollTop() {
+    window.scroll({
+      behavior: 'smooth',
+      top: 0,
+    });
+  }
+
+  public UNSAFE_componentWillReceiveProps() {
+    Home.scrollTop();
+  }
+
   public render() {
     return [
       <Main key={1} />,

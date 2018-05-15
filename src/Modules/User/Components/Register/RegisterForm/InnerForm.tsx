@@ -111,7 +111,7 @@ export const InnerForm = (props: FormikProps<FormValues> & IFormProps) => {
         </Alert>
       )}
 
-      <Button color="success" block disabled={isSubmitting}>
+      <Button color="primary" block disabled={isSubmitting}>
         SIGN UP
       </Button>
     </Form>

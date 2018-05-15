@@ -1,5 +1,7 @@
 import { BaseComponent } from 'BaseComponent';
+import { LoadingIndicator } from 'Components/LoadingIndicator';
 import { Inject } from 'Configuration/DependencyInjection';
+import { reduceByCharacters } from 'Helpers/TextHelper';
 import { RegisteredUser } from 'Models';
 import {
   DEFAULT_USER_AVATAR,
@@ -136,10 +138,13 @@ export class ProfileHeader<P, S> extends BaseComponent<
 
   public renderDisplayName() {
     const { name, username } = this.state;
+    if (!name && !username) {
+      return <LoadingIndicator />;
+    }
     return (
       <div className="name">
-        <h3 className="display-name">{name}</h3>
-        <span className="user-name">{username}</span>
+        <h3 className="display-name">{reduceByCharacters(name, 18)}</h3>
+        <span className="user-name">{reduceByCharacters(username)}</span>
       </div>
     );
   }

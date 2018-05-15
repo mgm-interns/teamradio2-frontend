@@ -3,10 +3,11 @@ import { Inject } from 'Configuration/DependencyInjection';
 import { Dispatch } from 'Configuration/Redux';
 import { IApplicationState } from 'Configuration/Redux';
 import { localStorageManager } from 'Helpers';
+import { reduceByCharacters } from 'Helpers/TextHelper';
 import { RegisteredUser } from 'Models';
 import { signOut, updateUserInfo } from 'Modules/User/Redux/Actions';
-import { Fragment } from 'react';
 import * as React from 'react';
+import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import {
@@ -145,13 +146,15 @@ class UserDropdownComponent extends BaseComponent<
                     alt="avatar"
                     src={avatarUrl || DEFAULT_USER_AVATAR}
                   />
-                  <span className="d-md-down-none mr-2">{name}</span>
+                  <span className="d-md-down-none mr-2">
+                    {reduceByCharacters(name)}
+                  </span>
                 </DropdownToggle>
                 <DropdownMenu right className="drop-down-menu">
                   <DropdownItem header className="drop-item">
                     <span>Signed in as: </span>
                     <br />
-                    {name}
+                    {reduceByCharacters(name)}
                   </DropdownItem>
                   <Link to="/profile">
                     <DropdownItem className="drop-item">

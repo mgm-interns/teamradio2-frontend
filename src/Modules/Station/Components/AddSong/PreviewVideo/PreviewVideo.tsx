@@ -3,7 +3,7 @@ import { YoutubeHelper } from 'Helpers';
 import * as React from 'react';
 import { Component } from 'react';
 import ReactPlayer from 'react-player';
-import { Button, Col, Input, Row } from 'reactstrap';
+import { Button, Col, Input, Row, UncontrolledTooltip } from 'reactstrap';
 import './PreviewVideo.scss';
 
 interface IProps {
@@ -91,9 +91,7 @@ export class PreviewVideo extends Component<IProps, any> {
                 <div className="d-flex justify-content-between secondary-info">
                   <p>
                     <i className="fa fa-clock-o" />
-                    <span className="preview__duration">
-                      {this.getDuration(video)}
-                    </span>
+                    {this._renderDuration(video)}
                   </p>
                   <p>Channel: {video.snippet.channelTitle}</p>
                 </div>
@@ -125,12 +123,34 @@ export class PreviewVideo extends Component<IProps, any> {
               </div>
             </Col>
           </Row>
-        ) : video === undefined ? (
+        ) : video === undefined ? ( // video is undefined when the search result is not found, even search by a link or a keyword
           <img src="/img/not_found_song.png" alt="" />
         ) : (
           <img src="/img/loading_song.png" alt="" />
         )}
       </div>
+    );
+  }
+
+  private _renderDuration(video: any) {
+    const FIVE_MINUTE_DURATION = 300000;
+    const duration = YoutubeHelper.getDuration(video);
+
+    return (
+      <span>
+        <span
+          id="preview-duration"
+          className={classNames('preview__duration', {
+            warning: duration > FIVE_MINUTE_DURATION,
+          })}>
+          {YoutubeHelper.convertDuration(duration)}
+        </span>{' '}
+        {duration > FIVE_MINUTE_DURATION && (
+          <UncontrolledTooltip placement="right" target="preview-duration">
+            This song has long duration!
+          </UncontrolledTooltip>
+        )}
+      </span>
     );
   }
 }
