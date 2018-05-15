@@ -9,7 +9,7 @@ export class Footer extends Component {
         <div className="container">
           <span className="float-left">
             Copyright 2018 &copy; <a href="https://www.mgm-tp.com/">mgm</a>. All
-            rights reversed.
+            rights reserved.
           </span>
         </div>
       </footer>
