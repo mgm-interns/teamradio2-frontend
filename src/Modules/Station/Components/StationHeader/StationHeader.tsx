@@ -148,7 +148,7 @@ class OriginStationHeader extends BaseComponent<
             this.isMobile ? 'is-mobile' : '',
           )}>
           <h1>{station && station.name}</h1>
-          <OnlineUsers />
+          {/*<OnlineUsers />*/}
         </div>
         <div className="buttons-wrapper">
           {nowPlaying &&
