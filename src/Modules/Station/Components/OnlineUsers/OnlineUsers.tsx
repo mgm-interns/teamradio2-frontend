@@ -2,6 +2,7 @@ import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { LoadingIndicator } from 'Components';
 import { IApplicationState } from 'Configuration/Redux';
+import { reduceByCharacters } from 'Helpers/TextHelper';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -87,8 +88,8 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
                 <span className="online-users-caption">
                   {this.isUserInfoAvailable(currentUser) && this.isMe(id)
                     ? `You (${points || 0})`
-                    : `${this.reduceByCharacters(name) ||
-                        'Unknown'} (${points || 0})`}
+                    : `${reduceByCharacters(name) || 'Unknown'} (${points ||
+                        0})`}
                 </span>
               </ListGroupItem>
             </Link>
@@ -127,7 +128,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
             <span>
               {this.isUserInfoAvailable(currentUser) && this.isMe(id)
                 ? 'You'
-                : `${this.reduceByCharacters(name) || 'Unknown'}`}
+                : `${reduceByCharacters(name) || 'Unknown'}`}
             </span>
             <br />
           </div>
@@ -186,16 +187,6 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
       </Popover>,
     ];
   }
-
-  private reduceByCharacters = (text: string, length = 22) => {
-    let output = '';
-    for (let i = 0; i < text.length; i++) {
-      if (i < length - 1) {
-        output += text[i];
-      }
-    }
-    return output + (text.length > length - 1 ? '...' : '');
-  };
 
   private toArray = (userMap: any) => {
     return Object.keys(userMap).reduce((prev, key) => {
