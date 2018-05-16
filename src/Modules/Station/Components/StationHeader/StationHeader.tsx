@@ -203,7 +203,7 @@ class OriginStationHeader extends BaseComponent<
             )}
           {!isPassive && (
             <Fragment>
-              <StationSharing />
+              <StationSharing stationId={stationId} />
               {station &&
                 this.isLoggedIn() &&
                 this.isOwner() && (
