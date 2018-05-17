@@ -81,11 +81,12 @@ export class StationPlayer extends Component<IProps, IState> {
       <Fragment>
         <div className="player">
           <div
-            className="skip-song-cover"
+            className="skip-song-container"
             style={{
               backgroundImage: `url(${thumbnail})`,
             }}>
-            <div className="skip-song-message-cover">
+            <div className="skip-song-cover" />
+            <div className="skip-song-message-container">
               <i className="fa fa-thumbs-down" />
               <div className="skip-song-message">
                 <p>Our listeners don't like this song</p>
@@ -225,15 +226,13 @@ export class StationPlayer extends Component<IProps, IState> {
     this.setState({ isCountingDown: true });
     let skipSongTime = SKIP_SONG_TIME;
     const countDownInterval = setInterval(() => {
-      if (skipSongTime <= 0) {
+      if (this.countDownElement && skipSongTime > 0) {
+        this.countDownElement.innerText = (
+          (skipSongTime -= COUNT_DOWN_TIME) / COUNT_DOWN_TIME
+        ).toString();
+      } else {
         clearInterval(countDownInterval);
         this.setState({ isCountingDown: false });
-      } else {
-        if (this.countDownElement) {
-          this.countDownElement.innerText = (
-            (skipSongTime -= COUNT_DOWN_TIME) / COUNT_DOWN_TIME
-          ).toString();
-        }
       }
     }, COUNT_DOWN_TIME);
   }
