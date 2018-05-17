@@ -7,7 +7,6 @@ export class StationSSEService {
   private _endpoint: string = process.env.REACT_APP_HTTP_END_POINT;
 
   public start() {
-    console.log('start');
     if (this.service) {
       this.service.start();
     } else {
@@ -16,7 +15,6 @@ export class StationSSEService {
   }
 
   public close() {
-    console.log('close');
     if (this.service) {
       this.service.close();
     } else {
@@ -25,7 +23,6 @@ export class StationSSEService {
   }
 
   public initiate(stationId: string) {
-    console.log('initiate');
     if (this.service) {
       this.close();
     }

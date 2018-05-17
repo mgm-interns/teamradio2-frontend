@@ -7,7 +7,6 @@ export class StationChatSSEService {
   private _endpoint: string = process.env.REACT_APP_HTTP_END_POINT;
 
   public start() {
-    console.log(this.service);
     if (this.service) {
       this.service.start();
     } else {

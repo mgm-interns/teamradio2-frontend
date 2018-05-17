@@ -50,7 +50,6 @@ export const stationReducer: Reducer<IStationState> = (
     case stationTypes.STATION_GET_STATION_BY_ID_CLOSED:
       return state;
     case stationTypes.STATION_GET_STATION_BY_ID_UPDATED: {
-      console.log('STATION_GET_STATION_BY_ID_UPDATED', action.payload);
       return {
         ...state,
         stationInfo: action.payload.stationInfo,
