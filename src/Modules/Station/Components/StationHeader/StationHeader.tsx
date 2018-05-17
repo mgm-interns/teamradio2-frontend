@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
 import { isMobileBrowser, localStorageManager } from 'Helpers';
-import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
+import { ISkipRule, RegisteredUser, SkipRuleType, Song, Station } from 'Models';
 import { OnlineUsers, StationSharing } from 'Modules/Station';
 import { Fragment } from 'react';
 import * as React from 'react';
@@ -41,6 +41,7 @@ interface IStateProps {
   stationInfo: any;
   joinUser: string[];
   leaveUser: string[];
+  userInfo?: RegisteredUser;
 }
 
 interface IOwnProps {
@@ -58,6 +59,8 @@ type IProps = IStateProps & IOwnProps;
 interface IState {
   station: Station;
   currentSkipRule: ISkipRuleRadio;
+  joinUser: string[];
+  leaveUser: string[];
 }
 
 class OriginStationHeader extends BaseComponent<
@@ -75,6 +78,8 @@ class OriginStationHeader extends BaseComponent<
     this.state = {
       station: null,
       currentSkipRule: null,
+      joinUser: null,
+      leaveUser: null,
     };
 
     this.isMobile = isMobileBrowser();
@@ -90,12 +95,7 @@ class OriginStationHeader extends BaseComponent<
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
-    const {
-      stationId: oldStationId,
-      stationInfo: oldStationInfo,
-      joinUser: oldJoinUser,
-      leaveUser: oldLeaveUser,
-    } = this.props;
+    const { stationId: oldStationId, stationInfo: oldStationInfo } = this.props;
     const {
       stationId: nextStationId,
       stationInfo: nextStationInfo,
@@ -103,17 +103,9 @@ class OriginStationHeader extends BaseComponent<
       leaveUser: newLeaveUser,
     } = nextProps;
 
-    if (oldStationId !== nextStationId) {
-      this.updateStation(nextStationId);
-    }
-
-    if (oldStationInfo !== nextStationInfo) {
-      this.updateStationInfo(nextStationInfo);
-    }
-
-    if (oldJoinUser !== newJoinUser || oldLeaveUser !== newLeaveUser) {
-      this.showMessage(newJoinUser, newLeaveUser);
-    }
+    this.handleSwitchStation(oldStationId, nextStationId);
+    this.handleChangeStationInfo(oldStationInfo, nextStationInfo);
+    this.handleJoinAndLeave(newJoinUser, newLeaveUser);
   }
 
   public _onSkipRuleChange = (skipRuleType: SkipRuleType) => {
@@ -247,12 +239,51 @@ class OriginStationHeader extends BaseComponent<
     return userInfo && userInfo.id === this.state.station.ownerId;
   }
 
-  private showMessage(joinUser: string[], leaveUser: string[]) {
-    if (joinUser && joinUser.length !== 0) {
-      this.showInfo(`${joinUser} has joined`);
-    } else if (leaveUser && leaveUser.length !== 0) {
-      this.showInfo(`${leaveUser} has left`);
+  private handleSwitchStation(oldStationId: string, nextStationId: string) {
+    if (oldStationId !== nextStationId) {
+      this.updateStation(nextStationId);
     }
+  }
+
+  private handleChangeStationInfo(
+    oldStationInfo: Station,
+    nextStationInfo: Station,
+  ) {
+    if (oldStationInfo !== nextStationInfo) {
+      this.updateStationInfo(nextStationInfo);
+    }
+  }
+
+  private handleJoinAndLeave(newJoinUser: string[], newLeaveUser: string[]) {
+    const { userInfo: currentUser } = this.props;
+    if (
+      newJoinUser !== this.state.joinUser &&
+      newJoinUser &&
+      !this.isCurrentUser(newJoinUser, currentUser)
+    ) {
+      this.setState({ joinUser: newJoinUser });
+      this.showMessage(newJoinUser, 'joined');
+    }
+
+    if (
+      newLeaveUser !== this.state.leaveUser &&
+      newLeaveUser &&
+      !this.isCurrentUser(newLeaveUser, currentUser)
+    ) {
+      this.setState({ joinUser: newLeaveUser });
+      this.showMessage(newLeaveUser, 'left');
+    }
+  }
+
+  // check isCurrentUser by name
+  private isCurrentUser(userList: string[], currentUser: RegisteredUser) {
+    return userList.some(user => user === currentUser.name);
+  }
+
+  private showMessage(listUser: string[], type: string) {
+    listUser.forEach(user => {
+      this.showInfo(`${user} has ${type}`);
+    });
   }
 }
 
@@ -261,6 +292,7 @@ const mapStateToProps = (state: IApplicationState): IStateProps => ({
   stationInfo: state.station.stationInfo,
   joinUser: state.station.joinUser,
   leaveUser: state.station.leaveUser,
+  userInfo: state.user.userInfo,
 });
 
 export const StationHeader = compose(

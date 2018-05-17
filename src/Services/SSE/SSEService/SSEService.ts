@@ -52,8 +52,6 @@ export default class SSEService implements ISSEService {
       this.eventSourceOptions,
     );
 
-    console.log(this.eventSource);
-
     // Bind listener
     this.eventSource.addEventListener(
       this.options.eventKey,

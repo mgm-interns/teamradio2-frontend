@@ -50,7 +50,8 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
   };
 
   // TODO: using username instead id when backend support it
-  public isMe = (id: string) => {
+  // check isCurrentUser by id
+  public isCurrentUser = (id: string) => {
     const { userInfo: currentUser } = this.props;
     if (id && currentUser) {
       return currentUser.id === id;
@@ -78,7 +79,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
           ({ id, name, username, avatarUrl, points }, index) => (
             <Link to={`/profile/${id}`} key={index}>
               <ListGroupItem
-                active={this.isMe(id)}
+                active={this.isCurrentUser(id)}
                 className="online-users-list-item">
                 <img
                   className="online-users-image"
@@ -86,7 +87,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
                   src={avatarUrl || DEFAULT_USER_AVATAR}
                 />
                 <span className="online-users-caption">
-                  {this.isUserInfoAvailable(currentUser) && this.isMe(id)
+                  {this.isUserInfoAvailable(currentUser) && this.isCurrentUser(id)
                     ? `You (${points || 0})`
                     : `${reduceByCharacters(name) || 'Unknown'} (${points ||
                         0})`}
@@ -109,11 +110,20 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     );
   }
 
-  public renderOnlineTooltip(list: any[], numberOnline: 0, target: string) {
+  public renderOnlineTooltip(
+    onlineUsers: any[],
+    numberOnline: 0,
+    target: string,
+  ) {
     const { userInfo: currentUser } = this.props;
 
+    const filteredUsers = onlineUsers.sort(
+      user => (user.username === currentUser.username ? 0 : 1),
+    );
     // Only display keep top 10 users
-    const filteredList = list.filter((user, index) => index < LIST_USERS_SHOW);
+    const filteredList = filteredUsers.filter(
+      (user, index) => index < LIST_USERS_SHOW,
+    );
     // Group the rest people to anonymous group
     const anonymousUsersCount = numberOnline - filteredList.length;
 
@@ -126,7 +136,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         {filteredList.map(({ id, name, username }, index) => (
           <div key={index} className="align-text-left">
             <span>
-              {this.isUserInfoAvailable(currentUser) && this.isMe(id)
+              {this.isUserInfoAvailable(currentUser) && this.isCurrentUser(id)
                 ? 'You'
                 : `${reduceByCharacters(name) || 'Unknown'}`}
             </span>
