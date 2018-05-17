@@ -9,13 +9,17 @@ import './StationBrowserItem.scss';
 type IProps = StationItem & RouteComponentProps<any>;
 
 class SBItem extends Component<IProps, {}> {
+
   public joinStation = () => {
     const { friendlyId } = this.props;
     this.props.history.push(`/station/${friendlyId}`);
   };
 
   public render() {
-    const { name, numberOnline = 0, picture, id } = this.props;
+    const { name, numberOnline = 0, picture, id, onlineUsers } = this.props;
+
+    const filteredListUser = this.covertMapToArray(onlineUsers);
+
     return (
       <div className="station-item d-flex" onClick={this.joinStation}>
         <div className="thumbnail">
@@ -36,7 +40,14 @@ class SBItem extends Component<IProps, {}> {
                 'fa-circle-o': numberOnline <= 0,
               })}
             />
-            <span> {numberOnline} online</span>
+            <span>
+              {' '}
+              {this.removeAnonymousFromArray(
+                filteredListUser,
+                numberOnline,
+              )}{' '}
+              online
+            </span>
           </div>
         </div>
         <div className="station-name">
@@ -48,6 +59,24 @@ class SBItem extends Component<IProps, {}> {
       </div>
     );
   }
+
+  private covertMapToArray = (userMap: any) => {
+    return Object.keys(userMap).reduce((prev, key) => {
+      return [...prev, userMap[key]];
+    }, []);
+  };
+
+  private removeAnonymousFromArray = (list: any[], numberOnline: number) => {
+    let countOnline = numberOnline;
+
+    list.forEach(user => {
+      if (user.username === 'Anonymous') {
+        countOnline--;
+      }
+    });
+
+    return countOnline;
+  };
 }
 
 export const StationBrowserItem = withRouter(SBItem);
