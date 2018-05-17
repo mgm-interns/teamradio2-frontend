@@ -69,6 +69,7 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
               onChange={event => {
                 props.setFieldValue('privacy', event.target.checked);
               }}
+              value={props.values.privacy}
             />
             <span className="switch-label" />
             <span className="switch-handle" />
