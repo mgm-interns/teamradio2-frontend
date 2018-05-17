@@ -99,16 +99,16 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
             </Link>
           ),
         )}
-        {anonymousUsersCount > 0 ? (
-          <ListGroupItem className="online-users-list-item">
-            <div className="online-users-anonymous">
-              <span className="online-users-anonymous-text">
-                {anonymousUsersCount}
-              </span>
-            </div>
-            <span className="online-users-caption">Anonymous</span>
-          </ListGroupItem>
-        ) : null}
+        {/*{anonymousUsersCount > 0 ? (*/}
+        {/*<ListGroupItem className="online-users-list-item">*/}
+        {/*<div className="online-users-anonymous">*/}
+        {/*<span className="online-users-anonymous-text">*/}
+        {/*{anonymousUsersCount}*/}
+        {/*</span>*/}
+        {/*</div>*/}
+        {/*<span className="online-users-caption">Anonymous</span>*/}
+        {/*</ListGroupItem>*/}
+        {/*) : null}*/}
       </ListGroup>
     );
   }
@@ -145,11 +145,11 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
             <br />
           </div>
         ))}
-        {anonymousUsersCount > 0 ? (
-          <span className="align-text-left">
-            and {anonymousUsersCount} more
-          </span>
-        ) : null}
+        {/*{anonymousUsersCount > 0 ? (*/}
+        {/*<span className="align-text-left">*/}
+        {/*and {anonymousUsersCount} more*/}
+        {/*</span>*/}
+        {/*) : null}*/}
       </UncontrolledTooltip>
     );
   }
@@ -162,9 +162,10 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     const { onlineUsers, numberOnline = 0 } = this.props.station;
 
     const filteredListToArray = this.covertMapToArray(onlineUsers);
-    const filteredListWithoutAnonymous = this.removeAnonymousFromArray(
-      filteredListToArray,
-    );
+    const {
+      filteredListWithoutAnonymous,
+      countOnline,
+    } = this.removeAnonymousFromArray(filteredListToArray);
 
     return [
       <div
@@ -174,18 +175,16 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         onClick={this.toggle}>
         <i
           className={classNames('fa', {
-            'fa-circle online-color': numberOnline > 0,
-            'fa-circle-o': numberOnline <= 0,
+            'fa-circle online-color': countOnline > 0,
+            'fa-circle-o': countOnline <= 0,
           })}
         />
-        <span className="online-users-length">
-          {numberOnline || '0'} online
-        </span>
+        <span className="online-users-length">{countOnline || '0'} online</span>
       </div>,
       <div key={3}>
         {this.renderOnlineTooltip(
           filteredListWithoutAnonymous,
-          numberOnline,
+          countOnline,
           'online-users',
         )}
       </div>,
@@ -195,7 +194,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         isOpen={this.state.popoverOpen}
         toggle={this.toggle}
         target="online-users">
-        {this.renderPopoverContent(filteredListWithoutAnonymous, numberOnline)}
+        {this.renderPopoverContent(filteredListWithoutAnonymous, countOnline)}
       </Popover>,
     ];
   }
@@ -211,13 +210,16 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     let countOnline = 0;
 
     list.forEach(user => {
-      countOnline++;
       if (user.username !== 'Anonymous') {
+        countOnline++;
         filteredListWithoutAnonymous.push(user);
       }
     });
 
-    return filteredListWithoutAnonymous;
+    return {
+      filteredListWithoutAnonymous,
+      countOnline,
+    };
   };
 }
 
