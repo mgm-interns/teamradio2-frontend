@@ -21,7 +21,7 @@ interface IStateProps {
 }
 
 interface IOwnProps {
-  muted: boolean;
+  playerVolume: boolean;
   isEnableVideo: boolean;
 }
 
@@ -61,7 +61,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
 
   public render() {
     const { progress } = this.state;
-    const { muted, nowPlaying, isEnableVideo } = this.props;
+    const { playerVolume, nowPlaying, isEnableVideo } = this.props;
     const url = nowPlaying ? nowPlaying.url : null;
     const message = nowPlaying ? nowPlaying.message : null;
 
@@ -84,7 +84,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
         url={url}
         playing={true}
         showProgressbar
-        muted={muted}
+        playerVolume={playerVolume}
         playerRef={this.bindPlayerRef}
         progress={progress}
         onProgress={this.onProgress}

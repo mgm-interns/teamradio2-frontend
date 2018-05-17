@@ -1,28 +1,50 @@
 import * as classNames from 'classnames';
+import { IApplicationState } from 'Configuration/Redux';
 import { YoutubeHelper } from 'Helpers';
-import * as React from 'react';
+import { Volume } from 'Models/Volume';
 import { Component } from 'react';
+import * as React from 'react';
 import ReactPlayer from 'react-player';
+import { connect } from 'react-redux';
 import { Button, Col, Input, Row, UncontrolledTooltip } from 'reactstrap';
+import { compose } from 'redux';
 import './PreviewVideo.scss';
 
-interface IProps {
+interface IOwnProps {
+  onPreviewVolumeClick: () => void;
   embeddableVideo: boolean;
   video: any;
   addSong: (message: string) => void;
 }
 
-export class PreviewVideo extends Component<IProps, any> {
+interface IStateProps {
+  volume: Volume;
+}
+
+type IProps = IOwnProps & IStateProps;
+
+class PreviewVideoComponent extends Component<IProps, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      muted: true,
+      previewVolume: true,
       message: null,
       isAdding: false,
     };
     this.mutePreview = this.mutePreview.bind(this);
     this.updateMessage = this.updateMessage.bind(this);
     this.handleButtonAddSong = this.handleButtonAddSong.bind(this);
+  }
+
+  public componentWillReceiveProps(nextProps: IProps) {
+    if (nextProps.volume.previewVolume !== this.props.volume.previewVolume) {
+      this.setState({ previewVolume: nextProps.volume.previewVolume });
+    }
+  }
+
+  public componentDidMount() {
+    const { volume } = this.props;
+    this.setState({ previewVolume: volume.previewVolume });
   }
 
   public getTitle(video: any) {
@@ -36,7 +58,7 @@ export class PreviewVideo extends Component<IProps, any> {
 
   public mutePreview() {
     this.setState((prevState: any) => ({
-      muted: !prevState.muted,
+      previewVolume: !prevState.previewVolume,
     }));
   }
 
@@ -65,8 +87,8 @@ export class PreviewVideo extends Component<IProps, any> {
   }
 
   public render() {
-    const { video, embeddableVideo } = this.props;
-    const { muted, isAdding } = this.state;
+    const { video, embeddableVideo, onPreviewVolumeClick } = this.props;
+    const { previewVolume, isAdding } = this.state;
 
     return (
       <div className="preview">
@@ -79,7 +101,7 @@ export class PreviewVideo extends Component<IProps, any> {
                 width="100%"
                 height="100%"
                 volume={1}
-                muted={muted}
+                muted={!previewVolume}
               />
             </Col>
             <Col
@@ -102,15 +124,15 @@ export class PreviewVideo extends Component<IProps, any> {
                 />
               </div>
               <div className="preview__buttons">
-                {muted ? (
+                {previewVolume ? (
                   <i
-                    className="icon-volume-off icons font-2xl"
-                    onClick={this.mutePreview}
+                    className="icon-volume-2 icons font-2xl"
+                    onClick={onPreviewVolumeClick}
                   />
                 ) : (
                   <i
-                    className="icon-volume-2 icons font-2xl"
-                    onClick={this.mutePreview}
+                    className="icon-volume-off icons font-2xl"
+                    onClick={onPreviewVolumeClick}
                   />
                 )}
                 <Button
@@ -154,3 +176,13 @@ export class PreviewVideo extends Component<IProps, any> {
     );
   }
 }
+
+const mapStateToProps = (state: IApplicationState): IStateProps => ({
+  volume: state.volume,
+});
+
+export const PreviewVideo = compose(
+  connect<IStateProps, {}, IOwnProps>(mapStateToProps, undefined, null, {
+    withRef: true,
+  }),
+)(PreviewVideoComponent);

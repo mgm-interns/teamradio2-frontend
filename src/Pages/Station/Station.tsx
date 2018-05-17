@@ -1,7 +1,8 @@
 import * as classNames from 'classnames';
-import { IApplicationState } from 'Configuration/Redux';
+import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { isMobileBrowser, YoutubeHelper } from 'Helpers';
-import { NowPlayingSong, Station as StationModel } from 'Models';
+import { localStorageManager } from 'Helpers/LocalStorageManager';
+import { NowPlayingSong, Station as StationModel, Volume } from 'Models';
 import {
   AddSong,
   ChatBox,
@@ -10,6 +11,7 @@ import {
   StationBrowser,
   StationHeader,
 } from 'Modules/Station';
+import { setVolume, userMutePlayer } from 'Modules/Station/Redux/Actions';
 import * as React from 'react';
 import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
@@ -20,17 +22,27 @@ import './Station.scss';
 
 interface IStateProps {
   nowPlaying: NowPlayingSong;
+  volume: Volume;
+  isUserMutePlayer: boolean;
+}
+
+interface IDispatchProps {
+  setVolume: (volume: Volume) => void;
+  userMutePlayer: (isUserMutePlayer: boolean) => void;
 }
 
 interface IOwnProps {}
 
-type IProps = IOwnProps & IStateProps;
+type IProps = IOwnProps & IStateProps & IDispatchProps;
 
 interface IState {
-  muted: boolean;
+  // muted: boolean;
+  playerVolume: boolean;
+  previewVolume: boolean;
   isPassive: boolean;
   isEnableVideo: boolean;
   station: StationModel;
+  isUserMutePlayer: boolean;
 }
 
 class StationComponent extends Component<
@@ -41,10 +53,12 @@ class StationComponent extends Component<
     super(props);
 
     this.state = {
-      muted: false,
+      playerVolume: true,
+      previewVolume: false,
       isPassive: false,
       isEnableVideo: !isMobileBrowser(),
       station: null,
+      isUserMutePlayer: false,
     };
   }
 
@@ -54,18 +68,70 @@ class StationComponent extends Component<
       behavior: 'smooth',
       top: 0,
     });
+
+    const { volume } = this.props;
+    this.setState({ playerVolume: volume.playerVolume });
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
     if (!nextProps.nowPlaying) {
       this.setState({ isPassive: false });
     }
+
+    if (nextProps.volume.playerVolume !== this.props.volume.playerVolume) {
+      this.setState({ playerVolume: nextProps.volume.playerVolume });
+    }
+
+    if (nextProps.isUserMutePlayer !== this.props.isUserMutePlayer) {
+      this.setState({ isUserMutePlayer: nextProps.isUserMutePlayer });
+    }
   }
 
   public onVolumeClick = () => {
-    this.setState({
-      muted: !this.state.muted,
-    });
+    /* tslint:disable no-shadowed-variable */
+    const { setVolume, userMutePlayer } = this.props;
+    this.setState(
+      {
+        playerVolume: !this.state.playerVolume,
+        previewVolume: false,
+      },
+      () => {
+        const volume = {
+          playerVolume: this.state.playerVolume,
+          previewVolume: this.state.previewVolume,
+          isUserMutePlayer: !this.state.playerVolume,
+        };
+        userMutePlayer(!this.state.playerVolume);
+        setVolume(volume);
+        localStorageManager.setVolumeSource(volume);
+      },
+    );
+  };
+
+  public onPreviewVolumeClick = () => {
+    /* tslint:disable no-shadowed-variable */
+    const { setVolume, isUserMutePlayer } = this.props;
+    this.setState(
+      {
+        previewVolume: !this.state.previewVolume,
+      },
+      () => {
+        this.setState(
+          {
+            playerVolume: isUserMutePlayer ? false : !this.state.previewVolume,
+          },
+          () => {
+            const volume = {
+              playerVolume: this.state.playerVolume,
+              previewVolume: this.state.previewVolume,
+              isUserMutePlayer,
+            };
+            setVolume(volume);
+            localStorageManager.setVolumeSource(volume);
+          },
+        );
+      },
+    );
   };
 
   public onLightClick = () => {
@@ -91,12 +157,12 @@ class StationComponent extends Component<
 
   public _renderPlayer = () => {
     const { nowPlaying } = this.props;
-    const { muted, isPassive, isEnableVideo } = this.state;
+    const { playerVolume, isPassive, isEnableVideo } = this.state;
     const stationId = this.parseStationId();
     return (
       <Fragment>
         <StationHeader
-          muted={muted}
+          playerVolume={playerVolume}
           isPassive={isPassive}
           isEnableVideo={isEnableVideo}
           onVolumeClick={this.onVolumeClick}
@@ -104,7 +170,7 @@ class StationComponent extends Component<
           enablePlayer={this.enablePlayer}
           stationId={stationId}
         />
-        <NowPlaying muted={muted} isEnableVideo={isEnableVideo} />
+        <NowPlaying playerVolume={playerVolume} isEnableVideo={isEnableVideo} />
         {isPassive && (
           <div className="passive-video-info">
             <p>{nowPlaying.title}</p>
@@ -151,7 +217,10 @@ class StationComponent extends Component<
             <Col xs={12} className="p-1 p-sm-3 mt-2 mt-sm-0">
               <div className="add-song-container">
                 <h1>Add Song</h1>
-                <AddSong stationId={stationId} />
+                <AddSong
+                  stationId={stationId}
+                  onPreviewVolumeClick={this.onPreviewVolumeClick}
+                />
               </div>
             </Col>
             <ChatBox stationId={stationId} />
@@ -170,9 +239,23 @@ class StationComponent extends Component<
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
   nowPlaying: state.playlist.nowPlaying,
+  volume: state.volume,
+  isUserMutePlayer: state.volume.isUserMutePlayer,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps => ({
+  setVolume: (volume: Volume) => {
+    dispatch(setVolume(volume));
+  },
+  userMutePlayer: (isUserMutePlayer: boolean) => {
+    dispatch(userMutePlayer(isUserMutePlayer));
+  },
 });
 
 export const Station = compose(
-  connect<IStateProps, {}, IOwnProps>(mapStateToProps, undefined),
+  connect<IStateProps, IDispatchProps, IOwnProps>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
   withRouter,
 )(StationComponent);

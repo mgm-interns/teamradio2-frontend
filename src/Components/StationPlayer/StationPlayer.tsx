@@ -9,7 +9,7 @@ interface IProps {
   playing: boolean;
   showProgressbar: boolean;
   progress?: number;
-  muted: boolean;
+  playerVolume: boolean;
   playerRef?: (node: ReactPlayer) => void;
   onProgress?: (playerState: IReactPlayerPropsOnProgressState) => void;
   onStart?: () => void;
@@ -50,7 +50,7 @@ export class StationPlayer extends Component<IProps, IState> {
   }
 
   public render() {
-    const { url, playing, showProgressbar, muted, message } = this.props;
+    const { url, playing, showProgressbar, playerVolume, message } = this.props;
     const { played, loaded } = this.state;
 
     if (!url) {
@@ -82,7 +82,7 @@ export class StationPlayer extends Component<IProps, IState> {
             }}
             style={{ pointerEvents: 'none' }}
             volume={1}
-            muted={muted}
+            muted={!playerVolume}
             width="100%"
             height="100%"
           />
