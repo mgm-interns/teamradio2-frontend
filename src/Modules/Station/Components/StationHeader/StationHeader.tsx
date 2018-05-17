@@ -256,14 +256,6 @@ class OriginStationHeader extends BaseComponent<
 
   private handleJoinAndLeave(newJoinUser: string[], newLeaveUser: string[]) {
     const { userInfo: currentUser } = this.props;
-    if (
-      newJoinUser !== this.state.joinUser &&
-      newJoinUser
-      // && !this.isCurrentUser(newJoinUser, currentUser)
-    ) {
-      this.setState({ joinUser: newJoinUser });
-      this.showMessage(newJoinUser, 'joined');
-    }
 
     if (
       newLeaveUser !== this.state.leaveUser &&
@@ -272,6 +264,15 @@ class OriginStationHeader extends BaseComponent<
     ) {
       this.setState({ joinUser: newLeaveUser });
       this.showMessage(newLeaveUser, 'left');
+    }
+
+    if (
+      newJoinUser !== this.state.joinUser &&
+      newJoinUser
+      // && !this.isCurrentUser(newJoinUser, currentUser)
+    ) {
+      this.setState({ joinUser: newJoinUser });
+      this.showMessage(newJoinUser, 'joined');
     }
   }
 
