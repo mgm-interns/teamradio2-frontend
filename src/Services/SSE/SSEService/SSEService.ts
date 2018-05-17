@@ -52,6 +52,8 @@ export default class SSEService implements ISSEService {
       this.eventSourceOptions,
     );
 
+    console.log(this.eventSource);
+
     // Bind listener
     this.eventSource.addEventListener(
       this.options.eventKey,
@@ -92,6 +94,7 @@ export default class SSEService implements ISSEService {
 
     this.eventSourceOptions = {
       headers: createHeaders(accessToken),
+      withCredentials: true,
     };
   }
 
