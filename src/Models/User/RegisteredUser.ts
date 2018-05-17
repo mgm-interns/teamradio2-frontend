@@ -13,4 +13,5 @@ export class RegisteredUser extends UnregisteredUser {
   public reputation?: number;
   public songs?: number;
   public voted?: number;
+  public points?: number;
 }
