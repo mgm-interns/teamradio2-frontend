@@ -16,10 +16,8 @@
 .buttons-wrapper {
   margin: 10px 0 5px;
   display: flex;
-  div {
-    &:hover {
-      cursor: pointer;
-    }
+  div:hover {
+    cursor: pointer;
   }
 }
 
