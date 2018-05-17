@@ -16,6 +16,11 @@
 .buttons-wrapper {
   margin: 10px 0 5px;
   display: flex;
+  div {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 .btn-icon {

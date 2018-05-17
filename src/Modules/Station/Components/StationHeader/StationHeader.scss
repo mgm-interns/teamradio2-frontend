@@ -27,6 +27,11 @@
 
   .buttons-wrapper {
     display: flex;
+    div {
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 
   .btn-no-shadow {
