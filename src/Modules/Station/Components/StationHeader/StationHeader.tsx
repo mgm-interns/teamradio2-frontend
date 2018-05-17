@@ -258,8 +258,8 @@ class OriginStationHeader extends BaseComponent<
     const { userInfo: currentUser } = this.props;
     if (
       newJoinUser !== this.state.joinUser &&
-      newJoinUser &&
-      !this.isCurrentUser(newJoinUser, currentUser)
+      newJoinUser
+      // && !this.isCurrentUser(newJoinUser, currentUser)
     ) {
       this.setState({ joinUser: newJoinUser });
       this.showMessage(newJoinUser, 'joined');
@@ -267,8 +267,8 @@ class OriginStationHeader extends BaseComponent<
 
     if (
       newLeaveUser !== this.state.leaveUser &&
-      newLeaveUser &&
-      !this.isCurrentUser(newLeaveUser, currentUser)
+      newLeaveUser
+      // && !this.isCurrentUser(newLeaveUser, currentUser)
     ) {
       this.setState({ joinUser: newLeaveUser });
       this.showMessage(newLeaveUser, 'left');
