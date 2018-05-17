@@ -8,6 +8,8 @@ import Cropper from 'react-cropper';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { UserServices } from 'Services/Http';
+import { HttpServices } from 'Services/Http/HttpServices';
+import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import { MAXIMUM_IMAGE_TO_BYTE, MAXIMUM_IMAGE_TO_MB } from '../../../Constants';
 import { updateUserInfo } from '../../../Redux/Actions';
 import './ImageUploader.scss';
@@ -94,8 +96,8 @@ class ImageUploaderComponent extends BaseComponent<IProps, IState> {
         this.responseImageUrl();
         this.setAllValueToDefault();
       },
-      (err: string) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }
@@ -113,8 +115,8 @@ class ImageUploaderComponent extends BaseComponent<IProps, IState> {
         this.responseImageUrl();
         this.setAllValueToDefault();
       },
-      (err: string) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

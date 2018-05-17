@@ -13,6 +13,8 @@ import { StationPlaylistSSEService } from 'Services/SSE';
 import { Favorite } from './Favorite';
 import { History } from './History';
 import { Playlist } from './Playlist';
+import { HttpServices } from 'Services/Http/HttpServices';
+import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import './PlaylistTabs.scss';
 
 const PLAYLIST_TAB_ID = '1';
@@ -165,8 +167,8 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
           favoriteList: res,
         });
       },
-      (err: string) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   };

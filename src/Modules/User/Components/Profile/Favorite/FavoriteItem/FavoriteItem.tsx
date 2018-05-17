@@ -115,9 +115,7 @@ export class FavoriteItemComponent extends BaseComponent<
         <div className="favorite-song-name" id={`favorite-` + song.id}>
           {song.title}
         </div>
-        <UncontrolledTooltip
-          placement="top"
-          target={`favorite-` + song.id}>
+        <UncontrolledTooltip placement="top" target={`favorite-` + song.id}>
           {song.title}
         </UncontrolledTooltip>
       </div>

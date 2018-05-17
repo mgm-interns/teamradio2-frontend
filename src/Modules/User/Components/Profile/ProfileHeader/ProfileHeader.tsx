@@ -11,6 +11,8 @@ import * as React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import { Observable } from 'rxjs/Observable';
 import { UserServices } from 'Services/Http';
+import { HttpServices } from 'Services/Http/HttpServices';
+import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import './ProfileHeader.scss';
 
 export interface IProfileHeaderProps {
@@ -90,8 +92,8 @@ export class ProfileHeader<P, S> extends BaseComponent<
       (userInfo: RegisteredUser) => {
         this.setUserHeaderInfo(userInfo);
       },
-      (err: string) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

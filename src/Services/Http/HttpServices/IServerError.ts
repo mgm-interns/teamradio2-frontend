@@ -6,5 +6,6 @@ interface IServerErrorResponse {
 export interface IServerError {
   response: {
     data: IServerErrorResponse;
+    status: number;
   };
 }

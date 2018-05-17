@@ -4,6 +4,8 @@ import { RegisteredUser } from 'Models/User';
 import { BaseStationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
+import { HttpServices } from 'Services/Http/HttpServices';
+import { IServerError } from 'Services/Http/HttpServices/IServerError';
 
 interface IProps {
   userInfo: RegisteredUser;
@@ -28,8 +30,8 @@ export class UserRecentStationsBrowser extends BaseStationBrowser<IProps> {
           loading: false,
         });
       },
-      (err: string) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

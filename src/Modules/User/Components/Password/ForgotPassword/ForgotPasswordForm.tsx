@@ -4,6 +4,8 @@ import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
+import { HttpServices } from 'Services/Http/HttpServices';
+import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import { IFormProps, IFormValues, InnerForm } from './InnerForm';
 
 interface IProps {}
@@ -45,9 +47,9 @@ export class ForgotPasswordForm extends BaseComponent<IProps, IState> {
         this.showFormAlerSuccess();
         setSubmitting(false);
       },
-      (err: string) => {
-        this.showError(err);
-        this.showFormAlertError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
+        this.showFormAlertError(HttpServices.getServerErrorMessage(err));
         setSubmitting(false);
       },
     );

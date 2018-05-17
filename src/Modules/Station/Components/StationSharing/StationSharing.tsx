@@ -35,9 +35,9 @@ export class StationSharing extends BaseComponent<IProps, IState> {
     this.setStationUrl(this.props.stationId);
   }
 
-  public componentWillReceiveProps(nextProps: IProps){
-    if(this.props.stationId !== nextProps.stationId){
-      this.setStationUrl(nextProps.stationId)
+  public componentWillReceiveProps(nextProps: IProps) {
+    if (this.props.stationId !== nextProps.stationId) {
+      this.setStationUrl(nextProps.stationId);
     }
   }
 

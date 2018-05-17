@@ -7,6 +7,8 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { UserServices } from 'Services/Http';
+import { HttpServices } from 'Services/Http/HttpServices';
+import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {}
@@ -78,9 +80,9 @@ export class RegisterFormComponent extends BaseComponent<
         resetForm();
         this.props.history.push('/login');
       },
-      (err: string) => {
-        this.showError(err);
-        this.showFormAlertError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
+        this.showFormAlertError(HttpServices.getServerErrorMessage(err));
         setSubmitting(false);
       },
     );

@@ -18,6 +18,8 @@ import {
 } from 'reactstrap';
 import { compose } from 'redux';
 import { UserServices } from 'Services/Http';
+import { HttpServices } from 'Services/Http/HttpServices';
+import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import {
   DEFAULT_USER_AVATAR,
   LOGOUT_SUCCESS_MESSAGE,
@@ -102,8 +104,8 @@ class UserDropdownComponent extends BaseComponent<
           userInfo,
         });
       },
-      (err: string) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

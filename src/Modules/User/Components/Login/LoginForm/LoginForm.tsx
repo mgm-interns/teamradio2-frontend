@@ -6,6 +6,8 @@ import { RegisteredUser, UnauthorizedUser } from 'Models';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
+import { HttpServices } from 'Services/Http/HttpServices';
+import { IServerError } from 'Services/Http/HttpServices/IServerError';
 
 interface IState extends IFormProps {}
 
@@ -81,10 +83,11 @@ export class LoginForm extends BaseComponent<IProps, IState> {
         resetForm();
         this.props.getUserInfo();
       },
-      (err: string) => {
-        err = this.handleErrorMessageFromServer(err);
-        this.showError(err);
-        this.showFormAlertError(err);
+      (err: IServerError) => {
+        let errorMessage = HttpServices.getServerErrorMessage(err);
+        errorMessage = this.handleErrorMessageFromServer(errorMessage);
+        this.showError(errorMessage);
+        this.showFormAlertError(errorMessage);
         setSubmitting(false);
       },
     );
@@ -112,7 +115,7 @@ export class LoginForm extends BaseComponent<IProps, IState> {
     if (err === 'Bad credentials') {
       return 'Username or password is incorrect';
     } else {
-      return 'Something went wrong. Please try again later';
+      return err;
     }
   };
 }

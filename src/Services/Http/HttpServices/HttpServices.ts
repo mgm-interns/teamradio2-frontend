@@ -9,6 +9,20 @@ import { IServerError } from './IServerError';
 import { RequestMethod } from './RequestMethod';
 
 export class HttpServices {
+  public static getServerErrorMessage(err: IServerError): string {
+    if (this.isUnhandledServerError(err)) {
+      return 'Something went wrong. Please try again later';
+    }
+    const errResponseData = err.response.data;
+    return errResponseData.error_description
+      ? errResponseData.error_description
+      : errResponseData.error;
+  }
+
+  private static isUnhandledServerError(err: any) {
+    return !err || !err.response || typeof err.response.data === 'string';
+  }
+
   protected readonly _endPoint: string;
   private _httpClient: AxiosInstance;
 
@@ -94,7 +108,7 @@ export class HttpServices {
         })
         .catch((err: IServerError) => {
           this.afterSendRequest();
-          observer.error(this.getServerErrorMessage(err));
+          observer.error(err);
           observer.complete();
         });
     });
@@ -102,19 +116,5 @@ export class HttpServices {
 
   private getAxiousInstance(): AxiosInstance {
     return this.createAxiosInstance();
-  }
-
-  private isUnhandledServerError(err: any) {
-    return !err || !err.response || typeof err.response.data === 'string';
-  }
-
-  private getServerErrorMessage(err: IServerError): string {
-    if (this.isUnhandledServerError(err)) {
-      return 'Something went wrong. Please try again later';
-    }
-    const errResponseData = err.response.data;
-    return errResponseData.error_description
-      ? errResponseData.error_description
-      : errResponseData.error;
   }
 }
