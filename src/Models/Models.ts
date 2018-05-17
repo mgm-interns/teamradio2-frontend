@@ -18,3 +18,4 @@ export {
 } from './Station';
 export { Song, PlaylistSong, NowPlayingSong } from './Song';
 export { FavoriteSong, FavoriteSongItem } from './FavoriteSong';
+export { Volume } from './Volume';

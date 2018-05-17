@@ -17,7 +17,7 @@ import { ConfigurationButton } from '../ConfigurationButton';
 import './StationHeader.scss';
 
 const buttonActions = {
-  muted: {
+  playerVolume: {
     iconOn: 'fa fa-volume-up',
     iconOff: 'fa fa-volume-off',
   },
@@ -40,7 +40,7 @@ interface IStateProps {
 }
 
 interface IOwnProps {
-  muted: boolean;
+  playerVolume: boolean;
   isPassive: boolean;
   isEnableVideo: boolean;
   onVolumeClick: (e: React.FormEvent<EventTarget>) => void;
@@ -129,7 +129,7 @@ class OriginStationHeader extends BaseComponent<
 
   public render() {
     const {
-      muted,
+      playerVolume,
       isPassive,
       isEnableVideo,
       onVolumeClick,
@@ -155,8 +155,8 @@ class OriginStationHeader extends BaseComponent<
             isEnableVideo && (
               <Fragment>
                 {this._renderButton(
-                  !muted,
-                  buttonActions.muted,
+                  playerVolume,
+                  buttonActions.playerVolume,
                   onVolumeClick,
                   'station-mute-button',
                 )}
