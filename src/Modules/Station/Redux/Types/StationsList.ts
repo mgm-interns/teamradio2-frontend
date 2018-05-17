@@ -1,4 +1,4 @@
-import { StationItemsMap } from 'Models/index';
+import { StationItemsMap } from 'Models';
 
 export interface IStationsListState {
   data: StationItemsMap;

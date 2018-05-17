@@ -1,7 +1,9 @@
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
+import { LoadingIndicator } from 'Components';
 import { IApplicationState } from 'Configuration/Redux';
-import { RegisteredUser } from 'Models';
+import { reduceByCharacters } from 'Helpers/TextHelper';
+import { RegisteredUser, Station } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,54 +16,16 @@ import {
 import { DEFAULT_USER_AVATAR } from '../../../User/Constants';
 import './OnlineUsers.scss';
 
-const fixture = [
-  {
-    id: '5acdce8373f8d20004bc3314',
-    name: 'Mars',
-    username: 'lybaokhanh',
-    avatarUrl: '',
-    points: 200,
-  },
-  {
-    id: '5acdce8373f8d20004bc3314',
-    name: 'Lamth2',
-    username: 'lamth2',
-    avatarUrl: '',
-    points: 130,
-  },
-  {
-    id: '5acdce8373f8d20004bc3314',
-    name: 'Liquid',
-    username: 'lybaokhanh',
-    avatarUrl: '',
-    points: 455,
-  },
-  {
-    id: '5acdce8373f8d20004bc3314',
-    name: 'Navi',
-    username: 'lybaokhanh',
-    avatarUrl: '',
-    points: 600,
-  },
-];
-
-const currentUser = {
-  id: '5acdce8373f8d20004bc3314',
-  name: 'Lamth2',
-  username: 'lamth2',
-  avatarUrl: '',
-  points: 10,
-  password: '',
-  email: 'lamth2@gmail.com',
-};
-
 interface IProps {
   userInfo?: RegisteredUser;
+  station: Station;
 }
 
 interface IState {
   popoverOpen: boolean;
 }
+
+const LIST_USERS_SHOW = 8;
 
 export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
   constructor(props: IProps) {
@@ -85,50 +49,123 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     return userInfo !== null;
   };
 
-  public isMe = (username?: string) => {
-    // TODO: enable after fix fetch user info
-    // if (username && this.props.userInfo) {
-    //   return this.props.userInfo.username === username;
-    // }
-    if (username && currentUser) {
-      return currentUser.username === username;
+  // TODO: using username instead id when backend support it
+  // check isCurrentUser by id
+  public isCurrentUser = (id: string) => {
+    const { userInfo: currentUser } = this.props;
+    if (id && currentUser) {
+      return currentUser.id === id;
     }
     return false;
   };
 
-  public renderPopoverContent() {
-    const filteredUsers = fixture.sort(
-      user => (user.username === currentUser.username ? 1 : 0),
+  public renderPopoverContent(
+    onlineUsers: RegisteredUser[],
+    numberOnline: number,
+  ) {
+    const { userInfo: currentUser } = this.props;
+
+    const filteredUsers = onlineUsers.sort(
+      user => (user.username === currentUser.username ? 0 : 1),
     );
+
+    const filteredListTopUsers = filteredUsers.filter(
+      (user, index) => index < LIST_USERS_SHOW,
+    );
+    // Group the rest people to anonymous group
+    const anonymousUsersCount = numberOnline - filteredListTopUsers.length;
+
     return (
       <ListGroup className="popover-container">
-        {filteredUsers.map(
+        {filteredListTopUsers.map(
           ({ id, name, username, avatarUrl, points }, index) => (
             <Link to={`/profile/${id}`} key={index}>
               <ListGroupItem
-                active={this.isMe(username)}
+                active={this.isCurrentUser(id)}
                 className="online-users-list-item">
-                <div className="online-users-shape">
-                  <img
-                    className="online-users-image"
-                    alt="avatar"
-                    src={avatarUrl || DEFAULT_USER_AVATAR}
-                  />
-                </div>
+                <img
+                  className="online-users-image"
+                  alt="avatar"
+                  src={avatarUrl || DEFAULT_USER_AVATAR}
+                />
                 <span className="online-users-caption">
-                  {this.isUserInfoAvailable(currentUser) && this.isMe(username)
-                    ? `You (${points})`
-                    : `${name} (${points})`}
+                  {this.isUserInfoAvailable(currentUser) &&
+                  this.isCurrentUser(id)
+                    ? `You (${points || 0})`
+                    : `${reduceByCharacters(name) || 'Unknown'} (${points ||
+                        0})`}
                 </span>
               </ListGroupItem>
             </Link>
           ),
         )}
+        {anonymousUsersCount > 0 ? (
+          <ListGroupItem className="online-users-list-item">
+            <div className="online-users-anonymous">
+              <span className="online-users-anonymous-text">
+                {anonymousUsersCount}
+              </span>
+            </div>
+            <span className="online-users-caption">Anonymous</span>
+          </ListGroupItem>
+        ) : null}
       </ListGroup>
     );
   }
 
+  public renderOnlineTooltip(
+    onlineUsers: RegisteredUser[],
+    numberOnline: number,
+    target: string,
+  ) {
+    const { userInfo: currentUser } = this.props;
+
+    const filteredUsers = onlineUsers.sort(
+      user => (user.username === currentUser.username ? 0 : 1),
+    );
+    const filteredListTopUsers = filteredUsers.filter(
+      (user, index) => index < LIST_USERS_SHOW,
+    );
+    // Group the rest people to anonymous group
+    const anonymousUsersCount = numberOnline - filteredListTopUsers.length;
+
+    if (this.state.popoverOpen) return null;
+    return (
+      <UncontrolledTooltip
+        placement="bottom"
+        target={target}
+        className="online-tooltip">
+        {filteredListTopUsers.map(({ id, name, username }, index) => (
+          <div key={index} className="align-text-left">
+            <span>
+              {this.isUserInfoAvailable(currentUser) && this.isCurrentUser(id)
+                ? 'You'
+                : `${reduceByCharacters(name) || 'Unknown'}`}
+            </span>
+            <br />
+          </div>
+        ))}
+        {anonymousUsersCount > 0 ? (
+          <span className="align-text-left">
+            and {anonymousUsersCount} more
+          </span>
+        ) : null}
+      </UncontrolledTooltip>
+    );
+  }
+
   public render() {
+    if (!this.props.station) {
+      return <LoadingIndicator />;
+    }
+
+    const { onlineUsers, numberOnline = 0 } = this.props.station;
+
+    const filteredListToArray = this.covertMapToArray(onlineUsers);
+    const filteredListWithoutAnonymous = this.removeAnonymousFromArray(
+      filteredListToArray,
+    );
+
     return [
       <div
         key={1}
@@ -137,43 +174,51 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         onClick={this.toggle}>
         <i
           className={classNames('fa', {
-            'fa-circle online-color': fixture.length > 0,
-            'fa-circle-o': fixture.length <= 0,
+            'fa-circle online-color': numberOnline > 0,
+            'fa-circle-o': numberOnline <= 0,
           })}
         />
         <span className="online-users-length">
-          {fixture.length || '0'} online
+          {numberOnline || '0'} online
         </span>
       </div>,
-      <div key={3}>{this.renderOnlineTooltip(fixture, 'online-users')}</div>,
+      <div key={3}>
+        {this.renderOnlineTooltip(
+          filteredListWithoutAnonymous,
+          numberOnline,
+          'online-users',
+        )}
+      </div>,
       <Popover
         key={2}
         placement="bottom"
         isOpen={this.state.popoverOpen}
         toggle={this.toggle}
         target="online-users">
-        {this.renderPopoverContent()}
+        {this.renderPopoverContent(filteredListWithoutAnonymous, numberOnline)}
       </Popover>,
     ];
   }
 
-  private renderOnlineTooltip(list: any[], target: string) {
-    if (this.state.popoverOpen) return null;
-    return (
-      <UncontrolledTooltip placement="bottom" target={target}>
-        {list.map(({ name, username }, index) => (
-          <div className="online-tooltip" key={index}>
-            <span>
-              {this.isUserInfoAvailable(currentUser) && this.isMe(username)
-                ? 'You'
-                : name}
-            </span>
-            <br />
-          </div>
-        ))}
-      </UncontrolledTooltip>
-    );
-  }
+  private covertMapToArray = (userMap: any) => {
+    return Object.keys(userMap).reduce((prev, key) => {
+      return [...prev, userMap[key]];
+    }, []);
+  };
+
+  private removeAnonymousFromArray = (list: any[]) => {
+    const filteredListWithoutAnonymous: any[] = [];
+    let countOnline = 0;
+
+    list.forEach(user => {
+      countOnline++;
+      if (user.username !== 'Anonymous') {
+        filteredListWithoutAnonymous.push(user);
+      }
+    });
+
+    return filteredListWithoutAnonymous;
+  };
 }
 
 const mapStateToProps = (state: IApplicationState) => ({

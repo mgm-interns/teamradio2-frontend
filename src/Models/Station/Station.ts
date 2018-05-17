@@ -16,4 +16,6 @@ export class Station {
   public deleted: boolean;
   public createAt: string;
   public stationConfiguration: StationConfiguration;
+  public onlineUsers: object[];
+  public numberOnline: number;
 }
