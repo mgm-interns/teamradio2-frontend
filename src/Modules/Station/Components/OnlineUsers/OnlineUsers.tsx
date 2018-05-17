@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { LoadingIndicator } from 'Components';
 import { IApplicationState } from 'Configuration/Redux';
 import { reduceByCharacters } from 'Helpers/TextHelper';
-import { RegisteredUser } from 'Models';
+import { RegisteredUser, Station } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -18,7 +18,7 @@ import './OnlineUsers.scss';
 
 interface IProps {
   userInfo?: RegisteredUser;
-  data: any;
+  station: Station;
 }
 
 interface IState {
@@ -59,23 +59,25 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     return false;
   };
 
-  public renderPopoverContent(onlineUsers: any[], numberOnline: 0) {
+  public renderPopoverContent(
+    onlineUsers: RegisteredUser[],
+    numberOnline: number,
+  ) {
     const { userInfo: currentUser } = this.props;
 
     const filteredUsers = onlineUsers.sort(
       user => (user.username === currentUser.username ? 0 : 1),
     );
 
-    // Only display keep top 10 users
-    const filteredList = filteredUsers.filter(
+    const filteredListTopUsers = filteredUsers.filter(
       (user, index) => index < LIST_USERS_SHOW,
     );
     // Group the rest people to anonymous group
-    const anonymousUsersCount = numberOnline - filteredList.length;
+    const anonymousUsersCount = numberOnline - filteredListTopUsers.length;
 
     return (
       <ListGroup className="popover-container">
-        {filteredList.map(
+        {filteredListTopUsers.map(
           ({ id, name, username, avatarUrl, points }, index) => (
             <Link to={`/profile/${id}`} key={index}>
               <ListGroupItem
@@ -87,7 +89,8 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
                   src={avatarUrl || DEFAULT_USER_AVATAR}
                 />
                 <span className="online-users-caption">
-                  {this.isUserInfoAvailable(currentUser) && this.isCurrentUser(id)
+                  {this.isUserInfoAvailable(currentUser) &&
+                  this.isCurrentUser(id)
                     ? `You (${points || 0})`
                     : `${reduceByCharacters(name) || 'Unknown'} (${points ||
                         0})`}
@@ -111,8 +114,8 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
   }
 
   public renderOnlineTooltip(
-    onlineUsers: any[],
-    numberOnline: 0,
+    onlineUsers: RegisteredUser[],
+    numberOnline: number,
     target: string,
   ) {
     const { userInfo: currentUser } = this.props;
@@ -120,12 +123,11 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     const filteredUsers = onlineUsers.sort(
       user => (user.username === currentUser.username ? 0 : 1),
     );
-    // Only display keep top 10 users
-    const filteredList = filteredUsers.filter(
+    const filteredListTopUsers = filteredUsers.filter(
       (user, index) => index < LIST_USERS_SHOW,
     );
     // Group the rest people to anonymous group
-    const anonymousUsersCount = numberOnline - filteredList.length;
+    const anonymousUsersCount = numberOnline - filteredListTopUsers.length;
 
     if (this.state.popoverOpen) return null;
     return (
@@ -133,7 +135,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         placement="bottom"
         target={target}
         className="online-tooltip">
-        {filteredList.map(({ id, name, username }, index) => (
+        {filteredListTopUsers.map(({ id, name, username }, index) => (
           <div key={index} className="align-text-left">
             <span>
               {this.isUserInfoAvailable(currentUser) && this.isCurrentUser(id)
@@ -153,13 +155,13 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
   }
 
   public render() {
-    if (!this.props.data) {
+    if (!this.props.station) {
       return <LoadingIndicator />;
     }
 
-    const { onlineUsers, numberOnline } = this.props.data;
+    const { onlineUsers, numberOnline = 0 } = this.props.station;
 
-    const filteredListToArray = this.toArray(onlineUsers);
+    const filteredListToArray = this.covertMapToArray(onlineUsers);
     const filteredListWithoutAnonymous = this.removeAnonymousFromArray(
       filteredListToArray,
     );
@@ -198,7 +200,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     ];
   }
 
-  private toArray = (userMap: any) => {
+  private covertMapToArray = (userMap: any) => {
     return Object.keys(userMap).reduce((prev, key) => {
       return [...prev, userMap[key]];
     }, []);
