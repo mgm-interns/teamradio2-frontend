@@ -257,33 +257,27 @@ class OriginStationHeader extends BaseComponent<
   private handleJoinAndLeave(newJoinUser: string[], newLeaveUser: string[]) {
     const { userInfo: currentUser } = this.props;
 
-    if (
-      newLeaveUser !== this.state.leaveUser &&
-      newLeaveUser
-      // && !this.isCurrentUser(newLeaveUser, currentUser)
-    ) {
+    if (newLeaveUser !== this.state.leaveUser && newLeaveUser) {
       this.setState({ joinUser: newLeaveUser });
       this.showMessage(newLeaveUser, 'left');
     }
 
-    if (
-      newJoinUser !== this.state.joinUser &&
-      newJoinUser
-      // && !this.isCurrentUser(newJoinUser, currentUser)
-    ) {
+    if (newJoinUser !== this.state.joinUser && newJoinUser) {
       this.setState({ joinUser: newJoinUser });
       this.showMessage(newJoinUser, 'joined');
     }
   }
 
-  // check isCurrentUser by name
-  private isCurrentUser(userList: string[], currentUser: RegisteredUser) {
-    return userList.some(user => user === currentUser.name);
+  private isCurrentUser(name: string) {
+    const { userInfo: currentUser } = this.props;
+    return name === currentUser.name;
   }
 
   private showMessage(listUser: string[], type: string) {
     listUser.forEach(user => {
-      this.showInfo(`${user} has ${type}`);
+      if (!this.isCurrentUser(user)) {
+        this.showInfo(`${user} has ${type}`);
+      }
     });
   }
 }
