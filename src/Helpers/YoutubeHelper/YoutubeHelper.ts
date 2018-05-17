@@ -54,11 +54,19 @@ export const YoutubeHelper = {
     return items;
   },
   convertDuration: (duration: number): string => {
-    const formatString: string = duration > 3600000 ? 'HH:mm:ss' : 'mm:ss';
-    return moment()
-      .startOf('day')
-      .add(duration, 'milliseconds')
-      .format(formatString);
+    const seconds = parseInt('' + (duration / 1000) % 60, 10);
+    const minutes = parseInt('' + (duration / (1000 * 60)) % 60, 10);
+    const hours = parseInt('' + duration / (1000 * 60 * 60), 10);
+
+    let   h = hours > 0 && hours < 10 ? `0${hours}:` : `${hours}:`;
+    const m = minutes < 10 ? `0${minutes}:` : `${minutes}:`;
+    const s = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
+    if (h === '0:') {
+      h = '';
+    }
+
+    return `${h}${m}${s}`;
   },
   getTitle(video: any) {
     return video.snippet.title;
