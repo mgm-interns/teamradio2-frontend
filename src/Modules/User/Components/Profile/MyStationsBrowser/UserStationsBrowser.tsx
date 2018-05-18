@@ -3,6 +3,7 @@ import { StationInfo } from 'Models';
 import { RegisteredUser } from 'Models/User';
 import { BaseStationBrowser } from 'Modules/Station';
 import * as React from 'react';
+import { Subscription } from 'rxjs/Subscription';
 import { UserServices } from 'Services/Http';
 
 interface IProps {
@@ -11,9 +12,14 @@ interface IProps {
 
 export class UserStationsBrowser extends BaseStationBrowser<IProps> {
   @Inject('UserServices') private userServices: UserServices;
+  private getUserStationSub: Subscription;
 
   public componentWillMount() {
     this.getListStation();
+  }
+
+  public componentWillUnmount() {
+    this.cancelSubscription();
   }
 
   public getListStation() {
@@ -38,6 +44,12 @@ export class UserStationsBrowser extends BaseStationBrowser<IProps> {
     const { userInfo } = this.props;
     if (userInfo) {
       return userInfo.name + ' has no station';
+    }
+  }
+
+  private cancelSubscription() {
+    if (this.getUserStationSub) {
+      this.getUserStationSub.unsubscribe();
     }
   }
 }

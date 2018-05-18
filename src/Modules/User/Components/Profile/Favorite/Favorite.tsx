@@ -5,6 +5,7 @@ import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Subscription } from 'rxjs/Subscription';
 import { UserServices } from 'Services/Http';
 import './Favorite.scss';
 import { FavoriteItem } from './FavoriteItem';
@@ -26,6 +27,8 @@ class FavoriteComponent extends BaseComponent<
   IOwnStates
 > {
   @Inject('UserServices') private userServices: UserServices;
+  private getListMyFavoriteSub: Subscription;
+
   constructor(props: IReduxProps & IDispatcherProps) {
     super(props);
 
@@ -39,7 +42,7 @@ class FavoriteComponent extends BaseComponent<
   }
 
   public getListFavoriteSong() {
-    this.userServices.getListMyFavorite().subscribe(
+    this.getListMyFavoriteSub = this.userServices.getListMyFavorite().subscribe(
       (favoriteSongItem: FavoriteSongItem[]) => {
         this.props.updateNewestFavoriteList(favoriteSongItem);
         this.setState({
@@ -59,6 +62,10 @@ class FavoriteComponent extends BaseComponent<
         favoriteList,
       });
     }
+  }
+
+  public componentWillUnmount() {
+    this.cancelSubscription();
   }
 
   public renderFavoriteListEmpty() {
@@ -94,6 +101,12 @@ class FavoriteComponent extends BaseComponent<
           : this.renderFavoriteList()}
       </div>
     );
+  }
+
+  private cancelSubscription() {
+    if (this.getListMyFavoriteSub) {
+      this.getListMyFavoriteSub.unsubscribe();
+    }
   }
 }
 
