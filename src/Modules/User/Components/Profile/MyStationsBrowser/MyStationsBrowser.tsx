@@ -29,9 +29,7 @@ export class MyStationsBrowser extends BaseStationBrowser<{}> {
           loading: false,
         });
       },
-      (err: string) => {
-        this.showError(err);
-      },
+      (err: string) => {},
     );
   }
 

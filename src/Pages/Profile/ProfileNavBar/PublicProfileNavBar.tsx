@@ -37,9 +37,7 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
       (userInfo: RegisteredUser) => {
         this.setState({ userInfo, isLoadingUserInfo: false });
       },
-      error => {
-        this.showError(error);
-      },
+      error => {},
     );
   }
 

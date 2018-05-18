@@ -37,7 +37,7 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
       .subscribe(
         (songResponse: Song) => {},
         (err: string) => {
-          this.showError(`Replay song error: ${err}`);
+          this.showError(err);
         },
       );
   }
@@ -51,9 +51,7 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
             history,
           });
         },
-        (err: string) => {
-          this.showError(`Get history error: ${err}`);
-        },
+        (err: string) => {},
       );
   }
 

@@ -41,7 +41,7 @@ export class FavoriteComponent extends BaseComponent<IProps, IStates> {
     this.songServices.addSong(stationId, youtubeVideoId, message).subscribe(
       (songResponse: Song) => {},
       (err: string) => {
-        this.showError(`Replay song error: ${err}`);
+        this.showError(err);
       },
     );
   };

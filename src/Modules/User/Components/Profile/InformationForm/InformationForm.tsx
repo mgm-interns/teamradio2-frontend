@@ -51,9 +51,7 @@ export class InformationForms extends BaseComponent<IProps, IStates> {
           isLoadingUserInfo: false,
         });
       },
-      (err: string) => {
-        this.showError(err);
-      },
+      (err: string) => {},
     );
   }
 

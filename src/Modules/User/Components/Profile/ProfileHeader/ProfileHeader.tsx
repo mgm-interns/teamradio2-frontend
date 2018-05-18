@@ -90,9 +90,7 @@ export class ProfileHeader<P, S> extends BaseComponent<
       (userInfo: RegisteredUser) => {
         this.setUserHeaderInfo(userInfo);
       },
-      (err: string) => {
-        this.showError(err);
-      },
+      (err: string) => {},
     );
   }
 

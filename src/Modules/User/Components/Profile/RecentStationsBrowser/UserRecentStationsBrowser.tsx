@@ -33,9 +33,7 @@ export class UserRecentStationsBrowser extends BaseStationBrowser<IProps> {
           loading: false,
         });
       },
-      (err: string) => {
-        this.showError(err);
-      },
+      (err: string) => {},
     );
   }
 

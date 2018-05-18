@@ -60,9 +60,7 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
         this.goBack();
         this.showNotificationLoginSuccess();
       },
-      (err: string) => {
-        this.showError(err);
-      },
+      (err: string) => {},
     );
   }
 
