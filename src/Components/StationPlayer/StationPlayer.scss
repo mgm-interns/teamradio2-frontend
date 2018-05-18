@@ -51,9 +51,9 @@
       position: absolute;
       z-index: 1;
       background: linear-gradient(
-          to right bottom,
-          rgba(#000000, 0.5),
-          rgba(#000000, 0.5)
+        to right bottom,
+        rgba(#000000, 0.5),
+        rgba(#000000, 0.5)
       );
     }
 
@@ -85,6 +85,10 @@
       }
     }
   }
+}
+
+.skipped-cover-bg {
+  background: rgba(0, 0, 0, 0.85);
 }
 
 .player-container {
