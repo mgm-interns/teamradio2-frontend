@@ -134,7 +134,8 @@ export class ChatBoxComponent extends BaseComponent<
       this.stationServices.sendMessage(stationId, messageContent).subscribe(
         (data: Message) => {},
         (err: string) => {
-          this.showError(err);
+          // TODO: Only for development
+          // this.showError(err);
         },
       );
     }

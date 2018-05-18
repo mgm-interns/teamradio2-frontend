@@ -50,7 +50,8 @@ class FavoriteComponent extends BaseComponent<
         });
       },
       (err: string) => {
-        this.showError(err);
+        // TODO: Only for development
+        // this.showError(err);
       },
     );
   }

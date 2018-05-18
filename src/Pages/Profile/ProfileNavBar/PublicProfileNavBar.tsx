@@ -38,7 +38,8 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
         this.setState({ userInfo, isLoadingUserInfo: false });
       },
       error => {
-        this.showError(error);
+        // TODO: Only for development
+        // this.showError(err);
       },
     );
   }
