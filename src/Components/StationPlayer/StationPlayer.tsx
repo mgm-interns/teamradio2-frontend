@@ -1,3 +1,4 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
 import { Component, Fragment } from 'react';
 import ReactPlayer from 'react-player';
@@ -108,11 +109,18 @@ export class StationPlayer extends Component<IProps, IState> {
   }
 
   public renderPlayer() {
-    const { url, playing, showProgressbar, playerVolume, message } = this.props;
+    const {
+      url,
+      playing,
+      showProgressbar,
+      playerVolume,
+      message,
+      skipped,
+    } = this.props;
     const { played, loaded } = this.state;
     return (
       <Fragment>
-        <div className="player">
+        <div className={classNames('player', { 'skipped-cover-bg': skipped })}>
           {message && this._renderMessage(message)}
           <ReactPlayer
             url={url}
