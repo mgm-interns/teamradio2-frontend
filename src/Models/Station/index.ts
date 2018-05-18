@@ -4,3 +4,4 @@ export * from './Configuration';
 export * from './Message';
 export * from './StationItemsMap';
 export * from './StationItemsControlledMap';
+export * from './StationInfo';

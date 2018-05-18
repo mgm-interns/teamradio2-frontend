@@ -19,6 +19,7 @@ interface IAddLinkState {
 interface IAddLinkProps {
   stationId: string;
   addSong: () => void;
+  onPreviewVolumeClick: () => void;
 }
 
 export class AddSongComponent extends BaseComponent<
@@ -28,10 +29,12 @@ export class AddSongComponent extends BaseComponent<
   @Inject('StationServices') private stationServices: StationServices;
   @Inject('SongServices') private songServices: SongServices;
   private searchSongRef: SearchSong;
-  private previewVideoRef: PreviewVideo;
+  private previewVideoRef: any;
 
   constructor(props: IAddLinkProps) {
     super(props);
+
+    this.previewVideoRef = null;
 
     this.state = {
       preview: null,
@@ -79,7 +82,7 @@ export class AddSongComponent extends BaseComponent<
       (res: Song) => {
         this.setPreviewVideo(null);
         this.searchSongRef.clearInput();
-        this.previewVideoRef.resetPreview();
+        this.previewVideoRef.getWrappedInstance().resetPreview();
         this.setState({ embeddableVideo: false });
       },
       (err: string) => {
@@ -91,6 +94,7 @@ export class AddSongComponent extends BaseComponent<
 
   public render() {
     const { embeddableVideo } = this.state;
+    const { onPreviewVolumeClick } = this.props;
     return (
       <div className="add-song">
         <Card>
@@ -104,10 +108,11 @@ export class AddSongComponent extends BaseComponent<
               </Col>
               <Col lg="8" xs="12">
                 <PreviewVideo
-                  ref={this.binPreviewSongRef}
+                  ref={el => (this.previewVideoRef = el)}
                   video={this.state.preview}
                   addSong={this.addSong}
                   embeddableVideo={embeddableVideo}
+                  onPreviewVolumeClick={onPreviewVolumeClick}
                 />
               </Col>
             </Row>
@@ -119,10 +124,6 @@ export class AddSongComponent extends BaseComponent<
 
   private bindRef = (ref: SearchSong) => {
     this.searchSongRef = ref;
-  };
-
-  private binPreviewSongRef = (ref: PreviewVideo) => {
-    this.previewVideoRef = ref;
   };
 }
 

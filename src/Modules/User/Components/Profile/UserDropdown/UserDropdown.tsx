@@ -103,7 +103,7 @@ class UserDropdownComponent extends BaseComponent<
         });
       },
       (err: string) => {
-        this.showError(err);
+        this.processServerError(err);
       },
     );
   }
@@ -198,6 +198,17 @@ class UserDropdownComponent extends BaseComponent<
     const pathName = this.props.location.pathname.split('/')[1];
     if (pathName === PROFILE_PATH) {
       this.props.history.push(`/profile/${userId}`);
+    }
+  }
+
+  private processServerError(err: string) {
+    if (
+      err.startsWith('Invalid access token') ||
+      err.startsWith('invalid_token')
+    ) {
+      this.signOut();
+    } else {
+      this.showError(err);
     }
   }
 }

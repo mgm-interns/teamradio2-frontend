@@ -1,10 +1,6 @@
 import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
-import {
-  StationItem,
-  StationItemsControlledMap,
-  StationItemsMap,
-} from 'Models';
+import { StationInfo } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -23,7 +19,7 @@ interface IOwnProps {
 }
 
 interface IStateProps {
-  stations: StationItemsMap;
+  stations: StationInfo[];
   loading: boolean;
 }
 
@@ -103,16 +99,14 @@ class OriginStationBrowser extends BaseStationBrowser<IProps> {
     }
   };
 
-  protected updateListStation(listStationToUpdate: StationItemsMap) {
-    // Must apply new instance to make sure that
-    // react component will trigger render again
+  protected updateListStation(listStationToUpdate: StationInfo[]) {
     this.setState({
-      listStation: new StationItemsControlledMap(listStationToUpdate).toArray(),
+      listStation: listStationToUpdate,
     });
   }
 
   protected getListItems = () => {
-    return this.state.listStation.filter((station: StationItem) => {
+    return this.state.listStation.filter((station: StationInfo) => {
       return station.friendlyId !== this.props.stationId;
     });
   };

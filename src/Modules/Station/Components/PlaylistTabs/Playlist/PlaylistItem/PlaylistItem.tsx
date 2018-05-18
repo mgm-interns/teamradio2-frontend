@@ -290,13 +290,13 @@ export class PlaylistItemComponent extends SongItem<
     );
   };
 
-  public renderSongThumbnail(song: Song, willBeSkipped?: boolean) {
+  public renderSongThumbnail(song: Song, skipped?: boolean) {
     const { id } = song;
     return (
       <Col xs={3} className="p-0 thumbnail-container">
         {this.renderThumbnailImage(song)}
         {this.renderThumbnailDuration(song)}
-        {willBeSkipped ? (
+        {skipped ? (
           <div className="skip-bg" id={`WillBeSkipped` + id}>
             <div className="skip-icon">
               <i className="fa fa-step-forward" />
@@ -313,14 +313,14 @@ export class PlaylistItemComponent extends SongItem<
   }
 
   public render() {
-    const { song, id, nowPlaying, willBeSkipped } = this.props;
+    const { song, id, nowPlaying, skipped } = this.props;
     const { isFavorite } = this.state;
     return (
       <Row
         className={classNames('m-0', 'item-container', {
           'playing-item': nowPlaying && nowPlaying.songId === id,
         })}>
-        {this.renderSongThumbnail(song, willBeSkipped)}
+        {this.renderSongThumbnail(song, skipped)}
         <Col xs={9} className="pr-0">
           <Row className="m-0 h-100">
             {this.renderSongTitle(song)}
@@ -350,7 +350,7 @@ export class PlaylistItemComponent extends SongItem<
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
-  nowPlaying: state.playlist.nowPlaying,
+  nowPlaying: state.station.nowPlaying,
   userInfo: state.user.userInfo,
 });
 

@@ -2,7 +2,7 @@ import { BaseComponent } from 'BaseComponent';
 import { Inject } from 'Configuration/DependencyInjection';
 import { Field, Form, Formik, FormikErrors, FormikProps } from 'formik';
 import { Rules, Validator } from 'Helpers';
-import { Station, StationPrivacy } from 'Models';
+import { StationInfo, StationPrivacy } from 'Models';
 import { FormEvent } from 'react';
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -69,6 +69,7 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
               onChange={event => {
                 props.setFieldValue('privacy', event.target.checked);
               }}
+              value={props.values.privacy}
             />
             <span className="switch-label" />
             <span className="switch-handle" />
@@ -122,7 +123,7 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
         ? StationPrivacy.STATION_PRIVATE
         : StationPrivacy.STATION_PUBLIC;
     this.stationServices.createStation(name, stationPrivacy).subscribe(
-      (station: Station) => {
+      (station: StationInfo) => {
         this.props.history.push(`/station/${station.friendlyId}`);
       },
       (err: any) => {

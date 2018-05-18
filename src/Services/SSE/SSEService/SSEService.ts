@@ -92,6 +92,7 @@ export default class SSEService implements ISSEService {
 
     this.eventSourceOptions = {
       headers: createHeaders(accessToken),
+      withCredentials: true,
     };
   }
 

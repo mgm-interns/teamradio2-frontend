@@ -1,12 +1,12 @@
 import { BaseComponent } from 'BaseComponent';
 import { StationBrowserSlider } from 'Components';
-import { StationItem } from 'Models';
+import { StationInfo } from 'Models';
 import { StationBrowserItem } from 'Modules/Station/Components/StationBrowser/StationBrowserItem';
 import * as React from 'react';
 import { Row } from 'reactstrap';
 
 export interface IBaseStationBrowserStates {
-  listStation: StationItem[];
+  listStation: StationInfo[];
   stationItemContainerRef: HTMLElement;
   loading: boolean;
 }
@@ -50,7 +50,7 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
               <div
                 className="station-item-container"
                 ref={this.bindStationItemContainerRef}>
-                {listItems.map((item: StationItem, index: number) => {
+                {listItems.map((item: StationInfo, index: number) => {
                   return <StationBrowserItem key={index} {...item} />;
                 })}
               </div>
@@ -124,7 +124,7 @@ export abstract class BaseStationBrowser<T> extends BaseComponent<
     console.log('trigger fetch more');
   };
 
-  protected getListItems = (): StationItem[] => {
+  protected getListItems = (): StationInfo[] => {
     return this.state.listStation;
   };
 

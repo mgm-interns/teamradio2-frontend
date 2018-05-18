@@ -21,7 +21,7 @@ interface IStateProps {
 }
 
 interface IOwnProps {
-  muted: boolean;
+  playerVolume: boolean;
   isEnableVideo: boolean;
 }
 
@@ -61,9 +61,11 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
 
   public render() {
     const { progress } = this.state;
-    const { muted, nowPlaying, isEnableVideo } = this.props;
+    const { playerVolume, nowPlaying, isEnableVideo } = this.props;
     const url = nowPlaying ? nowPlaying.url : null;
+    const thumbnail = nowPlaying ? nowPlaying.thumbnail : null;
     const message = nowPlaying ? nowPlaying.message : null;
+    const skipped = nowPlaying ? nowPlaying.skipped : null;
 
     if (!isEnableVideo && nowPlaying) {
       return (
@@ -84,13 +86,15 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
         url={url}
         playing={true}
         showProgressbar
-        muted={muted}
+        playerVolume={playerVolume}
         playerRef={this.bindPlayerRef}
         progress={progress}
         onProgress={this.onProgress}
         onStart={this.onStart}
         onEnded={this.onEnded}
         message={message}
+        thumbnail={thumbnail}
+        skipped={skipped}
       />
     );
   }
@@ -191,7 +195,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
 }
 
 const mapStateToProps = (state: IApplicationState): IStateProps => ({
-  nowPlaying: state.playlist.nowPlaying,
+  nowPlaying: state.station.nowPlaying,
 });
 
 export const NowPlaying = connect<IStateProps, {}, IOwnProps>(

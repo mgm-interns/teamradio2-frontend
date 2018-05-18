@@ -3,7 +3,13 @@ import * as classNames from 'classnames';
 import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
 import { isMobileBrowser, localStorageManager } from 'Helpers';
-import { ISkipRule, SkipRuleType, Song, Station } from 'Models';
+import {
+  ISkipRule,
+  RegisteredUser,
+  SkipRuleType,
+  Song,
+  StationInfo,
+} from 'Models';
 import { OnlineUsers, StationSharing } from 'Modules/Station';
 import { Fragment } from 'react';
 import * as React from 'react';
@@ -13,11 +19,12 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Row } from 'reactstrap';
 import { compose } from 'redux';
 import { StationServices } from 'Services/Http';
+import { StationSSEService } from 'Services/SSE';
 import { ConfigurationButton } from '../ConfigurationButton';
 import './StationHeader.scss';
 
 const buttonActions = {
-  muted: {
+  playerVolume: {
     iconOn: 'fa fa-volume-up',
     iconOff: 'fa fa-volume-off',
   },
@@ -37,10 +44,14 @@ export interface ISkipRuleRadio extends ISkipRule {
 
 interface IStateProps {
   nowPlaying?: Song;
+  stationInfo: StationInfo;
+  joinUser: string[];
+  leaveUser: string[];
+  userInfo: RegisteredUser;
 }
 
 interface IOwnProps {
-  muted: boolean;
+  playerVolume: boolean;
   isPassive: boolean;
   isEnableVideo: boolean;
   onVolumeClick: (e: React.FormEvent<EventTarget>) => void;
@@ -52,8 +63,10 @@ interface IOwnProps {
 type IProps = IStateProps & IOwnProps;
 
 interface IState {
-  station: Station;
+  station: StationInfo;
   currentSkipRule: ISkipRuleRadio;
+  joinUser: string[];
+  leaveUser: string[];
 }
 
 class OriginStationHeader extends BaseComponent<
@@ -61,6 +74,7 @@ class OriginStationHeader extends BaseComponent<
   IState
 > {
   @Inject('StationServices') private stationServices: StationServices;
+  @Inject('StationSSEService') private stationSSEService: StationSSEService;
 
   private isMobile: boolean;
 
@@ -70,23 +84,34 @@ class OriginStationHeader extends BaseComponent<
     this.state = {
       station: null,
       currentSkipRule: null,
+      joinUser: null,
+      leaveUser: null,
     };
 
     this.isMobile = isMobileBrowser();
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     const { stationId } = this.props;
-    this.updateStation(stationId);
+    this.startSSEService(stationId);
+  }
+
+  public componentWillUnmount() {
+    this.stationSSEService.close();
   }
 
   public componentWillReceiveProps(nextProps: IProps) {
-    const { stationId: oldStationId } = this.props;
-    const { stationId: nextStationId } = nextProps;
+    const { stationId: oldStationId, stationInfo: oldStationInfo } = this.props;
+    const {
+      stationId: nextStationId,
+      stationInfo: nextStationInfo,
+      joinUser: newJoinUser,
+      leaveUser: newLeaveUser,
+    } = nextProps;
 
-    if (oldStationId !== nextStationId) {
-      this.updateStation(nextStationId);
-    }
+    this.handleSwitchStation(oldStationId, nextStationId);
+    this.handleChangeStationInfo(oldStationInfo, nextStationInfo);
+    this.handleJoinAndLeave(newJoinUser, newLeaveUser);
   }
 
   public _onSkipRuleChange = (skipRuleType: SkipRuleType) => {
@@ -129,7 +154,7 @@ class OriginStationHeader extends BaseComponent<
 
   public render() {
     const {
-      muted,
+      playerVolume,
       isPassive,
       isEnableVideo,
       onVolumeClick,
@@ -148,15 +173,15 @@ class OriginStationHeader extends BaseComponent<
             this.isMobile ? 'is-mobile' : '',
           )}>
           <h1>{station && station.name}</h1>
-          {/*<OnlineUsers />*/}
+          <OnlineUsers station={station} />
         </div>
         <div className="buttons-wrapper">
           {nowPlaying &&
             isEnableVideo && (
               <Fragment>
                 {this._renderButton(
-                  !muted,
-                  buttonActions.muted,
+                  playerVolume,
+                  buttonActions.playerVolume,
                   onVolumeClick,
                   'station-mute-button',
                 )}
@@ -195,28 +220,83 @@ class OriginStationHeader extends BaseComponent<
     );
   }
 
+  private startSSEService(stationId: string) {
+    this.stationSSEService.initiate(stationId);
+    this.stationSSEService.start();
+  }
+
   private updateStation = (stationId: string) => {
-    this.stationServices.getStationById(stationId).subscribe(
-      (station: any) => {
-        this.setState({ station });
-      },
-      (err: string) => {
-        this.props.history.replace('/');
-      },
-    );
+    if (this.stationSSEService) {
+      this.stationSSEService.close();
+      this.startSSEService(stationId);
+    } else {
+      this.startSSEService(stationId);
+    }
+  };
+
+  private updateStationInfo = (stationInfo: StationInfo) => {
+    this.setState({
+      station: stationInfo,
+    });
   };
 
   private isOwner() {
     const userInfo = localStorageManager.getUserInfo();
     return userInfo && userInfo.id === this.state.station.ownerId;
   }
+
+  private handleSwitchStation(oldStationId: string, nextStationId: string) {
+    if (oldStationId !== nextStationId) {
+      this.updateStation(nextStationId);
+    }
+  }
+
+  private handleChangeStationInfo(
+    oldStationInfo: StationInfo,
+    nextStationInfo: StationInfo,
+  ) {
+    if (oldStationInfo !== nextStationInfo) {
+      this.updateStationInfo(nextStationInfo);
+    }
+  }
+
+  private handleJoinAndLeave(newJoinUser: string[], newLeaveUser: string[]) {
+    const { userInfo: currentUser } = this.props;
+
+    if (newLeaveUser !== this.state.leaveUser && newLeaveUser) {
+      this.setState({ joinUser: newLeaveUser });
+      this.showMessage(newLeaveUser, 'left');
+    }
+
+    if (newJoinUser !== this.state.joinUser && newJoinUser) {
+      this.setState({ joinUser: newJoinUser });
+      this.showMessage(newJoinUser, 'joined');
+    }
+  }
+
+  private isCurrentUser(name: string) {
+    const { userInfo: currentUser } = this.props;
+    return name === currentUser.name;
+  }
+
+  private showMessage(listUser: string[], type: string) {
+    listUser.forEach(user => {
+      if (!this.isCurrentUser(user)) {
+        this.showInfo(`${user} has ${type}`);
+      }
+    });
+  }
 }
 
-const mapStateToProps = (state: IApplicationState): IStateProps => ({
-  nowPlaying: state.playlist.nowPlaying,
+const mapStateToProps = (state: IApplicationState) => ({
+  nowPlaying: state.station.nowPlaying,
+  stationInfo: state.station.stationInfo,
+  joinUser: state.station.joinUser,
+  leaveUser: state.station.leaveUser,
+  userInfo: state.user.userInfo,
 });
 
 export const StationHeader = compose(
-  connect<IStateProps, any, any>(mapStateToProps),
+  connect<any, any, any>(mapStateToProps),
   withRouter,
 )(OriginStationHeader);

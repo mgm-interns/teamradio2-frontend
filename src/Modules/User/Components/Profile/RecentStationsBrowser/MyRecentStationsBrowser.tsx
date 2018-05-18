@@ -1,13 +1,19 @@
 import { Inject } from 'Configuration/DependencyInjection';
-import { StationItem } from 'Models';
+import { StationInfo } from 'Models';
 import { BaseStationBrowser } from 'Modules/Station';
+import { Subscription } from 'rxjs/Subscription';
 import { UserServices } from 'Services/Http';
 
 export class MyRecentStationsBrowser extends BaseStationBrowser<{}> {
   @Inject('UserServices') private userServices: UserServices;
+  private getListMyRecentStationSub: Subscription;
 
   public componentWillMount() {
     this.getListStation();
+  }
+
+  public componentWillUnmount() {
+    this.cancelSubscription();
   }
 
   public getListStation() {
@@ -16,7 +22,7 @@ export class MyRecentStationsBrowser extends BaseStationBrowser<{}> {
     });
 
     this.userServices.getListMyRecentStation().subscribe(
-      (listStation: StationItem[]) => {
+      (listStation: StationInfo[]) => {
         this.setState({
           listStation,
           loading: false,
@@ -30,5 +36,11 @@ export class MyRecentStationsBrowser extends BaseStationBrowser<{}> {
 
   public getNoStationFoundMessage() {
     return "You haven't interact with any station yet";
+  }
+
+  private cancelSubscription() {
+    if (this.getListMyRecentStationSub) {
+      this.getListMyRecentStationSub.unsubscribe();
+    }
   }
 }
