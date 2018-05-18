@@ -162,9 +162,6 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     const { onlineUsers, numberOnline = 0 } = this.props.station;
 
     const filteredListToArray = this.covertMapToArray(onlineUsers);
-    const filteredListWithoutAnonymous = this.removeAnonymousFromArray(
-      filteredListToArray,
-    );
 
     return [
       <div
@@ -184,7 +181,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
       </div>,
       <div key={3}>
         {this.renderOnlineTooltip(
-          filteredListWithoutAnonymous,
+          filteredListToArray,
           numberOnline,
           'online-users',
         )}
@@ -195,7 +192,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
         isOpen={this.state.popoverOpen}
         toggle={this.toggle}
         target="online-users">
-        {this.renderPopoverContent(filteredListWithoutAnonymous, numberOnline)}
+        {this.renderPopoverContent(filteredListToArray, numberOnline)}
       </Popover>,
     ];
   }
@@ -204,20 +201,6 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     return Object.keys(userMap).reduce((prev, key) => {
       return [...prev, userMap[key]];
     }, []);
-  };
-
-  private removeAnonymousFromArray = (list: any[]) => {
-    const filteredListWithoutAnonymous: any[] = [];
-    let countOnline = 0;
-
-    list.forEach(user => {
-      countOnline++;
-      if (user.username !== 'Anonymous') {
-        filteredListWithoutAnonymous.push(user);
-      }
-    });
-
-    return filteredListWithoutAnonymous;
   };
 }
 
