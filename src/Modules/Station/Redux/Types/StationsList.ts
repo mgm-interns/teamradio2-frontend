@@ -1,7 +1,7 @@
-import { StationItemsMap } from 'Models';
+import { StationInfo } from 'Models';
 
 export interface IStationsListState {
-  data: StationItemsMap;
+  data: StationInfo[];
   error: string;
   loading: boolean;
 }
