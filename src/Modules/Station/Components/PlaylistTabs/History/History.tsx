@@ -43,16 +43,18 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
   }
 
   public updateHistory() {
-    this.songServices.getListPlayedSong(this.props.stationId).subscribe(
-      (history: Song[]) => {
-        this.setState({
-          history,
-        });
-      },
-      (err: string) => {
-        this.showError(`Get history error: ${err}`);
-      },
-    );
+    this.getHistorySub = this.songServices
+      .getListPlayedSong(this.props.stationId)
+      .subscribe(
+        (history: Song[]) => {
+          this.setState({
+            history,
+          });
+        },
+        (err: string) => {
+          this.showError(`Get history error: ${err}`);
+        },
+      );
   }
 
   public componentDidMount() {
