@@ -129,7 +129,7 @@ export class StationPlayer extends Component<IProps, IState> {
             }}
             style={{ pointerEvents: 'none' }}
             volume={1}
-            muted={playerVolume}
+            muted={!playerVolume}
             width="100%"
             height="100%"
           />

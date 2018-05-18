@@ -36,7 +36,6 @@ interface IOwnProps {}
 type IProps = IOwnProps & IStateProps & IDispatchProps;
 
 interface IState {
-  // muted: boolean;
   playerVolume: boolean;
   previewVolume: boolean;
   isPassive: boolean;
