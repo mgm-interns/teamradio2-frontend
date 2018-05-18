@@ -1,5 +1,4 @@
 import { Inject } from 'Configuration/DependencyInjection';
-import { StationItem } from 'Models';
 import { RegisteredUser } from 'Models/User';
 import { BaseStationBrowser } from 'Modules/Station';
 import * as React from 'react';
@@ -22,7 +21,7 @@ export class UserRecentStationsBrowser extends BaseStationBrowser<IProps> {
     });
 
     this.userServices.getUserRecentStation(this.props.userInfo.id).subscribe(
-      (listStation: StationItem[]) => {
+      (listStation: any[]) => {
         this.setState({
           listStation,
           loading: false,

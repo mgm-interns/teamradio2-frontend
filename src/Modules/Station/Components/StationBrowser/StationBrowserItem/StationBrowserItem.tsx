@@ -1,12 +1,12 @@
 import * as classNames from 'classnames';
-import { StationItem } from 'Models';
+import { StationInfo } from 'Models';
 import { Component } from 'react';
 import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
 import './StationBrowserItem.scss';
 
-type IProps = StationItem & RouteComponentProps<any>;
+type IProps = StationInfo & RouteComponentProps<any>;
 
 class SBItem extends Component<IProps, {}> {
   public joinStation = () => {

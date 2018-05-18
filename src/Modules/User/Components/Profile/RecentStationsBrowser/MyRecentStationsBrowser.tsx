@@ -1,5 +1,5 @@
 import { Inject } from 'Configuration/DependencyInjection';
-import { StationItem } from 'Models';
+import { StationInfo } from 'Models';
 import { BaseStationBrowser } from 'Modules/Station';
 import { UserServices } from 'Services/Http';
 
@@ -16,7 +16,7 @@ export class MyRecentStationsBrowser extends BaseStationBrowser<{}> {
     });
 
     this.userServices.getListMyRecentStation().subscribe(
-      (listStation: StationItem[]) => {
+      (listStation: StationInfo[]) => {
         this.setState({
           listStation,
           loading: false,
