@@ -4,6 +4,9 @@ import ReactPlayer from 'react-player';
 import { Progress } from 'reactstrap';
 import './StationPlayer.scss';
 
+const SKIP_SONG_TIME = 5000;
+const COUNT_DOWN_TIME = 1000;
+
 interface IProps {
   url: string;
   playing: boolean;
@@ -15,11 +18,14 @@ interface IProps {
   onStart?: () => void;
   onEnded?: () => void;
   message?: string;
+  thumbnail?: string;
+  skipped?: boolean;
 }
 
 interface IState {
   played: number;
   loaded: number;
+  isCountingDown: boolean;
 }
 
 export interface IReactPlayerPropsOnProgressState {
@@ -31,13 +37,14 @@ export interface IReactPlayerPropsOnProgressState {
 
 export class StationPlayer extends Component<IProps, IState> {
   private playerRef: ReactPlayer;
+  private countDownElement: HTMLElement;
 
   constructor(props: IProps) {
     super(props);
-
     this.state = {
       played: this.props.progress || 0,
       loaded: 0,
+      isCountingDown: false,
     };
   }
 
@@ -49,20 +56,60 @@ export class StationPlayer extends Component<IProps, IState> {
     }
   }
 
-  public render() {
-    const { url, playing, showProgressbar, playerVolume, message } = this.props;
-    const { played, loaded } = this.state;
+  public componentDidUpdate() {
+    const { skipped } = this.props;
+    const { isCountingDown } = this.state;
+    if (skipped && !isCountingDown) {
+      this.skipSongCountDown();
+    }
+  }
 
-    if (!url) {
-      return (
-        <div className="player player-none">
-          <div>
-            <i className="fa fa-music" />
-            <h5>There is no playing song.</h5>
+  public renderPlayerEmpty() {
+    return (
+      <div className="player player-none">
+        <div>
+          <i className="fa fa-music" />
+          <h5>There is no playing song.</h5>
+        </div>
+      </div>
+    );
+  }
+
+  public renderSkipSongCountDown() {
+    const { thumbnail } = this.props;
+    return (
+      <Fragment>
+        <div className="player">
+          <div
+            className="skip-song-container"
+            style={{
+              backgroundImage: `url(${thumbnail})`,
+            }}>
+            <div className="skip-song-cover" />
+            <div className="skip-song-message-container">
+              <i className="fa fa-thumbs-down" />
+              <div className="skip-song-message">
+                <p>Our listeners don't like this song</p>
+                <p>
+                  It will be skipped in{' '}
+                  <span
+                    ref={ref => {
+                      this.countDownElement = ref;
+                    }}>
+                    5
+                  </span>...
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      );
-    }
+      </Fragment>
+    );
+  }
+
+  public renderPlayer() {
+    const { url, playing, showProgressbar, playerVolume, message } = this.props;
+    const { played, loaded } = this.state;
     return (
       <Fragment>
         <div className="player">
@@ -82,7 +129,7 @@ export class StationPlayer extends Component<IProps, IState> {
             }}
             style={{ pointerEvents: 'none' }}
             volume={1}
-            muted={!playerVolume}
+            muted={playerVolume}
             width="100%"
             height="100%"
           />
@@ -104,6 +151,18 @@ export class StationPlayer extends Component<IProps, IState> {
               />
             </Progress>
           )}
+      </Fragment>
+    );
+  }
+
+  public render() {
+    const { url, skipped } = this.props;
+    if (!url) {
+      return this.renderPlayerEmpty();
+    }
+    return (
+      <Fragment>
+        {skipped ? this.renderSkipSongCountDown() : this.renderPlayer()}
       </Fragment>
     );
   }
@@ -161,5 +220,20 @@ export class StationPlayer extends Component<IProps, IState> {
         <span className="content">{message}</span>
       </p>
     );
+  }
+
+  private skipSongCountDown() {
+    this.setState({ isCountingDown: true });
+    let skipSongTime = SKIP_SONG_TIME;
+    const countDownInterval = setInterval(() => {
+      if (this.countDownElement && skipSongTime > 0) {
+        this.countDownElement.innerText = (
+          (skipSongTime -= COUNT_DOWN_TIME) / COUNT_DOWN_TIME
+        ).toString();
+      } else {
+        clearInterval(countDownInterval);
+        this.setState({ isCountingDown: false });
+      }
+    }, COUNT_DOWN_TIME);
   }
 }
