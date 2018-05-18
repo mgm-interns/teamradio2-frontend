@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { LoadingIndicator } from 'Components';
 import { IApplicationState } from 'Configuration/Redux';
 import { reduceByCharacters } from 'Helpers/TextHelper';
-import { RegisteredUser, Station } from 'Models';
+import { RegisteredUser, StationInfo } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -18,7 +18,7 @@ import './OnlineUsers.scss';
 
 interface IProps {
   userInfo?: RegisteredUser;
-  station: Station;
+  station: StationInfo;
 }
 
 interface IState {

@@ -1,4 +1,5 @@
-import { StationConfiguration } from './Configuration';
+import { Song } from '../Song';
+import { StationInfo } from './StationInfo';
 
 export enum StationPrivacy {
   STATION_PUBLIC = 'station_public',
@@ -6,16 +7,11 @@ export enum StationPrivacy {
 }
 
 export class Station {
-  public id: string;
-  public name: string;
-  public friendlyId: string;
-  public ownerId: string;
   public playlist: any[];
-  public privacy: StationPrivacy;
-  public starttingTime: number;
-  public deleted: boolean;
-  public createAt: string;
-  public stationConfiguration: StationConfiguration;
-  public onlineUsers: object[];
-  public numberOnline: number;
+  public nowPlaying: Song;
+  public stationInfo: StationInfo;
+  public joinUser: string[];
+  public leaveUser: string[];
+  public error: string;
+  public loading: boolean;
 }

@@ -1,7 +1,7 @@
 import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
 import {
-  StationItem,
+  StationInfo,
   StationItemsControlledMap,
   StationItemsMap,
 } from 'Models';
@@ -112,7 +112,7 @@ class OriginStationBrowser extends BaseStationBrowser<IProps> {
   }
 
   protected getListItems = () => {
-    return this.state.listStation.filter((station: StationItem) => {
+    return this.state.listStation.filter((station: StationInfo) => {
       return station.friendlyId !== this.props.stationId;
     });
   };

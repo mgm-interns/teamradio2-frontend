@@ -3,7 +3,13 @@ import * as classNames from 'classnames';
 import { Inject } from 'Configuration/DependencyInjection';
 import { IApplicationState } from 'Configuration/Redux';
 import { isMobileBrowser, localStorageManager } from 'Helpers';
-import { ISkipRule, RegisteredUser, SkipRuleType, Song, Station } from 'Models';
+import {
+  ISkipRule,
+  RegisteredUser,
+  SkipRuleType,
+  Song,
+  StationInfo,
+} from 'Models';
 import { OnlineUsers, StationSharing } from 'Modules/Station';
 import { Fragment } from 'react';
 import * as React from 'react';
@@ -38,10 +44,10 @@ export interface ISkipRuleRadio extends ISkipRule {
 
 interface IStateProps {
   nowPlaying?: Song;
-  stationInfo: any;
+  stationInfo: StationInfo;
   joinUser: string[];
   leaveUser: string[];
-  userInfo?: RegisteredUser;
+  userInfo: RegisteredUser;
 }
 
 interface IOwnProps {
@@ -57,7 +63,7 @@ interface IOwnProps {
 type IProps = IStateProps & IOwnProps;
 
 interface IState {
-  station: Station;
+  station: StationInfo;
   currentSkipRule: ISkipRuleRadio;
   joinUser: string[];
   leaveUser: string[];
@@ -228,7 +234,7 @@ class OriginStationHeader extends BaseComponent<
     }
   };
 
-  private updateStationInfo = (stationInfo: Station) => {
+  private updateStationInfo = (stationInfo: StationInfo) => {
     this.setState({
       station: stationInfo,
     });
@@ -246,8 +252,8 @@ class OriginStationHeader extends BaseComponent<
   }
 
   private handleChangeStationInfo(
-    oldStationInfo: Station,
-    nextStationInfo: Station,
+    oldStationInfo: StationInfo,
+    nextStationInfo: StationInfo,
   ) {
     if (oldStationInfo !== nextStationInfo) {
       this.updateStationInfo(nextStationInfo);
@@ -282,7 +288,7 @@ class OriginStationHeader extends BaseComponent<
   }
 }
 
-const mapStateToProps = (state: IApplicationState): IStateProps => ({
+const mapStateToProps = (state: IApplicationState) => ({
   nowPlaying: state.station.nowPlaying,
   stationInfo: state.station.stationInfo,
   joinUser: state.station.joinUser,
@@ -291,6 +297,6 @@ const mapStateToProps = (state: IApplicationState): IStateProps => ({
 });
 
 export const StationHeader = compose(
-  connect<IStateProps, any, any>(mapStateToProps),
+  connect<any, any, any>(mapStateToProps),
   withRouter,
 )(OriginStationHeader);
