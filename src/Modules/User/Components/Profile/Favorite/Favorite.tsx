@@ -49,7 +49,10 @@ class FavoriteComponent extends BaseComponent<
           favoriteList: favoriteSongItem,
         });
       },
-      (err: string) => {},
+      (err: string) => {
+        // TODO: Only for development
+        // this.showError(err);
+      },
     );
   }
 

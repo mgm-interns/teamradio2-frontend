@@ -133,7 +133,10 @@ export class ChatBoxComponent extends BaseComponent<
       const { stationId } = this.props;
       this.stationServices.sendMessage(stationId, messageContent).subscribe(
         (data: Message) => {},
-        (err: string) => {},
+        (err: string) => {
+          // TODO: Only for development
+          // this.showError(err);
+        },
       );
     }
     this.resetMessageBox(event);

@@ -51,7 +51,10 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
             history,
           });
         },
-        (err: string) => {},
+        (err: string) => {
+          // TODO: Only for development
+          // this.showError(err);
+        },
       );
   }
 

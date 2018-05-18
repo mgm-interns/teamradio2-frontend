@@ -155,7 +155,10 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
           favoriteList: res,
         });
       },
-      (err: string) => {},
+      (err: string) => {
+        // TODO: Only for development
+        // this.showError(err);
+      },
     );
   };
 

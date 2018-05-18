@@ -34,7 +34,10 @@ export class UserStationsBrowser extends BaseStationBrowser<IProps> {
           loading: false,
         });
       },
-      (err: string) => {},
+      (err: string) => {
+        // TODO: Only for development
+        // this.showError(err);
+      },
     );
   }
 
