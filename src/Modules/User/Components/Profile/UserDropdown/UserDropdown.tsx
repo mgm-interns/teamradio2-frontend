@@ -207,6 +207,8 @@ class UserDropdownComponent extends BaseComponent<
       err.startsWith('invalid_token')
     ) {
       this.signOut();
+    } else {
+      this.showError(err);
     }
   }
 }
