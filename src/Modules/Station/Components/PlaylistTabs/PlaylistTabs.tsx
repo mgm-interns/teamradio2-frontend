@@ -178,7 +178,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 });
 
 const mapStateToProps = (state: IApplicationState): IReduxProps => ({
-  playlist: state.playlist.playlist,
+  playlist: state.station.playlist,
 });
 
 export const PlaylistTabs = connect<IReduxProps, IDispatcherProps, IOwnProps>(

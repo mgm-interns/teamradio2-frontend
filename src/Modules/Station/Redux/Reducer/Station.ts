@@ -1,17 +1,20 @@
 import { Reducer } from 'redux';
-import { actionTypes } from '../Constants';
-import { IPlaylistState } from '../Types';
+import { actionTypes, stationTypes } from '../Constants';
+import { IStationState } from '../Types';
 
 // Type-safe initialState
-export const initialState: IPlaylistState = {
+export const initialState: IStationState = {
   nowPlaying: null,
   playlist: [],
+  stationInfo: {},
+  joinUser: [],
+  leaveUser: [],
   error: '',
   loading: false,
 };
 
-export const playlistReducer: Reducer<IPlaylistState> = (
-  state: IPlaylistState = initialState,
+export const stationReducer: Reducer<IStationState> = (
+  state: IStationState = initialState,
   action,
 ) => {
   switch (action.type) {
@@ -37,6 +40,21 @@ export const playlistReducer: Reducer<IPlaylistState> = (
         ...state,
         nowPlaying: action.payload.nowPlaying,
         playlist: action.payload.listSong,
+      };
+    }
+    case stationTypes.STATION_GET_STATION_BY_ID_CONNECTED: {
+      return state;
+    }
+    case stationTypes.STATION_GET_STATION_BY_ID_ERROR:
+      return state;
+    case stationTypes.STATION_GET_STATION_BY_ID_CLOSED:
+      return state;
+    case stationTypes.STATION_GET_STATION_BY_ID_UPDATED: {
+      return {
+        ...state,
+        stationInfo: action.payload.stationInfo,
+        joinUser: action.payload.joinUser,
+        leaveUser: action.payload.leaveUser,
       };
     }
     default:

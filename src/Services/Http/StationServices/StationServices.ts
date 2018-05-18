@@ -2,7 +2,7 @@ import { Service } from 'Configuration/DependencyInjection';
 import {
   Message,
   SkipRuleType,
-  Station,
+  Station, StationInfo,
   StationItemsMap,
   StationPrivacy,
 } from 'Models';
@@ -29,7 +29,7 @@ export class StationServices {
   public createStation(
     name: string,
     privacy?: StationPrivacy,
-  ): Observable<Station> {
+  ): Observable<StationInfo> {
     const body: any = {
       name,
       privacy: privacy || StationPrivacy.STATION_PUBLIC,

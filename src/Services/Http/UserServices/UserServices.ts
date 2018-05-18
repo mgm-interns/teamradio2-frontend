@@ -5,7 +5,7 @@ import {
   FavoriteSong,
   PasswordForm,
   RegisteredUser,
-  StationItem,
+  StationInfo,
   UnauthorizedUser,
   UnregisteredUser,
 } from 'Models';
@@ -28,11 +28,11 @@ export class UserServices {
     return this._httpServices.get(this.currentUserServiceUrl);
   }
 
-  public getListMyStation(): Observable<StationItem[]> {
+  public getListMyStation(): Observable<StationInfo[]> {
     return this._httpServices.get(`${this.currentUserServiceUrl}/stations`);
   }
 
-  public getListMyRecentStation(): Observable<StationItem[]> {
+  public getListMyRecentStation(): Observable<StationInfo[]> {
     return this._httpServices.get(
       `${this.currentUserServiceUrl}/recent-station`,
     );
@@ -121,11 +121,11 @@ export class UserServices {
     return this._httpServices.get(`${this.serviceUrl}/${userId}`);
   }
 
-  public getUserStation(userId: string): Observable<StationItem[]> {
+  public getUserStation(userId: string): Observable<StationInfo[]> {
     return this._httpServices.get(`${this.serviceUrl}/${userId}/stations`);
   }
 
-  public getUserRecentStation(userId: string): Observable<StationItem[]> {
+  public getUserRecentStation(userId: string): Observable<StationInfo[]> {
     return this._httpServices.get(
       `${this.serviceUrl}/${userId}/recent-station`,
     );
