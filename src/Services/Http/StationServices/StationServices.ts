@@ -2,8 +2,8 @@ import { Service } from 'Configuration/DependencyInjection';
 import {
   Message,
   SkipRuleType,
-  Station, StationInfo,
-  StationItemsMap,
+  Station,
+  StationInfo,
   StationPrivacy,
 } from 'Models';
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +18,7 @@ export class StationServices {
     this._httpServices = new HttpServices();
   }
 
-  public getListStation(): Observable<StationItemsMap> {
+  public getListStation(): Observable<StationInfo[]> {
     return this._httpServices.get('stations');
   }
 
