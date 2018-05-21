@@ -118,10 +118,9 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
   public handleSubmit = (formValues: IStationFormValues) => {
     const name = formValues.name.trim();
-    const stationPrivacy =
-      formValues.privacy || !this.isLoggedIn()
-        ? StationPrivacy.STATION_PRIVATE
-        : StationPrivacy.STATION_PUBLIC;
+    const stationPrivacy = formValues.privacy
+      ? StationPrivacy.STATION_PRIVATE
+      : StationPrivacy.STATION_PUBLIC;
     this.stationServices.createStation(name, stationPrivacy).subscribe(
       (station: StationInfo) => {
         this.props.history.push(`/station/${station.friendlyId}`);

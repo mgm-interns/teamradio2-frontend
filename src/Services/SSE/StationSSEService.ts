@@ -27,7 +27,7 @@ export class StationSSEService {
       this.close();
     }
     this.service = new SSEService({
-      endpoint: this._endpoint + `/stations/${stationId}`,
+      endpoint: this._endpoint + `/stations/${stationId}/stream`,
       eventKey: 'message',
       action: 'STATION:GET_STATION_BY_ID',
     });
