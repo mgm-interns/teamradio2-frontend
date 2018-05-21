@@ -8,6 +8,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { StationServices } from 'Services/Http';
 import { StationChatSSEService } from 'Services/SSE';
+import { RegisteredUser } from '../../../../Models/User';
+import { UserServices } from '../../../../Services/Http/UserServices';
 import './ChatBox.scss';
 import { ChatMessage } from './ChatMessage';
 
@@ -20,7 +22,7 @@ interface IChatReducerProps {
 }
 
 interface IChatBoxStates {
-  userId: string;
+  userInfo: RegisteredUser;
   listMessages: Message[];
   toggleChatBox: boolean;
   hasNewMessage: boolean;
@@ -34,31 +36,35 @@ export class ChatBoxComponent extends BaseComponent<
   @Inject('StationServices') private stationServices: StationServices;
   @Inject('StationChatSSEService')
   private stationChatSSEService: StationChatSSEService;
+  private userServices: UserServices;
 
   constructor(props: IChatBoxProps & IChatReducerProps) {
     super(props);
     this.state = {
-      userId: '',
+      userInfo: null,
       listMessages: [],
       toggleChatBox: false,
       hasNewMessage: false,
     };
+    this.userServices = new UserServices();
     this.sendMessage = this.sendMessage.bind(this);
     this.onMessageChange = this.onMessageChange.bind(this);
   }
 
   public componentWillMount() {
-    const userInfo = localStorageManager.getUserInfo();
-    if (userInfo) {
-      this.setState({
-        userId: userInfo.id,
+    this.userServices
+      .getCurrentUserProfile()
+      .subscribe((userInfo: RegisteredUser) => {
+        if (userInfo) {
+          this.setState({ userInfo });
+        }
       });
-    }
   }
 
   public componentDidMount() {
-    const { stationId } = this.props;
-    this.startSSEService(stationId);
+    // const { stationId } = this.props;
+    // this.startSSEService(stationId);
+    this.subscribeToFirebase();
   }
 
   public componentWillUnmount() {
@@ -128,16 +134,18 @@ export class ChatBoxComponent extends BaseComponent<
       return;
     }
 
-    const messageContent = this.messageBox.value.trim();
-    if (messageContent) {
-      const { stationId } = this.props;
-      this.stationServices.sendMessage(stationId, messageContent).subscribe(
-        (data: Message) => {},
-        (err: string) => {
-          // TODO: Only for development
-          // this.showError(err);
-        },
-      );
+    const message = this.messageBox.value.trim();
+    const { id, name, avatarUrl } = this.state.userInfo;
+    if (message) {
+      (window as any).firebase
+        .database()
+        .ref('messages')
+        .push({
+          id,
+          name,
+          avatarUrl,
+          message,
+        });
     }
     this.resetMessageBox(event);
   }
@@ -202,7 +210,7 @@ export class ChatBoxComponent extends BaseComponent<
                       <ChatMessage
                         key={index}
                         isOfCurrentUser={
-                          message.sender.userId === this.state.userId
+                          message.sender.userId === this.state.userInfo.id
                         }
                         userName={message.sender.username}
                         avatarUrl={message.sender.avatarUrl}
@@ -233,6 +241,16 @@ export class ChatBoxComponent extends BaseComponent<
         )}
       </div>
     );
+  }
+
+  private subscribeToFirebase() {
+    const msgRef = (window as any).firebase.database().ref('messages');
+    msgRef.on('value', (snapshot: any) => {
+      snapshot.forEach((childSnapshot: any) => {
+        const msg = childSnapshot.val();
+        console.log(msg);
+      });
+    });
   }
 
   private startSSEService(stationId: string) {
