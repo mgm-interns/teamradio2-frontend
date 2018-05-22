@@ -113,14 +113,13 @@ class UserDropdownComponent extends BaseComponent<
   }
 
   public signOut() {
-    localStorageManager.removeAccessToken();
+    localStorageManager.removeAllLoginInformation();
     this.props.signOut();
     this.props.updateUserInfo(new RegisteredUser());
     this.setState({
       isAuthenticated: false,
     });
     this.reloadPage();
-    this.showNotificationLogoutSuccess();
   }
 
   public render() {

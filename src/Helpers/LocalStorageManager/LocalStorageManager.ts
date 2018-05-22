@@ -18,7 +18,11 @@ export const localStorageManager = {
   },
   removeAccessToken: () => {
     localStorage.removeItem(accessTokenKey);
+  },
+  removeAllLoginInformation: () => {
+    localStorage.removeItem(accessTokenKey);
     localStorage.removeItem(userInfoKey);
+    localStorage.removeItem(loginByKey);
   },
   setUserInfo: (userInfo: RegisteredUser) => {
     localStorage.setItem(userInfoKey, JSON.stringify(userInfo));
