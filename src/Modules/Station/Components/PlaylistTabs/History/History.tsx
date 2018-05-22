@@ -62,7 +62,11 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     this.updateHistory();
   }
 
-  public componentWillReceiveProps(nextProps: IHistoryProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: IHistoryProps) {
+    if (nextProps.stationId !== this.props.stationId) {
+      this.clearHistory();
+    }
+
     if (nextProps.isActive) {
       this.updateHistory();
     }
@@ -95,6 +99,11 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
     );
   }
 
+  private clearHistory() {
+    this.setState({
+      history: [],
+    });
+  }
   private cancelAllSubscribes() {
     if (this.replaySub) {
       this.replaySub.unsubscribe();
