@@ -1,10 +1,21 @@
+import firebase from '@firebase/app';
+import '@firebase/database';
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { Inject } from 'Configuration/DependencyInjection';
 import { localStorageManager } from 'Helpers';
 import { Message } from 'Models';
 import { RegisteredUser } from 'Models/User';
-import { DEFAULT_USER_AVATAR, MAXIMUM_RECEIVED_MESSAGE } from 'Modules/User/Constants';
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  DATABASE_URL,
+  MAXIMUM_RECEIVED_MESSAGE,
+  MESSAGING_SENDER_ID,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+} from 'Modules/Station/Constants';
+import { DEFAULT_USER_AVATAR } from 'Modules/User/Constants';
 import * as React from 'react';
 import { StationServices } from 'Services/Http';
 import './ChatBox.scss';
@@ -21,21 +32,19 @@ interface IChatBoxStates {
   hasNewMessage: boolean;
 }
 
-export class ChatBox extends BaseComponent<
-  IChatBoxProps,
-  IChatBoxStates
-> {
+export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
   private messageBox: any;
   @Inject('StationServices') private stationServices: StationServices;
 
   constructor(props: IChatBoxProps) {
     super(props);
     this.state = {
-      userInfo: new RegisteredUser(),
+      userInfo: null,
       listMessages: [],
       toggleChatBox: false,
       hasNewMessage: false,
     };
+    this.initializeFirebaseConfig();
     this.sendMessage = this.sendMessage.bind(this);
     this.onMessageChange = this.onMessageChange.bind(this);
   }
@@ -55,9 +64,7 @@ export class ChatBox extends BaseComponent<
     this.scrollDownMessagesContainer();
   }
 
-  public componentWillReceiveProps(
-    nextProps: IChatBoxProps,
-  ) {
+  public componentWillReceiveProps(nextProps: IChatBoxProps) {
     const { stationId: oldStationId } = this.props;
     const { stationId: newStationId } = nextProps;
     this.onSwitchStation(oldStationId, newStationId);
@@ -100,7 +107,7 @@ export class ChatBox extends BaseComponent<
     let { avatarUrl } = this.state.userInfo;
     avatarUrl = avatarUrl || '';
     if (message) {
-      (window as any).firebase
+      (firebase as any)
         .database()
         .ref(this.props.stationId)
         .push({
@@ -213,8 +220,22 @@ export class ChatBox extends BaseComponent<
     );
   }
 
+  private initializeFirebaseConfig() {
+    const config = {
+      apiKey: API_KEY,
+      authDomain: AUTH_DOMAIN,
+      databaseURL: DATABASE_URL,
+      projectId: PROJECT_ID,
+      storageBucket: STORAGE_BUCKET,
+      messagingSenderId: MESSAGING_SENDER_ID,
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+    }
+  }
+
   private subscribeToFirebase(stationId: string) {
-    const msgRef = (window as any).firebase
+    const msgRef = (firebase as any)
       .database()
       .ref(stationId)
       .limitToLast(MAXIMUM_RECEIVED_MESSAGE);
