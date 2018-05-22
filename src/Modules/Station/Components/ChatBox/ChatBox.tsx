@@ -1,13 +1,23 @@
+import firebase from '@firebase/app';
+import '@firebase/database';
 import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { Inject } from 'Configuration/DependencyInjection';
-import { IApplicationState } from 'Configuration/Redux/Reducers';
 import { localStorageManager } from 'Helpers';
 import { Message } from 'Models';
+import { RegisteredUser } from 'Models/User';
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  DATABASE_URL,
+  MAXIMUM_RECEIVED_MESSAGE,
+  MESSAGING_SENDER_ID,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+} from 'Modules/Station/Constants';
+import { DEFAULT_USER_AVATAR } from 'Modules/User/Constants';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { StationServices } from 'Services/Http';
-import { StationChatSSEService } from 'Services/SSE';
 import './ChatBox.scss';
 import { ChatMessage } from './ChatMessage';
 
@@ -15,34 +25,26 @@ interface IChatBoxProps {
   stationId: string;
 }
 
-interface IChatReducerProps {
-  message: Message;
-}
-
 interface IChatBoxStates {
-  userId: string;
+  userInfo: RegisteredUser;
   listMessages: Message[];
   toggleChatBox: boolean;
   hasNewMessage: boolean;
 }
 
-export class ChatBoxComponent extends BaseComponent<
-  IChatBoxProps & IChatReducerProps,
-  IChatBoxStates
-> {
+export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
   private messageBox: any;
   @Inject('StationServices') private stationServices: StationServices;
-  @Inject('StationChatSSEService')
-  private stationChatSSEService: StationChatSSEService;
 
-  constructor(props: IChatBoxProps & IChatReducerProps) {
+  constructor(props: IChatBoxProps) {
     super(props);
     this.state = {
-      userId: '',
+      userInfo: null,
       listMessages: [],
       toggleChatBox: false,
       hasNewMessage: false,
     };
+    this.initializeFirebaseConfig();
     this.sendMessage = this.sendMessage.bind(this);
     this.onMessageChange = this.onMessageChange.bind(this);
   }
@@ -50,27 +52,19 @@ export class ChatBoxComponent extends BaseComponent<
   public componentWillMount() {
     const userInfo = localStorageManager.getUserInfo();
     if (userInfo) {
-      this.setState({
-        userId: userInfo.id,
-      });
+      this.setState({ userInfo });
     }
   }
 
   public componentDidMount() {
-    const { stationId } = this.props;
-    this.startSSEService(stationId);
+    this.subscribeToFirebase(this.props.stationId);
   }
 
-  public componentWillUnmount() {
-    this.stationChatSSEService.close();
+  public componentDidUpdate() {
+    this.scrollDownMessagesContainer();
   }
 
-  public componentWillReceiveProps(
-    nextProps: IChatReducerProps & IChatBoxProps,
-  ) {
-    const newMessage = nextProps.message;
-    this.onReceiveNewMessage(newMessage);
-
+  public componentWillReceiveProps(nextProps: IChatBoxProps) {
     const { stationId: oldStationId } = this.props;
     const { stationId: newStationId } = nextProps;
     this.onSwitchStation(oldStationId, newStationId);
@@ -79,6 +73,7 @@ export class ChatBoxComponent extends BaseComponent<
   public onMessageChange(event: any) {
     const key = event.keyCode ? event.keyCode : event.which;
     const KEY_CODE_ENTER = 13;
+
     if (key === KEY_CODE_ENTER) {
       this.sendMessage(event);
     } else {
@@ -86,31 +81,10 @@ export class ChatBoxComponent extends BaseComponent<
     }
   }
 
-  public onReceiveNewMessage(newMessage: Message) {
-    const listMessages = this.state.listMessages;
-
-    for (const message of listMessages) {
-      if (message.id === newMessage.id) {
-        return;
-      }
-    }
-    listMessages.push(newMessage);
-    this.setState({ listMessages }, () => {
-      if (this.state.toggleChatBox) {
-        this.scrollDownMessagesContainer();
-      }
-    });
-
-    this.setState({
-      hasNewMessage: true,
-    });
-  }
-
   public onSwitchStation(oldStationId: string, newStationId: string) {
     if (oldStationId !== newStationId) {
       this.setState({ listMessages: [] });
-      this.stationChatSSEService.close();
-      this.startSSEService(newStationId);
+      this.subscribeToFirebase(newStationId);
     }
   }
 
@@ -128,16 +102,20 @@ export class ChatBoxComponent extends BaseComponent<
       return;
     }
 
-    const messageContent = this.messageBox.value.trim();
-    if (messageContent) {
-      const { stationId } = this.props;
-      this.stationServices.sendMessage(stationId, messageContent).subscribe(
-        (data: Message) => {},
-        (err: string) => {
-          // TODO: Only for development
-          // this.showError(err);
-        },
-      );
+    const message = this.messageBox.value.trim();
+    const { id, name } = this.state.userInfo;
+    let { avatarUrl } = this.state.userInfo;
+    avatarUrl = avatarUrl || '';
+    if (message) {
+      (firebase as any)
+        .database()
+        .ref(this.props.stationId)
+        .push({
+          userId: id,
+          name,
+          avatarUrl,
+          message,
+        });
     }
     this.resetMessageBox(event);
   }
@@ -150,7 +128,9 @@ export class ChatBoxComponent extends BaseComponent<
 
   public scrollDownMessagesContainer() {
     const messagesContainer = document.getElementById('messages-container');
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
   }
 
   public toggleChatBox = () => {
@@ -169,7 +149,6 @@ export class ChatBoxComponent extends BaseComponent<
 
   public render() {
     const { toggleChatBox, hasNewMessage } = this.state;
-
     return (
       <div
         className={classNames('p-0 station-chat-container', {
@@ -202,11 +181,17 @@ export class ChatBoxComponent extends BaseComponent<
                       <ChatMessage
                         key={index}
                         isOfCurrentUser={
-                          message.sender.userId === this.state.userId
+                          this.state.userInfo
+                            ? this.state.userInfo.id === message.userId
+                            : false
                         }
-                        userName={message.sender.username}
-                        avatarUrl={message.sender.avatarUrl}
-                        message={message.content}
+                        userName={message.name}
+                        avatarUrl={
+                          message.avatarUrl
+                            ? message.avatarUrl
+                            : DEFAULT_USER_AVATAR
+                        }
+                        message={message.message}
                       />
                     );
                   },
@@ -235,17 +220,32 @@ export class ChatBoxComponent extends BaseComponent<
     );
   }
 
-  private startSSEService(stationId: string) {
-    this.stationChatSSEService.initiate(stationId);
-    this.stationChatSSEService.start();
+  private initializeFirebaseConfig() {
+    const config = {
+      apiKey: API_KEY,
+      authDomain: AUTH_DOMAIN,
+      databaseURL: DATABASE_URL,
+      projectId: PROJECT_ID,
+      storageBucket: STORAGE_BUCKET,
+      messagingSenderId: MESSAGING_SENDER_ID,
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+    }
+  }
+
+  private subscribeToFirebase(stationId: string) {
+    const msgRef = (firebase as any)
+      .database()
+      .ref(stationId)
+      .limitToLast(MAXIMUM_RECEIVED_MESSAGE);
+    msgRef.on('value', (snapshot: any) => {
+      const listMessages: Message[] = [];
+      snapshot.forEach((childSnapshot: any) => {
+        const msg = childSnapshot.val();
+        listMessages.push(msg);
+      });
+      this.setState({ listMessages });
+    });
   }
 }
-
-const mapStateToProps = (state: IApplicationState): IChatReducerProps => ({
-  message: state.chat.message,
-});
-
-export const ChatBox = connect<IChatReducerProps, {}, {}>(
-  mapStateToProps,
-  null,
-)(ChatBoxComponent);
