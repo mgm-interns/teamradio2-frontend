@@ -132,9 +132,6 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
       * It may be restored in the future
       * Station will be marked public by default
       */}
-    // const stationPrivacy = formValues.privacy
-    //   ? StationPrivacy.STATION_PRIVATE
-    //   : StationPrivacy.STATION_PUBLIC;
     const stationPrivacy = StationPrivacy.STATION_PUBLIC;
 
     this.stationServices.createStation(name, stationPrivacy).subscribe(
