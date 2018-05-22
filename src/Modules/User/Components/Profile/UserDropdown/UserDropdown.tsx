@@ -69,6 +69,7 @@ class UserDropdownComponent extends BaseComponent<
       userInfo,
       isAuthenticated: !!userInfo.id,
     });
+    localStorageManager.setUserInfo(userInfo);
   }
 
   public componentDidMount() {

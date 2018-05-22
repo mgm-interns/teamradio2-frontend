@@ -1,10 +1,9 @@
 import { IStationsListState, stationsReducer } from 'Modules/Station/Redux';
 import {
-  chatReducer,
   stationReducer,
   volumeReducer,
 } from 'Modules/Station/Redux/Reducer';
-import { IMessage, IStationState } from 'Modules/Station/Redux/Types';
+import { IStationState } from 'Modules/Station/Redux/Types';
 import { IVolume } from 'Modules/Station/Redux/Types/IVolume';
 import { favoriteReducer, userReducer } from 'Modules/User/Redux/Reducer';
 import { IUser } from 'Modules/User/Redux/Types';
@@ -16,7 +15,6 @@ export interface IApplicationState {
   user: IUser;
   station: IStationState;
   favoriteList: IFavorite;
-  chat: IMessage;
   stations: IStationsListState;
   volume: IVolume;
 }
@@ -27,7 +25,6 @@ export const reducers: Reducer<IApplicationState> = combineReducers<
   user: userReducer,
   station: stationReducer,
   favoriteList: favoriteReducer,
-  chat: chatReducer,
   stations: stationsReducer,
   volume: volumeReducer,
 });
