@@ -32,6 +32,32 @@ interface IFormProps {
 const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
   const { touched, errors, handleSubmit, isLoggedIn } = props;
 
+  const renderPrivacyCheckbox = () => {
+    return (
+      <div
+        className={
+          touched.name && errors.name
+            ? 'toggle-container-with-error'
+            : 'toggle-container-without-error'
+        }>
+        <Label className="switch switch-3d switch-primary">
+          <Input
+            name="privacy"
+            type="checkbox"
+            className="switch-input"
+            onChange={event => {
+              props.setFieldValue('privacy', event.target.checked);
+            }}
+            value={props.values.privacy}
+          />
+          <span className="switch-label" />
+          <span className="switch-handle" />
+        </Label>
+        <span className="toggle-text">Private station</span>
+      </div>
+    );
+  };
+
   return (
     <Form onSubmit={handleSubmit} className="form-wrapper" autoComplete="off">
       <FormGroup className="input-wrapper">
@@ -54,29 +80,11 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
           <FormFeedback className="text-error">{errors.name}</FormFeedback>
         )}
 
-      {isLoggedIn && (
-        <div
-          className={
-            touched.name && errors.name
-              ? 'toggle-container-with-error'
-              : 'toggle-container-without-error'
-          }>
-          <Label className="switch switch-3d switch-primary">
-            <Input
-              name="privacy"
-              type="checkbox"
-              className="switch-input"
-              onChange={event => {
-                props.setFieldValue('privacy', event.target.checked);
-              }}
-              value={props.values.privacy}
-            />
-            <span className="switch-label" />
-            <span className="switch-handle" />
-          </Label>
-          <span className="toggle-text">Private station</span>
-        </div>
-      )}
+        {/**
+          * The private station feature has been abandoned by the customer request
+          * It may be restored in the future
+          */}
+        {/*{isLoggedIn && renderPrivacyCheckbox()}*/}
     </Form>
   );
 };
@@ -118,9 +126,14 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
 
   public handleSubmit = (formValues: IStationFormValues) => {
     const name = formValues.name.trim();
-    const stationPrivacy = formValues.privacy
-      ? StationPrivacy.STATION_PRIVATE
-      : StationPrivacy.STATION_PUBLIC;
+
+    {/**
+      * The private station feature has been abandoned by the customer request
+      * It may be restored in the future
+      * Station will be marked public by default
+      */}
+    const stationPrivacy = StationPrivacy.STATION_PUBLIC;
+
     this.stationServices.createStation(name, stationPrivacy).subscribe(
       (station: StationInfo) => {
         this.props.history.push(`/station/${station.friendlyId}`);
