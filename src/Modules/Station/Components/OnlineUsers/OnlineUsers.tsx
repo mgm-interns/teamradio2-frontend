@@ -72,8 +72,8 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     const filteredListTopUsers = filteredUsers.filter(
       (user, index) => index < LIST_USERS_SHOW,
     );
-    // Group the rest people to anonymous group
-    const anonymousUsersCount = numberOnline - filteredListTopUsers.length;
+    // Group the rest people to one group
+    const anotherUsersCount = numberOnline - filteredListTopUsers.length;
 
     return (
       <ListGroup className="popover-container">
@@ -98,14 +98,14 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
             </Link>
           ),
         )}
-        {anonymousUsersCount > 0 ? (
+        {anotherUsersCount > 0 ? (
           <ListGroupItem className="online-users-list-item">
             <div className="online-users-anonymous">
               <span className="online-users-anonymous-text">
-                {anonymousUsersCount}
+                {anotherUsersCount}
               </span>
             </div>
-            <span className="online-users-caption">Anonymous</span>
+            <span className="online-users-caption">And more</span>
           </ListGroupItem>
         ) : null}
       </ListGroup>
@@ -125,8 +125,8 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
     const filteredListTopUsers = filteredUsers.filter(
       (user, index) => index < LIST_USERS_SHOW,
     );
-    // Group the rest people to anonymous group
-    const anonymousUsersCount = numberOnline - filteredListTopUsers.length;
+    // Group the rest people to one group
+    const anotherUsersCount = numberOnline - filteredListTopUsers.length;
 
     if (this.state.popoverOpen) return null;
     return (
@@ -144,9 +144,9 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
             <br />
           </div>
         ))}
-        {anonymousUsersCount > 0 ? (
+        {anotherUsersCount > 0 ? (
           <span className="align-text-left">
-            and {anonymousUsersCount} more
+            and {anotherUsersCount} more
           </span>
         ) : null}
       </UncontrolledTooltip>
