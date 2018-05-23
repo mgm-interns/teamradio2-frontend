@@ -239,13 +239,16 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
       .database()
       .ref(stationId)
       .limitToLast(MAXIMUM_RECEIVED_MESSAGE);
+
     msgRef.on('value', (snapshot: any) => {
       const listMessages: Message[] = [];
       snapshot.forEach((childSnapshot: any) => {
         const msg = childSnapshot.val();
         listMessages.push(msg);
       });
-      this.setState({ listMessages });
+      
+      const hasNewMessage = listMessages.length > 0;
+      this.setState({ listMessages, hasNewMessage });
     });
   }
 }
