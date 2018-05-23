@@ -204,7 +204,8 @@ class UserDropdownComponent extends BaseComponent<
   private processServerError(err: string) {
     if (
       err.startsWith('Invalid access token') ||
-      err.startsWith('invalid_token')
+      err.startsWith('invalid_token') ||
+      err.startsWith('Access token expired')
     ) {
       this.signOut();
     } else {
