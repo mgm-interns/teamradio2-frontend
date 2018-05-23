@@ -91,9 +91,8 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
                 <span className="online-users-caption">
                   {this.isUserInfoAvailable(currentUser) &&
                   this.isCurrentUser(id)
-                    ? `You (${points || 0})`
-                    : `${reduceByCharacters(name) || 'Unknown'} (${points ||
-                        0})`}
+                    ? `You`
+                    : `${reduceByCharacters(name) || 'Unknown'}`}
                 </span>
               </ListGroupItem>
             </Link>
