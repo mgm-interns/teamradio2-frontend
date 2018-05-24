@@ -1,4 +1,5 @@
 import { isSameDay, isSameYear } from 'Helpers';
+import { reduceByCharacters } from 'Helpers/TextHelper';
 import { Message } from 'Models/Station';
 import { DEFAULT_USER_AVATAR } from 'Modules/User';
 import { Component } from 'react';
@@ -88,7 +89,7 @@ export class ChatMessage extends Component<
           toggle={this.toggleUserAvatarTooltip}
           delay={0}
           modifiers={modifierTooltip}>
-          {`${message.name} ${sentTime}`}
+          {`${reduceByCharacters(message.name, 15)} ${sentTime}`}
         </Tooltip>
       </div>
     );
@@ -100,7 +101,7 @@ export class ChatMessage extends Component<
     return (
       <div className="message-container">
         <div className={isOfCurrentUser ? 'display-none' : 'username'}>
-          {message.name}
+          {reduceByCharacters(message.name, 30)}
         </div>
         <div className="message-content" id={`message-content-${message._id}`}>
           {message.message}
