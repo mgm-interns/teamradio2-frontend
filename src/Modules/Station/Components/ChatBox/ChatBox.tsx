@@ -27,7 +27,7 @@ interface IChatBoxProps {
 interface IChatBoxStates {
   userInfo: RegisteredUser;
   listMessages: Message[];
-  chatBoxOpen: boolean;
+  isChatBoxOpen: boolean;
   hasNewMessage: boolean;
 }
 
@@ -46,13 +46,6 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
     }
   }
 
-  private static scrollDownMessagesContainer() {
-    const messagesContainer = document.getElementById('messages-container');
-    if (messagesContainer) {
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-  }
-
   private messageBox: any;
   private messageRef: any;
   @Inject('StationServices') private stationServices: StationServices;
@@ -62,7 +55,7 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
     this.state = {
       userInfo: null,
       listMessages: [],
-      chatBoxOpen: false,
+      isChatBoxOpen: false,
       hasNewMessage: false,
     };
     ChatBox.initializeFirebaseConfig();
@@ -82,7 +75,7 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
   }
 
   public componentDidUpdate() {
-    ChatBox.scrollDownMessagesContainer();
+    this.scrollDownMessagesContainer();
   }
 
   public UNSAFE_componentWillReceiveProps(nextProps: IChatBoxProps) {
@@ -95,14 +88,14 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
   }
 
   public render() {
-    const { chatBoxOpen, hasNewMessage } = this.state;
+    const { isChatBoxOpen, hasNewMessage } = this.state;
     return (
       <div
         className={classNames('p-0 station-chat-container', {
-          'col-10 col-md-6 col-lg-4': chatBoxOpen,
-          'chat-box-dimension': chatBoxOpen,
+          'col-10 col-md-6 col-lg-4': isChatBoxOpen,
+          'chat-box-dimension': isChatBoxOpen,
         })}>
-        {chatBoxOpen
+        {isChatBoxOpen
           ? this.renderChatBox()
           : this.renderFloatChatButton(hasNewMessage)}
       </div>
@@ -165,6 +158,13 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
     return (
       <ChatMessage key={key} currentUserId={currentUserId} message={message} />
     );
+  }
+
+  private scrollDownMessagesContainer() {
+    const messagesContainer = document.getElementById('messages-container');
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
   }
 
   private onMessageChange(event: any) {
@@ -234,12 +234,12 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
   private toggleChatBox = () => {
     this.setState(
       {
-        chatBoxOpen: !this.state.chatBoxOpen,
+        isChatBoxOpen: !this.state.isChatBoxOpen,
         hasNewMessage: false,
       },
       () => {
-        if (this.state.chatBoxOpen) {
-          ChatBox.scrollDownMessagesContainer();
+        if (this.state.isChatBoxOpen) {
+          this.scrollDownMessagesContainer();
         }
       },
     );
