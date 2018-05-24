@@ -21,6 +21,7 @@ interface IProps {
   message?: string;
   thumbnail?: string;
   skipped?: boolean;
+  songId?: string;
 }
 
 interface IState {
@@ -54,6 +55,12 @@ export class StationPlayer extends Component<IProps, IState> {
       this.setState({
         played: nextProps.progress,
       });
+    }
+
+    const { songId: oldSongId } = this.props;
+    const { songId: newSongId } = nextProps;
+    if (oldSongId !== newSongId) {
+      this.setState({isCountingDown: false});
     }
   }
 
@@ -165,12 +172,13 @@ export class StationPlayer extends Component<IProps, IState> {
 
   public render() {
     const { url, skipped } = this.props;
+    const { isCountingDown } = this.state;
     if (!url) {
       return this.renderPlayerEmpty();
     }
     return (
       <Fragment>
-        {skipped ? this.renderSkipSongCountDown() : this.renderPlayer()}
+        {skipped || isCountingDown ? this.renderSkipSongCountDown() : this.renderPlayer()}
       </Fragment>
     );
   }
@@ -240,7 +248,6 @@ export class StationPlayer extends Component<IProps, IState> {
         ).toString();
       } else {
         clearInterval(countDownInterval);
-        this.setState({ isCountingDown: false });
       }
     }, COUNT_DOWN_TIME);
   }
