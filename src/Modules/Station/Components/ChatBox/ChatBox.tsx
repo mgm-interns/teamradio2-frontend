@@ -15,7 +15,6 @@ import {
   PROJECT_ID,
   STORAGE_BUCKET,
 } from 'Modules/Station/Constants';
-import { DEFAULT_USER_AVATAR } from 'Modules/User/Constants';
 import * as React from 'react';
 import { StationServices } from 'Services/Http';
 import './ChatBox.scss';
@@ -28,12 +27,34 @@ interface IChatBoxProps {
 interface IChatBoxStates {
   userInfo: RegisteredUser;
   listMessages: Message[];
-  toggleChatBox: boolean;
+  chatBoxOpen: boolean;
   hasNewMessage: boolean;
 }
 
 export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
+  private static initializeFirebaseConfig() {
+    const config = {
+      apiKey: API_KEY,
+      authDomain: AUTH_DOMAIN,
+      databaseURL: DATABASE_URL,
+      projectId: PROJECT_ID,
+      storageBucket: STORAGE_BUCKET,
+      messagingSenderId: MESSAGING_SENDER_ID,
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+    }
+  }
+
+  private static scrollDownMessagesContainer() {
+    const messagesContainer = document.getElementById('messages-container');
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+  }
+
   private messageBox: any;
+  private messageRef: any;
   @Inject('StationServices') private stationServices: StationServices;
 
   constructor(props: IChatBoxProps) {
@@ -41,10 +62,10 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
     this.state = {
       userInfo: null,
       listMessages: [],
-      toggleChatBox: false,
+      chatBoxOpen: false,
       hasNewMessage: false,
     };
-    this.initializeFirebaseConfig();
+    ChatBox.initializeFirebaseConfig();
     this.sendMessage = this.sendMessage.bind(this);
     this.onMessageChange = this.onMessageChange.bind(this);
   }
@@ -61,16 +82,92 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
   }
 
   public componentDidUpdate() {
-    this.scrollDownMessagesContainer();
+    ChatBox.scrollDownMessagesContainer();
   }
 
-  public componentWillReceiveProps(nextProps: IChatBoxProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: IChatBoxProps) {
     const { stationId: oldStationId } = this.props;
     const { stationId: newStationId } = nextProps;
-    this.onSwitchStation(oldStationId, newStationId);
+
+    if (oldStationId !== newStationId) {
+      this.switchStation(oldStationId, newStationId);
+    }
   }
 
-  public onMessageChange(event: any) {
+  public render() {
+    const { chatBoxOpen, hasNewMessage } = this.state;
+    return (
+      <div
+        className={classNames('p-0 station-chat-container', {
+          'col-10 col-md-6 col-lg-4': chatBoxOpen,
+          'chat-box-dimension': chatBoxOpen,
+        })}>
+        {chatBoxOpen
+          ? this.renderChatBox()
+          : this.renderFloatChatButton(hasNewMessage)}
+      </div>
+    );
+  }
+
+  private renderChatBox() {
+    return (
+      <div className="chat-box">
+        <div className="chat-container">
+          <div
+            className="d-flex justify-content-end chat-toolbar"
+            onClick={this.toggleChatBox}>
+            <span className="close-button" onClick={this.toggleChatBox}>
+              <i className="fa fa-minus" />
+            </span>
+          </div>
+          <div className="messages-container" id="messages-container">
+            {this.state.listMessages.map((message: Message, index: number) =>
+              this.renderMessage(message, index),
+            )}
+          </div>
+          <div className="message-input">
+            <textarea
+              maxLength={200}
+              placeholder="Type a message here"
+              className="type-message"
+              id="message-box"
+              ref={messageBox => {
+                this.messageBox = messageBox;
+              }}
+              onKeyDown={this.onMessageChange}
+              rows={1}
+            />
+            <button className="btn-send-message" onClick={this.sendMessage}>
+              <i className="fa fa-paper-plane" />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  private renderFloatChatButton(hasNewMessage: boolean) {
+    return (
+      <div
+        className={classNames('chat-box-button', {
+          'chat-box-button-custom': hasNewMessage,
+        })}
+        onClick={this.toggleChatBox}>
+        <span>
+          <i className="fa fa-comments" />
+        </span>
+      </div>
+    );
+  }
+
+  private renderMessage(message: Message, key: number) {
+    const currentUserId = this.state.userInfo ? this.state.userInfo.id : '';
+    return (
+      <ChatMessage key={key} currentUserId={currentUserId} message={message} />
+    );
+  }
+
+  private onMessageChange(event: any) {
     const key = event.keyCode ? event.keyCode : event.which;
     const KEY_CODE_ENTER = 13;
 
@@ -81,171 +178,85 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
     }
   }
 
-  public onSwitchStation(oldStationId: string, newStationId: string) {
-    if (oldStationId !== newStationId) {
-      this.setState({ listMessages: [] });
-      this.subscribeToFirebase(newStationId);
-    }
+  /**
+   * Handle on switch station
+   * You may be want to close all subscriptions and async task
+   * before switch to new station
+   *
+   * @param {string} fromStationId Id of station before switch
+   * @param {string} toStationId Id of station after switch
+   */
+  private switchStation(fromStationId: string, toStationId: string) {
+    this.setState({ listMessages: [] });
+    this.subscribeToFirebase(toStationId);
   }
 
-  public resizeMessageBox() {
+  private resizeMessageBox() {
     setTimeout(() => {
       this.messageBox.style.height = '30px';
       this.messageBox.style.height = this.messageBox.scrollHeight + 'px';
     });
   }
 
-  public sendMessage(event: any) {
+  private sendMessage(event: any) {
     if (!this.isLoggedIn()) {
       this.showError('You must login to be able to chat');
       this.resetMessageBox(event);
       return;
     }
 
-    const message = this.messageBox.value.trim();
-    const { id, name } = this.state.userInfo;
-    let { avatarUrl } = this.state.userInfo;
-    avatarUrl = avatarUrl || '';
-    if (message) {
-      (firebase as any)
-        .database()
-        .ref(this.props.stationId)
-        .push({
-          userId: id,
-          name,
-          avatarUrl,
-          message,
-        });
+    const messageValue = this.messageBox.value.trim();
+    if (messageValue) {
+      const { id, name, username } = this.state.userInfo;
+      const avatarUrl = this.state.userInfo.avatarUrl || '';
+
+      const msgRef = this.messageRef.push();
+      const message: Message = {
+        _id: `${msgRef.key}`,
+        userId: id,
+        name,
+        username,
+        avatarUrl,
+        message: messageValue,
+        createdAt: new Date().getTime(),
+      };
+      msgRef.set(message);
     }
     this.resetMessageBox(event);
   }
 
-  public resetMessageBox(event: any) {
+  private resetMessageBox(event: any) {
     this.messageBox.value = '';
     this.messageBox.style.height = '30px';
     event.preventDefault();
   }
 
-  public scrollDownMessagesContainer() {
-    const messagesContainer = document.getElementById('messages-container');
-    if (messagesContainer) {
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-  }
-
-  public toggleChatBox = () => {
+  private toggleChatBox = () => {
     this.setState(
       {
-        toggleChatBox: !this.state.toggleChatBox,
+        chatBoxOpen: !this.state.chatBoxOpen,
         hasNewMessage: false,
       },
       () => {
-        if (this.state.toggleChatBox) {
-          this.scrollDownMessagesContainer();
+        if (this.state.chatBoxOpen) {
+          ChatBox.scrollDownMessagesContainer();
         }
       },
     );
   };
 
-  public render() {
-    const { toggleChatBox, hasNewMessage } = this.state;
-    return (
-      <div
-        className={classNames('p-0 station-chat-container', {
-          'col-10 col-md-6 col-lg-4': toggleChatBox,
-          'chat-box-dimension': toggleChatBox,
-        })}>
-        {!toggleChatBox && (
-          <div
-            className={classNames('chat-box-button', {
-              'chat-box-button-custom': hasNewMessage,
-            })}
-            onClick={this.toggleChatBox}>
-            <span>
-              <i className="fa fa-comments" />
-            </span>
-          </div>
-        )}
-        {toggleChatBox && (
-          <div className="chat-box">
-            <div className="chat-container">
-              <div className="d-flex justify-content-end chat-toolbar">
-                <span className="close-button" onClick={this.toggleChatBox}>
-                  <i className="fa fa-minus" />
-                </span>
-              </div>
-              <div className="messages-container" id="messages-container">
-                {this.state.listMessages.map(
-                  (message: Message, index: number) => {
-                    return (
-                      <ChatMessage
-                        key={index}
-                        isOfCurrentUser={
-                          this.state.userInfo
-                            ? this.state.userInfo.id === message.userId
-                            : false
-                        }
-                        userName={message.name}
-                        avatarUrl={
-                          message.avatarUrl
-                            ? message.avatarUrl
-                            : DEFAULT_USER_AVATAR
-                        }
-                        message={message.message}
-                      />
-                    );
-                  },
-                )}
-              </div>
-              <div className="message-input">
-                <textarea
-                  maxLength={200}
-                  placeholder="Type a message here"
-                  className="type-message"
-                  id="message-box"
-                  ref={messageBox => {
-                    this.messageBox = messageBox;
-                  }}
-                  onKeyDown={this.onMessageChange}
-                  rows={1}
-                />
-                <button className="btn-send-message" onClick={this.sendMessage}>
-                  <i className="fa fa-paper-plane" />
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  private initializeFirebaseConfig() {
-    const config = {
-      apiKey: API_KEY,
-      authDomain: AUTH_DOMAIN,
-      databaseURL: DATABASE_URL,
-      projectId: PROJECT_ID,
-      storageBucket: STORAGE_BUCKET,
-      messagingSenderId: MESSAGING_SENDER_ID,
-    };
-    if (!firebase.apps.length) {
-      firebase.initializeApp(config);
-    }
-  }
-
   private subscribeToFirebase(stationId: string) {
-    const msgRef = (firebase as any)
-      .database()
-      .ref(stationId)
-      .limitToLast(MAXIMUM_RECEIVED_MESSAGE);
-    msgRef.on('value', (snapshot: any) => {
-      const listMessages: Message[] = [];
-      snapshot.forEach((childSnapshot: any) => {
-        const msg = childSnapshot.val();
-        listMessages.push(msg);
+    this.messageRef = (firebase as any).database().ref(stationId);
+
+    this.messageRef
+      .limitToLast(MAXIMUM_RECEIVED_MESSAGE)
+      .on('value', (snapshot: any) => {
+        const listMessages: Message[] = [];
+        snapshot.forEach((childSnapshot: any) => {
+          const msg = childSnapshot.val();
+          listMessages.push(msg);
+        });
+        this.setState({ listMessages });
       });
-      this.setState({ listMessages });
-    });
   }
 }
