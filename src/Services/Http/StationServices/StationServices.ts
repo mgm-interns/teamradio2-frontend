@@ -3,7 +3,7 @@ import {
   Message,
   SkipRuleType,
   Station,
-  StationItemsMap,
+  StationInfo,
   StationPrivacy,
 } from 'Models';
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +18,7 @@ export class StationServices {
     this._httpServices = new HttpServices();
   }
 
-  public getListStation(): Observable<StationItemsMap> {
+  public getListStation(): Observable<StationInfo[]> {
     return this._httpServices.get('stations');
   }
 
@@ -29,7 +29,7 @@ export class StationServices {
   public createStation(
     name: string,
     privacy?: StationPrivacy,
-  ): Observable<Station> {
+  ): Observable<StationInfo> {
     const body: any = {
       name,
       privacy: privacy || StationPrivacy.STATION_PUBLIC,

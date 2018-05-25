@@ -6,4 +6,5 @@ export interface IEventSourcePolyfill extends EventSource {
 
 export interface IEventSourcePolyfillOptions {
   headers: IHeader;
+  withCredentials: boolean;
 }

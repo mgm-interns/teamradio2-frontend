@@ -11,8 +11,6 @@ import * as React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import { Observable } from 'rxjs/Observable';
 import { UserServices } from 'Services/Http';
-import { HttpServices } from 'Services/Http/HttpServices';
-import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import './ProfileHeader.scss';
 
 export interface IProfileHeaderProps {
@@ -29,8 +27,6 @@ export interface IProfileHeaderStates {
   isUpdateCover: boolean;
   isLoadingUserInfo: boolean;
   reputation: number;
-  songs: number;
-  voted: number;
 }
 
 export class ProfileHeader<P, S> extends BaseComponent<
@@ -52,8 +48,6 @@ export class ProfileHeader<P, S> extends BaseComponent<
       isLoadingUserInfo: false,
       aspectRatio: 1,
       reputation: 0,
-      songs: 0,
-      voted: 0,
     };
     this.setImageUploadUrl = this.setImageUploadUrl.bind(this);
   }
@@ -72,8 +66,6 @@ export class ProfileHeader<P, S> extends BaseComponent<
       avatarUrl,
       coverUrl,
       reputation,
-      songs,
-      voted,
     } = userInfo;
     this.setState({
       name: name || '',
@@ -82,8 +74,6 @@ export class ProfileHeader<P, S> extends BaseComponent<
       coverUrl: coverUrl || DEFAULT_USER_COVER_PHOTO,
       isLoadingUserInfo: false,
       reputation: reputation || 0,
-      songs: songs || 0,
-      voted: voted || 0,
     });
   }
 
@@ -92,8 +82,9 @@ export class ProfileHeader<P, S> extends BaseComponent<
       (userInfo: RegisteredUser) => {
         this.setUserHeaderInfo(userInfo);
       },
-      (err: IServerError) => {
-        this.showError(HttpServices.getServerErrorMessage(err));
+      (err: string) => {
+        // TODO: Only for development
+        // this.showError(err);
       },
     );
   }
@@ -118,7 +109,6 @@ export class ProfileHeader<P, S> extends BaseComponent<
   public renderAvatarHover() {
     return (
       <div className="avatar-hover">
-        <span>camera_alt</span>
         <span>Upload Profile Photo</span>
       </div>
     );
@@ -152,17 +142,9 @@ export class ProfileHeader<P, S> extends BaseComponent<
   }
 
   public renderUserScore() {
-    const { reputation, songs, voted } = this.state;
+    const { reputation } = this.state;
     return (
       <div className="summarize">
-        <div className="summarize-item">
-          <span className="summarize-item-header">Songs</span>
-          <span className="summarize-item-score">{songs}</span>
-        </div>
-        <div className="summarize-item">
-          <span className="summarize-item-header">Voted</span>
-          <span className="summarize-item-score">{voted}</span>
-        </div>
         <div className="summarize-item">
           <span className="summarize-item-header">Reputation</span>
           <span className="summarize-item-score">{reputation}</span>

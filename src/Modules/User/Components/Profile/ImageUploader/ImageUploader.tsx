@@ -173,7 +173,8 @@ class ImageUploaderComponent extends BaseComponent<IProps, IState> {
         <div>
           <Modal
             isOpen={this.state.isOpenCropModal}
-            toggle={this.setAllValueToDefault}>
+            toggle={this.setAllValueToDefault}
+            className="cropper-modal-container">
             <ModalHeader>Crop your photo</ModalHeader>
             <ModalBody>
               <Cropper
@@ -183,7 +184,7 @@ class ImageUploaderComponent extends BaseComponent<IProps, IState> {
                 aspectRatio={aspectRatio}
                 guides={false}
                 crop={this.cropImage}
-                style={{ width: 465, height: 465 }}
+                className="cropper-img"
               />
             </ModalBody>
             <ModalFooter>

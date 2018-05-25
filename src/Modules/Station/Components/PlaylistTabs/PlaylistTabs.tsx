@@ -13,8 +13,6 @@ import { StationPlaylistSSEService } from 'Services/SSE';
 import { Favorite } from './Favorite';
 import { History } from './History';
 import { Playlist } from './Playlist';
-import { HttpServices } from 'Services/Http/HttpServices';
-import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import './PlaylistTabs.scss';
 
 const PLAYLIST_TAB_ID = '1';
@@ -36,7 +34,6 @@ interface IDispatcherProps {
 interface IStates {
   activeTab: string;
   favoriteList: FavoriteSongItem[];
-  isSwitchStation: boolean;
 }
 
 type IProps = IOwnProps & IDispatcherProps & IReduxProps;
@@ -50,7 +47,6 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
     this.state = {
       favoriteList: [],
       activeTab: PLAYLIST_TAB_ID,
-      isSwitchStation: false,
     };
   }
 
@@ -77,16 +73,10 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
       // Open new instance
       this.startSSEService(nextStationId);
 
-      this.updateIsSwitchStation(true);
+      this.setTabsToDefault();
       this.showSuccess(`Switch to station ${nextStationId}`);
     }
   }
-
-  public updateIsSwitchStation = (newValue: boolean) => {
-    if (newValue !== this.state.isSwitchStation) {
-      this.setState({ isSwitchStation: newValue });
-    }
-  };
 
   public render() {
     const { playlist, stationId } = this.props;
@@ -129,8 +119,6 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
             <History
               stationId={stationId}
               isActive={this.state.activeTab === HISTORY_TAB_ID}
-              isSwitchStation={this.state.isSwitchStation}
-              updateIsSwitchStation={this.updateIsSwitchStation}
             />
           </TabPane>
           <TabPane tabId={FAVOURITE_TAB_ID}>
@@ -167,10 +155,15 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
           favoriteList: res,
         });
       },
-      (err: IServerError) => {
-        this.showError(HttpServices.getServerErrorMessage(err));
+      (err: string) => {
+        // TODO: Only for development
+        // this.showError(err);
       },
     );
+  };
+
+  private setTabsToDefault = () => {
+    this.setState({ activeTab: PLAYLIST_TAB_ID });
   };
 }
 
@@ -180,7 +173,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 });
 
 const mapStateToProps = (state: IApplicationState): IReduxProps => ({
-  playlist: state.playlist.playlist,
+  playlist: state.station.playlist,
 });
 
 export const PlaylistTabs = connect<IReduxProps, IDispatcherProps, IOwnProps>(

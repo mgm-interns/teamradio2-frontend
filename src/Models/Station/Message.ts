@@ -1,9 +1,9 @@
-import { MessageSender } from './MessageSender';
-
 export class Message {
-  public id: string;
-  public stationId: string;
-  public sender: MessageSender;
-  public content: string;
-  public createdAt: string;
+  public _id: string;
+  public userId: string;
+  public name: string;
+  public username: string;
+  public avatarUrl: string;
+  public message: string;
+  public createdAt: number; // Timestamp
 }

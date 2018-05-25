@@ -52,7 +52,8 @@ export class InformationForms extends BaseComponent<IProps, IStates> {
         });
       },
       (err: string) => {
-        this.showError(err);
+        // TODO: Only for development
+        // this.showError(err);
       },
     );
   }

@@ -1,4 +1,4 @@
-import { StationItem } from './StationItem';
+import { StationInfo } from '../Models';
 import { StationItemsMap } from './StationItemsMap';
 
 export class StationItemsControlledMap {
@@ -20,7 +20,7 @@ export class StationItemsControlledMap {
     return this.stationMap ? Object.keys(this.stationMap).length : 0;
   }
 
-  public toArray(): StationItem[] {
+  public toArray(): StationInfo[] {
     return Object.keys(this.stationMap).reduce((prev, key) => {
       return [...prev, this.stationMap[key]];
     }, []);

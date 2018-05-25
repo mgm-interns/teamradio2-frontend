@@ -2,6 +2,7 @@ import { BaseComponent } from 'BaseComponent';
 import { Inject } from 'Configuration/DependencyInjection';
 import { Song } from 'Models';
 import * as React from 'react';
+import { Subscription } from 'rxjs/Subscription';
 import { SongServices } from 'Services/Http';
 import '../PlaylistTabs.scss';
 import { HistoryItem } from './HistoryItem';
@@ -9,8 +10,6 @@ import { HistoryItem } from './HistoryItem';
 interface IHistoryProps {
   stationId: string;
   isActive: boolean;
-  isSwitchStation: boolean;
-  updateIsSwitchStation: (newValue: boolean) => void;
 }
 
 interface IHistoryState {
@@ -19,6 +18,8 @@ interface IHistoryState {
 
 export class History extends BaseComponent<IHistoryProps, IHistoryState> {
   @Inject('SongServices') private songServices: SongServices;
+  private replaySub: Subscription;
+  private getHistorySub: Subscription;
 
   constructor(props: any) {
     super(props);
@@ -31,36 +32,48 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
 
   public replaySong(youtubeVideoId: string, message: string) {
     const { stationId } = this.props;
-    this.songServices.addSong(stationId, youtubeVideoId, message).subscribe(
-      (songResponse: Song) => {},
-      (err: string) => {
-        this.showError(`Replay song error: ${err}`);
-      },
-    );
+    this.replaySub = this.songServices
+      .addSong(stationId, youtubeVideoId, message)
+      .subscribe(
+        (songResponse: Song) => {},
+        (err: string) => {
+          this.showError(err);
+        },
+      );
   }
 
-  public updateHistory(stationId: string) {
-    this.songServices.getListPlayedSong(stationId).subscribe(
-      (history: Song[]) => {
-        this.setState({
-          history,
-        });
-      },
-      (err: string) => {
-        this.showError(`Get history error: ${err}`);
-      },
-    );
+  public updateHistory() {
+    this.getHistorySub = this.songServices
+      .getListPlayedSong(this.props.stationId)
+      .subscribe(
+        (history: Song[]) => {
+          this.setState({
+            history,
+          });
+        },
+        (err: string) => {
+          // TODO: Only for development
+          // this.showError(err);
+        },
+      );
   }
 
   public componentDidMount() {
-    this.updateHistory(this.props.stationId);
+    this.updateHistory();
   }
 
-  public componentWillReceiveProps(nextProps: IHistoryProps) {
-    if (nextProps.isActive || nextProps.isSwitchStation) {
-      this.updateHistory(nextProps.stationId);
-      this.props.updateIsSwitchStation(false);
+  public UNSAFE_componentWillReceiveProps(nextProps: IHistoryProps) {
+    if (nextProps.stationId !== this.props.stationId) {
+      this.clearHistory();
     }
+
+    if (nextProps.isActive) {
+      this.updateHistory();
+    }
+  }
+
+  public componentWillUnmount() {
+    this.cancelAllSubscribes();
   }
 
   public render() {
@@ -84,5 +97,20 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
         ))}
       </div>
     );
+  }
+
+  private clearHistory() {
+    this.setState({
+      history: [],
+    });
+  }
+  private cancelAllSubscribes() {
+    if (this.replaySub) {
+      this.replaySub.unsubscribe();
+    }
+
+    if (this.getHistorySub) {
+      this.getHistorySub.unsubscribe();
+    }
   }
 }

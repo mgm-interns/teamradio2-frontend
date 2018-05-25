@@ -1,8 +1,8 @@
 import { Service } from 'Configuration/DependencyInjection';
 import SSEService from './SSEService/SSEService';
 
-@Service('StationChatSSEService')
-export class StationChatSSEService {
+@Service('StationSSEService')
+export class StationSSEService {
   private service: SSEService;
   private _endpoint: string = process.env.REACT_APP_HTTP_END_POINT;
 
@@ -23,17 +23,13 @@ export class StationChatSSEService {
   }
 
   public initiate(stationId: string) {
-    this.changeStation(stationId);
-  }
-
-  public changeStation(stationId: string) {
     if (this.service) {
       this.close();
     }
     this.service = new SSEService({
-      endpoint: this._endpoint + `/stations/${stationId}/messages`,
+      endpoint: this._endpoint + `/stations/${stationId}/stream`,
       eventKey: 'message',
-      action: 'STATION:CHAT',
+      action: 'STATION:GET_STATION_BY_ID',
     });
   }
 }

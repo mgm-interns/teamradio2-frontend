@@ -1,8 +1,12 @@
 import { AccessToken, RegisteredUser } from 'Models/User';
+import { Volume } from 'Models/Volume';
 
 const accessTokenKey = 'accessToken';
 const userInfoKey = 'userInfo';
 const loginByKey = 'loginBy';
+const playerVolumeKey = 'playerVolume';
+const previewVolumeKey = 'previewVolume';
+const isUserMutePlayerKey = 'isUserMutePlayer';
 
 export const localStorageManager = {
   getAccessToken: (): AccessToken => {
@@ -14,7 +18,11 @@ export const localStorageManager = {
   },
   removeAccessToken: () => {
     localStorage.removeItem(accessTokenKey);
+  },
+  removeAllLoginInformation: () => {
+    localStorage.removeItem(accessTokenKey);
     localStorage.removeItem(userInfoKey);
+    localStorage.removeItem(loginByKey);
   },
   setUserInfo: (userInfo: RegisteredUser) => {
     localStorage.setItem(userInfoKey, JSON.stringify(userInfo));
@@ -27,5 +35,20 @@ export const localStorageManager = {
   },
   getLoginSource: (): string => {
     return localStorage.getItem(loginByKey);
+  },
+  setVolumeSource: (soure: Volume) => {
+    localStorage.setItem(playerVolumeKey, String(soure.playerVolume));
+    localStorage.setItem(previewVolumeKey, String(soure.previewVolume));
+    localStorage.setItem(isUserMutePlayerKey, String(soure.isUserMutePlayer));
+  },
+  getVolumeSource: () => {
+    const volume = {
+      [playerVolumeKey]: JSON.parse(localStorage.getItem(playerVolumeKey)),
+      [previewVolumeKey]: JSON.parse(localStorage.getItem(previewVolumeKey)),
+      [isUserMutePlayerKey]: JSON.parse(
+        localStorage.getItem(isUserMutePlayerKey),
+      ),
+    };
+    return volume;
   },
 };

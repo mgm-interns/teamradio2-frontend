@@ -18,8 +18,6 @@ import {
 } from 'reactstrap';
 import { compose } from 'redux';
 import { UserServices } from 'Services/Http';
-import { HttpServices } from 'Services/Http/HttpServices';
-import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import {
   DEFAULT_USER_AVATAR,
   LOGOUT_SUCCESS_MESSAGE,
@@ -71,6 +69,7 @@ class UserDropdownComponent extends BaseComponent<
       userInfo,
       isAuthenticated: !!userInfo.id,
     });
+    localStorageManager.setUserInfo(userInfo);
   }
 
   public componentDidMount() {
@@ -104,8 +103,8 @@ class UserDropdownComponent extends BaseComponent<
           userInfo,
         });
       },
-      (err: IServerError) => {
-        this.showError(HttpServices.getServerErrorMessage(err));
+      (err: string) => {
+        this.processServerError(err);
       },
     );
   }
@@ -115,14 +114,13 @@ class UserDropdownComponent extends BaseComponent<
   }
 
   public signOut() {
-    localStorageManager.removeAccessToken();
+    localStorageManager.removeAllLoginInformation();
     this.props.signOut();
     this.props.updateUserInfo(new RegisteredUser());
     this.setState({
       isAuthenticated: false,
     });
     this.reloadPage();
-    this.showNotificationLogoutSuccess();
   }
 
   public render() {
@@ -200,6 +198,18 @@ class UserDropdownComponent extends BaseComponent<
     const pathName = this.props.location.pathname.split('/')[1];
     if (pathName === PROFILE_PATH) {
       this.props.history.push(`/profile/${userId}`);
+    }
+  }
+
+  private processServerError(err: string) {
+    if (
+      err.startsWith('Invalid access token') ||
+      err.startsWith('invalid_token') ||
+      err.startsWith('Access token expired')
+    ) {
+      this.signOut();
+    } else {
+      this.showError(err);
     }
   }
 }
