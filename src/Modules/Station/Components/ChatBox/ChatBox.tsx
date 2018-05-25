@@ -215,7 +215,7 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
         _id: `${msgRef.key}`,
         userId: id,
         name,
-        username,
+        username: username || name || id,
         avatarUrl,
         message: messageValue,
         createdAt: new Date().getTime(),
