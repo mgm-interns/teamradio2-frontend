@@ -105,10 +105,15 @@ class OriginStationBrowser extends BaseStationBrowser<IProps> {
     });
   }
 
+  protected filteredList = (stations: StationInfo[]) => {
+    return stations.filter(
+      (station: StationInfo) => station.friendlyId !== this.props.stationId,
+    );
+  };
+
   protected getListItems = () => {
-    return this.state.listStation.filter((station: StationInfo) => {
-      return station.friendlyId !== this.props.stationId;
-    });
+    const { listStation } = this.state;
+    return listStation ? this.filteredList(listStation) : [];
   };
 }
 
