@@ -145,9 +145,7 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
           </div>
         ))}
         {anotherUsersCount > 0 ? (
-          <span className="align-text-left">
-            and {anotherUsersCount} more
-          </span>
+          <span className="align-text-left">and {anotherUsersCount} more</span>
         ) : null}
       </UncontrolledTooltip>
     );
@@ -178,21 +176,25 @@ export class OnlineUsersComponent extends BaseComponent<IProps, IState> {
           {numberOnline || '0'} online
         </span>
       </div>,
-      <div key={3}>
-        {this.renderOnlineTooltip(
-          filteredListToArray,
-          numberOnline,
-          'online-users',
-        )}
+      <div key={2}>
+        {numberOnline > 0 &&
+          this.renderOnlineTooltip(
+            filteredListToArray,
+            numberOnline,
+            'online-users',
+          )}
       </div>,
-      <Popover
-        key={2}
-        placement="bottom"
-        isOpen={this.state.popoverOpen}
-        toggle={this.toggle}
-        target="online-users">
-        {this.renderPopoverContent(filteredListToArray, numberOnline)}
-      </Popover>,
+      <span key={3}>
+        {numberOnline > 0 && (
+          <Popover
+            placement="bottom"
+            isOpen={this.state.popoverOpen}
+            toggle={this.toggle}
+            target="online-users">
+            {this.renderPopoverContent(filteredListToArray, numberOnline)}
+          </Popover>
+        )}
+      </span>,
     ];
   }
 
