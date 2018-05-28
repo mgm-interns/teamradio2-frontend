@@ -74,6 +74,7 @@ export class PlaylistItemComponent extends SongItem<
       isDownVoteLoading: false,
       isFavorite: this.props.isFavorite,
       isLogout: !this.props.userInfo,
+      hasError: false,
     };
     this.setFavoriteSong = this.setFavoriteSong.bind(this);
     this.setUpVote = this.setUpVote.bind(this);
