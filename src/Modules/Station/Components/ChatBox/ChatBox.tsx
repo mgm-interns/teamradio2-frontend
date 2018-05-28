@@ -207,23 +207,28 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
 
     const messageValue = this.messageBox.value.trim();
     if (messageValue) {
-      const { id, name, username } = this.state.userInfo;
-      const avatarUrl = this.state.userInfo.avatarUrl || '';
-
       const msgRef = this.messageRef.push();
-      const message: Message = {
-        _id: `${msgRef.key}`,
-        userId: id,
-        name,
-        username: username || name || id,
-        avatarUrl,
-        message: messageValue,
-        createdAt: new Date().getTime(),
-      };
+      const message: Message = this.generateMessageValue(msgRef, this.state.userInfo, messageValue);
       msgRef.set(message);
     }
     this.resetMessageBox(event);
   }
+
+  private generateMessageValue = (
+    msgRef: any,
+    { id, name, username, avatarUrl }: RegisteredUser,
+    messageValue: string,
+  ) => {
+    return {
+      _id: `${msgRef.key}`,
+      userId: id,
+      name,
+      username: username || name || id,
+      avatarUrl: avatarUrl || '',
+      message: messageValue,
+      createdAt: new Date().getTime(),
+    };
+  };
 
   private resetMessageBox(event: any) {
     this.messageBox.value = '';
