@@ -33,7 +33,7 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
         <h6 className="item-title" id={`Song-${id}`}>
           {title}
         </h6>
-        <UncontrolledTooltip placement="bottom" target={`Song-${id}`}>
+        <UncontrolledTooltip placement="bottom" target={`Song-${id}`} delay={0}>
           {title}
         </UncontrolledTooltip>
       </Col>
@@ -52,7 +52,10 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
 
   public renderUserDisplayNameTooltip(songId: string, displayName?: string) {
     return (
-      <UncontrolledTooltip placement="bottom" target={'UserAvatar' + songId}>
+      <UncontrolledTooltip
+        placement="bottom"
+        target={'UserAvatar' + songId}
+        delay={0}>
         {displayName}
       </UncontrolledTooltip>
     );
@@ -97,7 +100,8 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
                 />
                 <UncontrolledTooltip
                   placement="bottom"
-                  target={'Message' + songId}>
+                  target={'Message' + songId}
+                  delay={0}>
                   {message}
                 </UncontrolledTooltip>
               </span>

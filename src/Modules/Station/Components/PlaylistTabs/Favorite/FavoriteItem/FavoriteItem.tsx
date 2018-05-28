@@ -69,7 +69,8 @@ export class FavoriteItem extends SongItem<IProps, IStates> {
                 />
                 <UncontrolledTooltip
                   placement="left"
-                  target={'add-favourite-' + songId}>
+                  target={'add-favourite-' + songId}
+                  delay={0}>
                   Add this song to playlist
                 </UncontrolledTooltip>
               </div>

@@ -303,9 +303,10 @@ export class PlaylistItemComponent extends SongItem<
             </div>
             <UncontrolledTooltip
               placement="right"
-              target={
-                `WillBeSkipped` + id
-              }>{`This song will be skipped when player starts it.`}</UncontrolledTooltip>
+              target={`WillBeSkipped` + id}
+              delay={0}>
+              {`This song will be skipped when player starts it.`}
+            </UncontrolledTooltip>
           </div>
         ) : null}
       </Col>
