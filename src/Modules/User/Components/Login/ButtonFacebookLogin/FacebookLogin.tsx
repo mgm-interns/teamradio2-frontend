@@ -3,6 +3,7 @@ import { isMobileBrowser, objectToParams } from 'Helpers';
 import { AccessToken } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
+import { Subscription } from 'rxjs/Subscription';
 import { UserServices } from 'Services/Http';
 
 const CLIENT_ID = process.env.REACT_APP_FACEBOOK_API_CLIENT_ID;
@@ -52,6 +53,7 @@ export class FacebookLogin extends Component<IProps, IState> {
   };
 
   @Inject('UserServices') private userServices: UserServices;
+  private loginWithFacebookSub: Subscription;
 
   constructor(props: IProps) {
     super(props);
@@ -75,6 +77,10 @@ export class FacebookLogin extends Component<IProps, IState> {
       fbRoot.id = 'fb-root';
       document.body.appendChild(fbRoot);
     }
+  }
+
+  public componentWillUnmount() {
+    this.cancelSubscription();
   }
 
   public sdkLoaded() {
@@ -113,14 +119,16 @@ export class FacebookLogin extends Component<IProps, IState> {
   public checkLoginState = (response: any) => {
     this.setState({ isProcessing: false });
     const fbAccessToken = response.authResponse.accessToken;
-    this.userServices.loginWithFacebook(fbAccessToken).subscribe(
-      (res: AccessToken) => {
-        this.props.getUserInfo();
-      },
-      (err: any) => {
-        console.log(err);
-      },
-    );
+    this.loginWithFacebookSub = this.userServices
+      .loginWithFacebook(fbAccessToken)
+      .subscribe(
+        (res: AccessToken) => {
+          this.props.getUserInfo();
+        },
+        (err: any) => {
+          console.log(err);
+        },
+      );
   };
 
   public click = (e: EventSource) => {
@@ -159,4 +167,10 @@ export class FacebookLogin extends Component<IProps, IState> {
     };
     return this.props.render(propsForRender);
   }
+
+  private cancelSubscription = () => {
+    if (this.loginWithFacebookSub) {
+      this.loginWithFacebookSub.unsubscribe();
+    }
+  };
 }

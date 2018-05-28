@@ -1,4 +1,4 @@
-import { LoadingIndicator } from 'Components/LoadingIndicator';
+import { LoadingIndicator } from 'Components';
 import { Field, Form, FormikProps } from 'formik';
 import * as React from 'react';
 import { Fragment } from 'react';

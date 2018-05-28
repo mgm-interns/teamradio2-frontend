@@ -1,9 +1,9 @@
 export class Validator {
   public fieldName: string;
-  public fieldValue: any;
+  public fieldValue: string;
   public rules: any;
 
-  constructor(fieldName: string, fieldValue: any, rules: any) {
+  constructor(fieldName: string, fieldValue: string, rules: any) {
     this.fieldName = fieldName;
     this.fieldValue = fieldValue;
     this.rules = rules;

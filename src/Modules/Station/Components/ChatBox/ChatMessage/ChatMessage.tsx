@@ -1,5 +1,4 @@
-import { isSameDay, isSameYear } from 'Helpers';
-import { reduceByCharacters } from 'Helpers/TextHelper';
+import { isSameDay, isSameYear, reduceByCharacters } from 'Helpers';
 import { Message } from 'Models/Station';
 import { DEFAULT_USER_AVATAR } from 'Modules/User';
 import { Component } from 'react';

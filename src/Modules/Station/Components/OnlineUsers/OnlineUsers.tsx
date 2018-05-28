@@ -2,7 +2,7 @@ import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { LoadingIndicator } from 'Components';
 import { IApplicationState } from 'Configuration/Redux';
-import { reduceByCharacters } from 'Helpers/TextHelper';
+import { reduceByCharacters } from 'Helpers';
 import { RegisteredUser, StationInfo } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
