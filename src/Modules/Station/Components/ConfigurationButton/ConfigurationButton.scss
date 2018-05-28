@@ -6,6 +6,12 @@
   .loading-icon {
     float: right;
   }
+  .input-config {
+    font-weight: bold;
+    .description-rules {
+      font-weight: normal;
+    }
+  }
 }
 
 .disable-outline-modal {

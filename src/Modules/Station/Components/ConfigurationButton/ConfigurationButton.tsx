@@ -102,8 +102,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
     if (
       nextProps.currentSkipRule &&
       this.state.selectedRule &&
-      nextProps.currentSkipRule.skipRuleType ===
-        this.state.selectedRule.skipRuleType &&
+      nextProps.currentSkipRule.skipRuleType === this.state.selectedRule.skipRuleType &&
       this.state.isSave
     ) {
       this.setState({
@@ -130,7 +129,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
           <ModalBody>
             {rules.map((rule: ISkipRuleRadio) => (
               <FormGroup check key={rule.skipRuleType}>
-                <Label check>
+                <Label check className="input-config">
                   <Input
                     type="radio"
                     name="ruleOption"
@@ -140,7 +139,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
                   />
                   {rule.skipRuleType}
                   {rule.checked ? (
-                    <p>
+                    <p className="description-rules">
                       <i>{rule.description}</i>
                     </p>
                   ) : (
