@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { UserServices } from 'Services/Http';
 import {
-  ACCEPT_FILE_TYPE,
+  ACCEPTED_FILE_TYPE,
   MAXIMUM_IMAGE_TO_BYTE,
   MAXIMUM_IMAGE_TO_MB,
 } from '../../../Constants';
@@ -130,9 +130,9 @@ class ImageUploaderComponent extends BaseComponent<IProps, IState> {
       this.showError(
         `The picture size can not exceed ${MAXIMUM_IMAGE_TO_MB}MB.`,
       );
-    } else if (uploadedImage.type.split('/')[0] !== ACCEPT_FILE_TYPE) {
+    } else if (uploadedImage.type.split('/')[0] !== ACCEPTED_FILE_TYPE) {
       this.setAllValueToDefault();
-      this.showError(`Only ${ACCEPT_FILE_TYPE} types are accepted`);
+      this.showError(`Only ${ACCEPTED_FILE_TYPE} types are accepted`);
     } else {
       const base64 = await fileContentToBase64(uploadedImage);
       await this.setStateAsync({ uploadedImage: base64 });
