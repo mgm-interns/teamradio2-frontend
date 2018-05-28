@@ -15,7 +15,6 @@ import {
 import { StationServices } from 'Services/Http';
 import './ConfigurationButton.scss';
 
-
 export interface ISkipRuleRadio extends ISkipRule {
   checked: boolean;
 }
@@ -56,7 +55,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
       modal: false,
       rules: RULES,
       selectedRule: null,
-      isSave: false
+      isSave: false,
     };
   }
 
@@ -84,24 +83,33 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
 
     const updatedRules = this._getNewSkipRules(rules, value);
 
-    this.setState({rules: [...updatedRules]});
+    this.setState({ rules: [...updatedRules] });
   };
 
   public _onSaveConfiguration = () => {
-    const {onSkipRuleChange} = this.props;
-    this.setState({
-      isSave: true
-    }, () => {
-      onSkipRuleChange(this.state.selectedRule.skipRuleType);
-    })
+    const { onSkipRuleChange } = this.props;
+    this.setState(
+      {
+        isSave: true,
+      },
+      () => {
+        onSkipRuleChange(this.state.selectedRule.skipRuleType);
+      },
+    );
   };
 
   public componentWillReceiveProps(nextProps: IProps) {
-    if (nextProps.currentSkipRule && this.state.selectedRule && nextProps.currentSkipRule.skipRuleType === this.state.selectedRule.skipRuleType && this.state.isSave) {
+    if (
+      nextProps.currentSkipRule &&
+      this.state.selectedRule &&
+      nextProps.currentSkipRule.skipRuleType ===
+        this.state.selectedRule.skipRuleType &&
+      this.state.isSave
+    ) {
       this.setState({
         modal: false,
-        isSave: false
-      })
+        isSave: false,
+      });
     }
   }
 
@@ -141,9 +149,18 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
                 </Label>
               </FormGroup>
             ))}
-            {this.state.isSave ? <span className="loading-icon"><LoadingIndicator/></span> :
-              <Button className="button-save" color="primary" onClick={this._onSaveConfiguration}>SAVE</Button>
-            }
+            {this.state.isSave ? (
+              <span className="loading-icon">
+                <LoadingIndicator />
+              </span>
+            ) : (
+              <Button
+                className="button-save"
+                color="primary"
+                onClick={this._onSaveConfiguration}>
+                SAVE
+              </Button>
+            )}
           </ModalBody>
         </Modal>
       </div>
