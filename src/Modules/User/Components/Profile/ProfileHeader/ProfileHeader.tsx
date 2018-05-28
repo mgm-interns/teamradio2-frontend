@@ -1,7 +1,7 @@
 import { BaseComponent } from 'BaseComponent';
 import { LoadingIndicator } from 'Components/LoadingIndicator';
 import { Inject } from 'Configuration/DependencyInjection';
-import { reduceByCharacters } from 'Helpers/TextHelper';
+import { reduceByCharacters } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import {
   DEFAULT_USER_AVATAR,

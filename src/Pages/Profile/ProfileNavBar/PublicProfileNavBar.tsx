@@ -1,4 +1,4 @@
-import { reduceByCharacters } from 'Helpers/TextHelper';
+import { reduceByCharacters } from 'Helpers';
 import { RegisteredUser } from 'Models/User';
 import { UserStationsBrowser } from 'Modules/User/Components/Profile/MyStationsBrowser';
 import { UserRecentStationsBrowser } from 'Modules/User/Components/Profile/RecentStationsBrowser';
