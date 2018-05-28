@@ -4,6 +4,7 @@ import { UserStationsBrowser } from 'Modules/User/Components/Profile/MyStationsB
 import { UserRecentStationsBrowser } from 'Modules/User/Components/Profile/RecentStationsBrowser';
 import * as React from 'react';
 import { Col, Nav, Row, TabContent, TabPane } from 'reactstrap';
+import { Subscription } from 'rxjs/Subscription';
 import { ProfileNavBar } from './ProfileNavBar';
 
 const STATION_TAB_ID = '1';
@@ -18,6 +19,8 @@ interface IStates {
 }
 
 export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
+  private getUserProfileSub: Subscription;
+
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -32,16 +35,22 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
     this.getUserInfo();
   }
 
+  public componentWillUnmount() {
+    this.cancelSubscription();
+  }
+
   public getUserInfo() {
-    this.userServices.getUserProfile(this.props.userId).subscribe(
-      (userInfo: RegisteredUser) => {
-        this.setState({ userInfo, isLoadingUserInfo: false });
-      },
-      error => {
-        // TODO: Only for development
-        // this.showError(err);
-      },
-    );
+    this.getUserProfileSub = this.userServices
+      .getUserProfile(this.props.userId)
+      .subscribe(
+        (userInfo: RegisteredUser) => {
+          this.setState({ userInfo, isLoadingUserInfo: false });
+        },
+        error => {
+          // TODO: Only for development
+          // this.showError(err);
+        },
+      );
   }
 
   public renderNavBar() {
@@ -75,4 +84,10 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
       </Row>
     );
   }
+
+  private cancelSubscription = () => {
+    if (this.getUserProfileSub) {
+      this.getUserProfileSub.unsubscribe();
+    }
+  };
 }
