@@ -26,7 +26,7 @@ export class ProfileNavBar<P, S> extends BaseComponent<
   IProfileNavBarStates
 > {
   protected userServices: UserServices;
-  constructor(props: any) {
+  constructor(props: P) {
     super(props);
     this.state = {
       activeTab: STATION_TAB_ID,
@@ -35,7 +35,7 @@ export class ProfileNavBar<P, S> extends BaseComponent<
     this.userServices = new UserServices();
   }
 
-  public openTab(tabId: any) {
+  public openTab(tabId: string) {
     if (this.state.activeTab === tabId) {
       return;
     }

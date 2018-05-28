@@ -13,8 +13,18 @@ import {
 } from 'reactstrap';
 import './SelectFormButton.scss';
 
-export class SelectFormButton extends Component<any, any> {
-  constructor(props: any) {
+interface ISelectFormButtonProps {}
+interface ISelectFormButtonStates {
+  dropdownOpen: boolean;
+  openInformationForm: boolean;
+  openPasswordForm: boolean;
+}
+
+export class SelectFormButton extends Component<
+  ISelectFormButtonProps,
+  ISelectFormButtonStates
+> {
+  constructor(props: ISelectFormButtonProps) {
     super(props);
     this.state = {
       dropdownOpen: false,
