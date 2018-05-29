@@ -29,7 +29,7 @@ interface IStates {
   modal: boolean;
   rules: ISkipRuleRadio[];
   selectedRule: ISkipRuleRadio;
-  isSave: boolean;
+  isSaving: boolean;
 }
 
 const RULES: ISkipRuleRadio[] = [
@@ -55,7 +55,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
       modal: false,
       rules: RULES,
       selectedRule: null,
-      isSave: false,
+      isSaving: false,
     };
   }
 
@@ -90,7 +90,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
     const { onSkipRuleChange } = this.props;
     this.setState(
       {
-        isSave: true,
+        isSaving: true,
       },
       () => {
         onSkipRuleChange(this.state.selectedRule.skipRuleType);
@@ -102,13 +102,12 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
     if (
       nextProps.currentSkipRule &&
       this.state.selectedRule &&
-      nextProps.currentSkipRule.skipRuleType ===
-        this.state.selectedRule.skipRuleType &&
-      this.state.isSave
+      nextProps.currentSkipRule.skipRuleType === this.state.selectedRule.skipRuleType &&
+      this.state.isSaving
     ) {
       this.setState({
         modal: false,
-        isSave: false,
+        isSaving: false,
       });
     }
   }
@@ -130,7 +129,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
           <ModalBody>
             {rules.map((rule: ISkipRuleRadio) => (
               <FormGroup check key={rule.skipRuleType}>
-                <Label check>
+                <Label check className="input-config">
                   <Input
                     type="radio"
                     name="ruleOption"
@@ -140,7 +139,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
                   />
                   {rule.skipRuleType}
                   {rule.checked ? (
-                    <p>
+                    <p className="description-rules">
                       <i>{rule.description}</i>
                     </p>
                   ) : (
@@ -149,7 +148,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
                 </Label>
               </FormGroup>
             ))}
-            {this.state.isSave ? (
+            {this.state.isSaving ? (
               <span className="loading-icon">
                 <LoadingIndicator />
               </span>
