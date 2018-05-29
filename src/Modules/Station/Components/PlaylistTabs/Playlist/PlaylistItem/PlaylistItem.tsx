@@ -74,6 +74,7 @@ export class PlaylistItemComponent extends SongItem<
       isDownVoteLoading: false,
       isFavorite: this.props.isFavorite,
       isLogout: !this.props.userInfo,
+      hasError: false,
     };
     this.setFavoriteSong = this.setFavoriteSong.bind(this);
     this.setUpVote = this.setUpVote.bind(this);
@@ -303,9 +304,10 @@ export class PlaylistItemComponent extends SongItem<
             </div>
             <UncontrolledTooltip
               placement="right"
-              target={
-                `WillBeSkipped` + id
-              }>{`This song will be skipped when player starts it.`}</UncontrolledTooltip>
+              target={`WillBeSkipped` + id}
+              delay={0}>
+              {`This song will be skipped when player starts it.`}
+            </UncontrolledTooltip>
           </div>
         ) : null}
       </Col>

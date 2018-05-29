@@ -1,59 +1,30 @@
 import * as classNames from 'classnames';
 import { SongItem } from 'Components/SongItem';
-import { FavoriteSongItem } from 'Models';
+import { Song } from 'Models';
 import * as React from 'react';
 import { Col, Row, UncontrolledTooltip } from 'reactstrap';
 import '../../PlaylistTabs.scss';
 
-interface IProps extends FavoriteSongItem {
+interface IProps {
+  song: Song;
   replaySong: (youtubeVideoId: string, message: string) => void;
 }
 
-interface IStates extends FavoriteSongItem {}
+interface IFavoriteItemState {}
 
-export class FavoriteItem extends SongItem<IProps, IStates> {
+export class FavoriteItem extends SongItem<IProps, IFavoriteItemState> {
   constructor(props: IProps) {
     super(props);
-    this.state = {
-      id: this.props.id,
-      userId: this.props.userId,
-      songId: this.props.songId,
-      song: this.props.song,
-    };
-  }
-
-  public componentWillReceiveProps(nextProps: IProps) {
-    if (this.props.song !== nextProps.song) {
-      this.setState({
-        song: nextProps.song,
-      });
-    }
-
-    if (this.props.id !== nextProps.id) {
-      this.setState({
-        id: nextProps.id,
-      });
-    }
-    if (this.props.userId !== nextProps.userId) {
-      this.setState({
-        userId: nextProps.userId,
-      });
-    }
-    if (this.props.songId !== nextProps.songId) {
-      this.setState({
-        songId: nextProps.songId,
-      });
-    }
   }
 
   public replaySong = () => {
-    const { songId } = this.state.song;
+    const { songId } = this.props.song;
     const message = ''; // TODO: add message when replay the song in the future
     this.props.replaySong(songId, message);
   };
 
   public render() {
-    const { song, songId } = this.state;
+    const { song } = this.props;
 
     return (
       <Row className={classNames('m-0', 'item-container')}>
@@ -65,11 +36,12 @@ export class FavoriteItem extends SongItem<IProps, IStates> {
               <div className="action-icon" onClick={this.replaySong}>
                 <i
                   className="fa fa-reply action-button"
-                  id={'add-favourite-' + songId}
+                  id={'add-favourite-' + song.id}
                 />
                 <UncontrolledTooltip
                   placement="left"
-                  target={'add-favourite-' + songId}>
+                  target={'add-favourite-' + song.id}
+                  delay={0}>
                   Add this song to playlist
                 </UncontrolledTooltip>
               </div>

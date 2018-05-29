@@ -6,17 +6,23 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, UncontrolledTooltip } from 'reactstrap';
 
-export class SongItem<P, S> extends BaseComponent<P, S> {
+interface ISongItemState {
+  hasError: boolean;
+}
+
+export class SongItem<P, S> extends BaseComponent<P, S & ISongItemState> {
   public renderThumbnailImage(song: Song) {
     const { thumbnail } = song;
     return <img className="video-img" src={thumbnail} />;
   }
+
   public renderThumbnailDuration(song: Song) {
     const { duration } = song;
     return (
       <div className="duration">{YoutubeHelper.convertDuration(duration)}</div>
     );
   }
+
   public renderSongThumbnail(song: Song) {
     return (
       <Col xs={3} className="p-0 thumbnail-container">
@@ -26,6 +32,12 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
     );
   }
 
+  public componentDidCatch(error: any, info: any) {
+    this.setState({
+      hasError: true,
+    });
+  }
+
   public renderSongTitle(song: Song) {
     const { id, title } = song;
     return (
@@ -33,7 +45,7 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
         <h6 className="item-title" id={`Song-${id}`}>
           {title}
         </h6>
-        <UncontrolledTooltip placement="bottom" target={`Song-${id}`}>
+        <UncontrolledTooltip placement="bottom" target={`Song-${id}`} delay={0}>
           {title}
         </UncontrolledTooltip>
       </Col>
@@ -52,7 +64,10 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
 
   public renderUserDisplayNameTooltip(songId: string, displayName?: string) {
     return (
-      <UncontrolledTooltip placement="bottom" target={'UserAvatar' + songId}>
+      <UncontrolledTooltip
+        placement="bottom"
+        target={'UserAvatar' + songId}
+        delay={0}>
         {displayName}
       </UncontrolledTooltip>
     );
@@ -97,7 +112,8 @@ export class SongItem<P, S> extends BaseComponent<P, S> {
                 />
                 <UncontrolledTooltip
                   placement="bottom"
-                  target={'Message' + songId}>
+                  target={'Message' + songId}
+                  delay={0}>
                   {message}
                 </UncontrolledTooltip>
               </span>
