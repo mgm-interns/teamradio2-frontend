@@ -29,7 +29,7 @@ interface IStates {
   modal: boolean;
   rules: ISkipRuleRadio[];
   selectedRule: ISkipRuleRadio;
-  isSave: boolean;
+  isSaving: boolean;
 }
 
 const RULES: ISkipRuleRadio[] = [
@@ -55,7 +55,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
       modal: false,
       rules: RULES,
       selectedRule: null,
-      isSave: false,
+      isSaving: false,
     };
   }
 
@@ -90,7 +90,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
     const { onSkipRuleChange } = this.props;
     this.setState(
       {
-        isSave: true,
+        isSaving: true,
       },
       () => {
         onSkipRuleChange(this.state.selectedRule.skipRuleType);
@@ -103,11 +103,11 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
       nextProps.currentSkipRule &&
       this.state.selectedRule &&
       nextProps.currentSkipRule.skipRuleType === this.state.selectedRule.skipRuleType &&
-      this.state.isSave
+      this.state.isSaving
     ) {
       this.setState({
         modal: false,
-        isSave: false,
+        isSaving: false,
       });
     }
   }
@@ -148,7 +148,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
                 </Label>
               </FormGroup>
             ))}
-            {this.state.isSave ? (
+            {this.state.isSaving ? (
               <span className="loading-icon">
                 <LoadingIndicator />
               </span>
