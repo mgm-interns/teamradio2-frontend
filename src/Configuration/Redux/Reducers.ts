@@ -1,8 +1,5 @@
 import { IStationsListState, stationsReducer } from 'Modules/Station/Redux';
-import {
-  stationReducer,
-  volumeReducer,
-} from 'Modules/Station/Redux/Reducer';
+import { stationReducer, volumeReducer } from 'Modules/Station/Redux/Reducer';
 import { IStationState } from 'Modules/Station/Redux/Types';
 import { IVolume } from 'Modules/Station/Redux/Types/IVolume';
 import { favoriteReducer, userReducer } from 'Modules/User/Redux/Reducer';

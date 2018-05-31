@@ -4,7 +4,12 @@ import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { RegisteredUser, UnauthorizedUser } from 'Models';
 import * as React from 'react';
-import { ErrorCode, HttpServices, IServerError, UserServices } from 'Services/Http';
+import {
+  ErrorCode,
+  HttpServices,
+  IServerError,
+  UserServices,
+} from 'Services/Http';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {}

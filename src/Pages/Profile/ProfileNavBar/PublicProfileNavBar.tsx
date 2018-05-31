@@ -5,7 +5,7 @@ import { UserRecentStationsBrowser } from 'Modules/User/Components/Profile/Recen
 import * as React from 'react';
 import { Col, Nav, Row, TabContent, TabPane } from 'reactstrap';
 import { Subscription } from 'rxjs/Subscription';
-import { HttpServices, IServerError } from "Services/Http";
+import { HttpServices, IServerError } from 'Services/Http';
 import { ProfileNavBar } from './ProfileNavBar';
 
 const STATION_TAB_ID = '1';

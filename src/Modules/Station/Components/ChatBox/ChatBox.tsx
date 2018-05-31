@@ -208,7 +208,11 @@ export class ChatBox extends BaseComponent<IChatBoxProps, IChatBoxStates> {
     const messageValue = this.messageBox.value.trim();
     if (messageValue) {
       const msgRef = this.messageRef.push();
-      const message: Message = this.generateMessageValue(msgRef, this.state.userInfo, messageValue);
+      const message: Message = this.generateMessageValue(
+        msgRef,
+        this.state.userInfo,
+        messageValue,
+      );
       msgRef.set(message);
     }
     this.resetMessageBox(event);

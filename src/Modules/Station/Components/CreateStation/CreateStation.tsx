@@ -80,11 +80,11 @@ const InnerForm = (props: FormikProps<IStationFormValues> & IFormProps) => {
           <FormFeedback className="text-error">{errors.name}</FormFeedback>
         )}
 
-        {/**
-          * The private station feature has been abandoned by the customer request
-          * It may be restored in the future
-          */}
-        {/*{isLoggedIn && renderPrivacyCheckbox()}*/}
+      {/**
+        * The private station feature has been abandoned by the customer request
+        * It may be restored in the future
+        */}
+      {/*{isLoggedIn && renderPrivacyCheckbox()}*/}
     </Form>
   );
 };
