@@ -5,7 +5,7 @@ import { Song } from 'Models';
 import { FavoriteSongItem } from 'Models/FavoriteSong/FavoriteSongItem';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { SongServices } from 'Services/Http';
+import { HttpServices, IServerError, SongServices } from 'Services/Http';
 import '../PlaylistTabs.scss';
 import { FavoriteItem } from './FavoriteItem';
 
@@ -40,8 +40,8 @@ export class FavoriteComponent extends BaseComponent<IProps, IStates> {
     const { stationId } = this.props;
     this.songServices.addSong(stationId, youtubeVideoId, message).subscribe(
       (songResponse: Song) => {},
-      (err: string) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   };

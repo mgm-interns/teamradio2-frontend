@@ -3,7 +3,7 @@ import { Inject } from 'Configuration/DependencyInjection';
 import { Song } from 'Models';
 import * as React from 'react';
 import { Subscription } from 'rxjs/Subscription';
-import { SongServices } from 'Services/Http';
+import { HttpServices, IServerError, SongServices } from 'Services/Http';
 import '../PlaylistTabs.scss';
 import { HistoryItem } from './HistoryItem';
 
@@ -36,8 +36,8 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
       .addSong(stationId, youtubeVideoId, message)
       .subscribe(
         (songResponse: Song) => {},
-        (err: string) => {
-          this.showError(err);
+        (err: IServerError) => {
+          this.showError(HttpServices.getServerErrorMessage(err));
         },
       );
   }
@@ -51,9 +51,9 @@ export class History extends BaseComponent<IHistoryProps, IHistoryState> {
             history,
           });
         },
-        (err: string) => {
-          // TODO: Only for development
-          // this.showError(err);
+        (err: IServerError) => {
+          // Only for development
+          // this.showError(HttpServices.getServerErrorMessage(err));
         },
       );
   }

@@ -8,7 +8,7 @@ import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
-import { UserServices } from 'Services/Http/UserServices';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import { StationPlaylistSSEService } from 'Services/SSE';
 import { Favorite } from './Favorite';
 import { History } from './History';
@@ -155,9 +155,9 @@ export class PlaylistTabsComponent extends BaseComponent<IProps, IStates> {
           favoriteList: res,
         });
       },
-      (err: string) => {
-        // TODO: Only for development
-        // this.showError(err);
+      (err: IServerError) => {
+        // Only for development
+        // this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   };

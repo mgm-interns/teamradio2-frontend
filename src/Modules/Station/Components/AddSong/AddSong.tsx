@@ -5,7 +5,12 @@ import { Song } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Card, CardBody, Col, Row } from 'reactstrap';
-import { SongServices, StationServices } from 'Services/Http';
+import {
+  HttpServices,
+  IServerError,
+  SongServices,
+  StationServices,
+} from 'Services/Http';
 import { addSong, ISong } from '../../Redux';
 import { PreviewVideo } from './PreviewVideo';
 import { SearchSong } from './SearchSong';
@@ -85,8 +90,8 @@ export class AddSongComponent extends BaseComponent<
         this.previewVideoRef.getWrappedInstance().resetPreview();
         this.setState({ embeddableVideo: false });
       },
-      (err: string) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
         this.previewVideoRef.changeIsAddingState(false);
       },
     );

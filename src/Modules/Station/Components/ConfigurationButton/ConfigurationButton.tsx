@@ -102,7 +102,8 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
     if (
       nextProps.currentSkipRule &&
       this.state.selectedRule &&
-      nextProps.currentSkipRule.skipRuleType === this.state.selectedRule.skipRuleType &&
+      nextProps.currentSkipRule.skipRuleType ===
+        this.state.selectedRule.skipRuleType &&
       this.state.isSaving
     ) {
       this.setState({

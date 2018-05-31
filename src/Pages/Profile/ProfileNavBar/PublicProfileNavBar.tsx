@@ -5,6 +5,7 @@ import { UserRecentStationsBrowser } from 'Modules/User/Components/Profile/Recen
 import * as React from 'react';
 import { Col, Nav, Row, TabContent, TabPane } from 'reactstrap';
 import { Subscription } from 'rxjs/Subscription';
+import { HttpServices, IServerError } from 'Services/Http';
 import { ProfileNavBar } from './ProfileNavBar';
 
 const STATION_TAB_ID = '1';
@@ -46,9 +47,9 @@ export class PublicProfileNavBar extends ProfileNavBar<IProps, IStates> {
         (userInfo: RegisteredUser) => {
           this.setState({ userInfo, isLoadingUserInfo: false });
         },
-        error => {
-          // TODO: Only for development
-          // this.showError(err);
+        (error: IServerError) => {
+          // Only for development
+          // this.showError(HttpServices.getServerErrorMessage(error));
         },
       );
   }

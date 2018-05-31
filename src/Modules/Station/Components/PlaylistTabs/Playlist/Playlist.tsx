@@ -7,6 +7,8 @@ import * as React from 'react';
 import FlipMoveList from 'react-flip-move';
 import { connect } from 'react-redux';
 import { SongServices, UserServices } from 'Services/Http';
+import { HttpServices } from 'Services/Http/HttpServices';
+import { IServerError } from 'Services/Http/HttpServices/IServerError';
 import './Playlist.scss';
 import { PlaylistItem } from './PlaylistItem';
 
@@ -48,9 +50,9 @@ export class PlaylistComponent extends BaseComponent<IProps, IStates> {
 
     this.songServices.upVote(stationId, songId).subscribe(
       response => {},
-      (err: string) => {
-        this.setState({ votingError: err });
-        this.showError(err);
+      (err: IServerError) => {
+        this.setState({ votingError: HttpServices.getServerErrorMessage(err) });
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   };
@@ -60,9 +62,9 @@ export class PlaylistComponent extends BaseComponent<IProps, IStates> {
 
     this.songServices.downVote(stationId, songId).subscribe(
       response => {},
-      (err: string) => {
-        this.setState({ votingError: err });
-        this.showError(err);
+      (err: IServerError) => {
+        this.setState({ votingError: HttpServices.getServerErrorMessage(err) });
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   };

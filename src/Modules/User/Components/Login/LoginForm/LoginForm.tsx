@@ -4,7 +4,12 @@ import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import { RegisteredUser, UnauthorizedUser } from 'Models';
 import * as React from 'react';
-import { UserServices } from 'Services/Http';
+import {
+  ErrorCode,
+  HttpServices,
+  IServerError,
+  UserServices,
+} from 'Services/Http';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {}
@@ -81,10 +86,10 @@ export class LoginForm extends BaseComponent<IProps, IState> {
         resetForm();
         this.props.getUserInfo();
       },
-      (err: string) => {
-        err = this.handleErrorMessageFromServer(err);
-        this.showError(err);
-        this.showFormAlertError(err);
+      (err: IServerError) => {
+        const errorMessage = this.handleErrorMessageFromServer(err);
+        this.showError(errorMessage);
+        this.showFormAlertError(errorMessage);
         setSubmitting(false);
       },
     );
@@ -108,11 +113,11 @@ export class LoginForm extends BaseComponent<IProps, IState> {
     );
   }
 
-  private handleErrorMessageFromServer = (err: string) => {
-    if (err === 'Bad credentials') {
+  private handleErrorMessageFromServer = (err: IServerError) => {
+    if (err.response.status === ErrorCode.BAD_CREDENTIALS) {
       return 'Username or password is incorrect';
     } else {
-      return 'Something went wrong. Please try again later';
+      return HttpServices.getServerErrorMessage(err);
     }
   };
 }

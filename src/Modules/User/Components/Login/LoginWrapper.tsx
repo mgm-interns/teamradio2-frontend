@@ -10,7 +10,7 @@ import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import { Subscription } from 'rxjs/Subscription';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import { LOGIN_SUCCESS_MESSAGE } from '../../Constants';
 import { updateUserInfo } from '../../Redux/Actions';
 import { ButtonFacebookLogin } from './ButtonFacebookLogin';
@@ -54,10 +54,6 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
     setTimeout(() => window.location.reload());
   }
 
-  public showNotificationLoginSuccess() {
-    this.showSuccess(LOGIN_SUCCESS_MESSAGE);
-  }
-
   public getUserInfo() {
     this.getCurrentUserProfileSub = this.userServices
       .getCurrentUserProfile()
@@ -66,11 +62,10 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
           localStorageManager.setUserInfo(userInfo);
           this.props.updateUserInfo(userInfo);
           this.goBack();
-          this.showNotificationLoginSuccess();
         },
-        (err: string) => {
-          // TODO: Only for development
-          // this.showError(err);
+        (err: IServerError) => {
+          // Only for development
+          // this.showError(HttpServices.getServerErrorMessage(err));
         },
       );
   }

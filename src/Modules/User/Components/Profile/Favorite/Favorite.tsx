@@ -6,7 +6,7 @@ import { updateNewestFavoriteList } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Subscription } from 'rxjs/Subscription';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import './Favorite.scss';
 import { FavoriteItem } from './FavoriteItem';
 
@@ -49,9 +49,9 @@ class FavoriteComponent extends BaseComponent<
           favoriteList: favoriteSongItem,
         });
       },
-      (err: string) => {
-        // TODO: Only for development
-        // this.showError(err);
+      (err: IServerError) => {
+        // Only for development
+        // this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

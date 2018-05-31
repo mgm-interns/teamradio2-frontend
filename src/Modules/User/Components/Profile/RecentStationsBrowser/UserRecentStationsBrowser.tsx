@@ -3,7 +3,7 @@ import { RegisteredUser } from 'Models/User';
 import { BaseStationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { Subscription } from 'rxjs/Subscription';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 
 interface IProps {
   userInfo: RegisteredUser;
@@ -33,9 +33,9 @@ export class UserRecentStationsBrowser extends BaseStationBrowser<IProps> {
           loading: false,
         });
       },
-      (err: string) => {
-        // TODO: Only for development
-        // this.showError(err);
+      (err: IServerError) => {
+        // Only for development
+        // this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

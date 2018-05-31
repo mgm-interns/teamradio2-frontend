@@ -14,7 +14,7 @@ import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import './PlaylistItem.scss';
 
 interface IPlayListItemProps {
@@ -125,8 +125,8 @@ export class PlaylistItemComponent extends SongItem<
         res.song = this.props.song;
         this.props.addFavorite(res);
       },
-      (err: any) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }
@@ -136,8 +136,8 @@ export class PlaylistItemComponent extends SongItem<
       (res: {}) => {
         this.props.removeFavorite(this.props.songId);
       },
-      (err: any) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

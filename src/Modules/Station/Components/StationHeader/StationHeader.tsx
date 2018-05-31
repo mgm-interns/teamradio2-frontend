@@ -18,7 +18,7 @@ import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row } from 'reactstrap';
 import { compose } from 'redux';
-import { StationServices } from 'Services/Http';
+import { HttpServices, IServerError, StationServices } from 'Services/Http';
 import { StationSSEService } from 'Services/SSE';
 import { ConfigurationButton } from '../ConfigurationButton';
 import './StationHeader.scss';
@@ -125,8 +125,8 @@ class OriginStationHeader extends BaseComponent<
             currentSkipRule: { ...response.skipRule, checked: true },
           });
         },
-        (err: string) => {
-          this.showError(err);
+        (err: IServerError) => {
+          this.showError(HttpServices.getServerErrorMessage(err));
         },
       );
   };

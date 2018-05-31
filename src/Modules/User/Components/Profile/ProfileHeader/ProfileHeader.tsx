@@ -10,7 +10,7 @@ import {
 import * as React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import { Observable } from 'rxjs/Observable';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import './ProfileHeader.scss';
 
 export interface IProfileHeaderProps {
@@ -76,9 +76,9 @@ export class ProfileHeader<P, S> extends BaseComponent<
       (userInfo: RegisteredUser) => {
         this.setUserHeaderInfo(userInfo);
       },
-      (err: string) => {
-        // TODO: Only for development
-        // this.showError(err);
+      (err: IServerError) => {
+        // Only for development
+        // this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

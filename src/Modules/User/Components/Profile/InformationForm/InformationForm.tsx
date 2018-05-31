@@ -4,7 +4,7 @@ import { Dispatch } from 'Configuration/Redux';
 import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import { updateUserInfo } from '../../../Redux/Actions';
 import { FormWrapper, IFormProps } from './FormWrapper';
 import './InformationForm.scss';
@@ -51,9 +51,9 @@ export class InformationForms extends BaseComponent<IProps, IStates> {
           isLoadingUserInfo: false,
         });
       },
-      (err: string) => {
-        // TODO: Only for development
-        // this.showError(err);
+      (err: IServerError) => {
+        // Only for development
+        // this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }
@@ -74,8 +74,8 @@ export class InformationForms extends BaseComponent<IProps, IStates> {
         this.showSuccess('Your profile has been successfully updated!');
         this.props.updateUserInfo(userInfoUpdated);
       },
-      (err: string) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }
