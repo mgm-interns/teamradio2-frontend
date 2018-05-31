@@ -67,8 +67,6 @@ export class ChatMessage extends Component<
   }
 
   private renderMessageAvatar(message: Message) {
-    // TODO: Modifier to allow overflow
-    const modifierTooltip = {};
     const isOfCurrentUser = this.props.currentUserId === message.userId;
     const sentTime = ChatMessage.getDateTimeFromTimestamp(message.createdAt);
 
@@ -86,8 +84,7 @@ export class ChatMessage extends Component<
           placement="right"
           isOpen={this.state.userAvatarTooltipOpen}
           toggle={this.toggleUserAvatarTooltip}
-          delay={0}
-          modifiers={modifierTooltip}>
+          delay={0}>
           {`${reduceByCharacters(message.name, 15)} ${sentTime}`}
         </Tooltip>
       </div>

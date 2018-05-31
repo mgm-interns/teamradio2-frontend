@@ -16,7 +16,12 @@ import {
   DropdownToggle,
 } from 'reactstrap';
 import { compose } from 'redux';
-import { UserServices } from 'Services/Http';
+import {
+  ErrorCode,
+  HttpServices,
+  IServerError,
+  UserServices,
+} from 'Services/Http';
 import {
   DEFAULT_USER_AVATAR,
   LOGOUT_SUCCESS_MESSAGE,
@@ -102,7 +107,7 @@ class UserDropdownComponent extends BaseComponent<
           userInfo,
         });
       },
-      (err: string) => {
+      (err: IServerError) => {
         this.processServerError(err);
       },
     );
@@ -200,15 +205,14 @@ class UserDropdownComponent extends BaseComponent<
     }
   }
 
-  private processServerError(err: string) {
+  private processServerError(err: IServerError) {
     if (
-      err.startsWith('Invalid access token') ||
-      err.startsWith('invalid_token') ||
-      err.startsWith('Access token expired')
+      err.response.status === ErrorCode.TOKEN_INVALID ||
+      err.response.status === ErrorCode.TOKEN_EXPIRED
     ) {
       this.signOut();
     } else {
-      this.showError(err);
+      this.showError(HttpServices.getServerErrorMessage(err));
     }
   }
 }

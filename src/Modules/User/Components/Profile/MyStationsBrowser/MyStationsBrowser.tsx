@@ -3,7 +3,7 @@ import { StationInfo } from 'Models';
 import { BaseStationBrowser } from 'Modules/Station';
 import * as React from 'react';
 import { Subscription } from 'rxjs/Subscription';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 
 export class MyStationsBrowser extends BaseStationBrowser<{}> {
   @Inject('UserServices') private userServices: UserServices;
@@ -29,9 +29,9 @@ export class MyStationsBrowser extends BaseStationBrowser<{}> {
           loading: false,
         });
       },
-      (err: string) => {
-        // TODO: Only for development
-        // this.showError(err);
+      (err: IServerError) => {
+        // Only for development
+        // this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

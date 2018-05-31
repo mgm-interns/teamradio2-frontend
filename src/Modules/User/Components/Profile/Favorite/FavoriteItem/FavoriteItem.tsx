@@ -14,7 +14,7 @@ import {
   ModalHeader,
   UncontrolledTooltip,
 } from 'reactstrap';
-import { UserServices } from 'Services/Http/UserServices';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import './FavoriteItem.scss';
 
 interface IDispatcherProps {
@@ -51,8 +51,8 @@ export class FavoriteItemComponent extends BaseComponent<
       (res: {}) => {
         this.props.removeFavorite(this.props.song.songId);
       },
-      (err: any) => {
-        this.showError(err);
+      (err: IServerError) => {
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
     this.toggleDeleteConfirmModal();

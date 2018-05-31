@@ -3,7 +3,7 @@ import { Inject } from 'Configuration/DependencyInjection';
 import { Formik, FormikActions, FormikErrors } from 'formik';
 import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import { IFormProps, IFormValues, InnerForm } from './InnerForm';
 import './PasswordForm.scss';
 
@@ -60,10 +60,10 @@ export class PasswordForm extends BaseComponent<IProps, IState> {
         resetForm();
         this.props.onCloseModal();
       },
-      (err: string) => {
+      (err: IServerError) => {
         setSubmitting(false);
-        this.showFormAlertError(err);
-        this.showError(err);
+        this.showFormAlertError(HttpServices.getServerErrorMessage(err));
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   }

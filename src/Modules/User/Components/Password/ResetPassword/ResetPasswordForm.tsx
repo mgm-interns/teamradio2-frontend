@@ -5,7 +5,7 @@ import { Rules, Validator } from 'Helpers';
 import * as React from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import { IFormProps, IFormValues, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {}
@@ -52,9 +52,8 @@ export class ResetPasswordFormComponent extends BaseComponent<
         }
         setSubmitting(false);
       },
-      (err: any) => {
-        console.log(err);
-        this.showFormAlertError(err);
+      (err: IServerError) => {
+        this.showFormAlertError(HttpServices.getServerErrorMessage(err));
         resetForm();
         setSubmitting(false);
       },

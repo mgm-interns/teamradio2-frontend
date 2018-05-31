@@ -14,7 +14,7 @@ import {
   InputGroup,
   Label,
 } from 'reactstrap';
-import { StationServices } from 'Services/Http';
+import { HttpServices, IServerError, StationServices } from 'Services/Http';
 import './CreateStation.scss';
 
 interface IStationFormValues {
@@ -138,9 +138,9 @@ class CreateStationForm extends BaseComponent<RouteComponentProps<any>, any> {
       (station: StationInfo) => {
         this.props.history.push(`/station/${station.friendlyId}`);
       },
-      (err: any) => {
-        this.setState({ error: err });
-        this.showError(err);
+      (err: IServerError) => {
+        this.setState({ error: HttpServices.getServerErrorMessage(err) });
+        this.showError(HttpServices.getServerErrorMessage(err));
       },
     );
   };

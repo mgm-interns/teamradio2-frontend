@@ -2,7 +2,7 @@ import { Inject } from 'Configuration/DependencyInjection';
 import * as React from 'react';
 import { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_API_CLIENT_ID;
 
@@ -28,8 +28,9 @@ export class ButtonGoogleLogin extends Component<IProps, IState> {
       (res: any) => {
         this.props.getUserInfo();
       },
-      (err: any) => {
-        console.log(err);
+      (err: IServerError) => {
+        // Only for development
+        // console.log(HttpServices.getServerErrorMessage(err));
       },
     );
   }

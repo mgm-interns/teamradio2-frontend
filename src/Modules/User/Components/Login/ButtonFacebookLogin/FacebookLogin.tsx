@@ -4,7 +4,7 @@ import { AccessToken } from 'Models';
 import * as React from 'react';
 import { Component } from 'react';
 import { Subscription } from 'rxjs/Subscription';
-import { UserServices } from 'Services/Http';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 
 const CLIENT_ID = process.env.REACT_APP_FACEBOOK_API_CLIENT_ID;
 
@@ -125,8 +125,9 @@ export class FacebookLogin extends Component<IProps, IState> {
         (res: AccessToken) => {
           this.props.getUserInfo();
         },
-        (err: any) => {
-          console.log(err);
+        (err: IServerError) => {
+          // Only for development
+          // console.log(HttpServices.getServerErrorMessage(err));
         },
       );
   };

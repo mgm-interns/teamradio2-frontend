@@ -6,9 +6,7 @@ import { RegisteredUser } from 'Models';
 import * as React from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
-import { UserServices } from 'Services/Http';
-import { HttpServices } from 'Services/Http/HttpServices';
-import { IServerError } from 'Services/Http/HttpServices/IServerError';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {}

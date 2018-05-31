@@ -14,9 +14,7 @@ import { addFavorite, removeFavorite } from 'Modules/User/Redux/Actions';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Col, Progress, Row, UncontrolledTooltip } from 'reactstrap';
-import { UserServices } from 'Services/Http';
-import { HttpServices } from 'Services/Http/HttpServices';
-import { IServerError } from 'Services/Http/HttpServices/IServerError';
+import { HttpServices, IServerError, UserServices } from 'Services/Http';
 import './PlaylistItem.scss';
 
 interface IPlayListItemProps {
