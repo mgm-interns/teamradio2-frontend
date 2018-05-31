@@ -1,3 +1,4 @@
+import { BaseComponent } from 'BaseComponent';
 import * as classNames from 'classnames';
 import { Dispatch, IApplicationState } from 'Configuration/Redux';
 import { isMobileBrowser, YoutubeHelper } from 'Helpers';
@@ -12,12 +13,13 @@ import {
   StationHeader,
 } from 'Modules/Station';
 import { setVolume, userMutePlayer } from 'Modules/Station/Redux/Actions';
+import { Fragment } from 'react';
 import * as React from 'react';
-import { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import { compose } from 'redux';
+import { IServerError, StationServices } from 'Services/Http';
 import './Station.scss';
 
 interface IStateProps {
@@ -44,10 +46,11 @@ interface IState {
   isUserMutePlayer: boolean;
 }
 
-class StationComponent extends Component<
+class StationComponent extends BaseComponent<
   IProps & RouteComponentProps<any>,
   IState
 > {
+  private stationServices: StationServices;
   constructor(props: IProps & RouteComponentProps<any>) {
     super(props);
 
@@ -59,9 +62,14 @@ class StationComponent extends Component<
       station: null,
       isUserMutePlayer: false,
     };
+
+    this.stationServices = new StationServices();
   }
 
   public componentDidMount() {
+    const stationId = this.parseStationId();
+    this.checkStationExist(stationId);
+
     // Automatically scroll to top when user open station page
     window.scroll({
       behavior: 'smooth',
@@ -233,6 +241,18 @@ class StationComponent extends Component<
     const { match } = this.props;
 
     return match.params.stationId;
+  }
+
+  private checkStationExist(stationId: string) {
+    this.stationServices.getStationById(stationId).subscribe(
+      (res: StationModel) => {},
+      (error: IServerError) => {
+        if (error.response.status === 404) {
+          this.props.history.push('/');
+          this.showError('Station does not exist.');
+        }
+      },
+    );
   }
 }
 
