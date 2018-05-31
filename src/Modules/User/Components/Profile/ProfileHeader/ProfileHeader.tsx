@@ -1,7 +1,7 @@
 import { BaseComponent } from 'BaseComponent';
-import { LoadingIndicator } from 'Components/LoadingIndicator';
+import { LoadingIndicator } from 'Components';
 import { Inject } from 'Configuration/DependencyInjection';
-import { reduceByCharacters } from 'Helpers/TextHelper';
+import { reduceByCharacters } from 'Helpers';
 import { RegisteredUser } from 'Models';
 import {
   DEFAULT_USER_AVATAR,
@@ -60,13 +60,7 @@ export class ProfileHeader<P, S> extends BaseComponent<
   }
 
   public setUserHeaderInfo(userInfo: RegisteredUser) {
-    const {
-      name,
-      username,
-      avatarUrl,
-      coverUrl,
-      reputation,
-    } = userInfo;
+    const { name, username, avatarUrl, coverUrl, reputation } = userInfo;
     this.setState({
       name: name || '',
       username: username || '',

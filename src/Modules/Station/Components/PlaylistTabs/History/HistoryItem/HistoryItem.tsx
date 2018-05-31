@@ -36,7 +36,8 @@ export class HistoryItem extends SongItem<IHistoryItemProps, any> {
             />
             <UncontrolledTooltip
               placement="left"
-              target={'replay-history-' + song.id}>
+              target={'replay-history-' + song.id}
+              delay={0}>
               Replay this song
             </UncontrolledTooltip>
           </div>

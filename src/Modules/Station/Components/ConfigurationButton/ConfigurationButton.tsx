@@ -1,8 +1,10 @@
 import { BaseComponent } from 'BaseComponent';
+import { LoadingIndicator } from 'Components';
 import { Inject } from 'Configuration/DependencyInjection';
 import { ISkipRule, SkipRuleType } from 'Models';
 import * as React from 'react';
 import {
+  Button,
   FormGroup,
   Input,
   Label,
@@ -27,6 +29,7 @@ interface IStates {
   modal: boolean;
   rules: ISkipRuleRadio[];
   selectedRule: ISkipRuleRadio;
+  isSaving: boolean;
 }
 
 const RULES: ISkipRuleRadio[] = [
@@ -52,6 +55,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
       modal: false,
       rules: RULES,
       selectedRule: null,
+      isSaving: false,
     };
   }
 
@@ -75,19 +79,41 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
 
   public _onOptionChange = (changeEvent: any) => {
     const value = changeEvent.target.value;
-    const { onSkipRuleChange } = this.props;
     const { rules } = this.state;
 
     const updatedRules = this._getNewSkipRules(rules, value);
 
-    this.setState({ rules: [...updatedRules] }, () => {
-      onSkipRuleChange(this.state.selectedRule.skipRuleType);
-    });
+    this.setState({ rules: [...updatedRules] });
   };
+
+  public _onSaveConfiguration = () => {
+    const { onSkipRuleChange } = this.props;
+    this.setState(
+      {
+        isSaving: true,
+      },
+      () => {
+        onSkipRuleChange(this.state.selectedRule.skipRuleType);
+      },
+    );
+  };
+
+  public componentWillReceiveProps(nextProps: IProps) {
+    if (
+      nextProps.currentSkipRule &&
+      this.state.selectedRule &&
+      nextProps.currentSkipRule.skipRuleType === this.state.selectedRule.skipRuleType &&
+      this.state.isSaving
+    ) {
+      this.setState({
+        modal: false,
+        isSaving: false,
+      });
+    }
+  }
 
   public render() {
     const { modal, rules } = this.state;
-
     return (
       <div className="configuration-container">
         <div className="btn-icon" onClick={this._onModalToggle}>
@@ -96,14 +122,14 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
         <Modal
           isOpen={modal}
           toggle={this._onModalToggle}
-          className="d-flex mt-0 mb-0 align-items-center config-modal disable-outline-modal">
+          className="modal-primary d-flex mt-0 mb-0 align-items-center config-modal disable-outline-modal">
           <ModalHeader toggle={this._onModalToggle}>
             Skip rule configuration
           </ModalHeader>
           <ModalBody>
             {rules.map((rule: ISkipRuleRadio) => (
               <FormGroup check key={rule.skipRuleType}>
-                <Label check>
+                <Label check className="input-config">
                   <Input
                     type="radio"
                     name="ruleOption"
@@ -113,7 +139,7 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
                   />
                   {rule.skipRuleType}
                   {rule.checked ? (
-                    <p>
+                    <p className="description-rules">
                       <i>{rule.description}</i>
                     </p>
                   ) : (
@@ -122,6 +148,18 @@ export class ConfigurationButton extends BaseComponent<IProps, IStates> {
                 </Label>
               </FormGroup>
             ))}
+            {this.state.isSaving ? (
+              <span className="loading-icon">
+                <LoadingIndicator />
+              </span>
+            ) : (
+              <Button
+                className="button-save"
+                color="primary"
+                onClick={this._onSaveConfiguration}>
+                SAVE
+              </Button>
+            )}
           </ModalBody>
         </Modal>
       </div>

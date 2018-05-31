@@ -5,9 +5,9 @@ import { Rules, Validator } from 'Helpers';
 import { RegisteredUser, UnauthorizedUser } from 'Models';
 import * as React from 'react';
 import { UserServices } from 'Services/Http';
-import { FormValues, IFormProps, InnerForm } from './InnerForm';
 import { HttpServices } from 'Services/Http/HttpServices';
 import { IServerError } from 'Services/Http/HttpServices/IServerError';
+import { FormValues, IFormProps, InnerForm } from './InnerForm';
 
 interface IState extends IFormProps {}
 

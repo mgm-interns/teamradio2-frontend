@@ -1,9 +1,17 @@
 .config-modal {
   height: 100%;
-
-  //input[type='radio']:checked:after {
-  //  background: orangered;
-  //}
+  .button-save {
+    float: right;
+  }
+  .loading-icon {
+    float: right;
+  }
+  .input-config {
+    font-weight: bold;
+    .description-rules {
+      font-weight: normal;
+    }
+  }
 }
 
 .disable-outline-modal {

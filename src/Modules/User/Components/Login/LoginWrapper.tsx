@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
+import { Subscription } from 'rxjs/Subscription';
 import { UserServices } from 'Services/Http';
 import { LOGIN_SUCCESS_MESSAGE } from '../../Constants';
 import { updateUserInfo } from '../../Redux/Actions';
@@ -31,12 +32,17 @@ interface IState {}
 
 export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
   @Inject('UserServices') private userServices: UserServices;
+  private getCurrentUserProfileSub: Subscription;
 
   constructor(props: IProps) {
     super(props);
 
     this.getUserInfo = this.getUserInfo.bind(this);
     this.goBack = this.goBack.bind(this);
+  }
+
+  public componentWillUnmount() {
+    this.cancelSubscription();
   }
 
   public goBack() {
@@ -53,18 +59,20 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
   }
 
   public getUserInfo() {
-    this.userServices.getCurrentUserProfile().subscribe(
-      (userInfo: RegisteredUser) => {
-        localStorageManager.setUserInfo(userInfo);
-        this.props.updateUserInfo(userInfo);
-        this.goBack();
-        this.showNotificationLoginSuccess();
-      },
-      (err: string) => {
-        // TODO: Only for development
-        // this.showError(err);
-      },
-    );
+    this.getCurrentUserProfileSub = this.userServices
+      .getCurrentUserProfile()
+      .subscribe(
+        (userInfo: RegisteredUser) => {
+          localStorageManager.setUserInfo(userInfo);
+          this.props.updateUserInfo(userInfo);
+          this.goBack();
+          this.showNotificationLoginSuccess();
+        },
+        (err: string) => {
+          // TODO: Only for development
+          // this.showError(err);
+        },
+      );
   }
 
   public render() {
@@ -86,6 +94,12 @@ export class LoginWrapperComponent extends BaseComponent<IProps, IState> {
       </Fragment>
     );
   }
+
+  private cancelSubscription = () => {
+    if (this.getCurrentUserProfileSub) {
+      this.getCurrentUserProfileSub.unsubscribe();
+    }
+  };
 }
 
 const LoginWrapperComponentWithRouter = withRouter(LoginWrapperComponent);
