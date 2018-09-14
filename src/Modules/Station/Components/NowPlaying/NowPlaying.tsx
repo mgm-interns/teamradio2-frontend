@@ -66,6 +66,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
     const thumbnail = nowPlaying ? nowPlaying.thumbnail : null;
     const message = nowPlaying ? nowPlaying.message : null;
     const skipped = nowPlaying ? nowPlaying.skipped : null;
+    const songId = nowPlaying ? nowPlaying.songId : null;
 
     if (!isEnableVideo && nowPlaying) {
       return (
@@ -95,6 +96,7 @@ export class NowPlayingComponent extends BaseComponent<IProps, IState> {
         message={message}
         thumbnail={thumbnail}
         skipped={skipped}
+        songId={songId}
       />
     );
   }
